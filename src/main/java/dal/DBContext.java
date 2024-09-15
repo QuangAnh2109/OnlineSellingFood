@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.PreparedStatement;
 
 public abstract class DBContext {
 
@@ -22,31 +23,31 @@ public abstract class DBContext {
         }
     }
     
-    protected int executeUpdate(String sql){
+    protected int executeUpdate(PreparedStatement ps){
         try {
-            return connection.prepareStatement(sql).executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return 0;
         }
     }
 
-    protected Object getSQL(String sql){
+    protected Object getObjectBySQL(PreparedStatement ps){
         try {
-            ResultSet rs = connection.prepareStatement(sql).executeQuery();
-            if(rs.next()) return getRs(rs);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) return getObjectByRs(rs);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
-    protected ArrayList<Object> getListSQL(String sql){
+    protected ArrayList<Object> getListObjectBySQL(PreparedStatement ps){
         try {
-            ResultSet rs = connection.prepareStatement(sql).executeQuery();
+            ResultSet rs = ps.executeQuery();
             ArrayList<Object> objects = new ArrayList<>();
             while(rs.next()){
-                objects.add(getRs(rs));
+                objects.add(getObjectByRs(rs));
             }
             return objects;
         } catch (SQLException ex) {
@@ -55,5 +56,5 @@ public abstract class DBContext {
         return null;
     }
 
-    protected abstract Object getRs(ResultSet rs) throws SQLException;
+    protected abstract Object getObjectByRs(ResultSet rs) throws SQLException;
 }
