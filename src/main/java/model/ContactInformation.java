@@ -4,8 +4,7 @@ import controller.Validate;
 
 public class ContactInformation {
     private int contactInformationID;
-    private String address; // nvarchar(200) not null
-    private String phoneNumber; //len between 6 and 11
+    private String address, phoneNumber; //len between 6 and 11
 
     public int getContactInformationID() {
         return contactInformationID;
