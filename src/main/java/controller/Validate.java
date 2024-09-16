@@ -11,6 +11,7 @@ public class Validate {
 
     //check minLen <= string length value <= maxLen (minLen >= 1)
     public static void checkString(String str, int minLen, int maxLen) throws Exception {
+        checkString(str);
         if(str.length()>maxLen) throw new Exception("String too long");
         if(minLen > 1 && str.length()<minLen) throw new Exception("String too short");
     }
@@ -23,6 +24,7 @@ public class Validate {
 
     //check String follow format "yyyy-MM-dd HH:mm:ss"
     public static LocalDateTime checkDateTime(String str) throws Exception {
+        checkString(str);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime datetime = LocalDateTime.parse(str, formatter);
         if(!datetime.format(formatter).equals(str)) throw new Exception("String not follow format \"yyyy-MM-dd HH:mm:ss\"");
