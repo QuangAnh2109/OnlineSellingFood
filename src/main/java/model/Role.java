@@ -12,7 +12,9 @@ public class Role {
 
     public void setRoleID(String roleID) throws Exception {
         Validate.checkString(roleID);
-        this.roleID = Integer.parseInt(roleID);
+        int number = Integer.parseInt(roleID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.roleID = number;
     }
 
     public String getName() {

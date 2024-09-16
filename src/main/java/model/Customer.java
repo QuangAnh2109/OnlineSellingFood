@@ -11,7 +11,9 @@ public class Customer {
 
     public void setCustomerID(String customerID) throws Exception{
         Validate.checkString(customerID);
-        this.customerID = Integer.parseInt(customerID);
+        int number = Integer.parseInt(customerID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.customerID = number;
     }
 
     public int getAccountID() {
@@ -20,7 +22,9 @@ public class Customer {
 
     public void setAccountID(String accountID) throws  Exception{
         Validate.checkString(accountID);
-        this.accountID = Integer.parseInt(accountID);
+        int number = Integer.parseInt(accountID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.accountID = number;
     }
 
     public int getPoint() {

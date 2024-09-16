@@ -12,7 +12,9 @@ public class ContactInformation {
 
     public void setContactInformationID(String contactInformationID) throws Exception {
         Validate.checkString(contactInformationID);
-        this.contactInformationID = Integer.parseInt(contactInformationID);
+        int number = Integer.parseInt(contactInformationID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.contactInformationID = number;
     }
 
     public String getAddress() {

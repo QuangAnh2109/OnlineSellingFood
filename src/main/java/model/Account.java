@@ -17,7 +17,9 @@ public class Account {
 
     public void setAccountID(String accountID) throws Exception {
         Validate.checkString(accountID);
-        this.accountID = Integer.parseInt(accountID);
+        int number = Integer.parseInt(accountID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.accountID = number;
     }
 
     public int getRoleID() {
@@ -26,7 +28,9 @@ public class Account {
 
     public void setRoleID(String roleID) throws Exception {
         Validate.checkString(roleID);
-        this.roleID = Integer.parseInt(roleID);
+        int number = Integer.parseInt(roleID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.roleID = number;
     }
 
     public String getEmail() {
@@ -73,7 +77,9 @@ public class Account {
 
     public void setContactInformationID(String contactInformationID) throws Exception {
         Validate.checkString(contactInformationID);
-        this.contactInformationID = Integer.parseInt(contactInformationID);
+        int number = Integer.parseInt(contactInformationID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.contactInformationID = number;
     }
 
     public String getPassword() {
@@ -100,6 +106,8 @@ public class Account {
 
     public void setStatusID(String statusID) throws Exception {
         Validate.checkString(statusID);
-        this.statusID = Integer.parseInt(statusID);
+        int number = Integer.parseInt(statusID);
+        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        this.statusID = number;
     }
 }
