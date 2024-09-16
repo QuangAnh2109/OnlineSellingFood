@@ -3,19 +3,13 @@ package model;
 import controller.Encrypt;
 import controller.Validate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Account {
-    private int accountID;
-    private int roleID;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private int birthYear;
-    private int contactInformationID;
-    private String password;
+    private int accountID, roleID, birthYear, contactInformationID, statusID;
+    private String email, firstName, lastName, password;
     private LocalDateTime time;
-    private int statusID;
 
     public int getAccountID() {
         return accountID;
@@ -68,7 +62,9 @@ public class Account {
 
     public void setBirthYear(String birthYear) throws Exception {
         Validate.checkString(birthYear);
-        this.birthYear = Integer.parseInt(birthYear);
+        int year = Integer.parseInt(birthYear);
+        Validate.checkInt(year,1900,LocalDate.now().getYear()-1);
+        this.birthYear = year;
     }
 
     public int getContactInformationID() {
