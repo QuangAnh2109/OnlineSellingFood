@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Encrypt {
-    public static byte[] getSHA(String input) throws NoSuchAlgorithmException
+    public byte[] getSHA(String input) throws NoSuchAlgorithmException
     {
         // Static getInstance method is called with hashing SHA
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -17,7 +17,7 @@ public class Encrypt {
         return md.digest(input.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static String toHexString(byte[] hash)
+    public String toHexString(byte[] hash)
     {
         // Convert byte array into signum representation
         BigInteger number = new BigInteger(1, hash);
