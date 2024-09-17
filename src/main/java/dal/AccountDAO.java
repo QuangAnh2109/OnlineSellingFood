@@ -2,10 +2,10 @@ package dal;
 
 import model.Account;
 
+import model.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 public class AccountDAO extends DBContext{
     @Override

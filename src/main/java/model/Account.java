@@ -2,9 +2,9 @@ package model;
 
 import controller.Encrypt;
 import controller.Validate;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 
 public class Account {
     private Integer accountID, roleID, birthYear, contactInformationID, statusID;
@@ -108,13 +108,14 @@ public class Account {
         this.password = encrypt.toHexString(encrypt.getSHA(password));
     }
 
-    public String getTime() {
-        return time;
+    public void setTime(String time) throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime parsedTime = LocalDateTime.parse(time, formatter);
+        this.time = parsedTime.format(formatter);
     }
 
-    public void setTime(String time) throws Exception {
-        Validate.checkDateTime(time);
-        this.time = time;
+    public String getTime() {
+        return time;
     }
 
     public Integer getStatusID() {

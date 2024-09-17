@@ -66,23 +66,35 @@
     <div class="card mx-auto card-login">
       <div class="card-body">
         <h4 class="card-title mb-4">Create an Account</h4>
-        <form>
+        <form action="register-admin" method="post">
+          <div class="mb-3">
+            <label class="form-label">Role ID</label>
+            <input class="form-control" name="roleID" placeholder="Role ID" type="number" required />
+          </div>
+          <!-- form-group// -->
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input class="form-control" name="firstName" placeholder="Your first name" type="text" required />
+          </div>
+          <!-- form-group// -->
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input class="form-control" name="lastName" placeholder="Your last name" type="text" required />
+          </div>
+          <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" placeholder="Your email" type="text" />
+            <input class="form-control" name="email" placeholder="Your email" type="email" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Phone</label>
-            <div class="row gx-2">
-              <div class="col-4"><input class="form-control" value="+998" type="text" /></div>
-              <div class="col-8"><input class="form-control" placeholder="Phone" type="text" /></div>
-            </div>
+            <label class="form-label">Contact Information ID</label>
+            <input class="form-control" name="contactInformationID" placeholder="Contact Information ID" type="number" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Create password</label>
-            <input class="form-control" placeholder="Password" type="password" />
+            <label class="form-label">Birth Year</label>
+            <input class="form-control" name="birthYear" placeholder="Year of birth" type="number" min="1900" max="2100" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
@@ -90,10 +102,12 @@
           </div>
           <!-- form-group  .// -->
           <div class="mb-4">
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
           </div>
           <!-- form-group// -->
         </form>
+
+
         <p class="text-center small text-muted mb-15">or sign up with</p>
         <div class="d-flex gap-2 mb-4">
           <a href="#" class="w-50 btn btn-light font-sm">
