@@ -14,7 +14,7 @@ public class AccountDAO extends DBContext{
     }
 
     //login check
-    public Account getAccountBy(String email, String password){
+    public Account getAccountByEmailPassword(String email, String password){
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Account where Email=? and Password=?");
             insertStatement(email,ps,1,true);
@@ -27,7 +27,7 @@ public class AccountDAO extends DBContext{
     }
 
     //get account by account id
-    public Account getAccountBy(int accountID){
+    public Account getAccountByAccountID(int accountID){
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Account where AccountID=?");
             ps.setInt(1, accountID);
@@ -38,7 +38,7 @@ public class AccountDAO extends DBContext{
         return null;
     }
 
-    public int updateAccount(Account acc){
+    public int updateAccountInformation(Account acc){
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set RoleID=?, Email=?, FirstName=?, LastName=?, BirthYear=?, ContactInformationID=?, StatusID=? where AccountID=?");
             insertStatement(acc.getRoleID(), ps, 1);
@@ -56,7 +56,7 @@ public class AccountDAO extends DBContext{
         return 0;
     }
 
-    public int updateAccount(int accountID, String password){
+    public int updateAccountPassword(int accountID, String password){
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=?");
             insertStatement(password,ps,1,true);
