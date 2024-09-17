@@ -10,20 +10,23 @@ import model.Account;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import dal.AccountDAO;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirect to the registration page
-        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-register.html");
+        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-register.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<String> errorMessages = new ArrayList<>();
+
         try {
-            // Get information from the form
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String email = request.getParameter("email");
@@ -38,12 +41,15 @@ public class RegisterServlet extends HttpServlet {
 
             // Check if passwords match
             if (!password.equals(confirmPassword)) {
-                request.setAttribute("errorMessage", "Passwords do not match.");
-                request.getRequestDispatcher("/nest-frontend/page-register.html").forward(request, response);
+                errorMessages.add("Passwords do not match.");
+            }
+
+            if (!errorMessages.isEmpty()) {
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
                 return;
             }
 
-            // Create a new account object
             Account newAccount = new Account();
             newAccount.setFirstName(firstName);
             newAccount.setLastName(lastName);
@@ -54,33 +60,34 @@ public class RegisterServlet extends HttpServlet {
             newAccount.setStatusID(statusID.toString());
             newAccount.setPassword(password);
 
-            // Set the current time for the account creation
             LocalDateTime currentTime = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             newAccount.setTime(currentTime.format(formatter));
 
-            // Add the new account to the database
             AccountDAO accountDAO = new AccountDAO();
             int result = accountDAO.addAccount(newAccount);
 
             if (result > 0) {
-                // Registration success, redirect to index.html
-                response.sendRedirect(request.getContextPath() + "/nest-frontend/index.html");
+                errorMessages.add("Successfully added account.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
             } else {
-                // Registration failed, forward to registration page with error message
-                request.setAttribute("errorMessage", "Registration failed. Please try again.");
-                request.getRequestDispatcher("/nest-frontend/page-register.html").forward(request, response);
+                errorMessages.add("Registration failed. Please try again.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
             }
 
         } catch (NumberFormatException e) {
-            // Handle case where number conversion fails
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "Invalid input format. Please check your input.");
-            request.getRequestDispatcher("/nest-frontend/page-register.html").forward(request, response);
+            e.printStackTrace(); // Print stack trace for more detailed error information
+            errorMessages.add("Invalid input format. Please check your input.");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "An error occurred during registration. Please try again.");
-            request.getRequestDispatcher("/nest-frontend/page-register.html").forward(request, response);
+            e.printStackTrace(); // Print stack trace for more detailed error information
+            errorMessages.add("An error occurred during registration. Please try again.");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 }
+

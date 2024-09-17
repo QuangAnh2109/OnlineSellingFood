@@ -44,7 +44,7 @@ public class Account {
     public void setRoleID(String roleID) throws Exception {
         Validate.checkString(roleID);
         int number = Integer.parseInt(roleID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        Validate.checkInt(number, 1, Integer.MAX_VALUE);
         this.roleID = number;
     }
 
@@ -82,7 +82,7 @@ public class Account {
     public void setBirthYear(String birthYear) throws Exception {
         Validate.checkString(birthYear);
         int year = Integer.parseInt(birthYear);
-        Validate.checkInt(year,1900,LocalDate.now().getYear()-1);
+        Validate.checkInt(year, 1900, LocalDate.now().getYear() - 1);
         this.birthYear = year;
     }
 
@@ -93,9 +93,10 @@ public class Account {
     public void setContactInformationID(String contactInformationID) throws Exception {
         Validate.checkString(contactInformationID);
         int number = Integer.parseInt(contactInformationID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        Validate.checkInt(number, 1, Integer.MAX_VALUE);
         this.contactInformationID = number;
     }
+
 
     public String getPassword() {
         return password;
@@ -123,7 +124,7 @@ public class Account {
     public void setStatusID(String statusID) throws Exception {
         Validate.checkString(statusID);
         int number = Integer.parseInt(statusID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
+        Validate.checkInt(number, 1, Integer.MAX_VALUE);
         this.statusID = number;
     }
 }
