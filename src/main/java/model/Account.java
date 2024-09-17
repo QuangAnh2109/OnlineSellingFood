@@ -26,7 +26,7 @@ public class Account {
         this.time = time;
     }
 
-    public int getAccountID() {
+    public Integer getAccountID() {
         return accountID;
     }
     
@@ -37,7 +37,7 @@ public class Account {
         this.accountID = number;
     }
 
-    public int getRoleID() {
+    public Integer getRoleID() {
         return roleID;
     }
 
@@ -75,7 +75,7 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public int getBirthYear() {
+    public Integer getBirthYear() {
         return birthYear;
     }
 
@@ -86,7 +86,7 @@ public class Account {
         this.birthYear = year;
     }
 
-    public int getContactInformationID() {
+    public Integer getContactInformationID() {
         return contactInformationID;
     }
 
@@ -116,7 +116,7 @@ public class Account {
         this.time = time;
     }
 
-    public int getStatusID() {
+    public Integer getStatusID() {
         return statusID;
     }
 

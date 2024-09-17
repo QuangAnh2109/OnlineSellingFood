@@ -16,7 +16,7 @@ public class Warehouse {
         this.name = name;
     }
 
-    public int getWarehouseID() {
+    public Integer getWarehouseID() {
         return warehouseID;
     }
 
@@ -27,7 +27,7 @@ public class Warehouse {
         this.warehouseID = number;
     }
 
-    public int getContactInformationID() {
+    public Integer getContactInformationID() {
         return contactInformationID;
     }
 
@@ -38,7 +38,7 @@ public class Warehouse {
         this.contactInformationID = number;
     }
 
-    public int getStatusID() {
+    public Integer getStatusID() {
         return statusID;
     }
 

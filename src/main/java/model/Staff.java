@@ -15,7 +15,7 @@ public class Staff {
         this.warehouseID = warehouseID;
     }
 
-    public int getStaffID() {
+    public Integer getStaffID() {
         return staffID;
     }
 
@@ -26,7 +26,7 @@ public class Staff {
         this.staffID = number;
     }
 
-    public int getAccountID() {
+    public Integer getAccountID() {
         return accountID;
     }
 
@@ -37,7 +37,7 @@ public class Staff {
         this.accountID = number;
     }
 
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
@@ -48,7 +48,7 @@ public class Staff {
         this.salary = number;
     }
 
-    public int getWarehouseID() {
+    public Integer getWarehouseID() {
         return warehouseID;
     }
 

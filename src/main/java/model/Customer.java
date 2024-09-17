@@ -15,7 +15,7 @@ public class Customer {
     public Customer() {
     }
 
-    public int getCustomerID() {
+    public Integer getCustomerID() {
         return customerID;
     }
 
@@ -26,7 +26,7 @@ public class Customer {
         this.customerID = number;
     }
 
-    public int getAccountID() {
+    public Integer getAccountID() {
         return accountID;
     }
 
@@ -37,7 +37,7 @@ public class Customer {
         this.accountID = number;
     }
 
-    public int getPoint() {
+    public Integer getPoint() {
         return point;
     }
 
@@ -48,7 +48,7 @@ public class Customer {
         this.point = number;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 

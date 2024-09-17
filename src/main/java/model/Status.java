@@ -14,7 +14,7 @@ public class Status {
         this.detail = detail;
     }
 
-    public int getRoleID() {
+    public Integer getRoleID() {
         return statusID;
     }
 

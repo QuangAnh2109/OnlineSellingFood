@@ -15,7 +15,7 @@ public class ContactInformation {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getContactInformationID() {
+    public Integer getContactInformationID() {
         return contactInformationID;
     }
 

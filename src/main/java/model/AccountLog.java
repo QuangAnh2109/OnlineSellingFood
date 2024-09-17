@@ -21,7 +21,7 @@ public class AccountLog {
         this.time = time;
     }
 
-    public int getLogID() {
+    public Integer getLogID() {
         return logID;
     }
 
@@ -32,7 +32,7 @@ public class AccountLog {
         this.logID = number;
     }
 
-    public int getAccountID() {
+    public Integer getAccountID() {
         return accountID;
     }
 
@@ -43,7 +43,7 @@ public class AccountLog {
         this.accountID = number;
     }
 
-    public int getEventTypeID() {
+    public Integer getEventTypeID() {
         return eventTypeID;
     }
 

@@ -14,7 +14,7 @@ public class EventType {
         this.detail = detail;
     }
 
-    public int getEvenTypeID() {
+    public Integer getEvenTypeID() {
         return evenTypeID;
     }
 
