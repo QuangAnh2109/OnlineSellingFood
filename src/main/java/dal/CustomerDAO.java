@@ -34,7 +34,7 @@ public class CustomerDAO extends DBContext{
         return null;
     }
 
-    public int updateAccountInformation(Customer customer){
+    public int updateCustomersInformation(Customer customer){
         try{
             PreparedStatement ps = connection.prepareStatement("update Customer set Point=?, Level=? where CustomerID=?");
             insertStatement(customer.getPoint(), ps, 1);
@@ -47,7 +47,7 @@ public class CustomerDAO extends DBContext{
         return 0;
     }
 
-    public int addAccount(Customer customer){
+    public int addCustomer(Customer customer){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into Customer(AccountID,Point,Level) values (?,?,?)");
             insertStatement(customer.getAccountID(), ps, 1);
