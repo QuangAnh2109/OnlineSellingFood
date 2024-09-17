@@ -4,11 +4,10 @@ import model.ContactInformation;
 import model.Status;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AccountStatusDAO extends StatusDAO{
-    private final String table = "AccountStatus";
+public class WarehouseStatusDAO extends StatusDAO{
+    private final String table = "WarehouseStatus";
     public int addStatus(Status status){
         return super.addStatus(status,table);
     }
