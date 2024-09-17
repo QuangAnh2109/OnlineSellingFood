@@ -36,7 +36,7 @@ public abstract class DBContext {
         try {
             ResultSet rs = ps.executeQuery();
             if(rs.next()) return getObjectByRs(rs);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return null;
@@ -50,7 +50,7 @@ public abstract class DBContext {
                 objects.add(getObjectByRs(rs));
             }
             return objects;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return null;
