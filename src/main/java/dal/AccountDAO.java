@@ -5,6 +5,7 @@ import model.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 public class AccountDAO extends DBContext{
     @Override
@@ -16,8 +17,8 @@ public class AccountDAO extends DBContext{
     public Account getAccountBy(String email, String password){
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Account where Email=? and Password=?");
-            ps.setString(1, email);
-            ps.setString(2, password);
+            insertStatement(email,ps,1,true);
+            insertStatement(password,ps,2,true);
             return (Account)getObjectBySQL(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
@@ -40,14 +41,14 @@ public class AccountDAO extends DBContext{
     public int updateAccount(Account acc){
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set RoleID=?, Email=?, FirstName=?, LastName=?, BirthYear=?, ContactInformationID=?, StatusID=? where AccountID=?");
-            ps.setInt(1, acc.getRoleID());
-            ps.setString(2, acc.getEmail());
-            ps.setString(3, acc.getFirstName());
-            ps.setString(4, acc.getLastName());
-            ps.setInt(5, acc.getBirthYear());
-            ps.setInt(6, acc.getContactInformationID());
-            ps.setInt(7, acc.getStatusID());
-            ps.setInt(8, acc.getAccountID());
+            insertStatement(acc.getRoleID(), ps, 1);
+            insertStatement(acc.getEmail(), ps, 2,true);
+            insertStatement(acc.getFirstName(), ps, 3, false);
+            insertStatement(acc.getLastName(), ps, 4, false);
+            insertStatement(acc.getBirthYear(), ps, 5);
+            insertStatement(acc.getContactInformationID(), ps, 6);
+            insertStatement(acc.getStatusID(), ps, 7);
+            insertStatement(acc.getAccountID(), ps, 8);
             return executeUpdate(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
@@ -58,7 +59,7 @@ public class AccountDAO extends DBContext{
     public int updateAccount(int accountID, String password){
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=?");
-            ps.setString(1, password);
+            insertStatement(password,ps,1,true);
             ps.setInt(2, accountID);
             return executeUpdate(ps);
         }catch (SQLException ex){
@@ -70,15 +71,15 @@ public class AccountDAO extends DBContext{
     public int addAccount(Account acc){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) values (?,?,?,?,?,?,?,CAST(? AS DateTime),?)");
-            ps.setInt(1, acc.getRoleID());
-            ps.setString(2, acc.getEmail());
-            ps.setString(3, acc.getFirstName());
-            ps.setString(4, acc.getLastName());
-            ps.setInt(5, acc.getBirthYear());
-            ps.setInt(6, acc.getContactInformationID());
-            ps.setString(7, acc.getPassword());
-            ps.setString(8, acc.getTime());
-            ps.setInt(9, acc.getStatusID());
+            insertStatement(acc.getRoleID(), ps, 1);
+            insertStatement(acc.getEmail(), ps, 2, true);
+            insertStatement(acc.getFirstName(), ps, 3, false);
+            insertStatement(acc.getLastName(), ps, 4, false);
+            insertStatement(acc.getBirthYear(), ps, 5);
+            insertStatement(acc.getContactInformationID(), ps, 6);
+            insertStatement(acc.getPassword(), ps, 7, true);
+            insertStatement(acc.getTime(), ps, 8, false);
+            insertStatement(acc.getStatusID(), ps, 9);
             return executeUpdate(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());

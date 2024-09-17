@@ -1,12 +1,8 @@
 
 package dal;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.PreparedStatement;
 
 public abstract class DBContext {
 
@@ -54,6 +50,20 @@ public abstract class DBContext {
             System.out.println(ex.getMessage());
         }
         return null;
+    }
+
+    protected void insertStatement(Integer ob, PreparedStatement ps, int index) throws SQLException {
+        if(ob==null) ps.setNull(index, Types.INTEGER);
+        else ps.setInt(index, ob);
+    }
+
+    //type true for varchar, false for nvarchar
+    protected void insertStatement(String ob, PreparedStatement ps, int index, boolean type) throws SQLException {
+        if(ob==null) ps.setNull(index,Types.NVARCHAR);
+        else{
+            if(type) ps.setString(index, ob);
+            else ps.setNString(index, ob);
+        }
     }
 
     protected abstract Object getObjectByRs(ResultSet rs) throws Exception;
