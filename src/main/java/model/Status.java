@@ -3,13 +3,13 @@ package model;
 import controller.Validate;
 
 public class Status {
-    private int statusID;
+    private Integer statusID;
     private String detail;
 
     public Status() {
     }
 
-    public Status(int statusID, String detail) {
+    public Status(Integer statusID, String detail) {
         this.statusID = statusID;
         this.detail = detail;
     }

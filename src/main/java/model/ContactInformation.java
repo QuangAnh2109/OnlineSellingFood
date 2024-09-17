@@ -3,13 +3,13 @@ package model;
 import controller.Validate;
 
 public class ContactInformation {
-    private int contactInformationID;
+    private Integer contactInformationID;
     private String address, phoneNumber; //len between 6 and 11
 
     public ContactInformation() {
     }
 
-    public ContactInformation(int contactInformationID, String address, String phoneNumber) {
+    public ContactInformation(Integer contactInformationID, String address, String phoneNumber) {
         this.contactInformationID = contactInformationID;
         this.address = address;
         this.phoneNumber = phoneNumber;

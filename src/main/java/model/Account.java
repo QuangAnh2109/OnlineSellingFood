@@ -7,14 +7,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Account {
-    private int accountID, roleID, birthYear, contactInformationID, statusID;
+    private Integer accountID, roleID, birthYear, contactInformationID, statusID;
     private String email, firstName, lastName, password, time;
 
 
     public Account() {
     }
 
-    public Account(int accountID, int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, String time) {
+    public Account(Integer accountID, Integer roleID, Integer birthYear, Integer contactInformationID, Integer statusID, String email, String firstName, String lastName, String time) {
         this.accountID = accountID;
         this.roleID = roleID;
         this.birthYear = birthYear;

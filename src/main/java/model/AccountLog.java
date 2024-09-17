@@ -5,13 +5,13 @@ import controller.Validate;
 import java.time.LocalDateTime;
 
 public class AccountLog {
-    private int logID, accountID, eventTypeID;
+    private Integer logID, accountID, eventTypeID;
     private String ipAddress, dataType, value, time;
 
     public AccountLog() {
     }
 
-    public AccountLog(int logID, int accountID, int eventTypeID, String ipAddress, String dataType, String value, String time) {
+    public AccountLog(Integer logID, Integer accountID, Integer eventTypeID, String ipAddress, String dataType, String value, String time) {
         this.logID = logID;
         this.accountID = accountID;
         this.eventTypeID = eventTypeID;

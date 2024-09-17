@@ -3,12 +3,12 @@ package model;
 import controller.Validate;
 
 public class Staff {
-    private int staffID, accountID, salary, warehouseID;
+    private Integer staffID, accountID, salary, warehouseID;
 
     public Staff() {
     }
 
-    public Staff(int staffID, int accountID, int salary, int warehouseID) {
+    public Staff(Integer staffID, Integer accountID, Integer salary, Integer warehouseID) {
         this.staffID = staffID;
         this.accountID = accountID;
         this.salary = salary;

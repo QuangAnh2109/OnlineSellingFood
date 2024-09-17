@@ -3,13 +3,13 @@ package model;
 import controller.Validate;
 
 public class Role {
-    private int roleID;
+    private Integer roleID;
     private String name;
 
     public Role() {
     }
 
-    public Role(int roleID, String name) {
+    public Role(Integer roleID, String name) {
         this.roleID = roleID;
         this.name = name;
     }

@@ -3,9 +3,9 @@ package model;
 import controller.Validate;
 
 public class Customer {
-    private int customerID, accountID, point, level;
+    private Integer customerID, accountID, point, level;
 
-    public Customer(int customerID, int accountID, int point, int level) {
+    public Customer(Integer customerID, Integer accountID, Integer point, Integer level) {
         this.customerID = customerID;
         this.accountID = accountID;
         this.point = point;

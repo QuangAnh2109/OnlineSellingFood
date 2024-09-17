@@ -3,13 +3,13 @@ package model;
 import controller.Validate;
 
 public class EventType {
-    private int evenTypeID;
+    private Integer evenTypeID;
     private String detail;
 
     public EventType() {
     }
 
-    public EventType(int evenTypeID, String detail) {
+    public EventType(Integer evenTypeID, String detail) {
         this.evenTypeID = evenTypeID;
         this.detail = detail;
     }
