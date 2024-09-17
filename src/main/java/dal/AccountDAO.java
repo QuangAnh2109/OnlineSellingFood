@@ -68,22 +68,25 @@ public class AccountDAO extends DBContext{
         return 0;
     }
 
-    public int addAccount(Account acc){
-        try{
-            PreparedStatement ps = connection.prepareStatement("insert into Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) values (?,?,?,?,?,?,?,CAST(? AS DateTime),?)");
-            insertStatement(acc.getRoleID(), ps, 1);
-            insertStatement(acc.getEmail(), ps, 2, true);
-            insertStatement(acc.getFirstName(), ps, 3, false);
-            insertStatement(acc.getLastName(), ps, 4, false);
-            insertStatement(acc.getBirthYear(), ps, 5);
-            insertStatement(acc.getContactInformationID(), ps, 6);
-            insertStatement(acc.getPassword(), ps, 7, true);
-            insertStatement(acc.getTime(), ps, 8, false);
-            insertStatement(acc.getStatusID(), ps, 9);
-            return executeUpdate(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+    public int addAccount(Account acc) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps.setInt(1, acc.getRoleID());
+            ps.setString(2, acc.getEmail());
+            ps.setString(3, acc.getFirstName());
+            ps.setString(4, acc.getLastName());
+            ps.setInt(5, acc.getBirthYear());
+            ps.setInt(6, acc.getContactInformationID());
+            ps.setString(7, acc.getPassword());
+            ps.setString(8, acc.getTime());
+            ps.setInt(9, acc.getStatusID());
+
+            return ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("SQL Error: " + ex.getMessage());
+            ex.printStackTrace();
         }
         return 0;
     }
+
 }

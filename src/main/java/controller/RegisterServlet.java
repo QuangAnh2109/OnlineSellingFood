@@ -5,14 +5,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import model.Account;
+import dal.AccountDAO;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import dal.AccountDAO;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
@@ -34,60 +34,82 @@ public class RegisterServlet extends HttpServlet {
             String password = request.getParameter("password");
             String confirmPassword = request.getParameter("confirmPassword");
             String contactInfoStr = request.getParameter("contactInfo");
-            Integer birthYear = Integer.parseInt(birthYearStr);
-            Integer contactInformationID = Integer.parseInt(contactInfoStr);
-            Integer roleID = 6; // Default as Customer (RoleID=6)
-            Integer statusID = 1; // Default as active (StatusID=1)
 
-            // Check if passwords match
+            // Validate input data
+            if (firstName == null || firstName.isEmpty()) {
+                errorMessages.add("First name is required.");
+            }
+            if (lastName == null || lastName.isEmpty()) {
+                errorMessages.add("Last name is required.");
+            }
+            if (email == null || email.isEmpty()) {
+                errorMessages.add("Email is required.");
+            }
+            if (birthYearStr == null || birthYearStr.isEmpty()) {
+                errorMessages.add("Birth year is required.");
+            } else {
+                try {
+                    Integer.parseInt(birthYearStr);
+                } catch (NumberFormatException e) {
+                    errorMessages.add("Invalid birth year format.");
+                }
+            }
+            if (contactInfoStr == null || contactInfoStr.isEmpty()) {
+                errorMessages.add("Contact information ID is required.");
+            } else {
+                try {
+                    Integer.parseInt(contactInfoStr);
+                } catch (NumberFormatException e) {
+                    errorMessages.add("Invalid contact information ID format.");
+                }
+            }
+            if (password == null || password.isEmpty()) {
+                errorMessages.add("Password is required.");
+            }
             if (!password.equals(confirmPassword)) {
                 errorMessages.add("Passwords do not match.");
             }
 
+            // If there are validation errors, forward to error page
             if (!errorMessages.isEmpty()) {
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
                 return;
             }
 
+            // Create and populate Account object
             Account newAccount = new Account();
             newAccount.setFirstName(firstName);
             newAccount.setLastName(lastName);
             newAccount.setEmail(email);
-            newAccount.setBirthYear(birthYear.toString());
-            newAccount.setContactInformationID(contactInformationID.toString());
-            newAccount.setRoleID(roleID.toString());
-            newAccount.setStatusID(statusID.toString());
+            newAccount.setBirthYear(birthYearStr);
+            newAccount.setContactInformationID(contactInfoStr);
+            newAccount.setRoleID("6"); // Default RoleID
+            newAccount.setStatusID("1"); // Default StatusID
             newAccount.setPassword(password);
 
             LocalDateTime currentTime = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             newAccount.setTime(currentTime.format(formatter));
 
+            // Add account to the database
             AccountDAO accountDAO = new AccountDAO();
             int result = accountDAO.addAccount(newAccount);
 
+            // Check if the account was added successfully
             if (result > 0) {
-                errorMessages.add("Successfully added account.");
-                request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "success.jsp");
             } else {
                 errorMessages.add("Registration failed. Please try again.");
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
 
-        } catch (NumberFormatException e) {
-            e.printStackTrace(); // Print stack trace for more detailed error information
-            errorMessages.add("Invalid input format. Please check your input.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace(); // Print stack trace for more detailed error information
+            e.printStackTrace();
             errorMessages.add("An error occurred during registration. Please try again.");
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 }
-
