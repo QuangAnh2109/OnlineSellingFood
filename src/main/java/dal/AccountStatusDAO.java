@@ -1,11 +1,6 @@
 package dal;
 
-import model.ContactInformation;
 import model.Status;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class AccountStatusDAO extends StatusDAO{
     private final String table = "AccountStatus";
