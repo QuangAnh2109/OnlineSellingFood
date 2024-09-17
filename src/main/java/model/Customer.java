@@ -5,6 +5,16 @@ import controller.Validate;
 public class Customer {
     private int customerID, accountID, point, level;
 
+    public Customer(int customerID, int accountID, int point, int level) {
+        this.customerID = customerID;
+        this.accountID = accountID;
+        this.point = point;
+        this.level = level;
+    }
+
+    public Customer() {
+    }
+
     public int getCustomerID() {
         return customerID;
     }

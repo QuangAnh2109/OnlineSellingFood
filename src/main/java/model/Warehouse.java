@@ -6,6 +6,16 @@ public class Warehouse {
     private int warehouseID, contactInformationID, statusID;
     private String name;
 
+    public Warehouse() {
+    }
+
+    public Warehouse(int warehouseID, int contactInformationID, int statusID, String name) {
+        this.warehouseID = warehouseID;
+        this.contactInformationID = contactInformationID;
+        this.statusID = statusID;
+        this.name = name;
+    }
+
     public int getWarehouseID() {
         return warehouseID;
     }

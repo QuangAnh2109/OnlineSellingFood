@@ -6,6 +6,14 @@ public class Status {
     private int statusID;
     private String detail;
 
+    public Status() {
+    }
+
+    public Status(int statusID, String detail) {
+        this.statusID = statusID;
+        this.detail = detail;
+    }
+
     public int getRoleID() {
         return statusID;
     }

@@ -9,6 +9,19 @@ public class AccountLog {
     private LocalDateTime time;
     private String ipAddress, dataType, value;
 
+    public AccountLog() {
+    }
+
+    public AccountLog(int logID, int accountID, int eventTypeID, LocalDateTime time, String ipAddress, String dataType, String value) {
+        this.logID = logID;
+        this.accountID = accountID;
+        this.eventTypeID = eventTypeID;
+        this.time = time;
+        this.ipAddress = ipAddress;
+        this.dataType = dataType;
+        this.value = value;
+    }
+
     public int getLogID() {
         return logID;
     }

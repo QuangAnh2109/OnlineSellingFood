@@ -6,6 +6,15 @@ public class ContactInformation {
     private int contactInformationID;
     private String address, phoneNumber; //len between 6 and 11
 
+    public ContactInformation() {
+    }
+
+    public ContactInformation(int contactInformationID, String address, String phoneNumber) {
+        this.contactInformationID = contactInformationID;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
     public int getContactInformationID() {
         return contactInformationID;
     }

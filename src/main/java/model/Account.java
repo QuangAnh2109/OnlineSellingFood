@@ -11,10 +11,27 @@ public class Account {
     private String email, firstName, lastName, password;
     private LocalDateTime time;
 
+
+    public Account() {
+    }
+
+    public Account(int accountID, int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, String password, LocalDateTime time) {
+        this.accountID = accountID;
+        this.roleID = roleID;
+        this.birthYear = birthYear;
+        this.contactInformationID = contactInformationID;
+        this.statusID = statusID;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.time = time;
+    }
+
     public int getAccountID() {
         return accountID;
     }
-
+    
     public void setAccountID(String accountID) throws Exception {
         Validate.checkString(accountID);
         int number = Integer.parseInt(accountID);

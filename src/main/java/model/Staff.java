@@ -5,6 +5,16 @@ import controller.Validate;
 public class Staff {
     private int staffID, accountID, salary, warehouseID;
 
+    public Staff() {
+    }
+
+    public Staff(int staffID, int accountID, int salary, int warehouseID) {
+        this.staffID = staffID;
+        this.accountID = accountID;
+        this.salary = salary;
+        this.warehouseID = warehouseID;
+    }
+
     public int getStaffID() {
         return staffID;
     }

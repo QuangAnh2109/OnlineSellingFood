@@ -6,6 +6,14 @@ public class EventType {
     private int evenTypeID;
     private String detail;
 
+    public EventType() {
+    }
+
+    public EventType(int evenTypeID, String detail) {
+        this.evenTypeID = evenTypeID;
+        this.detail = detail;
+    }
+
     public int getEvenTypeID() {
         return evenTypeID;
     }
