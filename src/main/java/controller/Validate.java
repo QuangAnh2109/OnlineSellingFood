@@ -25,9 +25,9 @@ public class Validate {
     //check String follow format "yyyy-MM-dd HH:mm:ss"
     public static LocalDateTime checkDateTime(String str) throws Exception {
         checkString(str);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
         LocalDateTime datetime = LocalDateTime.parse(str, formatter);
-        if(!datetime.format(formatter).equals(str)) throw new Exception("String not follow format \"yyyy-MM-dd HH:mm:ss\"");
+        if(!datetime.format(formatter).equals(str)) throw new Exception("String not follow format \"yyyy-MM-dd HH:mm:ss.SSS\"");
         return datetime;
     }
 }
