@@ -6,20 +6,19 @@ import java.time.LocalDateTime;
 
 public class AccountLog {
     private int logID, accountID, eventTypeID;
-    private LocalDateTime time;
-    private String ipAddress, dataType, value;
+    private String ipAddress, dataType, value, time;
 
     public AccountLog() {
     }
 
-    public AccountLog(int logID, int accountID, int eventTypeID, LocalDateTime time, String ipAddress, String dataType, String value) {
+    public AccountLog(int logID, int accountID, int eventTypeID, String ipAddress, String dataType, String value, String time) {
         this.logID = logID;
         this.accountID = accountID;
         this.eventTypeID = eventTypeID;
-        this.time = time;
         this.ipAddress = ipAddress;
         this.dataType = dataType;
         this.value = value;
+        this.time = time;
     }
 
     public int getLogID() {
@@ -55,12 +54,13 @@ public class AccountLog {
         this.eventTypeID = number;
     }
 
-    public LocalDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
     public void setTime(String time) throws Exception {
-        this.time = Validate.checkDateTime(time);
+        Validate.checkDateTime(time);
+        this.time = time;
     }
 
     public String getIpAddress() {

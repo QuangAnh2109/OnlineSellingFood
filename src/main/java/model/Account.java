@@ -8,14 +8,13 @@ import java.time.LocalDateTime;
 
 public class Account {
     private int accountID, roleID, birthYear, contactInformationID, statusID;
-    private String email, firstName, lastName, password;
-    private LocalDateTime time;
+    private String email, firstName, lastName, password, time;
 
 
     public Account() {
     }
 
-    public Account(int accountID, int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, String password, LocalDateTime time) {
+    public Account(int accountID, int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, String time) {
         this.accountID = accountID;
         this.roleID = roleID;
         this.birthYear = birthYear;
@@ -24,7 +23,6 @@ public class Account {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.time = time;
     }
 
@@ -109,12 +107,13 @@ public class Account {
         this.password = encrypt.toHexString(encrypt.getSHA(password));
     }
 
-    public LocalDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
     public void setTime(String time) throws Exception {
-        this.time = Validate.checkDateTime(time);
+        Validate.checkDateTime(time);
+        this.time = time;
     }
 
     public int getStatusID() {
