@@ -14,22 +14,22 @@ public class Status {
         this.detail = detail;
     }
 
-    public Integer getRoleID() {
+    public Integer getStatusID() {
         return statusID;
     }
 
-    public void setRoleID(String statusID) throws Exception {
+    public void setStatusID(String statusID) throws Exception {
         Validate.checkString(statusID);
         int number = Integer.parseInt(statusID);
         Validate.checkInt(number,1,Integer.MAX_VALUE);
         this.statusID = number;
     }
 
-    public String getName() {
+    public String getDetail() {
         return detail;
     }
 
-    public void setName(String detail) throws Exception {
+    public void setDetail(String detail) throws Exception {
         Validate.checkString(detail,1,100);
         this.detail = detail;
     }
