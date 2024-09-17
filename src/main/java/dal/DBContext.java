@@ -56,5 +56,5 @@ public abstract class DBContext {
         return null;
     }
 
-    protected abstract Object getObjectByRs(ResultSet rs) throws Exception;
+    protected abstract Object getObjectByRs(ResultSet rs) throws SQLException;
 }
