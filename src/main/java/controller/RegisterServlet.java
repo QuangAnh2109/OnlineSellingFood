@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
 import dal.AccountDAO;
 import dal.ContactInformationDAO;
+import model.ContactInformation;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -37,9 +38,21 @@ public class RegisterServlet extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
         String phoneNumber = request.getParameter("phone");
         String address = request.getParameter("address");
-
-        ContactInformationDAO contractinfo = new ContactInformationDAO();
-        String contactinfoID = contractinfo.getContactInformationIDbyAdressAndPhone(phoneNumber, address);
+        ContactInformationDAO contactinfo = new ContactInformationDAO();
+        //add new contact information
+        ContactInformation ci = new ContactInformation();
+        try {
+            ci.setAddress(address);
+            ci.setPhoneNumber(phoneNumber);
+            contactinfo.addContact(ci);
+        }catch (Exception e){
+            e.printStackTrace();
+            errorMessages.add("AN error occurred when trying to add new contact information");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
+        //get contact information id
+        String contactinfoID = contactinfo.getContactInformationIDbyAdressAndPhone(phoneNumber, address);
         Account newAccount = new Account();
         try {
             newAccount.setFirstName(firstName);
