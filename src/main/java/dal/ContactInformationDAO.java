@@ -40,9 +40,7 @@ public class ContactInformationDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=? and Address=?");
             insertStatement(Adress, ps, 2, false);
             insertStatement(phoneNumber, ps, 1, true);
-            ContactInformation ci = (ContactInformation)getObjectBySQL(ps);
-            System.out.println(ci.getContactInformationID());
-            return ci.getContactInformationID().toString();
+            return ((ContactInformation)getObjectBySQL(ps)).getContactInformationID().toString();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
