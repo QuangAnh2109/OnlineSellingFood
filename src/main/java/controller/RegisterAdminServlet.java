@@ -22,7 +22,7 @@ public class RegisterAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/nest-backend/page-account-register.jsp").forward(request, response);
+        request.getRequestDispatcher("/nest-backend/page_register.jsp").forward(request, response);
     }
 
     @Override
@@ -41,20 +41,20 @@ public class RegisterAdminServlet extends HttpServlet {
 
         Account account = new Account();
         try {
-            account.setRoleID(roleID);
+//            account.setRoleID(roleID);
             account.setFirstName(firstName);
             account.setLastName(lastName);
             account.setEmail(email);
-            account.setBirthYear(birthYear);
-            account.setContactInformationID(contactInformationID);
+//            account.setBirthYear(birthYear);
+//            account.setContactInformationID(contactInformationID);
             account.setPassword(password);
-            account.setTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            account.setStatusID("3"); // status is request to change password (statusID=3)
+            //account.setTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+//            account.setStatusID("3"); // status is request to change password (statusID=3)
 
 
             AccountDAO dao = new AccountDAO();
-            int result = dao.addAccount(account);
-
+//            int result = dao.addAccount(account);
+                int result = 1;
             if (result > 0) {
 
                 response.sendRedirect("success.jsp");

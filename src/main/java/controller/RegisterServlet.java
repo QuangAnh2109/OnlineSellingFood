@@ -7,107 +7,74 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
 import dal.AccountDAO;
+import model.ContactInformation;
+import model.Role;
 
 import java.io.IOException;
-import java.security.SecureRandom;
+
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+
+
 
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-register.jsp");
+        request.getRequestDispatcher("/nest-frontend/page_register.jsp").forward(request, response);
+        //response.sendRedirect(request.getContextPath() + "/nest-frontend/page_register.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> errorMessages = new ArrayList<>();
+
 
         // Get form parameters
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
-        String birthYearStr = request.getParameter("birthYear");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String birthYear_raw = request.getParameter("birthYear");
         String password = request.getParameter("password");
-        String confirmPassword = request.getParameter("confirmPassword");
-        String contactInfoStr = request.getParameter("contactInfo");
+        String cPassword = request.getParameter("confirmPassword");
 
-        // Validate input data
-        if (firstName == null || firstName.isEmpty()) {
-            errorMessages.add("First name is required.");
-        }
-        if (lastName == null || lastName.isEmpty()) {
-            errorMessages.add("Last name is required.");
-        }
-        if (email == null || email.isEmpty()) {
-            errorMessages.add("Email is required.");
-        }
-        if (birthYearStr == null || birthYearStr.isEmpty()) {
-            errorMessages.add("Birth year is required.");
-        } else {
-            try {
-                Integer.parseInt(birthYearStr);
-            } catch (NumberFormatException e) {
-                errorMessages.add("Invalid birth year format.");
-            }
-        }
-        if (contactInfoStr == null || contactInfoStr.isEmpty()) {
-            errorMessages.add("Contact information ID is required.");
-        } else {
-            try {
-                Integer.parseInt(contactInfoStr);
-            } catch (NumberFormatException e) {
-                errorMessages.add("Invalid contact information ID format.");
-            }
-        }
-        if (password == null || password.isEmpty()) {
-            errorMessages.add("Password is required.");
-        }
-        if (!password.equals(confirmPassword)) {
-            errorMessages.add("Passwords do not match.");
-        }
-
-        // If validation errors exist, forward to error page
-        if (!errorMessages.isEmpty()) {
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
-        }
-
-        Account newAccount = new Account();
+        AccountDAO ad = new AccountDAO();
+        Account a = ad.getAccountByEmailPassword(email, password);
+        int birthYear;
         try {
-            newAccount.setFirstName(firstName);
-            newAccount.setLastName(lastName);
-            newAccount.setEmail(email);
-            newAccount.setBirthYear(birthYearStr);
-            newAccount.setContactInformationID(contactInfoStr);
-            newAccount.setRoleID("6"); // Default RoleID
-            newAccount.setStatusID("1"); // Default StatusID
-            newAccount.setPassword(password);
-            newAccount.setTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))); // Current time
-
-            // Add account to the database
-            AccountDAO accountDAO = new AccountDAO();
-            int result = accountDAO.addAccount(newAccount);
-
-            if (result > 0) {
-                response.sendRedirect("success.jsp");
+            birthYear = Integer.parseInt(birthYear_raw);
+            if (a != null || ad.existedEmail(email)) {
+                String ms = "Email existed!";
+                request.setAttribute("message", ms);
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            } else if (!password.equals(cPassword)) {
+                String ms = "Passwords do not match!";
+                request.setAttribute("message", ms);
+                request.getRequestDispatcher("register.jsp").forward(request, response);
             } else {
-                errorMessages.add("Registration failed. Please try again.");
-                request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+                Role role = ad.getRoleByRoleId(6);
+                LocalDateTime now = LocalDateTime.now();
+                Account account = new Account();
+                account.setRole(role);
+                account.setEmail(email);
+                account.setFirstName(firstName);
+                account.setLastName(lastName);
+                account.setBirthYear(birthYear);
+                ContactInformation c = new ContactInformation(0, address, phone);
+                account.setPassword(password);
+                account.setTime(now);
+                account.setStatusID(2);
+                ad.addAccount(account, c);
+//                response.sendRedirect("login");
+
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            errorMessages.add("An error occurred during registration. Please try again.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            throw new RuntimeException(e);
         }
+
+
+    }
     }
 
-}
+

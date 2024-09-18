@@ -19,19 +19,15 @@ public class ContactInformation {
         return contactInformationID;
     }
 
-    public void setContactInformationID(String contactInformationID) throws Exception {
-        Validate.checkString(contactInformationID);
-        int number = Integer.parseInt(contactInformationID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
-        this.contactInformationID = number;
+    public void setContactInformationID(Integer contactInformationID) {
+        this.contactInformationID = contactInformationID;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) throws Exception {
-        Validate.checkString(address, 1, 200);
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -39,8 +35,35 @@ public class ContactInformation {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) throws Exception {
-        Validate.checkString(phoneNumber,6,11);
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    //    public Integer getContactInformationID() {
+//        return contactInformationID;
+//    }
+//
+//    public void setContactInformationID(String contactInformationID) throws Exception {
+//        Validate.checkString(contactInformationID);
+//        int number = Integer.parseInt(contactInformationID);
+//        Validate.checkInt(number,1,Integer.MAX_VALUE);
+//        this.contactInformationID = number;
+//    }
+//
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(String address) throws Exception {
+//        Validate.checkString(address, 1, 200);
+//        this.address = address;
+//    }
+//
+//    public String getPhoneNumber() {
+//        return phoneNumber;
+//    }
+//
+//    public void setPhoneNumber(String phoneNumber) throws Exception {
+//        Validate.checkString(phoneNumber,6,11);
+//        this.phoneNumber = phoneNumber;
+//    }
 }

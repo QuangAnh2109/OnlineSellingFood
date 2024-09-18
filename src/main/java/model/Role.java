@@ -18,19 +18,34 @@ public class Role {
         return roleID;
     }
 
-    public void setRoleID(String roleID) throws Exception {
-        Validate.checkString(roleID);
-        int number = Integer.parseInt(roleID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
-        this.roleID = number;
+    public void setRoleID(Integer roleID) {
+        this.roleID = roleID;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) throws Exception {
-        Validate.checkString(name,1,100);
+    public void setName(String name) {
         this.name = name;
     }
+    //    public Integer getRoleID() {
+//        return roleID;
+//    }
+//
+//    public void setRoleID(String roleID) throws Exception {
+//        Validate.checkString(roleID);
+//        int number = Integer.parseInt(roleID);
+//        Validate.checkInt(number,1,Integer.MAX_VALUE);
+//        this.roleID = number;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) throws Exception {
+//        Validate.checkString(name,1,100);
+//        this.name = name;
+//    }
 }
