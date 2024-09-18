@@ -37,9 +37,9 @@ public class ContactInformationDAO extends DBContext{
     }
     public String getContactInformationIDbyAdressAndPhone(String Adress, String phoneNumber){
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=? and Address=? ");
-            insertStatement(Adress, ps, 1, false);
-            insertStatement(phoneNumber, ps, 2, true);
+            PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=? and Address=?");
+            insertStatement(Adress, ps, 2, false);
+            insertStatement(phoneNumber, ps, 1, true);
             ContactInformation ci = (ContactInformation)getObjectBySQL(ps);
             System.out.println(ci.getContactInformationID());
             return ci.getContactInformationID().toString();
