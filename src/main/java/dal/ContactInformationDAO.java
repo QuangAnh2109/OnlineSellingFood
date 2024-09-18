@@ -10,7 +10,7 @@ public class ContactInformationDAO extends DBContext{
 
     @Override
     protected Object getObjectByRs(ResultSet rs) throws Exception {
-        return new ContactInformation(rs.getInt("ContactInformationID"), rs.getString(""), rs.getString(""));
+        return new ContactInformation(rs.getInt("ContactInformationID"), rs.getString("Address"), rs.getString("PhoneNumber"));
     }
 
     public int addContact(ContactInformation ci){
@@ -25,17 +25,6 @@ public class ContactInformationDAO extends DBContext{
         return 0;
     }
 
-    public ContactInformation getContactInformationByPhoneNumber(String phoneNumber){
-        try{
-            PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=?");
-            insertStatement(phoneNumber,ps,1,true);
-            return (ContactInformation)getObjectBySQL(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
-        }
-        return null;
-    }
-
     public ContactInformation getContactInformationByContactID(Integer contactInformationID){
         try{
             PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where ContactInformationID=?");
@@ -48,10 +37,10 @@ public class ContactInformationDAO extends DBContext{
     }
     public String getContactInformationIDbyAdressAndPhone(String Adress, String phoneNumber){
         try{
-            PreparedStatement ps = connection.prepareStatement("select c.ContactInformationID from ContractInformation c where PhoneNumber=? and Address=? ");
-            insertStatement(Adress, ps, 1, false);
-            insertStatement(phoneNumber, ps, 2, true);
-            return (String)getObjectBySQL(ps);
+            PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=? and Address=?");
+            insertStatement(Adress, ps, 2, false);
+            insertStatement(phoneNumber, ps, 1, true);
+            return ((ContactInformation)getObjectBySQL(ps)).getContactInformationID().toString();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
