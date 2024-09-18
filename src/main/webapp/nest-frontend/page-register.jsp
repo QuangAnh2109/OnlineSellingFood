@@ -674,7 +674,15 @@
                     <div class="form-group">
                       <input type="number" required="" name="birthYear" placeholder="Birth Year" min="1900" max="2023" />
                     </div>
+                    <!-- Contact Information -->
+                    <div class="form-group">
+                      <input type="text" required="" name="phone" placeholder="PhoneNumber" />
 
+                    </div>
+                    <div class="form-group">
+                      <input type="text" required="" name="address" placeholder="Address" />
+
+                    </div>
                     <!-- Password -->
                     <div class="form-group">
                       <input required="" type="password" name="password" placeholder="Password" />
@@ -683,11 +691,6 @@
                     <!-- Confirm Password -->
                     <div class="form-group">
                       <input required="" type="password" name="confirmPassword" placeholder="Confirm Password" />
-                    </div>
-
-                    <!-- Contact Information -->
-                    <div class="form-group">
-                      <input type="text" required="" name="contactInfo" placeholder="Contact Information ID" />
                     </div>
 
                     <!-- Agree to Terms -->

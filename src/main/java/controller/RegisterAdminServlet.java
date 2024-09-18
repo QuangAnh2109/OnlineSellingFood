@@ -22,7 +22,7 @@ public class RegisterAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/nest-backend/page-account-register.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/nest-backend/page-account-register.jsp");
     }
 
     @Override
@@ -48,7 +48,7 @@ public class RegisterAdminServlet extends HttpServlet {
             account.setBirthYear(birthYear);
             account.setContactInformationID(contactInformationID);
             account.setPassword(password);
-            account.setTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            account.setTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             account.setStatusID("3"); // status is request to change password (statusID=3)
 
 
@@ -62,7 +62,7 @@ public class RegisterAdminServlet extends HttpServlet {
 
                 errorMessages.add("An unknown error occurred during registration.");
                 request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("/error.jsp").forward(request, response);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
             }
 
         } catch (Exception e) {

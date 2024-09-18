@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
 import dal.AccountDAO;
-
+import dal.ContactInformationDAO;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -35,7 +35,8 @@ public class RegisterServlet extends HttpServlet {
         String birthYearStr = request.getParameter("birthYear");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
-        String contactInfoStr = request.getParameter("contactInfo");
+        String phoneNumber = request.getParameter("phone");
+        String address = request.getParameter("address");
 
         // Validate input data
         if (firstName == null || firstName.isEmpty()) {
@@ -56,14 +57,10 @@ public class RegisterServlet extends HttpServlet {
                 errorMessages.add("Invalid birth year format.");
             }
         }
-        if (contactInfoStr == null || contactInfoStr.isEmpty()) {
-            errorMessages.add("Contact information ID is required.");
-        } else {
-            try {
-                Integer.parseInt(contactInfoStr);
-            } catch (NumberFormatException e) {
-                errorMessages.add("Invalid contact information ID format.");
-            }
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            errorMessages.add("Phone Number is required.");
+        }if (address == null || address.isEmpty()) {
+            errorMessages.add("Address is required.");
         }
         if (password == null || password.isEmpty()) {
             errorMessages.add("Password is required.");
@@ -78,14 +75,15 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
-
+        ContactInformationDAO contractinfo = new ContactInformationDAO();
+        String contactinfoID = contractinfo.getContactInformationIDbyAdressAndPhone(phoneNumber, address);
         Account newAccount = new Account();
         try {
             newAccount.setFirstName(firstName);
             newAccount.setLastName(lastName);
             newAccount.setEmail(email);
             newAccount.setBirthYear(birthYearStr);
-            newAccount.setContactInformationID(contactInfoStr);
+            newAccount.setContactInformationID(contactinfoID);
             newAccount.setRoleID("6"); // Default RoleID
             newAccount.setStatusID("1"); // Default StatusID
             newAccount.setPassword(password);

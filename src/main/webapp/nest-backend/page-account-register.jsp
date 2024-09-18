@@ -66,7 +66,7 @@
     <div class="card mx-auto card-login">
       <div class="card-body">
         <h4 class="card-title mb-4">Create an Account</h4>
-        <form action="register-admin" method="post">
+        <form action="${pageContext.request.contextPath}/register-admin" method="post">
           <div class="mb-3">
             <label class="form-label">Role ID</label>
             <input class="form-control" name="roleID" placeholder="Role ID" type="number" required />

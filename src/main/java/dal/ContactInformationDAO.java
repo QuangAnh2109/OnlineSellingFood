@@ -46,12 +46,12 @@ public class ContactInformationDAO extends DBContext{
         }
         return null;
     }
-    public Integer getContactInformationIDbyAdressAndPhone(String Adress, String phoneNumber){
+    public String getContactInformationIDbyAdressAndPhone(String Adress, String phoneNumber){
         try{
             PreparedStatement ps = connection.prepareStatement("select c.ContactInformationID from ContractInformation c where PhoneNumber=? and Address=? ");
             insertStatement(Adress, ps, 1, false);
             insertStatement(phoneNumber, ps, 2, true);
-            return executeUpdate(ps);
+            return (String)getObjectBySQL(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
