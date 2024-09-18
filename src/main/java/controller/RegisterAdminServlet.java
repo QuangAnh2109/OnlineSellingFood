@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import dal.ContactInformationDAO;
 
 @WebServlet(name = "RegisterAdminServlet", urlPatterns = {"/register-admin"})
 public class RegisterAdminServlet extends HttpServlet {
@@ -36,9 +37,12 @@ public class RegisterAdminServlet extends HttpServlet {
         String email = request.getParameter("email");
         String contactInformationID = request.getParameter("contactInformationID");
         String birthYear = request.getParameter("birthYear");
+        String phoneNumber = request.getParameter("phone");
+        String address = request.getParameter("address");
         //get random password
         String password = generateRandomPassword();
-
+        ContactInformationDAO contactinfo = new ContactInformationDAO();
+        String contractinfoID = contactinfo.getContactInformationIDbyAdressAndPhone(address,phoneNumber);
         Account account = new Account();
         try {
             account.setRoleID(roleID);
@@ -46,7 +50,7 @@ public class RegisterAdminServlet extends HttpServlet {
             account.setLastName(lastName);
             account.setEmail(email);
             account.setBirthYear(birthYear);
-            account.setContactInformationID(contactInformationID);
+            account.setContactInformationID(contractinfoID);
             account.setPassword(password);
             account.setTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             account.setStatusID("3"); // status is request to change password (statusID=3)

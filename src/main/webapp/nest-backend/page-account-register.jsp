@@ -88,8 +88,12 @@
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Contact Information ID</label>
-            <input class="form-control" name="contactInformationID" placeholder="Contact Information ID" type="number" required />
+            <label class="form-label">Phone Number</label>
+            <input class="form-control" name="phone" placeholder="Phone Number" type="text" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            <input class="form-control" name="address" placeholder="Adress" type="text" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">

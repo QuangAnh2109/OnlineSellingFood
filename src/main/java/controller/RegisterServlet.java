@@ -38,43 +38,6 @@ public class RegisterServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phone");
         String address = request.getParameter("address");
 
-        // Validate input data
-        if (firstName == null || firstName.isEmpty()) {
-            errorMessages.add("First name is required.");
-        }
-        if (lastName == null || lastName.isEmpty()) {
-            errorMessages.add("Last name is required.");
-        }
-        if (email == null || email.isEmpty()) {
-            errorMessages.add("Email is required.");
-        }
-        if (birthYearStr == null || birthYearStr.isEmpty()) {
-            errorMessages.add("Birth year is required.");
-        } else {
-            try {
-                Integer.parseInt(birthYearStr);
-            } catch (NumberFormatException e) {
-                errorMessages.add("Invalid birth year format.");
-            }
-        }
-        if (phoneNumber == null || phoneNumber.isEmpty()) {
-            errorMessages.add("Phone Number is required.");
-        }if (address == null || address.isEmpty()) {
-            errorMessages.add("Address is required.");
-        }
-        if (password == null || password.isEmpty()) {
-            errorMessages.add("Password is required.");
-        }
-        if (!password.equals(confirmPassword)) {
-            errorMessages.add("Passwords do not match.");
-        }
-
-        // If validation errors exist, forward to error page
-        if (!errorMessages.isEmpty()) {
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
-        }
         ContactInformationDAO contractinfo = new ContactInformationDAO();
         String contactinfoID = contractinfo.getContactInformationIDbyAdressAndPhone(phoneNumber, address);
         Account newAccount = new Account();
