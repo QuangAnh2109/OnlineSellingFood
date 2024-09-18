@@ -166,7 +166,7 @@ public class AccountDAO extends DBContext{
             st.setString(2,acc.getEmail());
             st.setString(3,acc.getFirstName());
             st.setString(4,acc.getLastName());
-            st.setInt(5,2003);
+            st.setInt(5,acc.getBirthYear());
             st.setInt(6,generatedKey);
             st.setString(7,acc.getPassword());
             LocalDateTime localDateTime = acc.getTime();
@@ -187,7 +187,7 @@ public class AccountDAO extends DBContext{
         Role role=new Role(6,"Ha Noi");
         LocalDateTime date=LocalDateTime.now();
         System.out.println(date);
-        Account a=new Account(1,role,"quangsu123@gmail.com","Su","Quang",2003,c,"123",date,3);
+        Account a=new Account(1,role,"minh@gmail.com","Minh","Hoang",2005,c,"123",date,3);
         AccountDAO dao = new AccountDAO();
         dao.addAccount(a,c);
 
