@@ -7,9 +7,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -35,11 +36,8 @@ public class RegisterAdminServlet extends HttpServlet {
         String email = request.getParameter("email");
         String contactInformationID = request.getParameter("contactInformationID");
         String birthYear = request.getParameter("birthYear");
-
         //get random password
         String password = generateRandomPassword();
-        String time = java.time.LocalDateTime.now().toString();
-
 
         Account account = new Account();
         try {
@@ -50,7 +48,7 @@ public class RegisterAdminServlet extends HttpServlet {
             account.setBirthYear(birthYear);
             account.setContactInformationID(contactInformationID);
             account.setPassword(password);
-            account.setTime(time);
+            account.setTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             account.setStatusID("3"); // status is request to change password (statusID=3)
 
 

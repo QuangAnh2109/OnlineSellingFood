@@ -46,4 +46,5 @@ public class ContactInformationDAO extends DBContext{
         }
         return null;
     }
+    
 }
