@@ -43,18 +43,18 @@ public class RegisterAdminServlet extends HttpServlet {
         //get random password
         String password = generateRandomPassword();
         ContactInformationDAO contactinfo = new ContactInformationDAO();
-        ContactInformation ci = new ContactInformation();
-        try {
-            ci.setAddress(address);
-            ci.setPhoneNumber(phoneNumber);
-            contactinfo.addContact(ci);
-        }catch (Exception e){
-            e.printStackTrace();
-            errorMessages.add("AN error occurred when trying to add new contact information");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-        }
-        String contractinfoID = contactinfo.getContactInformationIDbyAdressAndPhone(address,phoneNumber);
+//        ContactInformation ci = new ContactInformation();
+//        try {
+//            ci.setAddress(address);
+//            ci.setPhoneNumber(phoneNumber);
+//            contactinfo.addContact(ci);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            errorMessages.add("AN error occurred when trying to add new contact information");
+//            request.setAttribute("errorMessages", errorMessages);
+//            request.getRequestDispatcher("error.jsp").forward(request, response);
+//        }
+        String contractinfoID = contactinfo.getContactInformationIDbyAddressAndPhone(address,phoneNumber);
         Account account = new Account();
         try {
             account.setRoleID(roleID);

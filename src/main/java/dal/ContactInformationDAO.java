@@ -13,13 +13,18 @@ public class ContactInformationDAO extends DBContext{
         return new ContactInformation(rs.getInt("ContactInformationID"), rs.getString("Address"), rs.getString("PhoneNumber"));
     }
 
-    public int addContact(ContactInformation ci){
-        try{
-            PreparedStatement ps = connection.prepareStatement("insert into ContactInformation (Address, PhoneNumber) values (?,?)");
-            insertStatement(ci.getAddress(), ps, 1, false);
-            insertStatement(ci.getPhoneNumber(), ps, 2, true);
-            return executeUpdate(ps);
-        }catch (SQLException ex){
+    // Add a new contact and return the generated ContactInformationID
+    public int addContact(ContactInformation ci) {
+        try {
+            String sql = "INSERT INTO ContactInformation (Address, PhoneNumber) OUTPUT INSERTED.ContactInformationID VALUES (?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            insertStatement(ci.getAddress(), ps, 1, false); // nvarchar
+            insertStatement(ci.getPhoneNumber(), ps, 2, true); // varchar
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("ContactInformationID");
+            }
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return 0;
@@ -35,15 +40,32 @@ public class ContactInformationDAO extends DBContext{
         }
         return null;
     }
-    public String getContactInformationIDbyAdressAndPhone(String Adress, String phoneNumber){
-        try{
-            PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=? and Address=?");
-            insertStatement(Adress, ps, 2, false);
-            insertStatement(phoneNumber, ps, 1, true);
-            return ((ContactInformation)getObjectBySQL(ps)).getContactInformationID().toString();
-        }catch (SQLException ex){
+
+    public String getContactInformationIDbyAddressAndPhone(String address, String phoneNumber) {
+        try {
+            String sql = "SELECT ContactInformationID FROM ContactInformation WHERE Address = ? AND PhoneNumber = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            insertStatement(address, ps, 1, false);
+            insertStatement(phoneNumber, ps, 2, true);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("ContactInformationID"));
+            }
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return null;
     }
+    public boolean deleteContact(String contactInfoID) {
+        String sql = "DELETE FROM ContactInformation WHERE ContactInformationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, contactInfoID);
+            int rowsAffected = executeUpdate(ps);
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+
 }
