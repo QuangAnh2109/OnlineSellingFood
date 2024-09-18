@@ -71,7 +71,7 @@ public class RegisterAdminServlet extends HttpServlet {
             errorMessages.add("An error occurred: " + e.getMessage());
             e.printStackTrace();
             request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 

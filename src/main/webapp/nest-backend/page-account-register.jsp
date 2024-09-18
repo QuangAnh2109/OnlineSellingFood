@@ -94,7 +94,7 @@
           <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Birth Year</label>
-            <input class="form-control" name="birthYear" placeholder="Year of birth" type="number" min="1900" max="2100" required />
+            <input class="form-control" name="birthYear" placeholder="Year of birth" type="number" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
@@ -106,8 +106,6 @@
           </div>
           <!-- form-group// -->
         </form>
-
-
         <p class="text-center small text-muted mb-15">or sign up with</p>
         <div class="d-flex gap-2 mb-4">
           <a href="#" class="w-50 btn btn-light font-sm">
