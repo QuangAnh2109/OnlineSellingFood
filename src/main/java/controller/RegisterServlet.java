@@ -81,10 +81,21 @@ public class RegisterServlet extends HttpServlet {
             }
 
             // Retrieve the newly inserted ContactInformationID
-            String contactInfoID = contactInfoDAO.getContactInformationIDbyAddressAndPhone(address, phoneNumber);
+            String contactInfoIDStr = contactInfoDAO.getContactInformationIDbyAddressAndPhone(address, phoneNumber);
 
-            if (contactInfoID == null) {
+            if (contactInfoIDStr == null) {
                 errorMessages.add("No contact information found with the provided phone number and address.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
+
+            // Convert ContactInformationID to int
+            int contactInfoID;
+            try {
+                contactInfoID = Integer.parseInt(contactInfoIDStr);
+            } catch (NumberFormatException e) {
+                errorMessages.add("Invalid ContactInformationID format.");
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
                 return;
@@ -96,11 +107,23 @@ public class RegisterServlet extends HttpServlet {
             newAccount.setLastName(lastName);
             newAccount.setEmail(email);
             newAccount.setBirthYear(birthYearStr);
-            newAccount.setContactInformationID(contactInfoID);
+            newAccount.setContactInformationID(contactInfoIDStr); // still as String for Account
             newAccount.setRoleID("6"); // Default RoleID
             newAccount.setStatusID("1"); // Default StatusID
             newAccount.setPassword(password);
             newAccount.setTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)); // Current time
+
+            // Debugging information
+            System.out.println("Inserting Account with details: ");
+            System.out.println("FirstName: " + firstName);
+            System.out.println("LastName: " + lastName);
+            System.out.println("Email: " + email);
+            System.out.println("BirthYear: " + birthYearStr);
+            System.out.println("ContactInformationID: " + contactInfoIDStr);
+            System.out.println("RoleID: " + newAccount.getRoleID());
+            System.out.println("StatusID: " + newAccount.getStatusID());
+            System.out.println("Password: [HIDDEN]");
+            System.out.println("Time: " + newAccount.getTime());
 
             // Add the account to the database
             int accountResult = accountDAO.addAccount(newAccount);

@@ -6,6 +6,8 @@ import model.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class AccountDAO extends DBContext{
     @Override
@@ -70,20 +72,32 @@ public class AccountDAO extends DBContext{
 
     public int addAccount(Account acc) {
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) VALUES (?,?,?,?,?,?,?,CAST(? AS DateTime),?)");
-            ps.setInt(1, acc.getRoleID());
+            String sql = "INSERT INTO Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, acc.getRoleID()); // Convert RoleID to int
             ps.setString(2, acc.getEmail());
             ps.setString(3, acc.getFirstName());
             ps.setString(4, acc.getLastName());
-            ps.setInt(5, acc.getBirthYear());
-            ps.setInt(6, acc.getContactInformationID());
+            ps.setInt(5, acc.getBirthYear()); // Convert BirthYear to int
+            ps.setInt(6, acc.getContactInformationID()); // Convert ContactInformationID to int
             ps.setString(7, acc.getPassword());
-            ps.setString(8, acc.getTime());
-            ps.setInt(9, acc.getStatusID());
+
+            // Ensure acc.getTime() is in the correct format
+            LocalDateTime localDateTime = LocalDateTime.parse(acc.getTime()); // Ensure acc.getTime() is in 'yyyy-MM-ddTHH:mm:ss' format
+            ps.setTimestamp(8, Timestamp.valueOf(localDateTime));
+
+            ps.setInt(9, acc.getStatusID()); // Convert StatusID to int
 
             return ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("SQL Error: " + ex.getMessage());
+            ex.printStackTrace();
+        } catch (NumberFormatException ex) {
+            System.out.println("Number Format Error: " + ex.getMessage());
+            ex.printStackTrace();
+        } catch (IllegalArgumentException ex) {
+            System.out.println("Illegal Argument Error: " + ex.getMessage());
             ex.printStackTrace();
         }
         return 0;

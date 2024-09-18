@@ -56,10 +56,10 @@ public class ContactInformationDAO extends DBContext{
         }
         return null;
     }
-    public boolean deleteContact(String contactInfoID) {
+    public boolean deleteContact(int contactInfoID) {
         String sql = "DELETE FROM ContactInformation WHERE ContactInformationID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, contactInfoID);
+            ps.setInt(1, contactInfoID);
             int rowsAffected = executeUpdate(ps);
             return rowsAffected > 0;
         } catch (SQLException ex) {
