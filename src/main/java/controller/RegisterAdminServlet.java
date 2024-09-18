@@ -29,7 +29,6 @@ public class RegisterAdminServlet extends HttpServlet {
             throws ServletException, IOException {
         List<String> errorMessages = new ArrayList<>();
 
-        // Lấy dữ liệu từ form
         String roleID = request.getParameter("roleID");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -37,11 +36,11 @@ public class RegisterAdminServlet extends HttpServlet {
         String contactInformationID = request.getParameter("contactInformationID");
         String birthYear = request.getParameter("birthYear");
 
-        // Tạo dãy ký tự ngẫu nhiên cho password và time
+        //get random password
         String password = generateRandomPassword();
-        String time = java.time.LocalDateTime.now().toString(); // Sử dụng thời gian hiện tại làm time
+        String time = java.time.LocalDateTime.now().toString();
 
-        // Tạo đối tượng Account
+
         Account account = new Account();
         try {
             account.setRoleID(roleID);
@@ -52,31 +51,31 @@ public class RegisterAdminServlet extends HttpServlet {
             account.setContactInformationID(contactInformationID);
             account.setPassword(password);
             account.setTime(time);
-            account.setStatusID("3"); // statusID là 3
+            account.setStatusID("3"); // status is request to change password (statusID=3)
 
-            // Sử dụng DAO để thêm tài khoản vào cơ sở dữ liệu
+
             AccountDAO dao = new AccountDAO();
             int result = dao.addAccount(account);
 
             if (result > 0) {
-                // Đăng ký thành công
-                response.sendRedirect("success.jsp"); // Redirect đến trang thành công
+
+                response.sendRedirect("success.jsp");
             } else {
-                // Đăng ký không thành công
+
                 errorMessages.add("An unknown error occurred during registration.");
                 request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("/error.jsp").forward(request, response); // Forward đến trang lỗi
+                request.getRequestDispatcher("/error.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
             errorMessages.add("An error occurred: " + e.getMessage());
             e.printStackTrace();
             request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("/error.jsp").forward(request, response); // Forward đến trang lỗi
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 
-    // Phương thức để tạo mật khẩu ngẫu nhiên
+    // function to generate random password
     private String generateRandomPassword() {
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[10];

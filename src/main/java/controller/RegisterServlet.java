@@ -79,7 +79,6 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        // Create and populate Account object
         Account newAccount = new Account();
         try {
             newAccount.setFirstName(firstName);
@@ -89,7 +88,7 @@ public class RegisterServlet extends HttpServlet {
             newAccount.setContactInformationID(contactInfoStr);
             newAccount.setRoleID("6"); // Default RoleID
             newAccount.setStatusID("1"); // Default StatusID
-            newAccount.setPassword(generateRandomPassword()); // Generate random password
+            newAccount.setPassword(password);
             newAccount.setTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))); // Current time
 
             // Add account to the database
@@ -97,7 +96,7 @@ public class RegisterServlet extends HttpServlet {
             int result = accountDAO.addAccount(newAccount);
 
             if (result > 0) {
-                response.sendRedirect(request.getContextPath() + "/success.jsp");
+                response.sendRedirect("success.jsp");
             } else {
                 errorMessages.add("Registration failed. Please try again.");
                 request.setAttribute("errorMessages", errorMessages);
@@ -111,11 +110,4 @@ public class RegisterServlet extends HttpServlet {
         }
     }
 
-    // Generate a random password
-    private String generateRandomPassword() {
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[10];
-        random.nextBytes(bytes);
-        return Base64.getEncoder().encodeToString(bytes);
-    }
 }
