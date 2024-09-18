@@ -70,7 +70,7 @@ public class AccountDAO extends DBContext{
 
     public int addAccount(Account acc) {
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) VALUES (?,?,?,?,?,?,?,CAST(? AS DateTime),?)");
             ps.setInt(1, acc.getRoleID());
             ps.setString(2, acc.getEmail());
             ps.setString(3, acc.getFirstName());
