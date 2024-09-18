@@ -75,19 +75,19 @@ public class AccountDAO extends DBContext{
             String sql = "INSERT INTO Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            ps.setInt(1, acc.getRoleID()); // Convert RoleID to int
+            ps.setInt(1, acc.getRoleID());
             ps.setString(2, acc.getEmail());
             ps.setString(3, acc.getFirstName());
             ps.setString(4, acc.getLastName());
-            ps.setInt(5, acc.getBirthYear()); // Convert BirthYear to int
-            ps.setInt(6, acc.getContactInformationID()); // Convert ContactInformationID to int
+            ps.setInt(5, acc.getBirthYear());
+            ps.setInt(6, acc.getContactInformationID());
             ps.setString(7, acc.getPassword());
 
             // Ensure acc.getTime() is in the correct format
             LocalDateTime localDateTime = LocalDateTime.parse(acc.getTime()); // Ensure acc.getTime() is in 'yyyy-MM-ddTHH:mm:ss' format
             ps.setTimestamp(8, Timestamp.valueOf(localDateTime));
 
-            ps.setInt(9, acc.getStatusID()); // Convert StatusID to int
+            ps.setInt(9, acc.getStatusID()); 
 
             return ps.executeUpdate();
         } catch (SQLException ex) {
