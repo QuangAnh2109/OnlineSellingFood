@@ -126,4 +126,24 @@ public class Account {
         Validate.checkInt(number,1,Integer.MAX_VALUE);
         this.statusID = number;
     }
+
+    public void setAccountID(Integer accountID) {
+        this.accountID = accountID;
+    }
+
+    public void setRoleID(Integer roleID) {
+        this.roleID = roleID;
+    }
+
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public void setContactInformationID(Integer contactInformationID) {
+        this.contactInformationID = contactInformationID;
+    }
+
+    public void setStatusID(Integer statusID) {
+        this.statusID = statusID;
+    }
 }
