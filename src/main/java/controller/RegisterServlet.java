@@ -77,7 +77,6 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             errorMessages.add("An error occurred during registration. Please try again.");
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
