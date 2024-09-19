@@ -12,7 +12,18 @@ public class ContactInformationDAO extends DBContext{
     protected Object getObjectByRs(ResultSet rs) throws Exception {
         return new ContactInformation(rs.getInt("ContactInformationID"), rs.getString("Address"), rs.getString("PhoneNumber"));
     }
+    public void updateContactInformation(ContactInformation contact){
+        try {
+            String sql = "update ContactInformation set Address=?, PhoneNumber=? where ContactInformationID=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, contact.getAddress());
+            ps.setString(2, contact.getPhoneNumber());
+            ps.setInt(3, contact.getContactInformationID());
+            ps.executeUpdate();
+        }catch (Exception e){
 
+        }
+    }
     // Add a new contact and return the generated ContactInformationID
     public int addContact(ContactInformation ci) {
         try {
@@ -68,4 +79,8 @@ public class ContactInformationDAO extends DBContext{
         return false;
     }
 
+    public static void main(String[] args) {
+        ContactInformationDAO dao = new ContactInformationDAO();
+        dao.updateContactInformation(new ContactInformation(3,"HaNoi","123456"));
+    }
 }

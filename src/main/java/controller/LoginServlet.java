@@ -51,7 +51,9 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(cr);
 
         AccountDAO dao=new AccountDAO();
+        ContactInformationDAO cdao=new ContactInformationDAO();
         Account a=dao.getAccountByEmailPassword(email, password);
+        ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
         if(a==null){
             errorMessages.add("Username or Password invalid!!");
             request.setAttribute("errorMessages", errorMessages);
@@ -59,6 +61,7 @@ public class LoginServlet extends HttpServlet {
         }else{
             HttpSession session = request.getSession();
             session.setAttribute("account", a);
+            session.setAttribute("contactInformation", ci);
             response.sendRedirect(request.getContextPath() + "/nest-frontend/home-page.jsp");
         }
     }
