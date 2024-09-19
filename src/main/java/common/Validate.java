@@ -1,7 +1,4 @@
-package Common;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+package common;
 
 public class Validate {
     //check string not null
