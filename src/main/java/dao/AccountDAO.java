@@ -72,9 +72,9 @@ public class AccountDAO extends DBContext{
         try{
             PreparedStatement ps = connection.prepareStatement("insert into Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) values (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, acc.getRoleID());
-            ps.setString(2, acc.getEmail());
-            ps.setNString(3, acc.getFirstName());
-            ps.setNString(4, acc.getLastName());
+            ps.setString(2, InsertPrepareStatement.fixSqlInjection(acc.getEmail()));
+            ps.setNString(3, InsertPrepareStatement.fixSqlInjection(acc.getFirstName()));
+            ps.setNString(4, InsertPrepareStatement.fixSqlInjection(acc.getLastName()));
             ps.setInt(5, acc.getBirthYear());
             ps.setInt(6, acc.getContactInformationID());
             ps.setString(7, acc.getPassword());
