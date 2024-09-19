@@ -145,7 +145,7 @@
                     <li><a href="page-account.html"><i class="fi fi-rs-label mr-10"></i>My Voucher</a></li>
                     <li><a href="shop-wishlist.html"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a></li>
                     <li><a href="page-account.html"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a></li>
-                    <li><a href="page-login.html"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
+                    <li><a href="${pageContext.request.contextPath}/logout"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
                   </ul>
                 </div>
               </div>
@@ -676,7 +676,7 @@
                     <a class="nav-link" id="change-password-tab" data-bs-toggle="tab" href="#change-password" role="tab" aria-controls="change-password" aria-selected="false"><i class="fi-rs-user mr-10"></i>Change password</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="page-login.html"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/logout"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                   </li>
                 </ul>
               </div>
@@ -855,18 +855,21 @@
                     </div>
                     <div class="card-body">
                       <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
-                      <form method="post" name="enq">
+                      <form  action="${pageContext.request.contextPath}/changepass" name="enq">
                         <div class="form-group col-md-12">
-                          <label>Current Password <span class="required">*</span></label>
-                          <input required="" class="form-control" name="password" type="password" />
+                          <input  type="hidden" required="" class="form-control" name="email" value="${account.email}"  />
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label>Old Password <span class="required">*</span></label>
+                          <input required="" class="form-control" name="oldPassword" type="password" />
                         </div>
                         <div class="form-group col-md-12">
                           <label>New Password <span class="required">*</span></label>
-                          <input required="" class="form-control" name="npassword" type="password" />
+                          <input required="" class="form-control" name="newPassword" type="password" />
                         </div>
                         <div class="form-group col-md-12">
                           <label>Confirm Password <span class="required">*</span></label>
-                          <input required="" class="form-control" name="cpassword" type="password" />
+                          <input required="" class="form-control" name="confirmPassword" type="password" />
                         </div>
 
                           <div class="col-md-12">
