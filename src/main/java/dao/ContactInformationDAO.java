@@ -17,8 +17,8 @@ public class ContactInformationDAO extends DBContext{
     public ResultSet addContact(ContactInformation ci){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into ContactInformation (Address, PhoneNumber) values (?,?)");
-            ps.setNString(1, InsertPrepareStatement.fixSqlInjection(ci.getAddress()));
-            ps.setString(2, InsertPrepareStatement.fixSqlInjection(ci.getPhoneNumber()));
+            ps.setNString(1, ci.getAddress());
+            ps.setString(2, ci.getPhoneNumber());
             return executeUpdate(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
@@ -29,8 +29,8 @@ public class ContactInformationDAO extends DBContext{
     public ResultSet updateContact(ContactInformation ci){
         try{
             PreparedStatement ps = connection.prepareStatement("update ContactInformation set Address=?, PhoneNumber=? where ContactInformationID=?");
-            ps.setNString(1, InsertPrepareStatement.fixSqlInjection(ci.getAddress()));
-            ps.setString(2, InsertPrepareStatement.fixSqlInjection(ci.getPhoneNumber()));
+            ps.setNString(1, ci.getAddress());
+            ps.setString(2, ci.getPhoneNumber());
             ps.setInt(3, ci.getContactInformationID());
             return executeUpdate(ps);
         }catch (SQLException ex){
@@ -52,8 +52,8 @@ public class ContactInformationDAO extends DBContext{
     public ContactInformation getContactInformationByAddressAndPhone(String Adress, String phoneNumber){
         try{
             PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=? and Address=?");
-            ps.setNString(2, InsertPrepareStatement.fixSqlInjection(Adress));
-            ps.setString(1, InsertPrepareStatement.fixSqlInjection(phoneNumber));
+            ps.setNString(2, Adress);
+            ps.setString(1, phoneNumber);
             return (ContactInformation)getObject(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());

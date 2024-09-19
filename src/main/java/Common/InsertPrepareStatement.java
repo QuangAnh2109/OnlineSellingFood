@@ -26,8 +26,4 @@ public class InsertPrepareStatement {
         if(ob==null) ps.setNull(index,Types.TIMESTAMP);
         else ps.setTimestamp(index, Timestamp.valueOf(ob));
     }
-
-    public static String fixSqlInjection(String str){
-        return str.replaceAll("'","''");
-    }
 }
