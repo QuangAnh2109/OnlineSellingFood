@@ -1,4 +1,4 @@
-package dao;
+package dal;
 
 import common.Encrypt;
 import model.Otp;

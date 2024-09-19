@@ -1,8 +1,7 @@
-package dao;
+package dal;
 
 import common.Encrypt;
 import model.Account;
-import model.PasswordReset;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -10,8 +9,6 @@ import java.time.LocalDateTime;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
 
 public class AccountDAO extends DBContext{
     @Override
