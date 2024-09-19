@@ -1,7 +1,5 @@
 package model;
 
-import controller.Validate;
-
 public class Role {
     private int roleID;
     private String name;

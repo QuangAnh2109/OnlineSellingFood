@@ -1,7 +1,5 @@
 package model;
 
-import controller.Validate;
-
 public class EventType {
     private int evenTypeID;
     private String detail;

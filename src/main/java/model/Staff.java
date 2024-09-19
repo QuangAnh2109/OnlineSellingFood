@@ -1,7 +1,5 @@
 package model;
 
-import controller.Validate;
-
 public class Staff {
     private int staffID, accountID, salary, warehouseID;
 

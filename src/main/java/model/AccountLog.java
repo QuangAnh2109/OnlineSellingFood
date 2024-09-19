@@ -1,9 +1,5 @@
 package model;
 
-import controller.Validate;
-
-import java.time.LocalDateTime;
-
 public class AccountLog {
     private int logID, eventTypeID;
     private Integer accountID;

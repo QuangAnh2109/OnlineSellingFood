@@ -1,7 +1,5 @@
 package model;
 
-import controller.Validate;
-
 public class ContactInformation {
     private int contactInformationID;
     private String address, phoneNumber; //len between 6 and 11

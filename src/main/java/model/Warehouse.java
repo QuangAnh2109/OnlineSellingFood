@@ -1,7 +1,5 @@
 package model;
 
-import controller.Validate;
-
 public class Warehouse {
     private int warehouseID, contactInformationID, statusID;
     private String name;

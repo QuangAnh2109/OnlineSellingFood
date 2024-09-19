@@ -1,7 +1,5 @@
 package model;
 
-import controller.Validate;
-
 public class Customer {
     private int customerID, accountID, point, level;
 
