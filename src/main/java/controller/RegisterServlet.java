@@ -139,7 +139,7 @@ public class RegisterServlet extends HttpServlet {
             System.out.println("Time: " + newAccount.getTime());
 
             ResultSet accountResult = accountDAO.addAccount(newAccount);
-            if (accountResult.wasNull()) {
+            if (accountResult.next()) {
                 response.sendRedirect("success.jsp");
             } else {
                 // Rollback the contact information in case of failure
