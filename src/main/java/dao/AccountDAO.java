@@ -1,8 +1,10 @@
 package dao;
 
+import Common.Encrypt;
 import Common.InsertPrepareStatement;
 import model.Account;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -13,11 +15,11 @@ public class AccountDAO extends DBContext{
     }
 
     //login check
-    public Account getAccountByEmailPassword(String email, String password){
+    public Account getAccountByEmailPassword(String email, String password) throws NoSuchAlgorithmException {
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Account where Email=? and Password=?");
             ps.setString(1, email);
-            ps.setString(2,password);
+            ps.setString(2,Encrypt.toHexString(Encrypt.getSHA(password)));
 
             return (Account)getObject(ps);
         }catch (SQLException ex){
@@ -56,10 +58,10 @@ public class AccountDAO extends DBContext{
         return null;
     }
 
-    public ResultSet updateAccountPassword(int accountID, String password){
+    public ResultSet updateAccountPassword(int accountID, String password) throws NoSuchAlgorithmException {
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, password);
+            ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(password)));
             ps.setInt(2, accountID);
             return executeUpdate(ps);
         }catch (SQLException ex){
@@ -68,7 +70,7 @@ public class AccountDAO extends DBContext{
         return null;
     }
 
-    public ResultSet addAccount(Account acc){
+    public ResultSet addAccount(Account acc) throws NoSuchAlgorithmException {
         try{
             PreparedStatement ps = connection.prepareStatement("insert into Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) values (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, acc.getRoleID());
@@ -77,7 +79,7 @@ public class AccountDAO extends DBContext{
             ps.setNString(4, acc.getLastName());
             ps.setInt(5, acc.getBirthYear());
             ps.setInt(6, acc.getContactInformationID());
-            ps.setString(7, acc.getPassword());
+            ps.setString(7, Encrypt.toHexString(Encrypt.getSHA(acc.getPassword())));
             ps.setTimestamp(8, Timestamp.valueOf(acc.getTime()));
             ps.setInt(9, acc.getStatusID());
             return executeUpdate(ps);
