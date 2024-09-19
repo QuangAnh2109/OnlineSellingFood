@@ -1,95 +1,150 @@
 package controller;
 
-import dal.AccountDAO;
-import model.Account;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import model.Account;
+import dal.AccountDAO;
 import dal.ContactInformationDAO;
 import model.ContactInformation;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "RegisterAdminServlet", urlPatterns = {"/register-admin"})
 public class RegisterAdminServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect(request.getContextPath() + "/nest-backend/page-account-register.jsp");
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> errorMessages = new ArrayList<>();
 
-        String roleID = request.getParameter("roleID");
+        // Get form parameters
+        String roleID = request.getParameter("roleID");  // RoleID chosen by admin
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
-        String contactInformationID = request.getParameter("contactInformationID");
-        String birthYear = request.getParameter("birthYear");
+        String birthYearStr = request.getParameter("birthYear");
         String phoneNumber = request.getParameter("phone");
         String address = request.getParameter("address");
-        //get random password
+
+        // Generate random password
         String password = generateRandomPassword();
-        ContactInformationDAO contactinfo = new ContactInformationDAO();
-//        ContactInformation ci = new ContactInformation();
-//        try {
-//            ci.setAddress(address);
-//            ci.setPhoneNumber(phoneNumber);
-//            contactinfo.addContact(ci);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            errorMessages.add("AN error occurred when trying to add new contact information");
-//            request.setAttribute("errorMessages", errorMessages);
-//            request.getRequestDispatcher("error.jsp").forward(request, response);
-//        }
-        String contractinfoID = contactinfo.getContactInformationIDbyAddressAndPhone(address,phoneNumber);
-        Account account = new Account();
+
+        // Validate input lengths
+        if (address.length() < 5 || address.length() > 200) {
+            errorMessages.add("Address must be between 5 and 200 characters.");
+        }
+        if (phoneNumber.length() < 6 || phoneNumber.length() > 11) {
+            errorMessages.add("Phone number must be between 6 and 11 characters.");
+        }
+
+        ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
+        AccountDAO accountDAO = new AccountDAO();
+
+        // Check if contact information already exists
+        String existingContactID = contactInfoDAO.getContactInformationIDbyAddressAndPhone(address, phoneNumber);
+
+        if (existingContactID != null) {
+            errorMessages.add("Contact information already exists with the provided phone number and address.");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return; // Exit the method to prevent further processing
+        }
+
         try {
-            account.setRoleID(roleID);
-            account.setFirstName(firstName);
-            account.setLastName(lastName);
-            account.setEmail(email);
-            account.setBirthYear(birthYear);
-            account.setContactInformationID(contractinfoID);
-            account.setPassword(password);
-            account.setTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            account.setStatusID("3"); // status is request to change password (statusID=3)
+            // Create and add contact information
+            ContactInformation contactInfo = new ContactInformation();
+            contactInfo.setAddress(address);
+            contactInfo.setPhoneNumber(phoneNumber);
 
+            int contactInfoResult = contactInfoDAO.addContact(contactInfo);
+            if (contactInfoResult == 0) {
+                errorMessages.add("Failed to add contact information.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
 
-            AccountDAO dao = new AccountDAO();
-            int result = dao.addAccount(account);
+            // Retrieve the newly inserted ContactInformationID
+            String contactInfoIDStr = contactInfoDAO.getContactInformationIDbyAddressAndPhone(address, phoneNumber);
 
-            if (result > 0) {
+            if (contactInfoIDStr == null) {
+                errorMessages.add("No contact information found with the provided phone number and address.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
 
+            // Convert ContactInformationID to int
+            int contactInfoID;
+            try {
+                contactInfoID = Integer.parseInt(contactInfoIDStr);
+            } catch (NumberFormatException e) {
+                errorMessages.add("Invalid ContactInformationID format.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
+
+            // Create the new Account
+            Account newAccount = new Account();
+            newAccount.setFirstName(firstName);
+            newAccount.setLastName(lastName);
+            newAccount.setEmail(email);
+            newAccount.setBirthYear(birthYearStr);
+            newAccount.setContactInformationID(contactInfoIDStr); // Still as String for Account
+            newAccount.setRoleID(roleID);  // RoleID chosen by admin
+            newAccount.setStatusID("3"); // Default status for requiring password change (StatusID = 3)
+            newAccount.setPassword("123456789");//default password for new employee is 123456789
+            newAccount.setTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)); // Current time
+
+            // Debugging information
+            System.out.println("Inserting Account with details: ");
+            System.out.println("FirstName: " + firstName);
+            System.out.println("LastName: " + lastName);
+            System.out.println("Email: " + email);
+            System.out.println("BirthYear: " + birthYearStr);
+            System.out.println("ContactInformationID: " + contactInfoIDStr);
+            System.out.println("RoleID: " + newAccount.getRoleID());
+            System.out.println("StatusID: " + newAccount.getStatusID());
+            System.out.println("Password: [HIDDEN]");
+            System.out.println("Time: " + newAccount.getTime());
+
+            // Add account to the database
+            int accountResult = accountDAO.addAccount(newAccount);
+
+            if (accountResult > 0) {
                 response.sendRedirect("success.jsp");
             } else {
-
-                errorMessages.add("An unknown error occurred during registration.");
+                // Rollback the contact information in case of failure
+                contactInfoDAO.deleteContact(contactInfoID);
+                errorMessages.add("Registration failed. Please try again.");
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
-
         } catch (Exception e) {
-            errorMessages.add("An error occurred: " + e.getMessage());
+            // Log the actual exception message to the console and display on the error page
             e.printStackTrace();
+            errorMessages.add("An error occurred during registration: " + e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 
-    // function to generate random password
+    // Function to generate a random password
     private String generateRandomPassword() {
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[10];
