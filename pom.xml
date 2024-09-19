@@ -35,7 +35,13 @@
         <artifactId>junit-jupiter-engine</artifactId>
         <version>${junit.version}</version>
         <scope>test</scope>
-      </dependency>  </dependencies>
+      </dependency>
+      <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>9.4.1.jre8</version>
+  </dependency>
+  </dependencies>
 
   <build>
     <plugins>
