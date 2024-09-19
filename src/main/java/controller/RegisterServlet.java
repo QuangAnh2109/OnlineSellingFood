@@ -44,6 +44,13 @@ public class RegisterServlet extends HttpServlet {
         if (phoneNumber.length() < 6 || phoneNumber.length() > 11) {
             errorMessages.add("Phone number must be between 6 and 11 characters.");
         }
+        // Validate password length
+        if (password.length() <= 10) {
+            errorMessages.add("Password must be more than 10 characters.");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
 
         ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
         AccountDAO accountDAO = new AccountDAO();
@@ -124,19 +131,19 @@ public class RegisterServlet extends HttpServlet {
             System.out.println("StatusID: " + newAccount.getStatusID());
             System.out.println("Password: [HIDDEN]");
             System.out.println("Time: " + newAccount.getTime());
-
-            // Add the account to the database
-            int accountResult = accountDAO.addAccount(newAccount);
-            if (accountResult > 0) {
-                response.sendRedirect("success.jsp");
-            } else {
-                // Rollback the contact information in case of failure
-                contactInfoDAO.deleteContact(contactInfoID);
-                errorMessages.add("Registration failed. Please try again.");
-                request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+            int accountResult=0;
+            if(errorMessages.size()==0) {
+                accountResult = accountDAO.addAccount(newAccount);
+                if (accountResult > 0) {
+                    response.sendRedirect("success.jsp");
+                } else {
+                    // Rollback the contact information in case of failure
+                    contactInfoDAO.deleteContact(contactInfoID);
+                    errorMessages.add("Registration failed. Please try again.");
+                    request.setAttribute("errorMessages", errorMessages);
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
             }
-
         } catch (Exception e) {
             // Log the actual exception message to the console and display on the error page
             e.printStackTrace();
