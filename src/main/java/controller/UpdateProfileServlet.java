@@ -53,8 +53,7 @@ public class UpdateProfileServlet extends HttpServlet {
             try {
                 ResultSet rs = contactDAO.addContact(contact);
                 rs.next();
-                contact.setContactInformationID(rs.getInt("ContactInformationID"));
-                contactDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
+                contact.setContactInformationID(rs.getInt(1));
             } catch (SQLException e) {
                 e.printStackTrace();
                 request.getRequestDispatcher("error.jsp").forward(request, response);
@@ -62,8 +61,9 @@ public class UpdateProfileServlet extends HttpServlet {
         }
         int status = account.getStatusID();
         if(!email.equals(account.getEmail())) status = 2;
-        Account account1 = new Account(account.getRoleID(), Integer.parseInt(birthYear), contact.getContactInformationID(), status, email, fName, lName, account.getContactInformationID());
+        Account account1 = new Account(account.getRoleID(), Integer.parseInt(birthYear), contact.getContactInformationID(), status, email, fName, lName, account.getAccountID());
         accountDAO.updateAccountInformation(account1);
+        contactDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
         request.getSession().removeAttribute("account");
         request.getSession().removeAttribute("contactInformation");
         request.getSession().setAttribute("account", account1);
