@@ -53,12 +53,13 @@ public class LoginServlet extends HttpServlet {
         AccountDAO dao=new AccountDAO();
         ContactInformationDAO cdao=new ContactInformationDAO();
         Account a=dao.getAccountByEmailPassword(email, password);
-        ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
+
         if(a==null){
             errorMessages.add("Username or Password invalid!!");
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }else{
+            ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
             HttpSession session = request.getSession();
             session.setAttribute("account", a);
             session.setAttribute("contactInformation", ci);
