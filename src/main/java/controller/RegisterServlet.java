@@ -45,8 +45,8 @@ public class RegisterServlet extends HttpServlet {
             errorMessages.add("Phone number must be between 6 and 11 characters.");
         }
         // Validate password length
-        if (password.length() <= 10) {
-            errorMessages.add("Password must be more than 10 characters.");
+        if (password.length() < 8) {
+            errorMessages.add("Password must be more than 8 characters.");
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
