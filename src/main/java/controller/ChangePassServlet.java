@@ -1,5 +1,6 @@
 package controller;
 
+import common.Encrypt;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +14,7 @@ import dal.ContactInformationDAO;
 import model.ContactInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,7 +49,12 @@ public class ChangePassServlet extends HttpServlet {
         String cp = request.getParameter("confirmPassword");
         AccountDAO dao = new AccountDAO();
         Account account = (Account) request.getSession().getAttribute("account");
-        Account a = dao.getAccountByEmailPassword(account.getEmail(), op);
+        Account a = null;
+        try {
+            a = dao.getAccountByEmailPassword(account.getEmail(), op);
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println(ex.getMessage());
+        }
         if (a == null) {
             errorMessages.add("Old password is incorect!!");
             request.setAttribute("errorMessages", errorMessages);
@@ -58,15 +65,20 @@ public class ChangePassServlet extends HttpServlet {
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             } else {
-                if (op.equals(np)) {
-                    errorMessages.add("New password duplicate old password!");
-                    request.setAttribute("errorMessages", errorMessages);
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
-                } else {
-
-                    dao.updateAccountPassword(account.getAccountID(), np);
-
-                    response.sendRedirect(request.getContextPath() + "/nest-frontend/page-login.jsp");
+                try {
+                    if (Encrypt.toHexString(Encrypt.getSHA(op)).equals(np)) {
+                        errorMessages.add("New password duplicate old password!");
+                        request.setAttribute("errorMessages", errorMessages);
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    } else {
+                        dao.updateAccountPassword(account.getAccountID(), np);
+                        HttpSession session = request.getSession();
+                        session.removeAttribute("account");
+                        session.removeAttribute("contactInformation");
+                        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-login.jsp");
+                    }
+                } catch (NoSuchAlgorithmException ex) {
+                    System.out.println(ex.getMessage());
                 }
 
             }

@@ -13,6 +13,11 @@ public class ContactInformation {
         this.phoneNumber = phoneNumber;
     }
 
+    public ContactInformation(String address, String phoneNumber) {
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
     public int getContactInformationID() {
         return contactInformationID;
     }

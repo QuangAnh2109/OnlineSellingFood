@@ -11,6 +11,8 @@ import dal.AccountDAO;
 import dal.ContactInformationDAO;
 import model.ContactInformation;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class UpdateProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AccountDAO accountDAO = new AccountDAO();
         Account a = (Account) request.getSession().getAttribute("account");
-        Account b=accountDAO.getAccountByAccountID(a.getAccountID());
+        Account b = accountDAO.getAccountByAccountID(a.getAccountID());
         request.setAttribute("account", b);
         //request.getRequestDispatcher(request.getContextPath() + "/nest-frontend/page-account.jsp").forward(request, response);
         response.sendRedirect(request.getContextPath() + "/nest-frontend/page-account.jsp");
@@ -39,23 +41,33 @@ public class UpdateProfileServlet extends HttpServlet {
         String birthYear = request.getParameter("birthYear");
 
         AccountDAO accountDAO = new AccountDAO();
+        HttpSession session = request.getSession();
         ContactInformationDAO contactDAO = new ContactInformationDAO();
-        Account account = (Account) request.getSession().getAttribute("account");
+        Account account = (Account) session.getAttribute("account");
 
-        ContactInformation contactInformation = (ContactInformation) request.getSession().getAttribute("contactInformation");
-        try {
-            contactInformation.setAddress(address);
-            contactInformation.setPhoneNumber(phone);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        //find contact information in database
+        ContactInformation contact = contactDAO.getContactInformationByAddressAndPhone(address, phone);
+        //if contact don't have in database, add new contact to database
+        if (contact == null) {
+            contact = new ContactInformation(address, phone);
+            try {
+                ResultSet rs = contactDAO.addContact(contact);
+                rs.next();
+                contact.setContactInformationID(rs.getInt("ContactInformationID"));
+                contactDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
         }
-        Account account1 = new Account(account.getAccountID(),account.getRoleID(),Integer.parseInt(birthYear),account.getContactInformationID(),account.getStatusID(),account.getEmail(),fName,lName,account.getTime());
-        contactDAO.updateContactInformation(contactInformation);
+        int status = account.getStatusID();
+        if(!email.equals(account.getEmail())) status = 2;
+        Account account1 = new Account(account.getRoleID(), Integer.parseInt(birthYear), contact.getContactInformationID(), status, email, fName, lName, account.getContactInformationID());
         accountDAO.updateAccountInformation(account1);
         request.getSession().removeAttribute("account");
         request.getSession().removeAttribute("contactInformation");
         request.getSession().setAttribute("account", account1);
-        request.getSession().setAttribute("contactInformation", contactInformation);
+        request.getSession().setAttribute("contactInformation", contact);
 
         doGet(request, response);
 

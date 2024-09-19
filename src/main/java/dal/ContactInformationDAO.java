@@ -26,12 +26,10 @@ public class ContactInformationDAO extends DBContext{
         return null;
     }
 
-    public ResultSet updateContact(ContactInformation ci){
+    public ResultSet deleteContact(int contactInformationID){
         try{
-            PreparedStatement ps = connection.prepareStatement("update ContactInformation set Address=?, PhoneNumber=? where ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
-            ps.setNString(1, ci.getAddress());
-            ps.setString(2, ci.getPhoneNumber());
-            ps.setInt(3, ci.getContactInformationID());
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM ContactInformation WHERE ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, contactInformationID);
             return executeUpdate(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());

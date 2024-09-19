@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import dal.ContactInformationDAO;
 import model.ContactInformation;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -52,7 +53,12 @@ public class LoginServlet extends HttpServlet {
 
         AccountDAO dao=new AccountDAO();
         ContactInformationDAO cdao=new ContactInformationDAO();
-        Account a=dao.getAccountByEmailPassword(email, password);
+        Account a= null;
+        try {
+            a = dao.getAccountByEmailPassword(email, password);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
+        }
 
         if(a==null){
             errorMessages.add("Username or Password invalid!!");

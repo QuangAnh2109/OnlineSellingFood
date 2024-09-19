@@ -24,6 +24,29 @@ public class Account {
         this.time = time;
     }
 
+    public Account(int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, String password, LocalDateTime time) {
+        this.roleID = roleID;
+        this.birthYear = birthYear;
+        this.contactInformationID = contactInformationID;
+        this.statusID = statusID;
+        this.email = email;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.password = password;
+        this.time = time;
+    }
+
+    public Account(int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, int accountID) {
+        this.roleID = roleID;
+        this.birthYear = birthYear;
+        this.contactInformationID = contactInformationID;
+        this.statusID = statusID;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.accountID = accountID;
+    }
+
     public int getAccountID() {
         return accountID;
     }

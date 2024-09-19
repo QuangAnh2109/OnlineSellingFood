@@ -10,6 +10,8 @@ import dal.AccountDAO;
 import dal.ContactInformationDAO;
 import model.ContactInformation;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.security.SecureRandom;
@@ -40,20 +42,40 @@ public class RegisterAdminServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phone");
         String address = request.getParameter("address");
 
-        // Generate random password
-        String password = generateRandomPassword();
-
         // Validate input lengths
         if (address.length() < 5 || address.length() > 200) {
             errorMessages.add("Address must be between 5 and 200 characters.");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
         if (phoneNumber.length() < 6 || phoneNumber.length() > 11) {
             errorMessages.add("Phone number must be between 6 and 11 characters.");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
 
         ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
         AccountDAO accountDAO = new AccountDAO();
 
+        //find contact information in database
+        ContactInformation contact = contactInfoDAO.getContactInformationByAddressAndPhone(address, phoneNumber);
+        boolean checkContactExist = true;
+        //if contact don't have in database, add new contact to database
+        if (contact == null) {
+            checkContactExist = false;
+            contact = new ContactInformation(address, phoneNumber);
+            try {
+                ResultSet rs = contactInfoDAO.addContact(contact);
+                rs.next();
+                contact.setContactInformationID(rs.getInt("ContactInformationID"));
+            } catch (SQLException e) {
+                errorMessages.add(e.getMessage());
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        }
+
+/*
         // Check if contact information already exists
         String existingContactID = contactInfoDAO.getContactInformationIDbyAddressAndPhone(address, phoneNumber);
 
@@ -99,17 +121,10 @@ public class RegisterAdminServlet extends HttpServlet {
                 return;
             }
 
+*/
+        try{
             // Create the new Account
-            Account newAccount = new Account();
-            newAccount.setFirstName(firstName);
-            newAccount.setLastName(lastName);
-            newAccount.setEmail(email);
-            newAccount.setBirthYear(birthYearStr);
-            newAccount.setContactInformationID(contactInfoIDStr); // Still as String for Account
-            newAccount.setRoleID(roleID);  // RoleID chosen by admin
-            newAccount.setStatusID("3"); // Default status for requiring password change (StatusID = 3)
-            newAccount.setPassword("123456789");//default password for new employee is 123456789
-            newAccount.setTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)); // Current time
+            Account newAccount = new Account(Integer.parseInt(roleID), Integer.parseInt(birthYearStr), contact.getContactInformationID(), 3, email, firstName, lastName, "123456789", LocalDateTime.now());
 
             // Debugging information
             System.out.println("Inserting Account with details: ");
@@ -117,38 +132,28 @@ public class RegisterAdminServlet extends HttpServlet {
             System.out.println("LastName: " + lastName);
             System.out.println("Email: " + email);
             System.out.println("BirthYear: " + birthYearStr);
-            System.out.println("ContactInformationID: " + contactInfoIDStr);
+            System.out.println("ContactInformationID: " + contact.getContactInformationID());
             System.out.println("RoleID: " + newAccount.getRoleID());
             System.out.println("StatusID: " + newAccount.getStatusID());
             System.out.println("Password: [HIDDEN]");
             System.out.println("Time: " + newAccount.getTime());
 
             // Add account to the database
-            int accountResult = accountDAO.addAccount(newAccount);
-
-            if (accountResult > 0) {
+            ResultSet accountResult = accountDAO.addAccount(newAccount);
+            if (!accountResult.wasNull()) {
                 response.sendRedirect("success.jsp");
             } else {
                 // Rollback the contact information in case of failure
-                contactInfoDAO.deleteContact(contactInfoID);
+                if(!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
                 errorMessages.add("Registration failed. Please try again.");
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
         } catch (Exception e) {
             // Log the actual exception message to the console and display on the error page
-            e.printStackTrace();
             errorMessages.add("An error occurred during registration: " + e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-    }
-
-    // Function to generate a random password
-    private String generateRandomPassword() {
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[10];
-        random.nextBytes(bytes);
-        return Base64.getEncoder().encodeToString(bytes);
     }
 }
