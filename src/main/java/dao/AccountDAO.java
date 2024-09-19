@@ -1,7 +1,6 @@
 package dao;
 
-import Common.Encrypt;
-import Common.InsertPrepareStatement;
+import common.Encrypt;
 import model.Account;
 
 import java.security.NoSuchAlgorithmException;

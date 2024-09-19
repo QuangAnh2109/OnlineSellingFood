@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Common.InsertPrepareStatement;
 import model.ContactInformation;
 
 public class ContactInformationDAO extends DBContext{

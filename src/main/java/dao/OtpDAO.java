@@ -1,7 +1,6 @@
 package dao;
 
-import Common.Encrypt;
-import model.Account;
+import common.Encrypt;
 import model.Otp;
 
 import java.security.NoSuchAlgorithmException;
