@@ -38,7 +38,7 @@ public class CustomerDAO extends DBContext{
     public ResultSet updateCustomer(Customer customer){
         try{
             PreparedStatement ps = connection.prepareStatement("update Customer set Point=?, Level=? where CustomerID=?", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(3, customer.getAccountID());
+            ps.setInt(3, customer.getCustomerID());
             ps.setInt(1, customer.getPoint());
             ps.setInt(2, customer.getLevel());
             return executeUpdate(ps);
