@@ -1,7 +1,6 @@
 package dal;
 
 import model.Role;
-import model.Status;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

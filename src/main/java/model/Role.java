@@ -3,34 +3,30 @@ package model;
 import controller.Validate;
 
 public class Role {
-    private Integer roleID;
+    private int roleID;
     private String name;
 
     public Role() {
     }
 
-    public Role(Integer roleID, String name) {
+    public Role(int roleID, String name) {
         this.roleID = roleID;
         this.name = name;
     }
 
-    public Integer getRoleID() {
+    public int getRoleID() {
         return roleID;
     }
 
-    public void setRoleID(String roleID) throws Exception {
-        Validate.checkString(roleID);
-        int number = Integer.parseInt(roleID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
-        this.roleID = number;
+    public void setRoleID(int roleID) {
+        this.roleID = roleID;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) throws Exception {
-        Validate.checkString(name,1,100);
+    public void setName(String name) {
         this.name = name;
     }
 }

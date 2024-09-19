@@ -19,16 +19,17 @@ public abstract class DBContext {
         }
     }
     
-    protected int executeUpdate(PreparedStatement ps){
+    protected ResultSet executeUpdate(PreparedStatement ps){
         try {
-            return ps.executeUpdate();
+            ps.executeUpdate();
+            return ps.getGeneratedKeys();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            return 0;
         }
+        return null;
     }
 
-    protected Object getObjectBySQL(PreparedStatement ps){
+    protected Object getObject(PreparedStatement ps){
         try {
             ResultSet rs = ps.executeQuery();
             if(rs.next()) return getObjectByRs(rs);
@@ -38,7 +39,7 @@ public abstract class DBContext {
         return null;
     }
 
-    protected ArrayList<Object> getListObjectBySQL(PreparedStatement ps){
+    protected ArrayList<Object> getListObject(PreparedStatement ps){
         try {
             ResultSet rs = ps.executeQuery();
             ArrayList<Object> objects = new ArrayList<>();
@@ -52,18 +53,19 @@ public abstract class DBContext {
         return null;
     }
 
-    protected void insertStatement(Integer ob, PreparedStatement ps, int index) throws SQLException {
+    protected void insertStatementInt(Integer ob, PreparedStatement ps, int index) throws SQLException {
         if(ob==null) ps.setNull(index, Types.INTEGER);
         else ps.setInt(index, ob);
     }
 
-    //type true for varchar, false for nvarchar
-    protected void insertStatement(String ob, PreparedStatement ps, int index, boolean type) throws SQLException {
+    protected void insertStatementNvarchar(String ob, PreparedStatement ps, int index) throws SQLException {
         if(ob==null) ps.setNull(index,Types.NVARCHAR);
-        else{
-            if(type) ps.setString(index, ob);
-            else ps.setNString(index, ob);
-        }
+        else ps.setNString(index, ob);
+    }
+
+    protected void insertStatementVarchar(String ob, PreparedStatement ps, int index) throws SQLException {
+        if(ob==null) ps.setNull(index,Types.VARCHAR);
+        else ps.setString(index, ob);
     }
 
     protected abstract Object getObjectByRs(ResultSet rs) throws Exception;

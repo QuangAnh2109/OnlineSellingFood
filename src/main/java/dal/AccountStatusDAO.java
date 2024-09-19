@@ -1,7 +1,5 @@
 package dal;
 
-import model.Status;
-
 public class AccountStatusDAO extends StatusDAO{
     private final String table = "AccountStatus";
     public int addStatus(Status status){

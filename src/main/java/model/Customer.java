@@ -3,59 +3,48 @@ package model;
 import controller.Validate;
 
 public class Customer {
-    private Integer customerID, accountID, point, level;
+    private int customerID, accountID, point, level;
 
-    public Customer(Integer customerID, Integer accountID, Integer point, Integer level) {
+
+    public Customer() {
+    }
+
+    public Customer(int customerID, int accountID, int point, int level) {
         this.customerID = customerID;
         this.accountID = accountID;
         this.point = point;
         this.level = level;
     }
 
-    public Customer() {
-    }
-
-    public Integer getCustomerID() {
+    public int getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(String customerID) throws Exception{
-        Validate.checkString(customerID);
-        int number = Integer.parseInt(customerID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
-        this.customerID = number;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
-    public Integer getAccountID() {
+    public int getAccountID() {
         return accountID;
     }
 
-    public void setAccountID(String accountID) throws  Exception{
-        Validate.checkString(accountID);
-        int number = Integer.parseInt(accountID);
-        Validate.checkInt(number,1,Integer.MAX_VALUE);
-        this.accountID = number;
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
     }
 
-    public Integer getPoint() {
+    public int getPoint() {
         return point;
     }
 
-    public void setPoint(String point) throws Exception{
-        Validate.checkString(point);
-        int number = Integer.parseInt(point);
-        Validate.checkInt(number, 0, Integer.MAX_VALUE);
-        this.point = number;
+    public void setPoint(int point) {
+        this.point = point;
     }
 
-    public Integer getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) throws Exception{
-        Validate.checkString(level);
-        int number = Integer.parseInt(level);
-        Validate.checkInt(number, 0, Integer.MAX_VALUE);
-        this.level = number;
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

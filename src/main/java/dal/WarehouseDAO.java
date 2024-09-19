@@ -1,7 +1,5 @@
 package dal;
 
-import model.Account;
-import model.Status;
 import model.Warehouse;
 
 import java.sql.PreparedStatement;

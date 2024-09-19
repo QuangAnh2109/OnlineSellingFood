@@ -6,15 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDateTime;
 
 public class AccountDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws Exception {
+        rs.getObject(1,Integer.class);
         return new Account(rs.getInt("AccountID"), rs.getInt("RoleID"), rs.getInt("BirthYear"), rs.getInt("ContactInformationID"), rs.getInt("StatusID"), rs.getString("Email"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Time"));
     }
 
     //login check
     public Account getAccountByEmailPassword(String email, String password){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        java.sql.Date sqlDate = java.sql.Date.valueOf(localDateTime);
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Account where Email=? and Password=?");
             insertStatement(email,ps,1,true);
