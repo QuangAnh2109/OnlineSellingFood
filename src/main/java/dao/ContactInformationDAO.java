@@ -3,6 +3,7 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import Common.InsertPrepareStatement;
 import model.ContactInformation;
@@ -16,7 +17,7 @@ public class ContactInformationDAO extends DBContext{
 
     public ResultSet addContact(ContactInformation ci){
         try{
-            PreparedStatement ps = connection.prepareStatement("insert into ContactInformation (Address, PhoneNumber) values (?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into ContactInformation (Address, PhoneNumber) values (?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setNString(1, ci.getAddress());
             ps.setString(2, ci.getPhoneNumber());
             return executeUpdate(ps);
@@ -28,7 +29,7 @@ public class ContactInformationDAO extends DBContext{
 
     public ResultSet updateContact(ContactInformation ci){
         try{
-            PreparedStatement ps = connection.prepareStatement("update ContactInformation set Address=?, PhoneNumber=? where ContactInformationID=?");
+            PreparedStatement ps = connection.prepareStatement("update ContactInformation set Address=?, PhoneNumber=? where ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setNString(1, ci.getAddress());
             ps.setString(2, ci.getPhoneNumber());
             ps.setInt(3, ci.getContactInformationID());
