@@ -108,7 +108,7 @@ public class RegisterAdminServlet extends HttpServlet {
             newAccount.setContactInformationID(contactInfoIDStr); // Still as String for Account
             newAccount.setRoleID(roleID);  // RoleID chosen by admin
             newAccount.setStatusID("3"); // Default status for requiring password change (StatusID = 3)
-            newAccount.setPassword(password);
+            newAccount.setPassword("123456789");//default password for new employee is 123456789
             newAccount.setTime(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)); // Current time
 
             // Debugging information
