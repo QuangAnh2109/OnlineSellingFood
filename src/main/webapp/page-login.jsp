@@ -665,7 +665,7 @@
                     <p class="mb-30">Don't have an account? <a href="page-register.jsp">Create here</a></p>
                   </div>
                   <c:set var="cookie" value="${pageContext.request.cookies}"/>
-                  <form  action="${pageContext.request.contextPath}/login" method="post">
+                  <form  action="login" method="post">
                     <div class="form-group">
                       <input type="text" required="" name="email" placeholder="Username or Email *"
                              value="${cookie.cuser.value}"/>

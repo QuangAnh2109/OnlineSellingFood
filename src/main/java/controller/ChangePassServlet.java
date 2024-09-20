@@ -75,7 +75,7 @@ public class ChangePassServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.removeAttribute("account");
                         session.removeAttribute("contactInformation");
-                        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-login.jsp");
+                        request.getRequestDispatcher("login").forward(request, response);
                     }
                 } catch (NoSuchAlgorithmException ex) {
                     System.out.println(ex.getMessage());

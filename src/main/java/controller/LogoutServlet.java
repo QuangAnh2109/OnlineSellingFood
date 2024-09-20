@@ -34,7 +34,7 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.removeAttribute("account");
         session.removeAttribute("contactInformation");
-        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-login.jsp");
+        response.sendRedirect("login");
 
     }
 

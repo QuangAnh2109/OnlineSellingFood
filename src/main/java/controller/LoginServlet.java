@@ -23,8 +23,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-login.jsp");
-
+        request.getRequestDispatcher("page-login.jsp").forward(request, response);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("account", a);
             session.setAttribute("contactInformation", ci);
-            response.sendRedirect(request.getContextPath() + "/nest-frontend/home-page.jsp");
+            response.sendRedirect("home-page.jsp");
         }
     }
 }
