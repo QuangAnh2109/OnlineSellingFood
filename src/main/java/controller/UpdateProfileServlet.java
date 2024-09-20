@@ -43,8 +43,10 @@ public class UpdateProfileServlet extends HttpServlet {
 
         //find contact information in database
         ContactInformation contact = contactDAO.getContactInformationByAddressAndPhone(address, phone);
+        boolean checkContactExist = true;
         //if contact don't have in database, add new contact to database
         if (contact == null) {
+            checkContactExist = false;
             contact = new ContactInformation(address, phone);
             try {
                 ResultSet rs = contactDAO.addContact(contact);
@@ -59,7 +61,7 @@ public class UpdateProfileServlet extends HttpServlet {
         if(!email.equals(account.getEmail())) status = 2;
         Account account1 = new Account(account.getRoleID(), Integer.parseInt(birthYear), contact.getContactInformationID(), status, email, fName, lName, account.getAccountID());
         accountDAO.updateAccountInformation(account1);
-        contactDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
+        if(!checkContactExist) contactDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
         request.getSession().removeAttribute("account");
         request.getSession().removeAttribute("contactInformation");
         request.getSession().setAttribute("account", account1);
