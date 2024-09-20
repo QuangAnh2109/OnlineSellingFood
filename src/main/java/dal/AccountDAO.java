@@ -94,21 +94,10 @@ public class AccountDAO extends DBContext{
         try {
             String sql = "SELECT * FROM [Account]";
             PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                Account account = new Account();
-                    account.setAccountID(rs.getInt("AccountID"));
-                    account.setRoleID(rs.getInt("RoleID"));
-                    account.setBirthYear(rs.getInt("BirthYear"));
-                    account.setContactInformationID(rs.getInt("ContactInformationID"));
-                    account.setStatusID(rs.getInt("StatusID"));
-                    account.setEmail(rs.getString("Email"));
-                    account.setFirstName(rs.getString("FirstName"));
-                       account.setLastName(rs.getString("LastName"));
-                        account.setTime(rs.getString("Time"));
-                listAccounts.add(account);
+
+            for(Object ob:getListObjectBySQL(statement)){
+                listAccounts.add((Account)ob);
             }
-            rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -169,15 +158,7 @@ public class AccountDAO extends DBContext{
             st.setString(2, passwordReset);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getInt("AccountID"),
-                        rs.getInt("RoleID"),
-                        rs.getInt("BirthYear"),
-                        rs.getInt("ContactInformationID"),
-                        rs.getInt("StatusID"),
-                        rs.getString("Email"),
-                        rs.getString("FirstName"),
-                        rs.getString("LastName"),
-                        rs.getString("Time"));
+                return new Account(rs.getInt("AccountID"), rs.getInt("RoleID"), rs.getInt("BirthYear"), rs.getInt("ContactInformationID"), rs.getInt("StatusID"), rs.getString("Email"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Time"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -216,6 +197,17 @@ public class AccountDAO extends DBContext{
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
+        }
+    }
+    public void updatePassword(String email, String newPassword) {
+        String sql = "UPDATE [Account] SET Password = ? WHERE Email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, newPassword);
+            st.setString(2, email);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
     public boolean isUserInPasswordReset(int accountId) {

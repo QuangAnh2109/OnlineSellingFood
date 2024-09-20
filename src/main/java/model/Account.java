@@ -146,4 +146,5 @@ public class Account {
     public void setStatusID(Integer statusID) {
         this.statusID = statusID;
     }
+
 }
