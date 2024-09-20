@@ -138,16 +138,18 @@ public class RegisterAdminServlet extends HttpServlet {
             System.out.println("Password: [HIDDEN]");
             System.out.println("Time: " + newAccount.getTime());
 
-            // Add account to the database
-            ResultSet accountResult = accountDAO.addAccount(newAccount);
-            if (!accountResult.wasNull()) {
-                response.sendRedirect("success.jsp");
-            } else {
-                // Rollback the contact information in case of failure
-                if(!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
-                errorMessages.add("Registration failed. Please try again.");
-                request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+            if(errorMessages.isEmpty()) {
+                // Add account to the database
+                ResultSet accountResult = accountDAO.addAccount(newAccount);
+                if (!accountResult.wasNull()) {
+                    response.sendRedirect("success.jsp");
+                } else {
+                    // Rollback the contact information in case of failure
+                    if (!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
+                    errorMessages.add("Registration failed. Please try again.");
+                    request.setAttribute("errorMessages", errorMessages);
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
             }
         } catch (Exception e) {
             // Log the actual exception message to the console and display on the error page
