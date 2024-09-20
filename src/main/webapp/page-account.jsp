@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: ADMIN
+  Date: 9/19/2024
+  Time: 4:19 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -11,9 +18,9 @@
   <meta property="og:url" content="" />
   <meta property="og:image" content="" />
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+  <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
   <!-- Template CSS -->
-  <link rel="stylesheet" href="assets/css/main.css?v=4.0" />
+  <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
 </head>
 
 <body>
@@ -25,7 +32,7 @@
     <div class="container">
       <div class="header-wrap">
         <div class="logo logo-width-1">
-          <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+          <a href="index.html"><img src="nest-frontend/assets/imgs/theme/logo.svg" alt="logo" /></a>
         </div>
         <div class="header-right">
           <div class="search-style-2">
@@ -70,21 +77,21 @@
               </div>
               <div class="header-action-icon-2">
                 <a href="shop-compare.html">
-                  <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-compare.svg" />
+                  <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-compare.svg" />
                   <span class="pro-count blue">3</span>
                 </a>
                 <a href="shop-compare.html"><span class="lable ml-0">Compare</span></a>
               </div>
               <div class="header-action-icon-2">
                 <a href="shop-wishlist.html">
-                  <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg" />
+                  <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-heart.svg" />
                   <span class="pro-count blue">6</span>
                 </a>
                 <a href="shop-wishlist.html"><span class="lable">Wishlist</span></a>
               </div>
               <div class="header-action-icon-2">
                 <a class="mini-cart-icon" href="shop-cart.html">
-                  <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg" />
+                  <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-cart.svg" />
                   <span class="pro-count blue">2</span>
                 </a>
                 <a href="shop-cart.html"><span class="lable">Cart</span></a>
@@ -92,7 +99,7 @@
                   <ul>
                     <li>
                       <div class="shopping-cart-img">
-                        <a href="shop-product-right.html"><img alt="Nest" src="assets/imgs/shop/thumbnail-3.jpg" /></a>
+                        <a href="shop-product-right.html"><img alt="Nest" src="nest-frontend/assets/imgs/shop/thumbnail-3.jpg" /></a>
                       </div>
                       <div class="shopping-cart-title">
                         <h4><a href="shop-product-right.html">Daisy Casual Bag</a></h4>
@@ -104,7 +111,7 @@
                     </li>
                     <li>
                       <div class="shopping-cart-img">
-                        <a href="shop-product-right.html"><img alt="Nest" src="assets/imgs/shop/thumbnail-2.jpg" /></a>
+                        <a href="shop-product-right.html"><img alt="Nest" src="nest-frontend/assets/imgs/shop/thumbnail-2.jpg" /></a>
                       </div>
                       <div class="shopping-cart-title">
                         <h4><a href="shop-product-right.html">Corduroy Shirts</a></h4>
@@ -128,7 +135,7 @@
               </div>
               <div class="header-action-icon-2">
                 <a href="page-account.html">
-                  <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-user.svg" />
+                  <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                 </a>
                 <a href="page-account.html"><span class="lable ml-0">Account</span></a>
                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
@@ -138,7 +145,7 @@
                     <li><a href="page-account.html"><i class="fi fi-rs-label mr-10"></i>My Voucher</a></li>
                     <li><a href="shop-wishlist.html"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a></li>
                     <li><a href="page-account.html"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a></li>
-                    <li><a href="page-login.html"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
+                    <li><a href="${pageContext.request.contextPath}/logout"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
                   </ul>
                 </div>
               </div>
@@ -152,7 +159,7 @@
     <div class="container">
       <div class="header-wrap header-space-between position-relative">
         <div class="logo logo-width-1 d-block d-lg-none">
-          <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+          <a href="index.html"><img src="nest-frontend/assets/imgs/theme/logo.svg" alt="logo" /></a>
         </div>
         <div class="header-nav d-none d-lg-flex">
           <div class="main-categori-wrap d-none d-lg-block">
@@ -164,36 +171,36 @@
               <div class="d-flex categori-dropdown-inner">
                 <ul>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-1.svg" alt="" />Milks and Dairies</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-1.svg" alt="" />Milks and Dairies</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-2.svg" alt="" />Clothing & beauty</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-2.svg" alt="" />Clothing & beauty</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-3.svg" alt="" />Pet Foods & Toy</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-3.svg" alt="" />Pet Foods & Toy</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-4.svg" alt="" />Baking material</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-4.svg" alt="" />Baking material</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-5.svg" alt="" />Fresh Fruit</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-5.svg" alt="" />Fresh Fruit</a>
                   </li>
                 </ul>
                 <ul class="end">
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-6.svg" alt="" />Wines & Drinks</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-6.svg" alt="" />Wines & Drinks</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-7.svg" alt="" />Fresh Seafood</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-7.svg" alt="" />Fresh Seafood</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-8.svg" alt="" />Fast food</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-8.svg" alt="" />Fast food</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-9.svg" alt="" />Vegetables</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-9.svg" alt="" />Vegetables</a>
                   </li>
                   <li>
-                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-10.svg" alt="" />Bread and Juice</a>
+                    <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/category-10.svg" alt="" />Bread and Juice</a>
                   </li>
                 </ul>
               </div>
@@ -201,18 +208,18 @@
                 <div class="d-flex categori-dropdown-inner">
                   <ul>
                     <li>
-                      <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/icon-1.svg" alt="" />Milks and Dairies</a>
+                      <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/icon-1.svg" alt="" />Milks and Dairies</a>
                     </li>
                     <li>
-                      <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/icon-2.svg" alt="" />Clothing & beauty</a>
+                      <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/icon-2.svg" alt="" />Clothing & beauty</a>
                     </li>
                   </ul>
                   <ul class="end">
                     <li>
-                      <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/icon-3.svg" alt="" />Wines & Drinks</a>
+                      <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/icon-3.svg" alt="" />Wines & Drinks</a>
                     </li>
                     <li>
-                      <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/icon-4.svg" alt="" />Fresh Seafood</a>
+                      <a href="shop-grid-right.html"> <img src="nest-frontend/assets/imgs/theme/icons/icon-4.svg" alt="" />Fresh Seafood</a>
                     </li>
                   </ul>
                 </div>
@@ -223,7 +230,7 @@
           <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
             <nav>
               <ul>
-                <li class="hot-deals"><img src="assets/imgs/theme/icons/icon-hot.svg" alt="hot deals" /><a href="shop-grid-right.html">Hot Deals</a></li>
+                <li class="hot-deals"><img src="nest-frontend/assets/imgs/theme/icons/icon-hot.svg" alt="hot deals" /><a href="shop-grid-right.html">Hot Deals</a></li>
                 <li>
                   <a class="active" href="index.html">Home <i class="fi-rs-angle-down"></i></a>
                   <ul class="sub-menu">
@@ -322,7 +329,7 @@
                     </li>
                     <li class="sub-mega-menu sub-mega-menu-width-34">
                       <div class="menu-banner-wrap">
-                        <a href="shop-product-right.html"><img src="assets/imgs/banner/banner-menu.png" alt="Nest" /></a>
+                        <a href="shop-product-right.html"><img src="nest-frontend/assets/imgs/banner/banner-menu.png" alt="Nest" /></a>
                         <div class="menu-banner-content">
                           <h4>Hot deals</h4>
                           <h3>
@@ -385,7 +392,7 @@
           </div>
         </div>
         <div class="hotline d-none d-lg-flex">
-          <img src="assets/imgs/theme/icons/icon-headphone.svg" alt="hotline" />
+          <img src="nest-frontend/assets/imgs/theme/icons/icon-headphone.svg" alt="hotline" />
           <p>1900 - 888<span>24/7 Support Center</span></p>
         </div>
         <div class="header-action-icon-2 d-block d-lg-none">
@@ -399,20 +406,20 @@
           <div class="header-action-2">
             <div class="header-action-icon-2">
               <a href="shop-wishlist.html">
-                <img alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg" />
+                <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-heart.svg" />
                 <span class="pro-count white">4</span>
               </a>
             </div>
             <div class="header-action-icon-2">
               <a class="mini-cart-icon" href="shop-cart.html">
-                <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg" />
+                <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-cart.svg" />
                 <span class="pro-count white">2</span>
               </a>
               <div class="cart-dropdown-wrap cart-dropdown-hm2">
                 <ul>
                   <li>
                     <div class="shopping-cart-img">
-                      <a href="shop-product-right.html"><img alt="Nest" src="assets/imgs/shop/thumbnail-3.jpg" /></a>
+                      <a href="shop-product-right.html"><img alt="Nest" src="nest-frontend/assets/imgs/shop/thumbnail-3.jpg" /></a>
                     </div>
                     <div class="shopping-cart-title">
                       <h4><a href="shop-product-right.html">Plain Striola Shirts</a></h4>
@@ -424,7 +431,7 @@
                   </li>
                   <li>
                     <div class="shopping-cart-img">
-                      <a href="shop-product-right.html"><img alt="Nest" src="assets/imgs/shop/thumbnail-4.jpg" /></a>
+                      <a href="shop-product-right.html"><img alt="Nest" src="nest-frontend/assets/imgs/shop/thumbnail-4.jpg" /></a>
                     </div>
                     <div class="shopping-cart-title">
                       <h4><a href="shop-product-right.html">Macbook Pro 2022</a></h4>
@@ -456,7 +463,7 @@
   <div class="mobile-header-wrapper-inner">
     <div class="mobile-header-top">
       <div class="mobile-header-logo">
-        <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+        <a href="index.html"><img src="nest-frontend/assets/imgs/theme/logo.svg" alt="logo" /></a>
       </div>
       <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
         <button class="close-style search-close">
@@ -622,11 +629,11 @@
       </div>
       <div class="mobile-social-icon mb-50">
         <h6 class="mb-15">Follow Us</h6>
-        <a href="#"><img src="assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
-        <a href="#"><img src="assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
-        <a href="#"><img src="assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
-        <a href="#"><img src="assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
-        <a href="#"><img src="assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
+        <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
+        <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
+        <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
+        <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
+        <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
       </div>
       <div class="site-copyright">Copyright 2021 © Nest. All rights reserved. Powered by AliThemes.</div>
     </div>
@@ -645,93 +652,233 @@
   <div class="page-content pt-150 pb-150">
     <div class="container">
       <div class="row">
-        <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+        <div class="col-lg-10 m-auto">
           <div class="row">
-            <div class="col-lg-6 col-md-8">
-              <div class="login_wrap widget-taber-content background-white">
-                <div class="padding_eight_all bg-white">
-                  <div class="heading_s1">
-                    <h1 class="mb-5">Create an Account</h1>
-                    <p class="mb-30">Already have an account? <a href="page-login.html">Login</a></p>
-                  </div>
-                  <form action="${pageContext.request.contextPath}/register" method="post">
-                    <!-- First Name -->
-                    <div class="form-group">
-                      <input type="text" required="" name="firstName" placeholder="First Name" />
-                    </div>
-
-                    <!-- Last Name -->
-                    <div class="form-group">
-                      <input type="text" required="" name="lastName" placeholder="Last Name" />
-                    </div>
-
-                    <!-- Email -->
-                    <div class="form-group">
-                      <input type="email" required="" name="email" placeholder="Email" />
-                    </div>
-
-                    <!-- Birth Year -->
-                    <div class="form-group">
-                      <input type="number" required="" name="birthYear" placeholder="Birth Year" min="1900" max="2023" />
-                    </div>
-                    <!-- Contact Information -->
-                    <div class="form-group">
-                      <input type="text" required="" name="phone" placeholder="PhoneNumber" />
-
-                    </div>
-                    <div class="form-group">
-                      <input type="text" required="" name="address" placeholder="Address" />
-
-                    </div>
-                    <!-- Password -->
-                    <div class="form-group">
-                      <input required="" type="password" name="password" placeholder="Password" />
-                    </div>
-
-                    <!-- Confirm Password -->
-                    <div class="form-group">
-                      <input required="" type="password" name="confirmPassword" placeholder="Confirm Password" />
-                    </div>
-
-                    <!-- Agree to Terms -->
-                    <div class="login_footer form-group mb-50">
-                      <div class="chek-form">
-                        <div class="custome-checkbox">
-                          <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12" value="" />
-                          <label class="form-check-label" for="exampleCheckbox12">
-                            <span>I agree to terms &amp; Policy.</span>
-                          </label>
-                        </div>
-                      </div>
-                      <a href="page-privacy-policy.html"><i class="fi-rs-book-alt mr-5 text-muted"></i>Learn more</a>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="form-group mb-30">
-                      <button type="submit" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="register">Submit & Register</button>
-                    </div>
-
-                    <p class="font-xs text-muted">
-                      <strong>Note:</strong> Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.
-                    </p>
-                  </form>
-                </div>
+            <div class="col-md-3">
+              <div class="dashboard-menu">
+                <ul class="nav flex-column" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Account details</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="change-password-tab" data-bs-toggle="tab" href="#change-password" role="tab" aria-controls="change-password" aria-selected="false"><i class="fi-rs-user mr-10"></i>Change password</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/logout"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="col-lg-6 pr-30 d-none d-lg-block">
-              <div class="card-login mt-115">
-                <a href="#" class="social-login facebook-login">
-                  <img src="assets/imgs/theme/icons/logo-facebook.svg" alt="" />
-                  <span>Continue with Facebook</span>
-                </a>
-                <a href="#" class="social-login google-login">
-                  <img src="assets/imgs/theme/icons/logo-google.svg" alt="" />
-                  <span>Continue with Google</span>
-                </a>
-                <a href="#" class="social-login apple-login">
-                  <img src="assets/imgs/theme/icons/logo-apple.svg" alt="" />
-                  <span>Continue with Apple</span>
-                </a>
+            <div class="col-md-9">
+              <div class="tab-content account dashboard-content pl-50">
+                <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="mb-0">Hello Rosie!</h3>
+                    </div>
+                    <div class="card-body">
+                      <p>
+                        From your account dashboard. you can easily check &amp; view your <a href="#">recent orders</a>,<br />
+                        manage your <a href="#">shipping and billing addresses</a> and <a href="#">edit your password and account details.</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="mb-0">Your Orders</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                          <tr>
+                            <th>Order</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>#1357</td>
+                            <td>March 45, 2020</td>
+                            <td>Processing</td>
+                            <td>$125.00 for 2 item</td>
+                            <td><a href="#" class="btn-small d-block">View</a></td>
+                          </tr>
+                          <tr>
+                            <td>#2468</td>
+                            <td>June 29, 2020</td>
+                            <td>Completed</td>
+                            <td>$364.00 for 5 item</td>
+                            <td><a href="#" class="btn-small d-block">View</a></td>
+                          </tr>
+                          <tr>
+                            <td>#2366</td>
+                            <td>August 02, 2020</td>
+                            <td>Completed</td>
+                            <td>$280.00 for 3 item</td>
+                            <td><a href="#" class="btn-small d-block">View</a></td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="mb-0">Orders tracking</h3>
+                    </div>
+                    <div class="card-body contact-from-area">
+                      <p>To track your order please enter your OrderID in the box below and press "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p>
+                      <div class="row">
+                        <div class="col-lg-8">
+                          <form class="contact-form-style mt-30 mb-50" action="#" method="post">
+                            <div class="input-style mb-20">
+                              <label>Order ID</label>
+                              <input name="order-id" placeholder="Found in your order confirmation email" type="text" />
+                            </div>
+                            <div class="input-style mb-20">
+                              <label>Billing email</label>
+                              <input name="billing-email" placeholder="Email you used during checkout" type="email" />
+                            </div>
+                            <button class="submit submit-auto-width" type="submit">Track</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="card mb-3 mb-lg-0">
+                        <div class="card-header">
+                          <h3 class="mb-0">Billing Address</h3>
+                        </div>
+                        <div class="card-body">
+                          <address>
+                            3522 Interstate<br />
+                            75 Business Spur,<br />
+                            Sault Ste. <br />Marie, MI 49783
+                          </address>
+                          <p>New York</p>
+                          <a href="#" class="btn-small">Edit</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="card">
+                        <div class="card-header">
+                          <h5 class="mb-0">Shipping Address</h5>
+                        </div>
+                        <div class="card-body">
+                          <address>
+                            4299 Express Lane<br />
+                            Sarasota, <br />FL 34249 USA <br />Phone: 1.941.227.4444
+                          </address>
+                          <p>Sarasota</p>
+                          <a href="#" class="btn-small">Edit</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                  <div class="card">
+                    <div class="card-header">
+                      <h5>Account Details</h5>
+                    </div>
+                    <div class="card-body">
+                      <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
+                      <form action="${pageContext.request.contextPath}/profile" method="post" name="enq">
+                        <div class="row">
+                          <div class="form-group col-md-6">
+                            <label>First Name <span class="required">*</span></label>
+                            <input required="" class="form-control" name="firstName" type="text"
+                            value="${account.firstName}"/>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Last Name <span class="required">*</span></label>
+                            <input required="" class="form-control" name="lastName" type="text" value="${account.lastName}"/>
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input required="" class="form-control" name="email" type="email"
+                                   value="${account.email}"readonly="" />
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label> Address <span class="required">*</span></label>
+                            <input required="" class="form-control" name="address" type="text"
+                                   value="${contactInformation.address}"/>
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label>Phone Number <span class="required">*</span></label>
+                            <input required="" class="form-control" name="phone" type="text"
+                                   value="${contactInformation.phoneNumber}"/>
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label>Birth Year <span class="required">*</span></label>
+                            <input required="" class="form-control" name="birthYear" type="text"
+                                   value="${account.birthYear}"/>
+                          </div>
+
+                          <div class="col-md-12">
+                            <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="change-password" role="tabpanel" aria-labelledby="change-password-tab">
+                  <div class="card">
+                    <div class="card-header">
+                      <h5>Change Password</h5>
+                    </div>
+                    <div class="card-body">
+                      <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
+                      <form  action="${pageContext.request.contextPath}/changepass" name="enq">
+                        <div class="form-group col-md-12">
+                          <input  type="hidden" required="" class="form-control" name="email" value="${account.email}"  />
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label>Old Password <span class="required">*</span></label>
+                          <input required="" class="form-control" name="oldPassword" type="password" />
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label>New Password <span class="required">*</span></label>
+                          <input required="" class="form-control" name="newPassword" type="password" />
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label>Confirm Password <span class="required">*</span></label>
+                          <input required="" class="form-control" name="confirmPassword" type="password" />
+                        </div>
+
+                          <div class="col-md-12">
+                            <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -757,7 +904,7 @@
                 <button class="btn" type="submit">Subscribe</button>
               </form>
             </div>
-            <img src="assets/imgs/banner/banner-13.png" alt="newsletter" />
+            <img src="nest-frontend/assets/imgs/banner/banner-13.png" alt="newsletter" />
           </div>
         </div>
       </div>
@@ -769,7 +916,7 @@
         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 mb-md-4 mb-xl-0">
           <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
             <div class="banner-icon">
-              <img src="assets/imgs/theme/icons/icon-1.svg" alt="" />
+              <img src="nest-frontend/assets/imgs/theme/icons/icon-1.svg" alt="" />
             </div>
             <div class="banner-text">
               <h3 class="icon-box-title">Best prices & offers</h3>
@@ -780,7 +927,7 @@
         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
           <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
             <div class="banner-icon">
-              <img src="assets/imgs/theme/icons/icon-2.svg" alt="" />
+              <img src="nest-frontend/assets/imgs/theme/icons/icon-2.svg" alt="" />
             </div>
             <div class="banner-text">
               <h3 class="icon-box-title">Free delivery</h3>
@@ -791,7 +938,7 @@
         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
           <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
             <div class="banner-icon">
-              <img src="assets/imgs/theme/icons/icon-3.svg" alt="" />
+              <img src="nest-frontend/assets/imgs/theme/icons/icon-3.svg" alt="" />
             </div>
             <div class="banner-text">
               <h3 class="icon-box-title">Great daily deal</h3>
@@ -802,7 +949,7 @@
         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
           <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
             <div class="banner-icon">
-              <img src="assets/imgs/theme/icons/icon-4.svg" alt="" />
+              <img src="nest-frontend/assets/imgs/theme/icons/icon-4.svg" alt="" />
             </div>
             <div class="banner-text">
               <h3 class="icon-box-title">Wide assortment</h3>
@@ -813,7 +960,7 @@
         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
           <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
             <div class="banner-icon">
-              <img src="assets/imgs/theme/icons/icon-5.svg" alt="" />
+              <img src="nest-frontend/assets/imgs/theme/icons/icon-5.svg" alt="" />
             </div>
             <div class="banner-text">
               <h3 class="icon-box-title">Easy returns</h3>
@@ -824,7 +971,7 @@
         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 d-xl-none">
           <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
             <div class="banner-icon">
-              <img src="assets/imgs/theme/icons/icon-6.svg" alt="" />
+              <img src="nest-frontend/assets/imgs/theme/icons/icon-6.svg" alt="" />
             </div>
             <div class="banner-text">
               <h3 class="icon-box-title">Safe delivery</h3>
@@ -841,14 +988,14 @@
         <div class="col">
           <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0">
             <div class="logo mb-30">
-              <a href="index.html" class="mb-15"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+              <a href="index.html" class="mb-15"><img src="nest-frontend/assets/imgs/theme/logo.svg" alt="logo" /></a>
               <p class="font-lg text-heading">Awesome grocery store website template</p>
             </div>
             <ul class="contact-infor">
-              <li><img src="assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>5171 W Campbell Ave undefined Kent, Utah 53127 United States</span></li>
-              <li><img src="assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>(+91) - 540-025-124553</span></li>
-              <li><img src="assets/imgs/theme/icons/icon-email-2.svg" alt="" /><strong>Email:</strong><span>sale@Nest.com</span></li>
-              <li><img src="assets/imgs/theme/icons/icon-clock.svg" alt="" /><strong>Hours:</strong><span>10:00 - 18:00, Mon - Sat</span></li>
+              <li><img src="nest-frontend/assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>5171 W Campbell Ave undefined Kent, Utah 53127 United States</span></li>
+              <li><img src="nest-frontend/assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>(+91) - 540-025-124553</span></li>
+              <li><img src="nest-frontend/assets/imgs/theme/icons/icon-email-2.svg" alt="" /><strong>Email:</strong><span>sale@Nest.com</span></li>
+              <li><img src="nest-frontend/assets/imgs/theme/icons/icon-clock.svg" alt="" /><strong>Hours:</strong><span>10:00 - 18:00, Mon - Sat</span></li>
             </ul>
           </div>
         </div>
@@ -904,11 +1051,11 @@
           <h4 class="widget-title">Install App</h4>
           <p class="wow fadeIn animated">From App Store or Google Play</p>
           <div class="download-app">
-            <a href="#" class="hover-up mb-sm-2 mb-lg-0"><img class="active" src="assets/imgs/theme/app-store.jpg" alt="" /></a>
-            <a href="#" class="hover-up mb-sm-2"><img src="assets/imgs/theme/google-play.jpg" alt="" /></a>
+            <a href="#" class="hover-up mb-sm-2 mb-lg-0"><img class="active" src="nest-frontend/assets/imgs/theme/app-store.jpg" alt="" /></a>
+            <a href="#" class="hover-up mb-sm-2"><img src="nest-frontend/assets/imgs/theme/google-play.jpg" alt="" /></a>
           </div>
           <p class="mb-20">Secured Payment Gateways</p>
-          <img class="wow fadeIn animated" src="assets/imgs/theme/payment-method.png" alt="" />
+          <img class="wow fadeIn animated" src="nest-frontend/assets/imgs/theme/payment-method.png" alt="" />
         </div>
       </div>
     </div>
@@ -923,22 +1070,22 @@
       </div>
       <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
         <div class="hotline d-lg-inline-flex mr-30">
-          <img src="assets/imgs/theme/icons/phone-call.svg" alt="hotline" />
+          <img src="nest-frontend/assets/imgs/theme/icons/phone-call.svg" alt="hotline" />
           <p>1900 - 6666<span>Working 8:00 - 22:00</span></p>
         </div>
         <div class="hotline d-lg-inline-flex">
-          <img src="assets/imgs/theme/icons/phone-call.svg" alt="hotline" />
+          <img src="nest-frontend/assets/imgs/theme/icons/phone-call.svg" alt="hotline" />
           <p>1900 - 8888<span>24/7 Support Center</span></p>
         </div>
       </div>
       <div class="col-xl-4 col-lg-6 col-md-6 text-end d-none d-md-block">
         <div class="mobile-social-icon">
           <h6>Follow Us</h6>
-          <a href="#"><img src="assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
-          <a href="#"><img src="assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
-          <a href="#"><img src="assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
-          <a href="#"><img src="assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
-          <a href="#"><img src="assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
+          <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
+          <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
+          <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
+          <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
+          <a href="#"><img src="nest-frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
         </div>
         <p class="font-sm">Up to 15% discount on your first subscribe</p>
       </div>
@@ -950,33 +1097,34 @@
   <div class="preloader d-flex align-items-center justify-content-center">
     <div class="preloader-inner position-relative">
       <div class="text-center">
-        <img src="assets/imgs/theme/loading.gif" alt="" />
+        <img src="nest-frontend/assets/imgs/theme/loading.gif" alt="" />
       </div>
     </div>
   </div>
 </div>
 <!-- Vendor JS-->
-<script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
-<script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-<script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
-<script src="assets/js/plugins/slick.js"></script>
-<script src="assets/js/plugins/jquery.syotimer.min.js"></script>
-<script src="assets/js/plugins/wow.js"></script>
-<script src="assets/js/plugins/perfect-scrollbar.js"></script>
-<script src="assets/js/plugins/magnific-popup.js"></script>
-<script src="assets/js/plugins/select2.min.js"></script>
-<script src="assets/js/plugins/waypoints.js"></script>
-<script src="assets/js/plugins/counterup.js"></script>
-<script src="assets/js/plugins/jquery.countdown.min.js"></script>
-<script src="assets/js/plugins/images-loaded.js"></script>
-<script src="assets/js/plugins/isotope.js"></script>
-<script src="assets/js/plugins/scrollup.js"></script>
-<script src="assets/js/plugins/jquery.vticker-min.js"></script>
-<script src="assets/js/plugins/jquery.theia.sticky.js"></script>
-<script src="assets/js/plugins/jquery.elevatezoom.js"></script>
+<script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+<script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
+<script src="nest-frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+<script src="nest-frontend/assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="nest-frontend/assets/js/plugins/slick.js"></script>
+<script src="nest-frontend/assets/js/plugins/jquery.syotimer.min.js"></script>
+<script src="nest-frontend/assets/js/plugins/wow.js"></script>
+<script src="nest-frontend/assets/js/plugins/perfect-scrollbar.js"></script>
+<script src="nest-frontend/assets/js/plugins/magnific-popup.js"></script>
+<script src="nest-frontend/assets/js/plugins/select2.min.js"></script>
+<script src="nest-frontend/assets/js/plugins/waypoints.js"></script>
+<script src="nest-frontend/assets/js/plugins/counterup.js"></script>
+<script src="nest-frontend/assets/js/plugins/jquery.countdown.min.js"></script>
+<script src="nest-frontend/assets/js/plugins/images-loaded.js"></script>
+<script src="nest-frontend/assets/js/plugins/isotope.js"></script>
+<script src="nest-frontend/assets/js/plugins/scrollup.js"></script>
+<script src="nest-frontend/assets/js/plugins/jquery.vticker-min.js"></script>
+<script src="nest-frontend/assets/js/plugins/jquery.theia.sticky.js"></script>
+<script src="nest-frontend/assets/js/plugins/jquery.elevatezoom.js"></script>
 <!-- Template  JS -->
-<script src="./assets/js/main.js?v=4.0"></script>
-<script src="./assets/js/shop.js?v=4.0"></script>
+<script src="nest-frontend/assets/js/main.js?v=4.0"></script>
+<script src="nest-frontend/assets/js/shop.js?v=4.0"></script>
 </body>
 </html>
+
