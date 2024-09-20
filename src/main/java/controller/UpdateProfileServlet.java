@@ -23,10 +23,6 @@ public class UpdateProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AccountDAO accountDAO = new AccountDAO();
-        Account a = (Account) request.getSession().getAttribute("account");
-        Account b = accountDAO.getAccountByAccountID(a.getAccountID());
-        request.setAttribute("account", b);
         //request.getRequestDispatcher(request.getContextPath() + "/nest-frontend/page-account.jsp").forward(request, response);
         response.sendRedirect(request.getContextPath() + "/nest-frontend/page-account.jsp");
     }
