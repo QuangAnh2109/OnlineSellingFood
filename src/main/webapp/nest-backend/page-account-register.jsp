@@ -69,7 +69,13 @@
         <form action="${pageContext.request.contextPath}/register-admin" method="post">
           <div class="mb-3">
             <label class="form-label">Role ID</label>
-            <input class="form-control" name="roleID" placeholder="Role ID" type="number" required />
+            <select class="form-control" name="roleID" required>
+              <option value="" disabled selected>Role </option>
+              <option value="2">Delivery Staff</option>
+              <option value="3">Import Staff</option>
+              <option value="4">Warehouse Management</option>
+              <option value="5">Sales Management</option>
+            </select>
           </div>
           <!-- form-group// -->
           <div class="mb-3">
@@ -98,7 +104,7 @@
           <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Birth Year</label>
-            <input class="form-control" name="birthYear" placeholder="Year of birth" type="number" required />
+            <input class="form-control" name="birthYear" placeholder="Year of birth" type="text" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
