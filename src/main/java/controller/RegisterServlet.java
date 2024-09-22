@@ -89,7 +89,7 @@ public class RegisterServlet extends HttpServlet {
             try {
                 ResultSet rs = contactInfoDAO.addContact(contact);
                 rs.next();
-                contact.setContactInformationID(rs.getInt("ContactInformationID"));
+                contact.setContactInformationID(rs.getInt(1));
             } catch (SQLException e) {
                 errorMessages.add(e.getMessage());
                 request.setAttribute("errorMessages", errorMessages);
