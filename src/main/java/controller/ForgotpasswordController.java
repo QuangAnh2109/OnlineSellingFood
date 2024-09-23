@@ -72,7 +72,7 @@ public class ForgotpasswordController extends HttpServlet {
         final String password = "towrxxswfdpxldxg"; // Mật khẩu ứng dụng
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.fpt.edu.vn"); // SMTP host
+        props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP host
         props.put("mail.smtp.port", "587"); // TLS port
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
