@@ -90,4 +90,22 @@ public class AccountDAO extends DBContext{
         }
         return null;
     }
+
+
+    public Account getAccountIdByEmail(String email) {
+        String sql = "SELECT * FROM Account \n"
+                + "WHERE Email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+
+            return (Account)getObject(st);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+
 }

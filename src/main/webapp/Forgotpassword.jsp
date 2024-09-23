@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ADMIN
-  Date: 9/19/2024
-  Time: 2:45 PM
-  To change this template use File | Settings | File Templates.
---%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -75,6 +68,23 @@
                   </select>
                 </form>
               </div>
+              <!-- Check Validation Email -->
+
+              <script>
+                function validateEmail(email) {
+                  const emaiRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                  return emaiRegex.test(email);
+                }
+                function validateForm() {
+                  const email = document.getElementById('email').value;
+                  if (!validateEmail(email)) {
+                    alert('Please enter a valid email address.');
+                    return false;
+                  }
+                  return true;
+                }
+
+              </script>
               <div class="header-action-icon-2">
                 <a href="shop-compare.html">
                   <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-compare.svg" />
@@ -661,32 +671,19 @@
               <div class="login_wrap widget-taber-content background-white">
                 <div class="padding_eight_all bg-white">
                   <div class="heading_s1">
-                    <h1 class="mb-5">Login</h1>
-                    <p class="mb-30">Don't have an account? <a href="page-register.jsp">Create here</a></p>
+                    <h1 class="mb-5">Forgot Passord</h1>
+                    <p class="mb-30">Don't have an account? <a href="page-register.html">Create here</a></p>
                   </div>
-                  <c:set var="cookie" value="${pageContext.request.cookies}"/>
-                  <form  action="login" method="post">
+                  <form  method="post" action="${pageContext.request.contextPath}/forgotpassword" onsubmit="return validateForm()">
                     <div class="form-group">
-                      <input type="text" required="" name="email" placeholder="Username or Email *"
-                             value="${cookie.cuser.value}"/>
+                      <input name="email" id="email" type="text" required=""  placeholder="Enter Email  *" />
                     </div>
+
+
                     <div class="form-group">
-                      <input required="" type="password" name="password" placeholder="Your password *"
-                             value="${cookie.cpass.value}"/>
+                      <button type="submit" class="button is-primary" >Submit</button>
                     </div>
-                    <h4 style="color: red">${requestScope.error}</h4>
-                    <div class="login_footer form-group mb-50">
-                      <div class="chek-form">
-                        <div class="custome-checkbox">
-                          <input class="form-check-input" type="checkbox" ${(cookie.crem!=null?'checked':'')} name="rem" id="remember_me" value="ON" />
-                          <label class="form-check-label" for="remember_me"><span>Remember me</span></label>
-                        </div>
-                      </div>
-                      <a class="text-muted" href="Forgotpassword.jsp">Forgot password?</a>
-                    </div>
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-heading btn-block hover-up" name="login">Log in</button>
-                    </div>
+
                   </form>
                 </div>
               </div>
@@ -911,7 +908,6 @@
       </div>
     </div>
   </div>
-</div>
 <!-- Vendor JS-->
 <script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
@@ -935,6 +931,6 @@
 <!-- Template  JS -->
 <script src="nest-frontend/assets/js/main.js?v=4.0"></script>
 <script src="nest-frontend/assets/js/shop.js?v=4.0"></script>
+</div>
 </body>
 </html>
-

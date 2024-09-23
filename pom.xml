@@ -41,6 +41,13 @@
       <artifactId>mssql-jdbc</artifactId>
       <version>9.4.1.jre8</version>
   </dependency>
+
+      <dependency>
+          <groupId>javax.mail</groupId>
+          <artifactId>javax.mail-api</artifactId>
+          <version>1.6.2</version>
+      </dependency>
+
   </dependencies>
 
   <build>
