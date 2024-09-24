@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+
+import common.Mail;
 import dal.AccountDAO;
 import dal.OtpDAO;
 import jakarta.servlet.*;
@@ -59,7 +61,7 @@ public class ForgotpasswordController extends HttpServlet {
         }
 
         // Gửi email
-        boolean emailSent = sendEmail(email, newPassword);
+        boolean emailSent = Mail.sendEmail(email, newPassword);
         if (emailSent) {
             request.setAttribute("msg", "Mật khẩu mới đã được gửi đến email của bạn.");
         } else {
@@ -69,40 +71,5 @@ public class ForgotpasswordController extends HttpServlet {
         request.getRequestDispatcher("Forgotpassword.jsp").forward(request, response);
     }
 
-    // Phương thức gửi email
-    private boolean sendEmail(String recipientEmail, String newPassword) {
-        final String from = "anhnhhe163978@fpt.edu.vn"; // Địa chỉ email gửi
-        final String password = "towrxxswfdpxldxg"; // Mật khẩu ứng dụng
 
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP host
-        props.put("mail.smtp.port", "587"); // TLS port
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-
-        // Tạo Authenticator
-        Authenticator auth = new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from, password);
-            }
-        };
-
-        Session session = Session.getInstance(props, auth);
-
-        try {
-            // Tạo tin nhắn
-            MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(from));
-            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
-            msg.setSubject("OnlineSellingFood OTP");
-            msg.setText("New OTP: " + newPassword);
-
-            // Gửi email
-            Transport.send(msg);
-            return true;
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 }
