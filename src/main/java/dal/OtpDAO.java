@@ -13,25 +13,25 @@ public class OtpDAO extends  DBContext{
         return new Otp(rs.getInt("AccountID"), rs.getString("Code"), rs.getObject("ExpiryDateTime", LocalDateTime.class));
     }
 
-    public Otp getOtp(String otp) throws NoSuchAlgorithmException {
+    public Otp getOtp(String otp) {
         try{
             PreparedStatement ps = connection.prepareStatement("select * from OTP where Code=?");
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(otp)));
             return (Otp)getObject(ps);
-        }catch (SQLException ex){
+        }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
-    public ResultSet addOtp(Otp otp) throws NoSuchAlgorithmException{
+    public ResultSet addOtp(Otp otp) {
         try{
             PreparedStatement ps = connection.prepareStatement("insert into OTP (AccountID, Code, ExpiryDateTime) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, otp.getAccountID());
             ps.setString(2, Encrypt.toHexString(Encrypt.getSHA(otp.getCode())));
             ps.setTimestamp(3, Timestamp.valueOf(otp.getExpiryDateTime()));
             return executeUpdate(ps);
-        }catch (SQLException ex){
+        }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }
         return null;
