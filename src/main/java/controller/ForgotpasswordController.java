@@ -7,8 +7,10 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Account;
+import model.Otp;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -34,6 +36,7 @@ public class ForgotpasswordController extends HttpServlet {
         // Kiểm tra email có tồn tại không
         Account account = daoAccount.getAccountIdByEmail(email);
         if (account == null) {
+            System.out.println("Email không tồn tại, vui lòng kiểm tra lại!");
             request.setAttribute("msg", "Email không tồn tại, vui lòng kiểm tra lại!");
             request.getRequestDispatcher("Forgotpassword.jsp").forward(request, response);
             return;
@@ -42,17 +45,17 @@ public class ForgotpasswordController extends HttpServlet {
         // Tạo mật khẩu mới ngẫu nhiên
         String newPassword = RandomPasswordGenerator.generateRandomString();
         // Lấy thời gian hiện tại và đặt thời gian hết hạn (5 phút)
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 5);
-        Date expiryDate = calendar.getTime();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.MINUTE, 5);
+//        Date expiryDate = calendar.getTime();
+//
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String formattedExpiryDate = dateFormat.format(expiryDate);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedExpiryDate = dateFormat.format(expiryDate);
+        Otp otp =  new Otp(account.getAccountID(), newPassword, LocalDateTime.now().plusMinutes(5));
         // Kiểm tra OTP trong DB và lưu hoặc cập nhật OTP
-        if (!daoOtp.isUserInOTP(account.getAccountID())) {
-            daoOtp.saveOtp(account.getAccountID(),newPassword,formattedExpiryDate);
-        } else {
-            daoOtp.updateOtp(account.getAccountID(),newPassword, formattedExpiryDate);
+        if (daoOtp.addOtp(otp)==null) {
+            daoOtp.updateOtp(otp);
         }
 
         // Gửi email
@@ -91,8 +94,8 @@ public class ForgotpasswordController extends HttpServlet {
             MimeMessage msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(from));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
-            msg.setSubject("Khôi phục tài khoản");
-            msg.setText("Mật khẩu mới của bạn là: " + newPassword);
+            msg.setSubject("OnlineSellingFood OTP");
+            msg.setText("New OTP: " + newPassword);
 
             // Gửi email
             Transport.send(msg);
