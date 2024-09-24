@@ -140,7 +140,7 @@ public class RegisterServlet extends HttpServlet {
 
             if(errorMessages.isEmpty()){
                 ResultSet accountResult = accountDAO.addAccount(newAccount);
-                if (accountResult.next()) {
+                if (accountResult!=null) {
                     response.sendRedirect("success.jsp");
                 } else {
                     // Rollback the contact information in case of failure

@@ -141,7 +141,7 @@ public class RegisterAdminServlet extends HttpServlet {
             if(errorMessages.isEmpty()) {
                 // Add account to the database
                 ResultSet accountResult = accountDAO.addAccount(newAccount);
-                if (!accountResult.wasNull()) {
+                if (accountResult!=null) {
                     response.sendRedirect("success.jsp");
                 } else {
                     // Rollback the contact information in case of failure
