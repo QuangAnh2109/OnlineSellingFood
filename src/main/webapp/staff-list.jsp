@@ -58,14 +58,14 @@
           <a href="page-orders-detail.html">Order detail</a>
         </div>
       </li>
-      <li class="menu-item has-submenu active">
+      <li class="menu-item has-submenu ">
         <a class="menu-link" href="page-sellers-cards.html">
           <i class="icon material-icons md-store"></i>
           <span class="text">Sellers</span>
         </a>
         <div class="submenu">
           <a href="page-sellers-cards.html">Sellers cards</a>
-          <a href="page-sellers-list.html" class="active">Sellers list</a>
+          <a href="page-sellers-list.html" >Sellers list</a>
           <a href="page-seller-detail.html">Seller profile</a>
         </div>
       </li>
@@ -91,13 +91,13 @@
           <a href="page-transactions-2.html">Transaction 2</a>
         </div>
       </li>
-      <li class="menu-item has-submenu">
+      <li class="menu-item has-submenu active">
         <a class="menu-link" href="#">
           <i class="icon material-icons md-person"></i>
           <span class="text">Staff</span>
         </a>
         <div class="submenu">
-          <a href="${pageContext.request.contextPath}/staffList">Staff list</a>
+          <a href="${pageContext.request.contextPath}/staffList" class="active">Staff list</a>
           <a href="${pageContext.request.contextPath}/login">Staff login</a>
           <a href="${pageContext.request.contextPath}/register-admin">Staff registration</a>
           <a href="page-error-404.html">Error 404</a>
@@ -199,7 +199,7 @@
   </header>
   <section class="content-main">
     <div class="content-header">
-      <h2 class="content-title">Sellers list</h2>
+      <h2 class="content-title">Staff List</h2>
       <div>
         <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
       </div>
