@@ -683,7 +683,7 @@
                     List<String> errorMessages = new ArrayList<>();
                     String email = request.getParameter("email");
                     String otp = request.getParameter("otp");
-                    Account acc = new AccountDAO().getAccountIdByEmail(email);
+                    Account acc = new AccountDAO().getAccountByEmail(email);
                     if(acc==null){
                       errorMessages.add("Registration failed. Please try again.");
                       request.setAttribute("errorMessages", errorMessages);
@@ -694,6 +694,7 @@
                         response.sendRedirect("home-page.jsp");
                       }
                       else{
+                        new OtpDAO().deleteOtp(acc.getAccountID());
                   %>
                   <form  method="post" action="${pageContext.request.contextPath}/ChangePassForgotServlet" onsubmit="return validateForm()">
                     <div class="form-group">

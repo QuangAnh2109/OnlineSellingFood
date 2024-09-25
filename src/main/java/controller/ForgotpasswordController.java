@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import common.Mail;
+import common.RandomPasswordGenerator;
 import dal.AccountDAO;
 import dal.OtpDAO;
 import jakarta.servlet.*;
@@ -11,12 +12,7 @@ import jakarta.servlet.annotation.*;
 import model.Account;
 import model.Otp;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 @WebServlet(name = "ForgotpasswordController", urlPatterns = "/forgotpassword")
 public class ForgotpasswordController extends HttpServlet {
@@ -36,7 +32,7 @@ public class ForgotpasswordController extends HttpServlet {
         String email = request.getParameter("email").trim();
 
         // Kiểm tra email có tồn tại không
-        Account account = daoAccount.getAccountIdByEmail(email);
+        Account account = daoAccount.getAccountByEmail(email);
         if (account == null) {
             System.out.println("Email không tồn tại, vui lòng kiểm tra lại!");
             request.setAttribute("msg", "Email không tồn tại, vui lòng kiểm tra lại!");

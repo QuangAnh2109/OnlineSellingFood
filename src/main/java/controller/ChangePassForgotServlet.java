@@ -40,7 +40,7 @@ public class ChangePassForgotServlet extends HttpServlet {
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
-        new AccountDAO().updateAccountPassword(accountID, newPass);
+        new AccountDAO().updateAccountPasswordForUser(accountID, newPass);
         response.sendRedirect("login");
     }
 }

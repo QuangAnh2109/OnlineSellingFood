@@ -30,6 +30,18 @@ public class AccountDAO extends DBContext{
         return null;
     }
 
+    public Account getAccountByEmail(String email){
+        try{
+            PreparedStatement ps = connection.prepareStatement("select * from Account where Email=?");
+            ps.setString(1, email);
+
+            return (Account)getObject(ps);
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+
     //get account by account id
     public Account getAccountByAccountID(int accountID){
         try{
@@ -74,7 +86,7 @@ public class AccountDAO extends DBContext{
     }
     public ResultSet updateAccountPasswordForUser(int accountID, String password){
         try{
-            PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=? and RoleID = 6", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(password)));
 
             ps.setInt(2, accountID);
