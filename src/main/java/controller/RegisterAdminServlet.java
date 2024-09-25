@@ -26,7 +26,7 @@ public class RegisterAdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/nest-backend/page-account-register.jsp");
+        request.getRequestDispatcher("page-account-register.jsp").forward(request, response);
     }
 
     @Override
