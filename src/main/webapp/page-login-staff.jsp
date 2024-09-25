@@ -72,14 +72,14 @@
   <section class="content-main mt-80 mb-80">
     <div class="card mx-auto card-login">
       <div class="card-body">
-        <h4 class="card-title mb-4">Sign in</h4>
+        <h4 class="card-title mb-4">Change Password</h4>
         <form>
           <div class="mb-3">
-            <input class="form-control" placeholder="Username or email" type="text" />
+            <input class="form-control" placeholder="New Password" type="text" />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <input class="form-control" placeholder="Password" type="password" />
+            <input class="form-control" placeholder="Confirm Password" type="password" />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
