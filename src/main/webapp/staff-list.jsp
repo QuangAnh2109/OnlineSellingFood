@@ -99,7 +99,6 @@
         <div class="submenu">
           <a href="${pageContext.request.contextPath}/staffList" class="active">Staff list</a>
           <a href="${pageContext.request.contextPath}/login">Staff login</a>
-          <a href="${pageContext.request.contextPath}/register-admin">Staff registration</a>
           <a href="page-error-404.html">Error 404</a>
         </div>
       </li>
@@ -201,7 +200,7 @@
     <div class="content-header">
       <h2 class="content-title">Staff List</h2>
       <div>
-        <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+        <a href="${pageContext.request.contextPath}/register-admin" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
       </div>
     </div>
     <div class="card mb-4">
@@ -257,7 +256,7 @@
               <td><span class="badge rounded-pill alert-success">Active</span></td>
               <td>08.07.2020</td>
               <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                <a href="staff-detail.jsp" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
               </td>
             </tr>
             <tr>
