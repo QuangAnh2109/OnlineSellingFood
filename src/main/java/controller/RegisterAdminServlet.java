@@ -71,7 +71,7 @@ public class RegisterAdminServlet extends HttpServlet {
             try {
                 ResultSet rs = contactInfoDAO.addContact(contact);
                 rs.next();
-                contact.setContactInformationID(rs.getInt("ContactInformationID"));
+                contact.setContactInformationID(rs.getInt(1));
             } catch (SQLException e) {
                 errorMessages.add(e.getMessage());
                 request.setAttribute("errorMessages", errorMessages);
@@ -97,10 +97,10 @@ public class RegisterAdminServlet extends HttpServlet {
                 // Add account to the database
                 ResultSet accountResult = accountDAO.addAccount(newAccount);
                 if (accountResult != null && accountResult.next()) {
-                    int accountID = accountResult.getInt("AccountID");
+                    int accountID = accountResult.getInt(1);
 
                     // Insert Staff record with default salary and warehouseID set to 0
-                    Staff newStaff = new Staff(accountID, 0, 0); // Salary and warehouseID set to 0
+                    Staff newStaff = new Staff(accountID, 0, 0);
                     staffDAO.addStaff(newStaff);
 
                     response.sendRedirect("success.jsp");

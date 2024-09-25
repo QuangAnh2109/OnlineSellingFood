@@ -79,7 +79,7 @@ public class RegisterServlet extends HttpServlet {
             try {
                 ResultSet rs = contactInfoDAO.addContact(contact);
                 rs.next();
-                contact.setContactInformationID(rs.getInt("ContactInformationID"));
+                contact.setContactInformationID(rs.getInt(1));
             } catch (SQLException e) {
                 errorMessages.add(e.getMessage());
                 request.setAttribute("errorMessages", errorMessages);
@@ -96,10 +96,10 @@ public class RegisterServlet extends HttpServlet {
                 ResultSet accountResult = accountDAO.addAccount(newAccount);
                 if (accountResult.next()) {
                     // Get the generated AccountID
-                    int accountID = accountResult.getInt("AccountID");
+                    int accountID = accountResult.getInt(1);
 
                     // Create a new Customer object with initial point = 0 and level = 0
-                    Customer newCustomer = new Customer(0, accountID, 0, 0);
+                    Customer newCustomer = new Customer(accountID, 0, 0);
 
                     // Insert the new Customer into the database
                     CustomerDAO customerDAO = new CustomerDAO();
