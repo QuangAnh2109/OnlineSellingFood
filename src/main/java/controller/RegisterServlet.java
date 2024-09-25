@@ -23,7 +23,7 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-register.jsp");
+        request.getRequestDispatcher("page-register.jsp").forward(request, response);
     }
 
     @Override

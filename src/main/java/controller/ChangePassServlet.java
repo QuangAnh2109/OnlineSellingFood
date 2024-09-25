@@ -50,11 +50,7 @@ public class ChangePassServlet extends HttpServlet {
         AccountDAO dao = new AccountDAO();
         Account account = (Account) request.getSession().getAttribute("account");
         Account a = null;
-        try {
-            a = dao.getAccountByEmailPassword(account.getEmail(), op);
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println(ex.getMessage());
-        }
+        a = dao.getAccountByEmailPassword(account.getEmail(), op);
         if (a == null) {
             errorMessages.add("Old password is incorect!!");
             request.setAttribute("errorMessages", errorMessages);

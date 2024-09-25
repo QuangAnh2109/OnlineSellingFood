@@ -53,11 +53,7 @@ public class LoginServlet extends HttpServlet {
         AccountDAO dao=new AccountDAO();
         ContactInformationDAO cdao=new ContactInformationDAO();
         Account a= null;
-        try {
-            a = dao.getAccountByEmailPassword(email, password);
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println(e.getMessage());
-        }
+        a = dao.getAccountByEmailPassword(email, password);
 
         if(a==null){
             errorMessages.add("Username or Password invalid!!");
