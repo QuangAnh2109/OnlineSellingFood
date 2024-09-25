@@ -26,7 +26,7 @@ public class ChangePassForgotServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> errorMessages = new ArrayList<>();
-        Integer accountID = (Integer)request.getAttribute("account");
+        Integer accountID = Integer.parseInt(request.getParameter("account"));
         String newPass = request.getParameter("newPassword"), confirmPass = request.getParameter("confirmPassword");
         if (!confirmPass.equals(newPass)) {
             errorMessages.add("New password must equal confirm password!");

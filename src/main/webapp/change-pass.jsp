@@ -681,7 +681,7 @@
                   </div>
                   <%
                     List<String> errorMessages = new ArrayList<>();
-                    String email = request.getParameter("emailforgot");
+                    String email = request.getParameter("email");
                     String otp = request.getParameter("otp");
                     Account acc = new AccountDAO().getAccountIdByEmail(email);
                     if(acc==null){
@@ -697,7 +697,7 @@
                   %>
                   <form  method="post" action="${pageContext.request.contextPath}/ChangePassForgotServlet" onsubmit="return validateForm()">
                     <div class="form-group">
-                      <input name="account" type="hidden" value="<%System.out.println(acc.getAccountID());%>">
+                      <input name="account" type="hidden" value="<%out.print(acc.getAccountID());%>">
                       <input name="newPassword" type="password" required=""  placeholder="Enter new password  *" />
                       <input name="confirmPassword" type="password" required=""  placeholder="Confirm password  *" />
                     </div>
