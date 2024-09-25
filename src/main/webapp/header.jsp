@@ -139,10 +139,10 @@
                                 <a href="page-account.html">
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                                 </a>
-                                <a href="page-account.html"><span class="lable ml-0">Account</span></a>
+                                <a href="page-account.html"><span class="lable ml-0">${account.firstName} ${account.lastName}</span></a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
-                                        <li><a href="page-account.html"><i class="fi fi-rs-user mr-10"></i>My Account</a></li>
+                                        <li><a href="page-account.jsp"><i class="fi fi-rs-user mr-10"></i>My Account</a></li>
                                         <li><a href="page-account.html"><i class="fi fi-rs-location-alt mr-10"></i>Order Tracking</a></li>
                                         <li><a href="page-account.html"><i class="fi fi-rs-label mr-10"></i>My Voucher</a></li>
                                         <li><a href="shop-wishlist.html"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a></li>

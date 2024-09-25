@@ -2,6 +2,13 @@
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 9/25/2024
+  Time: 4:01 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: ADMIN
+  Date: 9/25/2024
   Time: 7:54 AM
   To change this template use File | Settings | File Templates.
 --%>
@@ -72,26 +79,24 @@
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">
             <div class="card-body">
-                <h4 class="card-title mb-4">Sign in</h4>
-                <form action="loginstaff" method="post">
+                <h4 class="card-title mb-4">Change Password</h4>
+                <form action="changepassstaff" method="post" >
+
                     <div class="mb-3">
-                        <input class="form-control" placeholder="Username or email" name="email" type="text" />
+                        <input class="form-control" placeholder="New Password" name="newPassword" type="password" />
                     </div>
                     <!-- form-group// -->
                     <div class="mb-3">
-                        <input class="form-control" placeholder="Password" name="password" type="password" />
+                        <input class="form-control" placeholder="Confirm Password" name="confirmPassword" type="password" />
                     </div>
                     <!-- form-group// -->
                     <div class="mb-3">
                         <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
-                        <label class="form-check">
-                            <input type="checkbox" class="form-check-input" ${(cookie.crem!=null?'checked':'')} name="rem" id="remember_me" value="ON" />
-                            <span class="form-check-label">Remember</span>
-                        </label>
+
                     </div>
                     <!-- form-group form-check .// -->
                     <div class="mb-4">
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <button type="submit" class="btn btn-primary w-100">Change Password</button>
                     </div>
                     <!-- form-group// -->
                 </form>
@@ -116,5 +121,6 @@
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 </body>
 </html>
+
 
 

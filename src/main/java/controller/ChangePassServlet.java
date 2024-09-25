@@ -56,22 +56,29 @@ public class ChangePassServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         } else {
-            if (!np.equals(cp)) {
+            if (np.length() < 8||cp.length() < 8) {
+                errorMessages.add("Password must be more than 8 characters.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+            else if (!np.equals(cp)) {
                 errorMessages.add("New password must equal confirm password!");
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             } else {
                 try {
-                    if (Encrypt.toHexString(Encrypt.getSHA(op)).equals(np)) {
+                    if (Encrypt.toHexString(Encrypt.getSHA(op)).equals(Encrypt.toHexString(Encrypt.getSHA(np)))) {
                         errorMessages.add("New password duplicate old password!");
                         request.setAttribute("errorMessages", errorMessages);
                         request.getRequestDispatcher("error.jsp").forward(request, response);
                     } else {
-                        dao.updateAccountPassword(account.getAccountID(), np);
+                        dao.updateAccountPasswordForUser(account.getAccountID(), np);
+
                         HttpSession session = request.getSession();
                         session.removeAttribute("account");
                         session.removeAttribute("contactInformation");
-                        request.getRequestDispatcher("login").forward(request, response);
+                        response.sendRedirect("login");
+                        //request.getRequestDispatcher("login").forward(request, response);
                     }
                 } catch (NoSuchAlgorithmException ex) {
                     System.out.println(ex.getMessage());

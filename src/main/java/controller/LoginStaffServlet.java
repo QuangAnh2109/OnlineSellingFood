@@ -58,12 +58,16 @@ public class LoginStaffServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }else{
-
-            ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
-            HttpSession session = request.getSession();
-            session.setAttribute("account", a);
-            session.setAttribute("contactInformation", ci);
-            response.sendRedirect("home-page.jsp");
+            if(a.getStatusID()==3){
+                ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
+                HttpSession session = request.getSession();
+                session.setAttribute("account", a);
+                session.setAttribute("contactInformation", ci);
+                session.setMaxInactiveInterval(36000);
+                response.sendRedirect("changepassstaff");
+            }else{
+                response.sendRedirect("home-page-admin.jsp");
+            }
         }
     }
 }
