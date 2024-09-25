@@ -13,15 +13,15 @@ public class OtpDAO extends  DBContext{
         return new Otp(rs.getInt("AccountID"), rs.getString("Code"), rs.getObject("ExpiryDateTime", LocalDateTime.class));
     }
 
-    public Otp getOtp(String otp) {
+    public boolean checkOtp(int accountID, String otp) {
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from OTP where Code=?");
+            PreparedStatement ps = connection.prepareStatement("select * from OTP where Code=? and AccountID=?");
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(otp)));
-            return (Otp)getObject(ps);
+            if(getObject(ps)!=null) return true;
         }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
     public ResultSet addOtp(Otp otp) {
@@ -44,6 +44,19 @@ public class OtpDAO extends  DBContext{
             return executeUpdate(ps);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+
+    public ResultSet updateOtp(Otp otp) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE OTP SET Code = ?, ExpiryDateTime = ? WHERE AccountID = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(3, otp.getAccountID());
+            ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(otp.getCode())));
+            ps.setTimestamp(2, Timestamp.valueOf(otp.getExpiryDateTime()));
+            return executeUpdate(ps);
+        } catch (SQLException | NoSuchAlgorithmException e) {
+            System.out.println(e);
         }
         return null;
     }
