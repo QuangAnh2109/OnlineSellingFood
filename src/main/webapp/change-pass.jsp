@@ -1,3 +1,8 @@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.Account" %>
+<%@ page import="dal.AccountDAO" %>
+<%@ page import="dal.OtpDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -675,33 +680,36 @@
                     <p class="mb-30">Don't have an account? <a href="page-register.html">Create here</a></p>
                   </div>
                   <%
-                    String str = request.getParameter("email");
-                    if(str==null){
-                  %>
-                  <form  method="post" action="${pageContext.request.contextPath}/forgotpassword" onsubmit="return validateForm()">
-                    <div class="form-group">
-                      <input name="email" id="email" type="text" required=""  placeholder="Enter Email  *" />
-                    </div>
-                    <div class="form-group">
-                      <button type="submit" class="button is-primary" >Submit</button>
-                    </div><
-                  </form>
-                  <%
+                    List<String> errorMessages = new ArrayList<>();
+                    String email = request.getParameter("emailforgot");
+                    String otp = request.getParameter("otp");
+                    Account acc = new AccountDAO().getAccountIdByEmail(email);
+                    if(acc==null){
+                      errorMessages.add("Registration failed. Please try again.");
+                      request.setAttribute("errorMessages", errorMessages);
+                      request.getRequestDispatcher("error.jsp").forward(request, response);
                     }
                     else{
+                      if(!new OtpDAO().checkOtp(acc.getAccountID(), otp)){
+                        response.sendRedirect("home-page.jsp");
+                      }
+                      else{
                   %>
-                  <form  method="post" action="${pageContext.request.contextPath}/checkotp" onsubmit="return validateForm()">
+                  <form  method="post" action="${pageContext.request.contextPath}/ChangePassForgotServlet" onsubmit="return validateForm()">
                     <div class="form-group">
-                      <input name="email" id="emailforgot" type="text" required="" value="<%System.out.println(str);%>" readonly />
-                      <input name="otp" id="otp" type="text" required=""  placeholder="Enter OTP  *" />
+                      <input name="account" type="hidden" value="<%System.out.println(acc.getAccountID());%>">
+                      <input name="newPassword" type="password" required=""  placeholder="Enter new password  *" />
+                      <input name="confirmPassword" type="password" required=""  placeholder="Confirm password  *" />
                     </div>
                     <div class="form-group">
                       <button type="submit" class="button is-primary" >Submit</button>
                     </div><
                   </form>
                   <%
+                      }
                     }
                   %>
+
 
                 </div>
               </div>
@@ -926,29 +934,29 @@
       </div>
     </div>
   </div>
-<!-- Vendor JS-->
-<script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
-<script src="nest-frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-<script src="nest-frontend/assets/js/vendor/bootstrap.bundle.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/slick.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.syotimer.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/wow.js"></script>
-<script src="nest-frontend/assets/js/plugins/perfect-scrollbar.js"></script>
-<script src="nest-frontend/assets/js/plugins/magnific-popup.js"></script>
-<script src="nest-frontend/assets/js/plugins/select2.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/waypoints.js"></script>
-<script src="nest-frontend/assets/js/plugins/counterup.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.countdown.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/images-loaded.js"></script>
-<script src="nest-frontend/assets/js/plugins/isotope.js"></script>
-<script src="nest-frontend/assets/js/plugins/scrollup.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.vticker-min.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.theia.sticky.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.elevatezoom.js"></script>
-<!-- Template  JS -->
-<script src="nest-frontend/assets/js/main.js?v=4.0"></script>
-<script src="nest-frontend/assets/js/shop.js?v=4.0"></script>
+  <!-- Vendor JS-->
+  <script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+  <script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
+  <script src="nest-frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+  <script src="nest-frontend/assets/js/vendor/bootstrap.bundle.min.js"></script>
+  <script src="nest-frontend/assets/js/plugins/slick.js"></script>
+  <script src="nest-frontend/assets/js/plugins/jquery.syotimer.min.js"></script>
+  <script src="nest-frontend/assets/js/plugins/wow.js"></script>
+  <script src="nest-frontend/assets/js/plugins/perfect-scrollbar.js"></script>
+  <script src="nest-frontend/assets/js/plugins/magnific-popup.js"></script>
+  <script src="nest-frontend/assets/js/plugins/select2.min.js"></script>
+  <script src="nest-frontend/assets/js/plugins/waypoints.js"></script>
+  <script src="nest-frontend/assets/js/plugins/counterup.js"></script>
+  <script src="nest-frontend/assets/js/plugins/jquery.countdown.min.js"></script>
+  <script src="nest-frontend/assets/js/plugins/images-loaded.js"></script>
+  <script src="nest-frontend/assets/js/plugins/isotope.js"></script>
+  <script src="nest-frontend/assets/js/plugins/scrollup.js"></script>
+  <script src="nest-frontend/assets/js/plugins/jquery.vticker-min.js"></script>
+  <script src="nest-frontend/assets/js/plugins/jquery.theia.sticky.js"></script>
+  <script src="nest-frontend/assets/js/plugins/jquery.elevatezoom.js"></script>
+  <!-- Template  JS -->
+  <script src="nest-frontend/assets/js/main.js?v=4.0"></script>
+  <script src="nest-frontend/assets/js/shop.js?v=4.0"></script>
 </div>
 </body>
 </html>

@@ -6,17 +6,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Cookie;
 import model.Account;
 import dal.AccountDAO;
 import jakarta.servlet.http.HttpSession;
-import dal.ContactInformationDAO;
-import model.ContactInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +38,6 @@ public class ChangePassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> errorMessages = new ArrayList<>();
-        String e = request.getParameter("email");
         String op = request.getParameter("oldPassword");
         String np = request.getParameter("newPassword");
         String cp = request.getParameter("confirmPassword");

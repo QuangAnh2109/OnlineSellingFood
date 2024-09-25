@@ -13,15 +13,16 @@ public class OtpDAO extends  DBContext{
         return new Otp(rs.getInt("AccountID"), rs.getString("Code"), rs.getObject("ExpiryDateTime", LocalDateTime.class));
     }
 
-    public Otp getOtp(String otp) throws NoSuchAlgorithmException {
+    public boolean checkOtp(int accountID, String otp) {
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from OTP where Code=?");
+            PreparedStatement ps = connection.prepareStatement("select * from OTP where Code=? and AccountID=?");
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(otp)));
-            return (Otp)getObject(ps);
-        }catch (SQLException ex){
+            ps.setInt(2, accountID);
+            if(getObject(ps)!=null) return true;
+        }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
     public ResultSet addOtp(Otp otp) {

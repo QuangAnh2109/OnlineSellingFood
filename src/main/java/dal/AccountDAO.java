@@ -60,13 +60,13 @@ public class AccountDAO extends DBContext{
         return null;
     }
 
-    public ResultSet updateAccountPassword(int accountID, String password) throws NoSuchAlgorithmException {
+    public ResultSet updateAccountPassword(int accountID, String password) {
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(password)));
             ps.setInt(2, accountID);
             return executeUpdate(ps);
-        }catch (SQLException ex){
+        }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }
         return null;
