@@ -75,11 +75,11 @@
         <h4 class="card-title mb-4">Change Password</h4>
         <form>
           <div class="mb-3">
-            <input class="form-control" placeholder="New Password" type="text" />
+            <input class="form-control" placeholder="New Password" name="newPassword" type="text" />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <input class="form-control" placeholder="Confirm Password" type="password" />
+            <input class="form-control" placeholder="Confirm Password" name="confirmPassword" type="password" />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
