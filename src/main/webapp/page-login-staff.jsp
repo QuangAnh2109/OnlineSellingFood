@@ -73,19 +73,21 @@
     <div class="card mx-auto card-login">
       <div class="card-body">
         <h4 class="card-title mb-4">Sign in</h4>
+        <c:set var="cookie" value="${pageContext.request.cookies}"/>
         <form>
           <div class="mb-3">
-            <input class="form-control" placeholder="Username or email" type="text" />
+            <input class="form-control" placeholder="Username or email" type="text" name="email"
+                   value="${cookie.cuser.value}/>
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <input class="form-control" placeholder="Password" type="password" />
+            <input class="form-control" placeholder="Password" type="password" name="password"  value="${cookie.cpass.value}" />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
             <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
             <label class="form-check">
-              <input type="checkbox" class="form-check-input" checked="" />
+              <input type="checkbox" class="form-check-input"  ${(cookie.crem!=null?'checked':'')} name="rem" id="remember_me" value="ON" />
               <span class="form-check-label">Remember</span>
             </label>
           </div>
