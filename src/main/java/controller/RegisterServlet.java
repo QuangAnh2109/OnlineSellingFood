@@ -124,7 +124,7 @@ public class RegisterServlet extends HttpServlet {
 */
         try{
             // Create the new Account
-            Account newAccount = new Account(6, Integer.parseInt(birthYearStr), contact.getContactInformationID(), 1, email, firstName, lastName, password, LocalDateTime.now());
+            Account newAccount = new Account(6, Integer.parseInt(birthYearStr), contact.getContactInformationID(), 2, email, firstName, lastName, password, LocalDateTime.now());
 
             // Debugging information
             System.out.println("Inserting Account with details: ");
