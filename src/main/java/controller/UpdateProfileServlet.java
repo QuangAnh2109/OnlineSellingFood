@@ -24,7 +24,7 @@ public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //request.getRequestDispatcher(request.getContextPath() + "/nest-frontend/page-account.jsp").forward(request, response);
-        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-account.jsp");
+        request.getRequestDispatcher("page-account.jsp").forward(request, response);
     }
 
     @Override

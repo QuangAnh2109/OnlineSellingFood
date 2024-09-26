@@ -6,17 +6,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Cookie;
 import model.Account;
 import dal.AccountDAO;
 import jakarta.servlet.http.HttpSession;
-import dal.ContactInformationDAO;
-import model.ContactInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +38,6 @@ public class ChangePassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> errorMessages = new ArrayList<>();
-        String e = request.getParameter("email");
         String op = request.getParameter("oldPassword");
         String np = request.getParameter("newPassword");
         String cp = request.getParameter("confirmPassword");
@@ -56,22 +50,29 @@ public class ChangePassServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         } else {
-            if (!np.equals(cp)) {
+            if (np.length() < 8||cp.length() < 8) {
+                errorMessages.add("Password must be more than 8 characters.");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+            else if (!np.equals(cp)) {
                 errorMessages.add("New password must equal confirm password!");
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             } else {
                 try {
-                    if (Encrypt.toHexString(Encrypt.getSHA(op)).equals(np)) {
+                    if (Encrypt.toHexString(Encrypt.getSHA(op)).equals(Encrypt.toHexString(Encrypt.getSHA(np)))) {
                         errorMessages.add("New password duplicate old password!");
                         request.setAttribute("errorMessages", errorMessages);
                         request.getRequestDispatcher("error.jsp").forward(request, response);
                     } else {
-                        dao.updateAccountPassword(account.getAccountID(), np);
-                        HttpSession session = request.getSession();
-                        session.removeAttribute("account");
-                        session.removeAttribute("contactInformation");
-                        request.getRequestDispatcher("login").forward(request, response);
+                        dao.updateAccountPasswordForUser(account.getAccountID(), np);
+
+//                        HttpSession session = request.getSession();
+//                        session.removeAttribute("account");
+//                        session.removeAttribute("contactInformation");
+                        response.sendRedirect("login");
+                        //request.getRequestDispatcher("login").forward(request, response);
                     }
                 } catch (NoSuchAlgorithmException ex) {
                     System.out.println(ex.getMessage());

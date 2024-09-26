@@ -12,18 +12,16 @@ import jakarta.servlet.http.HttpSession;
 import dal.ContactInformationDAO;
 import model.ContactInformation;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "LoginStaffServlet", urlPatterns = {"/loginstaff"})
+public class LoginStaffServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("page-login.jsp").forward(request, response);
+        request.getRequestDispatcher("page-login-staff.jsp").forward(request, response);
     }
 
     @Override
@@ -60,11 +58,16 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }else{
-            ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
-            HttpSession session = request.getSession();
-            session.setAttribute("account", a);
-            session.setAttribute("contactInformation", ci);
-            response.sendRedirect("home-page.jsp");
+            if(a.getStatusID()==3){
+                ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
+                HttpSession session = request.getSession();
+                session.setAttribute("account", a);
+                session.setAttribute("contactInformation", ci);
+                session.setMaxInactiveInterval(36000);
+                response.sendRedirect("changepassstaff");
+            }else{
+                response.sendRedirect("home-page-admin.jsp");
+            }
         }
     }
 }

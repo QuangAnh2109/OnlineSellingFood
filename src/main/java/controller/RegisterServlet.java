@@ -1,5 +1,8 @@
 package controller;
 
+import common.Mail;
+import common.RandomPasswordGenerator;
+import dal.OtpDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +14,8 @@ import model.Customer;
 import dal.AccountDAO;
 import dal.ContactInformationDAO;
 import dal.CustomerDAO;
+import model.Otp;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +28,7 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/nest-frontend/page-register.jsp");
+        request.getRequestDispatcher("page-register.jsp").forward(request, response);
     }
 
     @Override
@@ -91,7 +96,7 @@ public class RegisterServlet extends HttpServlet {
 
         try {
             // Create the new Account
-            Account newAccount = new Account(6, Integer.parseInt(birthYearStr), contact.getContactInformationID(), 1, email, firstName, lastName, password, LocalDateTime.now());
+            Account newAccount = new Account(6, Integer.parseInt(birthYearStr), contact.getContactInformationID(), 2, email, firstName, lastName, password, LocalDateTime.now());
 
             // Debugging information
             System.out.println("Inserting Account with details: ");
@@ -106,28 +111,35 @@ public class RegisterServlet extends HttpServlet {
             System.out.println("Time: " + newAccount.getTime());
 
             if(errorMessages.isEmpty()){
-                ResultSet accountResult = accountDAO.addAccount(newAccount);
-                if (accountResult.next()) {
-                    // Get the generated AccountID
-                    int accountID = accountResult.getInt(1);
+                String otp = RandomPasswordGenerator.generateRandomString();
+                if(Mail.sendEmail(newAccount.getEmail(), otp)){
+                    ResultSet accountResult = accountDAO.addAccount(newAccount);
+                    if (accountResult!=null) {
+                        accountResult.next();
+                        // Get the generated AccountID
+                        int accountID = accountResult.getInt(1);
+                        // Create a new Customer object with initial point = 0 and level = 0
+                        Customer newCustomer = new Customer(accountID, 0, 0);
 
-                    // Create a new Customer object with initial point = 0 and level = 0
-                    Customer newCustomer = new Customer(accountID, 0, 0);
-
-                    // Insert the new Customer into the database
-                    CustomerDAO customerDAO = new CustomerDAO();
-                    ResultSet customerResult = customerDAO.addCustomer(newCustomer);
-
-                    // Check if the customer was added successfully
-                    if (customerResult.next()) {
-                        response.sendRedirect("success.jsp");
+                        // Insert the new Customer into the database
+                        CustomerDAO customerDAO = new CustomerDAO();
+                        ResultSet customerResult = customerDAO.addCustomer(newCustomer);
+                        //Insert new Otp into database
+                        new OtpDAO().addOtp(new Otp(accountID, otp, LocalDateTime.now().plusMinutes(5)));
+                        request.setAttribute("accountID", accountResult.getInt(1));
+                        request.getRequestDispatcher("authenAccount.jsp").forward(request, response);
                     } else {
                         // Rollback the contact information in case of failure
-                        if (!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
+                        if(!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
                         errorMessages.add("Registration failed. Please try again.");
                         request.setAttribute("errorMessages", errorMessages);
                         request.getRequestDispatcher("error.jsp").forward(request, response);
                     }
+                }
+                else{
+                    errorMessages.add("Some error when make and send email");
+                    request.setAttribute("errorMessages", errorMessages);
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
             }
         } catch (Exception e) {

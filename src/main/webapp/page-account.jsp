@@ -621,7 +621,7 @@
           <a href="page-contact.html"><i class="fi-rs-marker"></i> Our location </a>
         </div>
         <div class="single-mobile-header-info">
-          <a href="page-login.html"><i class="fi-rs-user"></i>Log In / Sign Up </a>
+          <a href="login"><i class="fi-rs-user"></i>Log In / Sign Up </a>
         </div>
         <div class="single-mobile-header-info">
           <a href="#"><i class="fi-rs-headphones"></i>(+01) - 2345 - 6789 </a>
@@ -807,8 +807,8 @@
                       <h5>Account Details</h5>
                     </div>
                     <div class="card-body">
-                      <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
-                      <form action="${pageContext.request.contextPath}/profile" method="post" name="enq">
+                      <p>Already have an account? <a href="login">Log in instead!</a></p>
+                      <form action="profile" method="post" name="enq">
                         <div class="row">
                           <div class="form-group col-md-6">
                             <label>First Name <span class="required">*</span></label>
@@ -854,7 +854,7 @@
                       <h5>Change Password</h5>
                     </div>
                     <div class="card-body">
-                      <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
+                      <p>Already have an account? <a href="login">Log in instead!</a></p>
                       <form  action="${pageContext.request.contextPath}/changepass" name="enq">
                         <div class="form-group col-md-12">
                           <input  type="hidden" required="" class="form-control" name="email" value="${account.email}"  />
