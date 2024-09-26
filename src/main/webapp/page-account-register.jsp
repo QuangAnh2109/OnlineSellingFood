@@ -76,6 +76,11 @@
               <option value="4">Warehouse Management</option>
               <option value="5">Sales Management</option>
             </select>
+          </div><!-- form-group// -->
+
+          <div class="mb-3">
+            <label class="form-label">Warehouse</label>
+            <input class="form-control" name="warehouse" placeholder="Warehouse number" type="text" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">

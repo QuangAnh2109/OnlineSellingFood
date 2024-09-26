@@ -12,6 +12,11 @@ public class Staff {
         this.salary = salary;
         this.warehouseID = warehouseID;
     }
+    public Staff(int accountID, int salary, int warehouseID) {
+        this.accountID = accountID;
+        this.salary = salary;
+        this.warehouseID = warehouseID;
+    }
 
     public int getStaffID() {
         return staffID;

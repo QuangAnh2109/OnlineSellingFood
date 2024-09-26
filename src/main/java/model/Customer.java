@@ -13,6 +13,11 @@ public class Customer {
         this.point = point;
         this.level = level;
     }
+    public Customer(int accountID, int point, int level) {
+        this.accountID = accountID;
+        this.point = point;
+        this.level = level;
+    }
 
     public int getCustomerID() {
         return customerID;
