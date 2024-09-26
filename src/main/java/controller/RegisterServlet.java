@@ -1,5 +1,8 @@
 package controller;
 
+import common.Mail;
+import common.RandomPasswordGenerator;
+import dal.OtpDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,6 +12,8 @@ import model.Account;
 import dal.AccountDAO;
 import dal.ContactInformationDAO;
 import model.ContactInformation;
+import model.Otp;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
@@ -139,16 +144,28 @@ public class RegisterServlet extends HttpServlet {
             System.out.println("Time: " + newAccount.getTime());
 
             if(errorMessages.isEmpty()){
-                ResultSet accountResult = accountDAO.addAccount(newAccount);
-                if (accountResult!=null) {
-                    response.sendRedirect("success.jsp");
-                } else {
-                    // Rollback the contact information in case of failure
-                    if(!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
-                    errorMessages.add("Registration failed. Please try again.");
+                String otp = RandomPasswordGenerator.generateRandomString();
+                if(Mail.sendEmail(newAccount.getEmail(), otp)){
+                    ResultSet accountResult = accountDAO.addAccount(newAccount);
+                    if (accountResult!=null) {
+                        accountResult.next();
+                        new OtpDAO().addOtp(new Otp(accountResult.getInt(1), otp, LocalDateTime.now().plusMinutes(5)));
+                        request.setAttribute("accountID", accountResult.getInt(1));
+                        request.getRequestDispatcher("authenAccount.jsp").forward(request, response);
+                    } else {
+                        // Rollback the contact information in case of failure
+                        if(!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
+                        errorMessages.add("Registration failed. Please try again.");
+                        request.setAttribute("errorMessages", errorMessages);
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                }
+                else{
+                    errorMessages.add("Some error when make and send email");
                     request.setAttribute("errorMessages", errorMessages);
                     request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
+
             }
         } catch (Exception e) {
             // Log the actual exception message to the console and display on the error page

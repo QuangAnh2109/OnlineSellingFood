@@ -17,6 +17,7 @@ public class OtpDAO extends  DBContext{
         try{
             PreparedStatement ps = connection.prepareStatement("select * from OTP where Code=? and AccountID=?");
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(otp)));
+            ps.setInt(2, accountID);
             Otp o = (Otp)getObject(ps);
             if(o!=null && o.getExpiryDateTime().compareTo(LocalDateTime.now())>=0){
                 return true;

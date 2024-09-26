@@ -1,3 +1,8 @@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.Account" %>
+<%@ page import="dal.AccountDAO" %>
+<%@ page import="dal.OtpDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -671,18 +676,28 @@
                             <div class="login_wrap widget-taber-content background-white">
                                 <div class="padding_eight_all bg-white">
                                     <div class="heading_s1">
-                                        <h1 class="mb-5">Forgot Password</h1>
+                                        <h1 class="mb-5">OTP</h1>
                                         <p class="mb-30">Don't have an account? <a href="page-register.html">Create here</a></p>
                                     </div>
-
-                                    <form  method="post" action="/checkAuthen" onsubmit="return validateForm()">
+                                    <%
+                                        Integer accountID = (Integer)request.getAttribute("accountID");
+                                        if(accountID==null) {
+                                            response.sendRedirect("home-page.jsp");
+                                        }
+                                        else{
+                                    %>
+                                    <form  method="post" action="checkAuthen" onsubmit="return validateForm()">
                                         <div class="form-group">
-                                            <input name="otp" id="otp" type="text" required=""  placeholder="Enter OTP  *" />
+                                            <input name="accountID" type="hidden" value="<%out.print(accountID);%>">
+                                            <input name="otp" type="text" required=""  placeholder="Enter OTP  *" />
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="button is-primary" >Submit</button>
                                         </div><
                                     </form>
+                                    <%
+                                        }
+                                    %>
 
 
                                 </div>

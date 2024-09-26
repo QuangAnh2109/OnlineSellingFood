@@ -21,11 +21,13 @@ public class CheckAuthen extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Account acc = (Account)request.getSession().getAttribute("account");
+        int accountID = Integer.parseInt(request.getParameter("accountID"));
         String otp = request.getParameter("otp");
-        if(new OtpDAO().checkOtp(acc.getAccountID(), otp)){
+        if(new OtpDAO().checkOtp(accountID, otp)){
+            AccountDAO accDAO = new AccountDAO();
+            Account acc = accDAO.getAccountByAccountID(accountID);
             acc.setStatusID(1);
-            new AccountDAO().updateAccountInformation(acc);
+            accDAO.updateAccountInformation(acc);
         }
         response.sendRedirect("home-page.jsp");
     }
