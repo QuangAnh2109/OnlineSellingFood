@@ -135,11 +135,14 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="header-action-icon-2">
+                                <c:if test="${account.email!=null}" >
                                 <a href="page-account.html">
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                                 </a>
                                 <a href="page-account.html"><span class="lable ml-0">${account.firstName} ${account.lastName}</span></a>
+
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
                                         <li><a href="page-account.jsp"><i class="fi fi-rs-user mr-10"></i>My Account</a></li>
@@ -150,7 +153,9 @@
                                         <li><a href="${pageContext.request.contextPath}/logout"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
                                     </ul>
                                 </div>
+                                </c:if>
                             </div>
+
                         </div>
                     </div>
                 </div>

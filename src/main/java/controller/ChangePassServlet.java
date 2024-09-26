@@ -68,9 +68,9 @@ public class ChangePassServlet extends HttpServlet {
                     } else {
                         dao.updateAccountPasswordForUser(account.getAccountID(), np);
 
-                        HttpSession session = request.getSession();
-                        session.removeAttribute("account");
-                        session.removeAttribute("contactInformation");
+//                        HttpSession session = request.getSession();
+//                        session.removeAttribute("account");
+//                        session.removeAttribute("contactInformation");
                         response.sendRedirect("login");
                         //request.getRequestDispatcher("login").forward(request, response);
                     }

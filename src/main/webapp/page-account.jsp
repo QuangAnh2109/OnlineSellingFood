@@ -808,7 +808,7 @@
                     </div>
                     <div class="card-body">
                       <p>Already have an account? <a href="login">Log in instead!</a></p>
-                      <form action="${pageContext.request.contextPath}/profile" method="post" name="enq">
+                      <form action="profile" method="post" name="enq">
                         <div class="row">
                           <div class="form-group col-md-6">
                             <label>First Name <span class="required">*</span></label>
