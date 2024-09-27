@@ -23,7 +23,9 @@ public class CheckAuthen extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int accountID = Integer.parseInt(request.getParameter("accountID"));
         String otp = request.getParameter("otp");
-        if(new OtpDAO().checkOtp(accountID, otp)){
+        OtpDAO otpDAO = new OtpDAO();
+        if(otpDAO.checkOtp(accountID, otp)){
+            otpDAO.deleteOtp(accountID);
             AccountDAO accDAO = new AccountDAO();
             Account acc = accDAO.getAccountByAccountID(accountID);
             acc.setStatusID(1);
