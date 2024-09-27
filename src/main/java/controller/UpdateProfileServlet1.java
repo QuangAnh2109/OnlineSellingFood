@@ -13,18 +13,13 @@ import model.ContactInformation;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
-@WebServlet(name = "UpdateProfileServlet", urlPatterns = {"/profile"})
-public class UpdateProfileServlet extends HttpServlet {
+@WebServlet(name = "UpdateProfileServlet1", urlPatterns = {"/profile1"})
+public class UpdateProfileServlet1 extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //request.getRequestDispatcher(request.getContextPath() + "/nest-frontend/page-account.jsp").forward(request, response);
-        request.getRequestDispatcher("page-account.jsp").forward(request, response);
+        response.sendRedirect("page-account.jsp");
     }
 
     @Override
