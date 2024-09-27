@@ -13,6 +13,8 @@ import model.Account;
 import model.Otp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "ForgotpasswordController", urlPatterns = "/forgotpassword")
 public class ForgotpasswordController extends HttpServlet {
@@ -30,13 +32,14 @@ public class ForgotpasswordController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email").trim();
-
+        List<String> errorMessages = new ArrayList<>();
         // Kiểm tra email có tồn tại không
         Account account = daoAccount.getAccountByEmail(email);
         if (account == null) {
-            System.out.println("Email không tồn tại, vui lòng kiểm tra lại!");
-            request.setAttribute("msg", "Email không tồn tại, vui lòng kiểm tra lại!");
-            request.getRequestDispatcher("Forgotpassword.jsp").forward(request, response);
+
+            errorMessages.add("Email is not Exits!");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
 

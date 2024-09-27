@@ -698,7 +698,7 @@
                   %>
                   <form  method="post" action="${pageContext.request.contextPath}/ChangePassForgotServlet" onsubmit="return validateForm()">
                     <div class="form-group">
-                      <input name="account" type="hidden" value="<%out.print(acc.getAccountID());%>">
+                      <input name="account" type="hidden" value="<%out.print(acc.getAccount ID());%>">
                       <input name="newPassword" type="password" required=""  placeholder="Enter new password  *" />
                       <input name="confirmPassword" type="password" required=""  placeholder="Confirm password  *" />
                     </div>

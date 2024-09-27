@@ -9,7 +9,7 @@ public class Mail {
     // Phương thức gửi email
     public static boolean sendEmail(String recipientEmail, String newPassword) {
         final String from = "anhnhhe163978@fpt.edu.vn"; // Địa chỉ email gửi
-        final String password = "towrxxswfdpxldxg"; // Mật khẩu ứng dụng
+        final String password = "lnkdyhvhirskerrc"; // Mật khẩu ứng dụng
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP host

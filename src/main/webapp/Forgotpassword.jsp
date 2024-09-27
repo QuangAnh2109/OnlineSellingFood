@@ -672,7 +672,7 @@
                 <div class="padding_eight_all bg-white">
                   <div class="heading_s1">
                     <h1 class="mb-5">Forgot Password</h1>
-                    <p class="mb-30">Don't have an account? <a href="page-register.html">Create here</a></p>
+                    <p class="mb-30">Don't have an account? <a href="register">Create here</a></p>
                   </div>
                   <%
                     String email = request.getParameter("email");
@@ -690,7 +690,7 @@
                     }
                     else{
                   %>
-                  <form  method="post" action="${pageContext.request.contextPath}/change-pass.jsp" onsubmit="return validateForm()">
+                  <form  method="post" action="change-pass.jsp" onsubmit="return validateForm()">
                     <div class="form-group">
                       <input name="email" id="emailforgot" type="text" required="" value="<%out.print(email);%>" readonly/>
                       <input name="otp" id="otp" type="text" required=""  placeholder="Enter OTP  *" />
