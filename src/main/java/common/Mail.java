@@ -1,13 +1,14 @@
 package common;
 
 import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class Mail {
     // Phương thức gửi email
-    public static boolean sendEmail(String recipientEmail, String newPassword) {
+    public static boolean sendEmail(String recipientEmail, String otp) {
         final String from = "anhnhhe163978@fpt.edu.vn"; // Địa chỉ email gửi
         final String password = "lnkdyhvhirskerrc"; // Mật khẩu ứng dụng
 
@@ -32,14 +33,31 @@ public class Mail {
             msg.setFrom(new InternetAddress(from));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
             msg.setSubject("OnlineSellingFood OTP");
-            msg.setText("New OTP: " + newPassword);
+            msg.setText("New OTP: " + otp);
 
-            // Gửi email
-            Transport.send(msg);
-            return true;
+            if(crunchifyEmailValidator(recipientEmail)){
+                // Gửi email
+                Transport.send(msg);
+                return true;
+            }
         } catch (MessagingException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
+    }
+
+    private static boolean crunchifyEmailValidator(String email) {
+        boolean isValid = false;
+        try {
+            //
+            // Create InternetAddress object and validated the supplied
+            // address which is this case is an email address.
+            InternetAddress internetAddress = new InternetAddress(email);
+            internetAddress.validate();
+            isValid = true;
+        } catch (AddressException e) {
+            System.out.println("You are in catch block -- Exception Occurred for: " + email);
+        }
+        return isValid;
     }
 }
