@@ -39,7 +39,7 @@
   <div class="message">
     <p>Your registration was successful!</p>
   </div>
-  <p><a href="${pageContext.request.contextPath}/index.html">Go back to home</a></p>
+  <p><a href="#">Go back to home</a></p>
 </div>
 </body>
 </html>

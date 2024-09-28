@@ -67,7 +67,7 @@
     </ul>
   </div>
 
-  <p><a href="login">Go back to home</a></p>
+  <p><a href="#">Go back to home</a></p>
 </div>
 </body>
 </html>
