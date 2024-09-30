@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class CustomerDAO extends DBContext{
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new Customer(rs.getInt("CustomerID"),rs.getInt("AccountID"),rs.getInt("Point"),rs.getInt("Level"));
     }
 
@@ -18,8 +18,8 @@ public class CustomerDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from Customer where CustomerID=?");
             ps.setInt(1, customerID);
             return (Customer)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -29,8 +29,8 @@ public class CustomerDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from Customer where AccountID=?");
             ps.setInt(1, accountID);
             return (Customer)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -41,9 +41,10 @@ public class CustomerDAO extends DBContext{
             ps.setInt(3, customer.getCustomerID());
             ps.setInt(1, customer.getPoint());
             ps.setInt(2, customer.getLevel());
-            return executeUpdate(ps).next();
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null)return rs.next();
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
@@ -55,9 +56,9 @@ public class CustomerDAO extends DBContext{
             ps.setInt(2, customer.getPoint());
             ps.setInt(3, customer.getLevel());
             ResultSet rs = executeUpdate(ps);
-            if(rs.next()) return rs.getInt(1);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            if(rs!=null&&rs.next()) return rs.getInt(1);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }

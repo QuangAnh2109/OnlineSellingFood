@@ -12,8 +12,8 @@ import java.sql.SQLException;
 
 public class AccountDAO extends DBContext{
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
-        return new Account(rs.getInt("AccountID"), rs.getInt("RoleID"), rs.getInt("BirthYear"), rs.getInt("ContactInformationID"), rs.getInt("StatusID"), rs.getString("Email"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Password"), rs.getObject("Time", LocalDateTime.class));
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
+            return new Account(rs.getInt("AccountID"), rs.getInt("RoleID"), rs.getInt("BirthYear"), rs.getInt("ContactInformationID"), rs.getInt("StatusID"), rs.getString("Email"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Password"), rs.getObject("Time", LocalDateTime.class));
     }
 
     //login check
@@ -22,10 +22,9 @@ public class AccountDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from Account where Email=? and Password=?");
             ps.setString(1, email);
             ps.setString(2,Encrypt.toHexString(Encrypt.getSHA(password)));
-
             return (Account)getObject(ps);
-        }catch (SQLException | NoSuchAlgorithmException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException | NoSuchAlgorithmException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -34,10 +33,9 @@ public class AccountDAO extends DBContext{
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Account where Email=?");
             ps.setString(1, email);
-
             return (Account)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -48,8 +46,8 @@ public class AccountDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from Account where AccountID=?");
             ps.setInt(1, accountID);
             return (Account)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -65,9 +63,10 @@ public class AccountDAO extends DBContext{
             ps.setInt(6, acc.getContactInformationID());
             ps.setInt(7, acc.getStatusID());
             ps.setInt(8, acc.getAccountID());
-            return executeUpdate(ps).next();
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null)return rs.next();
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
@@ -77,9 +76,10 @@ public class AccountDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(password)));
             ps.setInt(2, accountID);
-            return executeUpdate(ps).next();
-        }catch (SQLException | NoSuchAlgorithmException ex){
-            System.out.println(ex.getMessage());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null)return rs.next();
+        }catch (SQLException | NoSuchAlgorithmException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
@@ -97,9 +97,9 @@ public class AccountDAO extends DBContext{
             ps.setTimestamp(8, Timestamp.valueOf(acc.getTime()));
             ps.setInt(9, acc.getStatusID());
             ResultSet rs = executeUpdate(ps);
-            if(rs.next()) return rs.getInt(1);
-        }catch (SQLException | NoSuchAlgorithmException ex){
-            System.out.println(ex.getMessage());
+            if(rs!=null && rs.next()) return rs.getInt(1);
+        }catch (SQLException | NoSuchAlgorithmException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }

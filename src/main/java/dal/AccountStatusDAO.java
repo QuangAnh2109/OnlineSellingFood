@@ -4,10 +4,11 @@ import model.AccountStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AccountStatusDAO extends DBContext{
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new AccountStatus(rs.getInt("StatusID"),rs.getString("Detail"));
     }
 
@@ -16,9 +17,9 @@ public class AccountStatusDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("insert into AccountStatus (Detail) values (?)", Statement.RETURN_GENERATED_KEYS);
             ps.setNString(1, status.getDetail());
             ResultSet rs = executeUpdate(ps);
-            if(rs.next()) return rs.getInt(1);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            if(rs!=null&&rs.next()) return rs.getInt(1);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -28,23 +29,22 @@ public class AccountStatusDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from AccountStatus where StatusID=?");
             ps.setInt(1, status);
             return (AccountStatus)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
 
-    public ArrayList<AccountStatus> getAllStatus(){
+    public List<AccountStatus> getAllStatus(){
+        ArrayList<AccountStatus> list = new ArrayList<>();
         try{
             PreparedStatement ps = connection.prepareStatement("select * from AccountStatus");
-            ArrayList<AccountStatus> list = new ArrayList<>();
             for(Object ob:getListObject(ps)){
                 list.add((AccountStatus) ob);
             }
-            return list;
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
-        return null;
+        return list;
     }
 }

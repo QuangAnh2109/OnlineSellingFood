@@ -10,7 +10,7 @@ import model.ContactInformation;
 public class ContactInformationDAO extends DBContext{
 
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new ContactInformation(rs.getInt("ContactInformationID"), rs.getString("Address"), rs.getString("PhoneNumber"));
     }
 
@@ -20,9 +20,9 @@ public class ContactInformationDAO extends DBContext{
             ps.setNString(1, ci.getAddress());
             ps.setString(2, ci.getPhoneNumber());
             ResultSet rs = executeUpdate(ps);
-            if(rs.next()) return rs.getInt(1);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            if(rs!=null&&rs.next()) return rs.getInt(1);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -31,9 +31,10 @@ public class ContactInformationDAO extends DBContext{
         try{
             PreparedStatement ps = connection.prepareStatement("DELETE FROM ContactInformation WHERE ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, contactInformationID);
-            return executeUpdate(ps).next();
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null)return rs.next();
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
@@ -43,8 +44,8 @@ public class ContactInformationDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where ContactInformationID=?");
             ps.setInt(1, contactInformationID);
             return (ContactInformation)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -54,8 +55,8 @@ public class ContactInformationDAO extends DBContext{
             ps.setNString(2, Adress);
             ps.setString(1, phoneNumber);
             return (ContactInformation)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }

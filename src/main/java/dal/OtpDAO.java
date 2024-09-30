@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class OtpDAO extends  DBContext{
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new Otp(rs.getInt("AccountID"), rs.getString("Code"), rs.getObject("ExpiryDateTime", LocalDateTime.class));
     }
 
@@ -22,8 +22,8 @@ public class OtpDAO extends  DBContext{
             if(o!=null && o.getExpiryDateTime().compareTo(LocalDateTime.now())>=0){
                 return true;
             }
-        }catch (SQLException | NoSuchAlgorithmException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException | NoSuchAlgorithmException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
@@ -36,8 +36,8 @@ public class OtpDAO extends  DBContext{
             ps.setTimestamp(3, Timestamp.valueOf(otp.getExpiryDateTime()));
             ResultSet rs = executeUpdate(ps);
             if(rs.next()) return rs.getInt(1);
-        }catch (SQLException | NoSuchAlgorithmException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException | NoSuchAlgorithmException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -46,9 +46,10 @@ public class OtpDAO extends  DBContext{
         try{
             PreparedStatement ps = connection.prepareStatement("DELETE FROM OTP WHERE AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, accountID);
-            return executeUpdate(ps).next();
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null)return rs.next();
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
@@ -59,9 +60,10 @@ public class OtpDAO extends  DBContext{
             ps.setInt(3, otp.getAccountID());
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(otp.getCode())));
             ps.setTimestamp(2, Timestamp.valueOf(otp.getExpiryDateTime()));
-            return executeUpdate(ps).next();
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null)return rs.next();
         } catch (SQLException | NoSuchAlgorithmException e) {
-            System.out.println(e);
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }

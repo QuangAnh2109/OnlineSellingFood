@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class StaffDAO extends DBContext{
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new Staff(rs.getInt("StaffID"),rs.getInt("AccountID"),rs.getInt("Salary"),rs.getInt("SarehouseID"));
     }
 
@@ -18,8 +18,8 @@ public class StaffDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from Staff where StaffID=?");
             ps.setInt(1, staffID);
             return (Staff)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -29,8 +29,8 @@ public class StaffDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from Staff where AccountID=?");
             ps.setInt(1, accountID);
             return (Staff)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -41,9 +41,10 @@ public class StaffDAO extends DBContext{
             ps.setInt(1, staff.getSalary());
             ps.setInt(2, staff.getWarehouseID());
             ps.setInt(3, staff.getStaffID());
-            return executeUpdate(ps).next();
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null)return rs.next();
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
@@ -55,9 +56,9 @@ public class StaffDAO extends DBContext{
             ps.setInt(2, staff.getSalary());
             ps.setInt(3, staff.getWarehouseID());
             ResultSet rs = executeUpdate(ps);
-            if(rs.next()) return rs.getInt(1);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            if(rs!=null&&rs.next()) return rs.getInt(1);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }

@@ -7,10 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WarehouseStatusDAO extends DBContext{
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new WarehouseStatus(rs.getInt("StatusID"),rs.getString("Detail"));
     }
 
@@ -20,8 +21,8 @@ public class WarehouseStatusDAO extends DBContext{
             ps.setNString(1, status.getDetail());
             ResultSet rs = executeUpdate(ps);
             if(rs.next()) return rs.getInt(1);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -31,23 +32,22 @@ public class WarehouseStatusDAO extends DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from WarehouseStatus where StatusID=?");
             ps.setInt(1, status);
             return (WarehouseStatus)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
 
-    public ArrayList<WarehouseStatus> getAllStatus(){
+    public List<WarehouseStatus> getAllStatus(){
+        ArrayList<WarehouseStatus> list = new ArrayList<>();
         try{
             PreparedStatement ps = connection.prepareStatement("select * from WarehouseStatus");
-            ArrayList<WarehouseStatus> list = new ArrayList<>();
             for(Object ob:getListObject(ps)){
                 list.add((WarehouseStatus) ob);
             }
-            return list;
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
-        return null;
+        return list;
     }
 }

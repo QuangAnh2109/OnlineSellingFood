@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class RoleDAO extends  DBContext{
     @Override
-    protected Object getObjectByRs(ResultSet rs) throws Exception {
+    protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new Role(rs.getInt("RoleID"),rs.getString("Name"));
     }
 
@@ -17,10 +17,9 @@ public class RoleDAO extends  DBContext{
             PreparedStatement ps = connection.prepareStatement("select * from Role where RoleID=?");
             ps.setInt(1,roleID);
             return (Role)getObject(ps);
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
-
 }

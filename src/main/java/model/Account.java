@@ -47,6 +47,17 @@ public class Account {
         this.accountID = accountID;
     }
 
+    public Account(int roleID, int birthYear, int statusID, String email, String firstName, String lastName, String password, LocalDateTime time) {
+        this.roleID = roleID;
+        this.birthYear = birthYear;
+        this.statusID = statusID;
+        this.email = email;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.password = password;
+        this.time = time;
+    }
+
     public int getAccountID() {
         return accountID;
     }
