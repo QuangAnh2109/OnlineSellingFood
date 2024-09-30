@@ -14,27 +14,28 @@ public class ContactInformationDAO extends DBContext{
         return new ContactInformation(rs.getInt("ContactInformationID"), rs.getString("Address"), rs.getString("PhoneNumber"));
     }
 
-    public ResultSet addContact(ContactInformation ci){
+    public Integer addContact(ContactInformation ci){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into ContactInformation (Address, PhoneNumber) values (?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setNString(1, ci.getAddress());
             ps.setString(2, ci.getPhoneNumber());
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
-    public ResultSet deleteContact(int contactInformationID){
+    public boolean deleteContact(int contactInformationID){
         try{
             PreparedStatement ps = connection.prepareStatement("DELETE FROM ContactInformation WHERE ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, contactInformationID);
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
     public ContactInformation getContactInformationByContactID(Integer contactInformationID){

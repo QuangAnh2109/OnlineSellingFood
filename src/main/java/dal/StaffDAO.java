@@ -35,26 +35,27 @@ public class StaffDAO extends DBContext{
         return null;
     }
 
-    public ResultSet updateStaffInformation(Staff staff){
+    public boolean updateStaffInformation(Staff staff){
         try{
             PreparedStatement ps = connection.prepareStatement("update Staff set Salary=?, WarehouseID=? where StaffID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, staff.getSalary());
             ps.setInt(2, staff.getWarehouseID());
             ps.setInt(3, staff.getStaffID());
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
-    public ResultSet addStaff(Staff staff){
+    public Integer addStaff(Staff staff){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into Staff(AccountID,Salary,WarehouseID) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, staff.getAccountID());
             ps.setInt(2, staff.getSalary());
             ps.setInt(3, staff.getWarehouseID());
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }

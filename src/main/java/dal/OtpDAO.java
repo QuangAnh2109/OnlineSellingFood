@@ -28,40 +28,41 @@ public class OtpDAO extends  DBContext{
         return false;
     }
 
-    public ResultSet addOtp(Otp otp) {
+    public Integer addOtp(Otp otp) {
         try{
             PreparedStatement ps = connection.prepareStatement("insert into OTP (AccountID, Code, ExpiryDateTime) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, otp.getAccountID());
             ps.setString(2, Encrypt.toHexString(Encrypt.getSHA(otp.getCode())));
             ps.setTimestamp(3, Timestamp.valueOf(otp.getExpiryDateTime()));
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
-    public ResultSet deleteOtp(int accountID){
+    public boolean deleteOtp(int accountID){
         try{
             PreparedStatement ps = connection.prepareStatement("DELETE FROM OTP WHERE AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, accountID);
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
-    public ResultSet updateOtp(Otp otp) {
+    public boolean updateOtp(Otp otp) {
         try {
             PreparedStatement ps = connection.prepareStatement("UPDATE OTP SET Code = ?, ExpiryDateTime = ? WHERE AccountID = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(3, otp.getAccountID());
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(otp.getCode())));
             ps.setTimestamp(2, Timestamp.valueOf(otp.getExpiryDateTime()));
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         } catch (SQLException | NoSuchAlgorithmException e) {
             System.out.println(e);
         }
-        return null;
+        return false;
     }
 }

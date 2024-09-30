@@ -14,11 +14,12 @@ public class WarehouseStatusDAO extends DBContext{
         return new WarehouseStatus(rs.getInt("StatusID"),rs.getString("Detail"));
     }
 
-    public ResultSet addStatus(WarehouseStatus status){
+    public Integer addStatus(WarehouseStatus status){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into WarehouseStatus (Detail) values (?)", Statement.RETURN_GENERATED_KEYS);
             ps.setNString(1, status.getDetail());
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }

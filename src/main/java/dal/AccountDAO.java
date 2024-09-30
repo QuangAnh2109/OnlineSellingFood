@@ -54,7 +54,7 @@ public class AccountDAO extends DBContext{
         return null;
     }
 
-    public ResultSet updateAccountInformation(Account acc){
+    public boolean updateAccountInformation(Account acc){
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set RoleID=?, Email=?, FirstName=?, LastName=?, BirthYear=?, ContactInformationID=?, StatusID=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, acc.getRoleID());
@@ -65,39 +65,26 @@ public class AccountDAO extends DBContext{
             ps.setInt(6, acc.getContactInformationID());
             ps.setInt(7, acc.getStatusID());
             ps.setInt(8, acc.getAccountID());
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
-    public ResultSet updateAccountPasswordForStaff(int accountID, String password){
-        try{
-            PreparedStatement ps = connection.prepareStatement("update Account set Password=?,StatusID = 1 where AccountID=? and RoleID != 6", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(password)));
-
-            ps.setInt(2, accountID);
-            return executeUpdate(ps);
-        }catch (SQLException | NoSuchAlgorithmException ex){
-            System.out.println(ex.getMessage());
-        }
-        return null;
-    }
-    public ResultSet updateAccountPasswordForUser(int accountID, String password){
+    public boolean updateAccountPassword(int accountID, String password){
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set Password=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, Encrypt.toHexString(Encrypt.getSHA(password)));
-
             ps.setInt(2, accountID);
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
-    public ResultSet addAccount(Account acc) {
+    public Integer addAccount(Account acc) {
         try{
             PreparedStatement ps = connection.prepareStatement("insert into Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) values (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, acc.getRoleID());
@@ -109,7 +96,8 @@ public class AccountDAO extends DBContext{
             ps.setString(7, Encrypt.toHexString(Encrypt.getSHA(acc.getPassword())));
             ps.setTimestamp(8, Timestamp.valueOf(acc.getTime()));
             ps.setInt(9, acc.getStatusID());
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException | NoSuchAlgorithmException ex){
             System.out.println(ex.getMessage());
         }

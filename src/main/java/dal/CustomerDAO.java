@@ -35,26 +35,27 @@ public class CustomerDAO extends DBContext{
         return null;
     }
 
-    public ResultSet updateCustomer(Customer customer){
+    public boolean updateCustomer(Customer customer){
         try{
             PreparedStatement ps = connection.prepareStatement("update Customer set Point=?, Level=? where CustomerID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(3, customer.getCustomerID());
             ps.setInt(1, customer.getPoint());
             ps.setInt(2, customer.getLevel());
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
-    public ResultSet addCustomer(Customer customer){
+    public Integer addCustomer(Customer customer){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into Customer(AccountID,Point,Level) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, customer.getAccountID());
             ps.setInt(2, customer.getPoint());
             ps.setInt(3, customer.getLevel());
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }

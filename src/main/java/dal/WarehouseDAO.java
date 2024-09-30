@@ -23,27 +23,28 @@ public class WarehouseDAO extends DBContext{
         return null;
     }
 
-    public ResultSet updateWarehouse(Warehouse warehouse){
+    public boolean updateWarehouse(Warehouse warehouse){
         try{
             PreparedStatement ps = connection.prepareStatement("update Warehouse set ContactInformationID=?, StatusID=?, Name=? where WarehouseID=?");
             ps.setInt(1, warehouse.getContactInformationID());
             ps.setInt(2, warehouse.getStatusID());
             ps.setNString(3, warehouse.getName());
             ps.setInt(4, warehouse.getWarehouseID());
-            return executeUpdate(ps);
+            return executeUpdate(ps).next();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return false;
     }
 
-    public ResultSet addWarehouse(Warehouse warehouse){
+    public Integer addWarehouse(Warehouse warehouse){
         try{
             PreparedStatement ps = connection.prepareStatement("insert Warehouse (ContactInformationID,StatusID,Name) values (?,?,?)");
             ps.setInt(1, warehouse.getContactInformationID());
             ps.setInt(2, warehouse.getStatusID());
             ps.setNString(3, warehouse.getName());
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }

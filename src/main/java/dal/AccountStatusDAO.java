@@ -11,11 +11,12 @@ public class AccountStatusDAO extends DBContext{
         return new AccountStatus(rs.getInt("StatusID"),rs.getString("Detail"));
     }
 
-    public ResultSet addStatus(AccountStatus status){
+    public Integer addStatus(AccountStatus status){
         try{
             PreparedStatement ps = connection.prepareStatement("insert into AccountStatus (Detail) values (?)", Statement.RETURN_GENERATED_KEYS);
             ps.setNString(1, status.getDetail());
-            return executeUpdate(ps);
+            ResultSet rs = executeUpdate(ps);
+            if(rs.next()) return rs.getInt(1);
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
