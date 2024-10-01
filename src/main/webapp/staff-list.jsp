@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -240,6 +241,7 @@
             </tr>
             </thead>
             <tbody>
+            <c:forEach items="${staffList}"  var="sl">
             <tr>
               <td width="40%">
                 <a href="#" class="itemside">
@@ -247,189 +249,20 @@
                     <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
                   </div>
                   <div class="info pl-3">
-                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                    <small class="text-muted">Seller ID: #439</small>
+                    <h6 class="mb-0 title">${sl.firstName}  ${sl.lastName}</h6>
                   </div>
                 </a>
               </td>
-              <td>eleanor2020@example.com</td>
-              <td><span class="badge rounded-pill alert-success">Active</span></td>
-              <td>08.07.2020</td>
+              <td><input value="${sl.accountID}" name="accountID" hidden=""> </td>
+              <td>${sl.email}</td>
+              <td><span class="badge rounded-pill alert-success">${sl.detail}</span></td>
+              <td>${sl.time}</td>
               <td class="text-end">
-                <a href="staff-detail.jsp" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                <a href="staffListDetail?accountID=${sl.accountID}" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
               </td>
             </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-2.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Mary Monasa</h6>
-                    <small class="text-muted">Seller ID: #129</small>
-                  </div>
-                </a>
-              </td>
-              <td>monalisa@example.com</td>
-              <td><span class="badge rounded-pill alert-success">Active</span></td>
-              <td>11.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-3.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Jonatan Ive</h6>
-                    <small class="text-muted">Seller ID: #400</small>
-                  </div>
-                </a>
-              </td>
-              <td>mrjohn@example.com</td>
-              <td><span class="badge rounded-pill alert-success">Active</span></td>
-              <td>08.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-4.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                    <small class="text-muted">Seller ID: #439</small>
-                  </div>
-                </a>
-              </td>
-              <td>eleanor2020@example.com</td>
-              <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
-              <td>08.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Albert Pushkin</h6>
-                    <small class="text-muted">Seller ID: #439</small>
-                  </div>
-                </a>
-              </td>
-              <td>someone@mymail.com</td>
-              <td><span class="badge rounded-pill alert-success">Active</span></td>
-              <td>20.11.2019</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-2.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Alexandra Pena</h6>
-                    <small class="text-muted">Seller ID: #439</small>
-                  </div>
-                </a>
-              </td>
-              <td>eleanor2020@example.com</td>
-              <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
-              <td>08.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-3.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                    <small class="text-muted">Seller ID: #439</small>
-                  </div>
-                </a>
-              </td>
-              <td>eleanor2020@example.com</td>
-              <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
-              <td>08.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-4.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Alex Pushkina</h6>
-                    <small class="text-muted">Seller ID: #439</small>
-                  </div>
-                </a>
-              </td>
-              <td>alex@gmail.org</td>
-              <td><span class="badge rounded-pill alert-success">Active</span></td>
-              <td>08.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                    <small class="text-muted">Seller ID: #439</small>
-                  </div>
-                </a>
-              </td>
-              <td>eleanor2020@example.com</td>
-              <td><span class="badge rounded-pill alert-success">Active</span></td>
-              <td>08.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td width="40%">
-                <a href="#" class="itemside">
-                  <div class="left">
-                    <img src="nest-backend/assets/imgs/people/avatar-2.png" class="img-sm img-avatar" alt="Userpic" />
-                  </div>
-                  <div class="info pl-3">
-                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                    <small class="text-muted">Seller ID: #439</small>
-                  </div>
-                </a>
-              </td>
-              <td>eleanor2020@example.com</td>
-              <td><span class="badge rounded-pill alert-success">Active</span></td>
-              <td>08.07.2020</td>
-              <td class="text-end">
-                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-              </td>
-            </tr>
+            </c:forEach>
+
             </tbody>
           </table>
           <!-- table-responsive.// -->

@@ -66,69 +66,63 @@
         <div class="card mx-auto card-login">
             <div class="card-body">
                 <h4 class="card-title mb-4">Edit Staff Information</h4>
-                <form action="${pageContext.request.contextPath}/update-staff" method="post">
+                <form action="staffListDetail">
                     <!-- Hidden field for StaffID and AccountID -->
-                    <input type="hidden" name="staffID" value="${staff.staffID}" />
-                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />
+<%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
+<%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
 
                     <div class="mb-3">
                         <label class="form-label">Role ID</label>
                         <select class="form-control" name="roleID" required>
-                            <option value="2" ${staff.account.roleID == 2 ? 'selected' : ''}>Delivery Staff</option>
-                            <option value="3" ${staff.account.roleID == 3 ? 'selected' : ''}>Import Staff</option>
-                            <option value="4" ${staff.account.roleID == 4 ? 'selected' : ''}>Warehouse Management</option>
-                            <option value="5" ${staff.account.roleID == 5 ? 'selected' : ''}>Sales Management</option>
+                            <option value="2" ${staffListDetail.roleID == 2 ? 'selected' : ''}>Delivery Staff</option>
+                            <option value="3" ${staffListDetail.roleID == 3 ? 'selected' : ''}>Import Staff</option>
+                            <option value="4" ${staffListDetail.roleID == 4 ? 'selected' : ''}>Warehouse Management</option>
+                            <option value="5" ${staffListDetail.roleID == 5 ? 'selected' : ''}>Sales Management</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
-                        <input class="form-control" name="firstName" value="${staff.account.firstName}" placeholder="First Name" type="text" required />
+                        <input class="form-control" name="firstName" value="${staffListDetail.firstName}" placeholder="First Name" type="text" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Last Name</label>
-                        <input class="form-control" name="lastName" value="${staff.account.lastName}" placeholder="Last Name" type="text" required />
+                        <input class="form-control" name="lastName" value="${staffListDetail.lastName}" placeholder="Last Name" type="text" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input class="form-control" name="email" value="${staff.account.email}" placeholder="Email" type="email" required />
+                        <input class="form-control" name="email" value="${staffListDetail.email}" placeholder="Email" type="email" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
-                        <input class="form-control" name="phone" value="${staff.account.contactInformation.phoneNumber}" placeholder="Phone Number" type="text" required />
+                        <input class="form-control" name="phone" value="${staffListDetail.phoneNumber}" placeholder="Phone Number" type="text" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Address</label>
-                        <input class="form-control" name="address" value="${staff.account.contactInformation.address}" placeholder="Address" type="text" required />
+                        <input class="form-control" name="address" value="${staffListDetail.address}" placeholder="Address" type="text" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Birth Year</label>
-                        <input class="form-control" name="birthYear" value="${staff.account.birthYear}" placeholder="Year of birth" type="text" required />
+                        <input class="form-control" name="birthYear" value="${staffListDetail.yearOfBirth}" placeholder="Year of birth" type="text" required />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input class="form-control" name="password" value="${staff.account.password}" placeholder="Password" type="password" required />
-                    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Status ID</label>
-                        <input class="form-control" name="statusID" value="${staff.account.statusID}" placeholder="Status ID" type="text" required />
-                    </div>
+
+
 
                     <div class="mb-3">
                         <label class="form-label">Salary</label>
-                        <input class="form-control" name="salary" value="${staff.salary}" placeholder="Salary" type="text" required />
+                        <input class="form-control" name="salary" value="${staffListDetail.salary}" placeholder="Salary" type="text" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Warehouse ID</label>
-                        <input class="form-control" name="warehouseID" value="${staff.warehouseID}" placeholder="Warehouse ID" type="text" required />
+                        <input class="form-control" name="warehouseID" value="${staffListDetail.nameWarehouse}" placeholder="Warehouse ID" type="text" required />
                     </div>
 
                     <div class="mb-4">
