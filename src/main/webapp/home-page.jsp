@@ -21,7 +21,12 @@
 
 <body>
 <%
-  String accountName =  ((Account)session.getAttribute("account")).getLastName();
+String accountName;
+try{
+  accountName =  ((Account)session.getAttribute("account")).getLastName();
+}catch(NullPointerException e){
+  accountName="";
+}
 %>
 <jsp:include page="header.jsp">
   <jsp:param name="accountName" value="<%=accountName%>"/>
