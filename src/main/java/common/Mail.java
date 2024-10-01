@@ -35,29 +35,11 @@ public class Mail {
             msg.setSubject("OnlineSellingFood OTP");
             msg.setText("New OTP: " + otp);
 
-            if(crunchifyEmailValidator(recipientEmail)){
-                // Gửi email
-                Transport.send(msg);
-                return true;
-            }
+            Transport.send(msg);
+            return true;
         } catch (MessagingException e) {
             e.printStackTrace();
         }
         return false;
-    }
-
-    private static boolean crunchifyEmailValidator(String email) {
-        boolean isValid = false;
-        try {
-            //
-            // Create InternetAddress object and validated the supplied
-            // address which is this case is an email address.
-            InternetAddress internetAddress = new InternetAddress(email);
-            internetAddress.validate();
-            isValid = true;
-        } catch (AddressException e) {
-            System.out.println("You are in catch block -- Exception Occurred for: " + email);
-        }
-        return isValid;
     }
 }

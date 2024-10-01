@@ -28,34 +28,27 @@ public class UpdateProfileServlet1 extends HttpServlet {
         String lName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
-        String phone = request.getParameter("phone");
+        String phoneNumber = request.getParameter("phone");
         String birthYear = request.getParameter("birthYear");
 
         AccountDAO accountDAO = new AccountDAO();
         HttpSession session = request.getSession();
-        ContactInformationDAO contactDAO = new ContactInformationDAO();
+        ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
         Account account = (Account) session.getAttribute("account");
 
-        //find contact information in database
-        ContactInformation contact = contactDAO.getContactInformationByAddressAndPhone(address, phone);
-
+        // Find contact information in the database
+        ContactInformation contact = contactInfoDAO.getContactInformationByAddressAndPhone(address, phoneNumber);
         //if contact don't have in database, add new contact to database
         if (contact == null) {
-            contact = new ContactInformation(address, phone);
-            try {
-                ResultSet rs = contactDAO.addContact(contact);
-                rs.next();
-                contact.setContactInformationID(rs.getInt(1));
-            } catch (SQLException e) {
-                e.printStackTrace();
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-            }
+            contact = new ContactInformation(address, phoneNumber);
+            contact.setContactInformationID(contactInfoDAO.addContact(contact));
         }
+
         int status = account.getStatusID();
         if(!email.equals(account.getEmail())) status = 2;
         Account account1 = new Account(account.getRoleID(), Integer.parseInt(birthYear), contact.getContactInformationID(), status, email, fName, lName, account.getAccountID());
         accountDAO.updateAccountInformation(account1);
-        contactDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
+        contactInfoDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
         request.getSession().removeAttribute("account");
         request.getSession().removeAttribute("contactInformation");
         request.getSession().setAttribute("account", account1);

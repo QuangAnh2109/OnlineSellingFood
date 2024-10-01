@@ -12,10 +12,11 @@ public abstract class DBContext {
 
     protected DBContext() {
         // Edit URL , username, password to authenticate with your MS SQL Server
-        String username = "sa", password = "123", port="1433", dataBaseName="SalesManagement", url = "jdbc:sqlserver://localhost:"+port+";databaseName= "+dataBaseName;
+        String username = "sa", password = "123", port="1433", dataBaseName="SalesManagement", url = "jdbc:sqlserver://localhost:"+port+";databaseName="+dataBaseName;
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, username, password);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             logger.info(ex.getMessage());
         }
     }

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ADMIN
-  Date: 9/19/2024
-  Time: 2:45 PM
-  To change this template use File | Settings | File Templates.
---%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -49,33 +42,38 @@
               <div class="login_wrap widget-taber-content background-white">
                 <div class="padding_eight_all bg-white">
                   <div class="heading_s1">
-                    <h1 class="mb-5">Login</h1>
-                    <p class="mb-30">Don't have an account? <a href="page-register.jsp">Create here</a></p>
+                    <h1 class="mb-5">Forgot Password</h1>
+                    <p class="mb-30">Don't have an account? <a href="register">Create here</a></p>
                   </div>
-                  <c:set var="cookie" value="${pageContext.request.cookies}"/>
-                  <form  action="login" method="post">
+                  <%
+                    String email = request.getParameter("email");
+                    if(email==null){
+                  %>
+                  <form  method="get" action="forgotpassword" onsubmit="return validateForm()">
                     <div class="form-group">
-                      <input type="text" required="" name="email" placeholder="Email *"
-                             value="${cookie.cuser.value}"/>
-                    </div>
-                    <div class="form-group">
-                      <input required="" type="password" name="password" placeholder="Your password *"
-                             value="${cookie.cpass.value}"/>
-                    </div>
-                    <h4 style="color: red">${requestScope.error}</h4>
-                    <div class="login_footer form-group mb-50">
-                      <div class="chek-form">
-                        <div class="custome-checkbox">
-                          <input class="form-check-input" type="checkbox" ${(cookie.crem!=null?'checked':'')} name="rem" id="remember_me" value="ON" />
-                          <label class="form-check-label" for="remember_me"><span>Remember me</span></label>
-                        </div>
-                      </div>
-                      <a class="text-muted" href="forgotpassword.jsp">Forgot password?</a>
+                      <input name="email" id="email" type="text" required=""  placeholder="Enter Email  *" />
                     </div>
                     <div class="form-group">
-                      <button type="submit" class="btn btn-heading btn-block hover-up" name="login">Log in</button>
-                    </div>
+                      <button type="submit" class="button is-primary" >Submit</button>
+                    </div><
                   </form>
+                  <%
+                    }
+                    else{
+                  %>
+                  <form  method="get" action="ChangePassForgotServlet" onsubmit="return validateForm()">
+                    <div class="form-group">
+                      <input name="email" type="text" required="" value="<%=email%>" readonly/>
+                      <input name="otp" type="text" required=""  placeholder="Enter OTP  *" />
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="button is-primary" >Submit</button>
+                    </div><
+                  </form>
+                  <a href="forgotpassword?email=<%=email%>">Resend otp</a>
+                  <%
+                    }
+                  %>
                 </div>
               </div>
             </div>
@@ -109,6 +107,6 @@
 <!-- Template  JS -->
 <script src="nest-frontend/assets/js/main.js?v=4.0"></script>
 <script src="nest-frontend/assets/js/shop.js?v=4.0"></script>
+</div>
 </body>
 </html>
-

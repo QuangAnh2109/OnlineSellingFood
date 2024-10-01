@@ -1,5 +1,6 @@
 package controller;
 
+import dal.WarehouseDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,15 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Staff;
 import dal.StaffDAO;
+import model.Warehouse;
 
-@WebServlet(name = "RegisterAdminServlet", urlPatterns = {"/register-admin"})
-public class RegisterAdminServlet extends HttpServlet {
+@WebServlet(name = "RegisterStaffServlet", urlPatterns = {"/registerstaff"})
+public class RegisterStaffServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("page-account-register.jsp").forward(request, response);
+        WarehouseDAO warehouseDAO = new WarehouseDAO();
+        List<Warehouse> warehouses = warehouseDAO.getAllWarehouseActivity();
+        request.setAttribute("warehouses",warehouses);
+        request.getRequestDispatcher("page-register-staff.jsp").forward(request, response);
     }
 
     @Override
@@ -37,6 +42,7 @@ public class RegisterAdminServlet extends HttpServlet {
 
         // Get form parameters
         String roleID = request.getParameter("roleID");
+        String warehouseID = request.getParameter("WarehouseID");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
@@ -62,53 +68,29 @@ public class RegisterAdminServlet extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
         StaffDAO staffDAO = new StaffDAO();  // Add StaffDAO to manage staff data
 
-        // Find or add contact information
+        // Find contact information in the database
         ContactInformation contact = contactInfoDAO.getContactInformationByAddressAndPhone(address, phoneNumber);
-        boolean checkContactExist = true;
+        //if contact don't have in database, add new contact to database
         if (contact == null) {
-            checkContactExist = false;
             contact = new ContactInformation(address, phoneNumber);
-            try {
-                ResultSet rs = contactInfoDAO.addContact(contact);
-                rs.next();
-                contact.setContactInformationID(rs.getInt(1));
-            } catch (SQLException e) {
-                errorMessages.add(e.getMessage());
-                request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-            }
+            contact.setContactInformationID(contactInfoDAO.addContact(contact));
         }
 
         try {
-            // Create the new Account
-            Account newAccount = new Account(Integer.parseInt(roleID), Integer.parseInt(birthYearStr), contact.getContactInformationID(), 3, email, firstName, lastName, "123456789", LocalDateTime.now());
-
-            // Debugging information
-            System.out.println("Inserting Account with details: ");
-            System.out.println("FirstName: " + firstName);
-            System.out.println("LastName: " + lastName);
-            System.out.println("Email: " + email);
-            System.out.println("BirthYear: " + birthYearStr);
-            System.out.println("ContactInformationID: " + contact.getContactInformationID());
-            System.out.println("RoleID: " + newAccount.getRoleID());
-            System.out.println("StatusID: " + newAccount.getStatusID());
-            System.out.println("Password: [HIDDEN]");
-            System.out.println("Time: " + newAccount.getTime());
-
             if(errorMessages.isEmpty()) {
+                // Create the new Account
+                Account newAccount = new Account(Integer.parseInt(roleID), Integer.parseInt(birthYearStr), contact.getContactInformationID(), 3, email, firstName, lastName, "123456789", LocalDateTime.now());
                 // Add account to the database
-                ResultSet accountResult = accountDAO.addAccount(newAccount);
-                if (accountResult != null && accountResult.next()) {
-                    int accountID = accountResult.getInt(1);
-
+                Integer accountID = accountDAO.addAccount(newAccount);
+                if (accountID != null) {
                     // Insert Staff record with default salary and warehouseID set to 0
-                    Staff newStaff = new Staff(accountID, 1000, 3);
+                    Staff newStaff = new Staff(accountID, 1000, Integer.parseInt(warehouseID));
                     staffDAO.addStaff(newStaff);
 
                     response.sendRedirect("success.jsp");
                 } else {
                     // Rollback the contact information in case of failure
-                    if (!checkContactExist) contactInfoDAO.deleteContact(contact.getContactInformationID());
+                    contactInfoDAO.deleteContact(contact.getContactInformationID());
                     errorMessages.add("Registration failed. Please try again.");
                     request.setAttribute("errorMessages", errorMessages);
                     request.getRequestDispatcher("error.jsp").forward(request, response);

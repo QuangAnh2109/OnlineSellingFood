@@ -66,7 +66,7 @@ public class ChangePassServlet extends HttpServlet {
                         request.setAttribute("errorMessages", errorMessages);
                         request.getRequestDispatcher("error.jsp").forward(request, response);
                     } else {
-                        dao.updateAccountPasswordForUser(account.getAccountID(), np);
+                        dao.updateAccountPassword(account.getAccountID(), np);
                         response.sendRedirect("login");
                     }
                 } catch (NoSuchAlgorithmException ex) {

@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "ForgotpasswordController", urlPatterns = "/forgotpassword")
-public class ForgotpasswordController extends HttpServlet {
+@WebServlet(name = "SendOtpForgotpasswordController", urlPatterns = "/forgotpassword")
+public class SendOtpForgotpasswordController extends HttpServlet {
 
     AccountDAO daoAccount = new AccountDAO();
     OtpDAO daoOtp = new OtpDAO();
@@ -25,49 +25,48 @@ public class ForgotpasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("Forgotpassword.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String email = request.getParameter("email").trim();
+        String email;
+        try {
+            email = request.getParameter("email").trim();
+        }catch(NullPointerException e){
+            System.out.println(e.getClass()+": "+e.getMessage());
+            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+            return;
+        }
         List<String> errorMessages = new ArrayList<>();
         // Kiểm tra email có tồn tại không
         Account account = daoAccount.getAccountByEmail(email);
         if (account == null) {
-
             errorMessages.add("Email is not Exits!");
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
 
-        // Tạo mật khẩu mới ngẫu nhiên
-        String newPassword = RandomPasswordGenerator.generateRandomString();
-        // Lấy thời gian hiện tại và đặt thời gian hết hạn (5 phút)
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.MINUTE, 5);
-//        Date expiryDate = calendar.getTime();
-//
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String formattedExpiryDate = dateFormat.format(expiryDate);
+        // Tạo otp
+        String newOtp = RandomPasswordGenerator.generateRandomString();
 
-        Otp otp =  new Otp(account.getAccountID(), newPassword, LocalDateTime.now().plusMinutes(5));
+        Otp otp =  new Otp(account.getAccountID(), newOtp, LocalDateTime.now().plusMinutes(5));
         // Kiểm tra OTP trong DB và lưu hoặc cập nhật OTP
         if (daoOtp.addOtp(otp)==null) {
             daoOtp.updateOtp(otp);
         }
 
         // Gửi email
-        boolean emailSent = Mail.sendEmail(email, newPassword);
+        boolean emailSent = Mail.sendEmail(email, newOtp);
         if (emailSent) {
-            request.setAttribute("msg", "Mật khẩu mới đã được gửi đến email của bạn.");
+            request.setAttribute("msg", "Mã otp mới đã được gửi đến email của bạn.");
         } else {
             request.setAttribute("msg", "Không thể gửi email, vui lòng thử lại.");
         }
 
-        request.getRequestDispatcher("Forgotpassword.jsp").forward(request, response);
+        request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
     }
 
 

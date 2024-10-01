@@ -63,21 +63,14 @@ public class ChangePassStaffServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         } else {
-            try {
-
-                if (account.getPassword().equals(Encrypt.toHexString(Encrypt.getSHA(np)))) {
-                    errorMessages.add("New password duplicate old password!");
-                    request.setAttribute("errorMessages", errorMessages);
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
-                } else {
-                    dao.updateAccountPasswordForStaff(account.getAccountID(), np);
-                    HttpSession session = request.getSession();
-                    response.sendRedirect("loginstaff");
-                }
-            } catch (NoSuchAlgorithmException ex) {
-                System.out.println(ex.getMessage());
+            if (dao.getAccountByEmailPassword(account.getEmail(), np)!=null) {
+                errorMessages.add("New password duplicate old password!");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            } else {
+                dao.updateAccountPassword(account.getAccountID(), np);
+                response.sendRedirect("home-page-staff.jsp");
             }
-
         }
 
 

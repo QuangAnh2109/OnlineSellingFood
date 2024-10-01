@@ -1,22 +1,3 @@
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
-
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="nest-frontend/assets/css/plugins/animate.min.css" />
-    <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
-</head>
-<body>
 <header class="header-area header-style-1 header-style-5 header-height-2">
     <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
         <div class="container">
@@ -39,11 +20,20 @@
                                 <a href="#">
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                                 </a>
-                                <a href="#"><span class="lable ml-0">Account</span></a>
+                                <%
+                                    String accountName = request.getParameter("accountName");
+                                    if(accountName.isEmpty()){
+                                %>
+                                <a href="login.jsp"><span class="lable ml-0">Login</span></a>
+                                <%
+                                    }
+                                    else{
+                                %>
+                                <a><span class="lable ml-0"><%=accountName%></span></a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
                                         <li>
-                                            <a href="#"><i class="fi fi-rs-user mr-10"></i>My Account</a>
+                                            <a href="page-account.jsp"><i class="fi fi-rs-user mr-10"></i>My Account</a>
                                         </li>
                                         <li>
                                             <a href="#"><i class="fi fi-rs-location-alt mr-10"></i>Order</a>
@@ -52,10 +42,13 @@
                                             <a href="#"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
+                                            <a href="logout"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
                                         </li>
                                     </ul>
                                 </div>
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -148,28 +141,3 @@
         </div>
     </div>
 </div>
-<!-- Vendor JS-->
-<script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
-<script src="nest-frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-<script src="nest-frontend/assets/js/vendor/bootstrap.bundle.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/slick.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.syotimer.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/waypoints.js"></script>
-<script src="nest-frontend/assets/js/plugins/wow.js"></script>
-<script src="nest-frontend/assets/js/plugins/perfect-scrollbar.js"></script>
-<script src="nest-frontend/assets/js/plugins/magnific-popup.js"></script>
-<script src="nest-frontend/assets/js/plugins/select2.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/counterup.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.countdown.min.js"></script>
-<script src="nest-frontend/assets/js/plugins/images-loaded.js"></script>
-<script src="nest-frontend/assets/js/plugins/isotope.js"></script>
-<script src="nest-frontend/assets/js/plugins/scrollup.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.vticker-min.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.theia.sticky.js"></script>
-<script src="nest-frontend/assets/js/plugins/jquery.elevatezoom.js"></script>
-<!-- Template  JS -->
-<script src="nest-frontend/assets/js/main.js?v=4.0"></script>
-<script src="nest-frontend/assets/js/shop.js?v=4.0"></script>
-</body>
-</html>
