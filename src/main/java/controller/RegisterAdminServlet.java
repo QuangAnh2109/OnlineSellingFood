@@ -100,9 +100,7 @@ public class RegisterAdminServlet extends HttpServlet {
                 ResultSet accountResult = accountDAO.addAccount(newAccount);
                 if (accountResult != null && accountResult.next()) {
                     int accountID = accountResult.getInt(1);
-
-                    // Insert Staff record with default salary and warehouseID set to 0
-                    Staff newStaff = new Staff(accountID, 1000, 3);
+                    Staff newStaff = new Staff(accountID, 1000, 1);
                     staffDAO.addStaff(newStaff);
 
                     response.sendRedirect("success.jsp");
