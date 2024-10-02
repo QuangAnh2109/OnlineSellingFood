@@ -24,7 +24,7 @@ public class SendAuthenOtpServlet extends HttpServlet {
         Mail.sendEmail(account.getEmail(), otp);
         session.setAttribute("otp", otp);
         session.setAttribute("datetime", LocalDateTime.now().plusMinutes(5));
-        response.sendRedirect("authen-account.jsp");
+        response.sendRedirect("register-authen.jsp");
     }
 
     @Override
