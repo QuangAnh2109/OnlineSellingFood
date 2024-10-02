@@ -66,13 +66,13 @@
         <div class="card mx-auto card-login">
             <div class="card-body">
                 <h4 class="card-title mb-4">Edit Staff Information</h4>
-                <form action="staffListDetail">
+                <form action="updateProfileForAdmin" method="post">
                     <!-- Hidden field for StaffID and AccountID -->
 <%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
 <%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
 
                     <div class="mb-3">
-                        <label class="form-label">Role ID</label>
+                        <label class="form-label">Role Name</label>
                         <select class="form-control" name="roleID" required>
                             <option value="2" ${staffListDetail.roleID == 2 ? 'selected' : ''}>Delivery Staff</option>
                             <option value="3" ${staffListDetail.roleID == 3 ? 'selected' : ''}>Import Staff</option>
@@ -111,18 +111,19 @@
                         <input class="form-control" name="birthYear" value="${staffListDetail.yearOfBirth}" placeholder="Year of birth" type="text" required />
                     </div>
 
-
-
-
-
                     <div class="mb-3">
                         <label class="form-label">Salary</label>
                         <input class="form-control" name="salary" value="${staffListDetail.salary}" placeholder="Salary" type="text" required />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Warehouse ID</label>
-                        <input class="form-control" name="warehouseID" value="${staffListDetail.nameWarehouse}" placeholder="Warehouse ID" type="text" required />
+                        <label class="form-label">Warehouse Name</label>
+                        <select class="form-control" name="warehoseID" required>
+                            <option value="1" ${staffListDetail.warehouseID == 1 ? 'selected' : ''}>Ha Noi</option>
+                            <option value="2" ${staffListDetail.warehouseID == 2 ? 'selected' : ''}>Hoa Lac</option>
+                            <option value="3" ${staffListDetail.warehouseID == 3 ? 'selected' : ''}>Thai Nguyen</option>
+
+                        </select>
                     </div>
 
                     <div class="mb-4">

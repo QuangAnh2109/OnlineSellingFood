@@ -90,7 +90,7 @@ public class StaffDAO extends DBContext{
     }
 
     public StaffDetailRespone getStaffDetail(int accountID){
-        String sql = "select r.[RoleID],a.FirstName,a.LastName,a.Email,ci.PhoneNumber,ci.[Address],a.BirthYear,s.Salary,w.[Name]\n" +
+        String sql = "select r.[RoleID],a.FirstName,a.LastName,a.Email,ci.PhoneNumber,ci.[Address],a.BirthYear,s.Salary,w.[WarehouseID]\n" +
                 "from Account a join Staff s on a.AccountID = s.AccountID\n" +
                 "join [Role] r on r.RoleID = a.RoleID\n" +
                 "join Warehouse w on w.WarehouseID = s.WarehouseID\n" +
@@ -112,7 +112,7 @@ public class StaffDAO extends DBContext{
                 sdr.setAddress(rs.getString("Address"));
                 sdr.setYearOfBirth(rs.getInt("BirthYear"));
                 sdr.setSalary(rs.getInt("Salary"));
-                sdr.setNameWarehouse(rs.getString("Name"));
+                sdr.setWarehouseID(rs.getInt("WarehouseID"));
 
             }
             return sdr;

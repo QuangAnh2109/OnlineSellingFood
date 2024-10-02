@@ -5,11 +5,11 @@ public class StaffDetailRespone {
     private String firstName,lastName,email,phoneNumber,address;
     private int yearOfBirth;
     private int salary;
-    private String nameWarehouse;
+    private int warehouseID;
 
     public StaffDetailRespone() {}
 
-    public StaffDetailRespone(int roleID, String firstName, String lastName, String email, String phoneNumber, String address, int yearOfBirth, int salary, String nameWarehouse) {
+    public StaffDetailRespone(int roleID, String firstName, String lastName, String email, String phoneNumber, String address, int yearOfBirth, int salary, int warehouseID) {
         this.roleID = roleID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -18,7 +18,7 @@ public class StaffDetailRespone {
         this.address = address;
         this.yearOfBirth = yearOfBirth;
         this.salary = salary;
-        this.nameWarehouse = nameWarehouse;
+        this.warehouseID = warehouseID;
     }
 
    public int getRoleID() {
@@ -84,11 +84,10 @@ public class StaffDetailRespone {
         this.salary = salary;
     }
 
-    public String getNameWarehouse() {
-        return nameWarehouse;
-    }
-
-    public void setNameWarehouse(String nameWarehouse) {
-        this.nameWarehouse = nameWarehouse;
-    }
+   public int getWarehouseID() {
+        return warehouseID;
+   }
+   public void setWarehouseID(int warehouseID) {
+        this.warehouseID = warehouseID;
+   }
 }
