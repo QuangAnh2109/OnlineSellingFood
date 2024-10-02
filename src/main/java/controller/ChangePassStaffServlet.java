@@ -53,22 +53,18 @@ public class ChangePassStaffServlet extends HttpServlet {
         AccountDAO dao = new AccountDAO();
         Account account = (Account) request.getSession().getAttribute("account");
 
-        if (np.length() < 8||cp.length() < 8) {
-            errorMessages.add("Password must be more than 8 characters.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-        }
-        else if (!np.equals(cp)) {
-            errorMessages.add("New password must equal confirm password!");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+
+        if (!np.equals(cp)) {
+            request.setAttribute("msg", "Confirm password does not match!");
+            request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
         } else {
             if (dao.getAccountByEmailPassword(account.getEmail(), np)!=null) {
-                errorMessages.add("New password duplicate old password!");
-                request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+                request.setAttribute("msg", "New password duplicate old password!");
+                request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
             } else {
                 dao.updateAccountPassword(account.getAccountID(), np);
+                account.setStatusID(1);
+                dao.updateAccountInformation(account);
                 response.sendRedirect("home-page-staff.jsp");
             }
         }

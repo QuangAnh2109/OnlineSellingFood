@@ -32,6 +32,10 @@
 
 <body>
 <main>
+    <%
+        String msg = (String)request.getAttribute("msg");
+        if(msg==null) msg="";
+    %>
     <jsp:include page="header-staff.jsp">
         <jsp:param name="accountName" value=""/>
     </jsp:include>
@@ -41,12 +45,13 @@
                 <h4 class="card-title mb-4">Change Password</h4>
                 <form action="changepassstaff" method="post" >
                     <div class="mb-3">
-                        <input class="form-control" placeholder="New Password" name="newPassword" type="password" />
+                        <input class="form-control" placeholder="New Password" minlength="8" name="newPassword" type="password" />
                     </div>
                     <!-- form-group// -->
                     <div class="mb-3">
-                        <input class="form-control" placeholder="Confirm Password" name="confirmPassword" type="password" />
+                        <input class="form-control" placeholder="Confirm Password" minlength="8" name="confirmPassword" type="password" />
                     </div>
+                    <label style="color: red"><%=msg%></label>
                     <!-- form-group form-check .// -->
                     <div class="mb-4">
                         <button type="submit" class="btn btn-primary w-100">Change Password</button>

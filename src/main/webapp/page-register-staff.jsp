@@ -24,7 +24,9 @@
 <jsp:include page="bar-staff.jsp"></jsp:include>
 <main class="main-wrap">
   <%
-    String accountName = ((Account)request.getSession().getAttribute("account")).getLastName();
+    String accountName = ((Account)session.getAttribute("account")).getLastName();
+    String msg = (String)session.getAttribute("msg");
+    session.removeAttribute("msg");
   %>
   <jsp:include page="header-staff.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
@@ -32,7 +34,7 @@
   <section class="content-main mt-80 mb-80">
     <div class="card mx-auto card-login">
       <div class="card-body">
-        <h4 class="card-title mb-4">Create an Account</h4>
+        <h4 class="card-title mb-4">Create an Account <%=msg%></h4>
         <form action="registerstaff" method="post">
           <div class="mb-3">
             <label class="form-label">Role ID</label>

@@ -18,4 +18,5 @@ public class Validate {
         if(number<min) throw new Exception("number too small");
         if(number>max) throw new Exception("number too big");
     }
+
 }

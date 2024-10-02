@@ -24,6 +24,8 @@
 <body>
 <%
   String accountName =  ((Account)session.getAttribute("account")).getLastName();
+  String msg = (String)request.getAttribute("msg");
+  if(msg==null)msg="";
 %>
 <jsp:include page="header.jsp">
   <jsp:param name="accountName" value="<%=accountName%>"/>
@@ -55,12 +57,13 @@
                   </div>
                   <form  method="post" action="ChangePassForgotServlet" onsubmit="return validateForm()">
                     <div class="form-group">
-                      <input name="newPassword" type="password" required=""  placeholder="Enter new password  *" />
-                      <input name="confirmPassword" type="password" required=""  placeholder="Confirm password  *" />
+                      <label style="color: red"><%=msg%></label>
+                      <input name="newPassword" type="password" minlength="8" required=""  placeholder="Enter new password  *" />
+                      <input name="confirmPassword" type="password" minlength="8" required=""  placeholder="Confirm password  *" />
                     </div>
                     <div class="form-group">
                       <button type="submit" class="button is-primary" >Submit</button>
-                    </div><
+                    </div>
                   </form>
                 </div>
               </div>

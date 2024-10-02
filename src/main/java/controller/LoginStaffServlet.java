@@ -62,7 +62,8 @@ public class LoginStaffServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("account", a);
             session.setAttribute("contactInformation", ci);
-            response.sendRedirect("home-page-staff.jsp");
+            if(a.getStatusID()==3) response.sendRedirect("changepassstaff");
+            else response.sendRedirect("home-page-staff.jsp");
         }
     }
 }

@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
+
 import java.io.PrintWriter;
 import java.io.IOException;
 
@@ -32,9 +34,13 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        int role = ((Account)session.getAttribute("account")).getRoleID();
         session.removeAttribute("account");
         session.removeAttribute("contactInformation");
-        response.sendRedirect("login");
+        if(role==6){
+            response.sendRedirect("login");
+        }
+        else response.sendRedirect("loginstaff");
 
     }
 

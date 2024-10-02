@@ -86,21 +86,19 @@ public class RegisterStaffServlet extends HttpServlet {
                     // Insert Staff record with default salary and warehouseID set to 0
                     Staff newStaff = new Staff(accountID, 1000, Integer.parseInt(warehouseID));
                     staffDAO.addStaff(newStaff);
-
-                    response.sendRedirect("success.jsp");
+                    request.getSession().setAttribute("msg", "Successfully added staff.");
+                    response.sendRedirect("registerstaff");
                 } else {
                     // Rollback the contact information in case of failure
                     contactInfoDAO.deleteContact(contact.getContactInformationID());
-                    errorMessages.add("Registration failed. Please try again.");
-                    request.setAttribute("errorMessages", errorMessages);
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                    request.getSession().setAttribute("msg", "Don't Successfully added staff.");
+                    response.sendRedirect("registerstaff");
                 }
             }
         } catch (Exception e) {
             // Handle exception and display error
-            errorMessages.add("An error occurred during registration: " + e.getMessage());
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.getSession().setAttribute("msg", "Don't Successfully added staff.");
+            response.sendRedirect("registerstaff");
         }
     }
 }
