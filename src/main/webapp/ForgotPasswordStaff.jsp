@@ -63,7 +63,6 @@
         </div>
     </header>
     <section class="content-main mt-80 mb-80">
-        <div class="page-content pt-150 pb-150">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
@@ -114,7 +113,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <footer class="main-footer text-center">
         <p class="font-xs">
