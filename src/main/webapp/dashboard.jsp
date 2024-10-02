@@ -94,11 +94,11 @@
       <li class="menu-item has-submenu">
         <a class="menu-link" href="#">
           <i class="icon material-icons md-person"></i>
-          <span class="text">Staff</span>
+          <span class="text">Account</span>
         </a>
         <div class="submenu">
           <a href="${pageContext.request.contextPath}/staffList">Staff list</a>
-          <a href="${pageContext.request.contextPath}/login">Staff login</a>
+          <a href="${pageContext.request.contextPath}/customerList">Customer list</a>
           <a href="${pageContext.request.contextPath}/register-admin">Staff registration</a>
           <a href="page-error-404.html">Error 404</a>
         </div>

@@ -95,11 +95,11 @@
       <li class="menu-item has-submenu active">
         <a class="menu-link" href="#">
           <i class="icon material-icons md-person"></i>
-          <span class="text">Staff</span>
+          <span class="text">Account</span>
         </a>
         <div class="submenu">
           <a href="${pageContext.request.contextPath}/staffList" class="active">Staff list</a>
-          <a href="${pageContext.request.contextPath}/login">Staff login</a>
+          <a href="customerList">Customer List</a>
           <a href="page-error-404.html">Error 404</a>
         </div>
       </li>
@@ -199,7 +199,7 @@
   </header>
   <section class="content-main">
     <div class="content-header">
-      <h2 class="content-title">Staff List</h2>
+      <h2 class="content-title">Account</h2>
       <div>
         <a href="${pageContext.request.contextPath}/register-admin" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
       </div>
