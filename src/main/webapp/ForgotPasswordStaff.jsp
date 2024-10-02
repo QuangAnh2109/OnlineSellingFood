@@ -63,57 +63,42 @@
         </div>
     </header>
     <section class="content-main mt-80 mb-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
-                        <div class="row">
-                            <div class="col-lg-6 pr-30 d-none d-lg-block">
-                                <img class="border-radius-15" src="nest-frontend/assets/imgs/page/login-1.png" alt="" />
-                            </div>
-                            <div class="col-lg-6 col-md-8">
-                                <div class="login_wrap widget-taber-content background-white">
-                                    <div class="padding_eight_all bg-white">
-                                        <div class="heading_s1">
-                                            <h1 class="mb-5">Forgot Password</h1>
-                                            <p class="mb-30">Don't have an account? <a href="register">Create here</a></p>
-                                        </div>
-                                        <%
-                                            String email = request.getParameter("email");
-                                            if(email==null){
-                                        %>
-                                        <form  method="post" action="${pageContext.request.contextPath}/forgotpassword" onsubmit="return validateForm()">
-                                            <div class="form-group">
-                                                <input name="email" id="email" type="text" required=""  placeholder="Enter Email  *" />
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="button is-primary" >Submit</button>
-                                            </div><
-                                        </form>
-                                        <%
-                                        }
-                                        else{
-                                        %>
-                                        <form  method="post" action="page-change-pass-staff.jsp" onsubmit="return validateForm()">
-                                            <div class="form-group">
-                                                <input name="email" id="emailforgot" type="text" required="" value="<%out.print(email);%>" readonly/>
-                                                <input name="otp" id="otp" type="text" required=""  placeholder="Enter OTP  *" />
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="button is-primary" >Submit</button>
-                                            </div><
-                                        </form>
-                                        <%
-                                            }
-                                        %>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <div class="card mx-auto card-login">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Forgot Password</h4>
+                <%
+                    String email = request.getParameter("email");
+                    if (email == null) {
+                %>
+                <form method="post" action="${pageContext.request.contextPath}/forgotpassword" onsubmit="return validateForm()">
+                    <div class="mb-3">
+                        <input class="form-control" name="email" id="email" type="text" required="" placeholder="Enter Email *" />
                     </div>
-                </div>
+                    <div class="mb-4">
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </div>
+                </form>
+                <%
+                } else {
+                %>
+                <form method="post" action="page-change-pass-staff.jsp" onsubmit="return validateForm()">
+                    <div class="mb-3">
+                        <input class="form-control" name="email" id="emailforgot" type="text" required="" value="<%out.print(email);%>" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" name="otp" id="otp" type="text" required="" placeholder="Enter OTP *" />
+                    </div>
+                    <div class="mb-4">
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </div>
+                </form>
+                <%
+                    }
+                %>
             </div>
+        </div>
     </section>
+
     <footer class="main-footer text-center">
         <p class="font-xs">
             <script>
