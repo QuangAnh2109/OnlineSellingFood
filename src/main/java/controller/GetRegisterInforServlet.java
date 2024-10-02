@@ -39,61 +39,33 @@ public class GetRegisterInforServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phone");
         String address = request.getParameter("address");
 
-        // Validate input lengths
-        if (address.length() < 5 || address.length() > 200) {
-            errorMessages.add("Address must be between 5 and 200 characters.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
-        }
-        if (phoneNumber.length() < 6 || phoneNumber.length() > 11) {
-            errorMessages.add("Phone number must be between 6 and 11 characters.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
-        }
-        if (password.length() < 8) {
-            errorMessages.add("Password must be more than 8 characters.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
-        }
         //Validate password
         if (!password.equals(confirmPassword)) {
-            errorMessages.add("Passwords do not match.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.setAttribute("msg", "Confirm password does not match!");
+            request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
             return;
         }
 
         if (new AccountDAO().getAccountByEmail(email)!=null) {
-            errorMessages.add("Email duplicate");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.setAttribute("msg", "Email duplicate!");
+            request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
             return;
         }
 
-        try {
-            String otp = RandomPasswordGenerator.generateRandomString();
-            if(Mail.sendEmail(email, otp)){
-                // Create the new Account
-                HttpSession session = request.getSession();
-                session.setAttribute("account", new Account(6, Integer.parseInt(birthYearStr), 2, email, firstName, lastName, password, LocalDateTime.now()));
-                session.setAttribute("contact", new ContactInformation(address, phoneNumber));
-                session.setAttribute("otp", otp);
-                session.setAttribute("datetime", LocalDateTime.now().plusMinutes(5));
-                request.getRequestDispatcher("register-authen.jsp").forward(request, response);
-            }
-            else{
-                errorMessages.add("Some error when make and send email");
-                request.setAttribute("errorMessages", errorMessages);
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            // Log the actual exception message to the console and display on the error page
-            errorMessages.add("An error occurred during registration: " + e.getMessage());
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+
+        String otp = RandomPasswordGenerator.generateRandomString();
+        if(Mail.sendEmail(email, otp)){
+            // Create the new Account
+            HttpSession session = request.getSession();
+            session.setAttribute("account", new Account(6, Integer.parseInt(birthYearStr), 2, email, firstName, lastName, password, LocalDateTime.now()));
+            session.setAttribute("contact", new ContactInformation(address, phoneNumber));
+            session.setAttribute("otp", otp);
+            session.setAttribute("datetime", LocalDateTime.now().plusMinutes(5));
+            request.getRequestDispatcher("register-authen.jsp").forward(request, response);
+        }
+        else{
+            request.setAttribute("msg","Some error when send otp");
+            request.getRequestDispatcher("page-register.jsp").forward(request, response);
         }
     }
 }

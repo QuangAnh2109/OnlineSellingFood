@@ -35,7 +35,7 @@ public class OtpDAO extends  DBContext{
             ps.setString(2, Encrypt.toHexString(Encrypt.getSHA(otp.getCode())));
             ps.setTimestamp(3, Timestamp.valueOf(otp.getExpiryDateTime()));
             ResultSet rs = executeUpdate(ps);
-            if(rs.next()) return rs.getInt(1);
+            if(rs!=null&&rs.next()) return rs.getInt(1);
         }catch (SQLException | NoSuchAlgorithmException e){
             logger.info(getClass().getName()+": "+e.getMessage());
         }

@@ -82,7 +82,7 @@
                 </a>
                 <div class="submenu">
                     <a href="page-account-login.html">User login</a>
-                    <a href="page-account-register.html">User registration</a>
+                    <a href="registerstaff">User registration</a>
                     <a href="page-error-404.html">Error 404</a>
                 </div>
             </li>

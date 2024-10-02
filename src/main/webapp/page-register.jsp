@@ -42,20 +42,20 @@
                     <h1 class="mb-5">Create an Account</h1>
                     <p class="mb-30">Already have an account? <a href="page-login.html">Login</a></p>
                   </div>
-                  <form action="${pageContext.request.contextPath}/register" method="post">
+                  <form action="register" method="post">
                     <!-- First Name -->
                     <div class="form-group">
-                      <input type="text" required="" name="firstName" placeholder="First Name" />
+                      <input type="text" required="" name="firstName" minlength="2" maxlength="100" placeholder="First Name" />
                     </div>
 
                     <!-- Last Name -->
                     <div class="form-group">
-                      <input type="text" required="" name="lastName" placeholder="Last Name" />
+                      <input type="text" required="" name="lastName" minlength="2" maxlength="100" placeholder="Last Name" />
                     </div>
 
                     <!-- Email -->
                     <div class="form-group">
-                      <input type="email" required="" name="email" placeholder="Email" />
+                      <input type="email" required="" name="email" placeholder="Email" minlength="10" maxlength="100"/>
                     </div>
 
                     <!-- Birth Year -->
@@ -64,21 +64,21 @@
                     </div>
                     <!-- Contact Information -->
                     <div class="form-group">
-                      <input type="text" required="" name="phone" placeholder="PhoneNumber" />
+                      <input type="text" required="" name="phone" placeholder="PhoneNumber" minlength="10" maxlength="10"/>
 
                     </div>
                     <div class="form-group">
-                      <input type="text" required="" name="address" placeholder="Address" />
+                      <input type="text" required="" name="address"  minlength="5" maxlength="200" placeholder="Address" />
 
                     </div>
                     <!-- Password -->
                     <div class="form-group">
-                      <input required="" type="password" name="password" placeholder="Password" />
+                      <input required="" type="password" name="password" minlength="8" maxlength="64" placeholder="Password" />
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="form-group">
-                      <input required="" type="password" name="confirmPassword" placeholder="Confirm Password" />
+                      <input required="" type="password" name="confirmPassword" minlength="8" maxlength="64" placeholder="Confirm Password" />
                     </div>
 
                     <!-- Agree to Terms -->

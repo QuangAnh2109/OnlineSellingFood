@@ -47,6 +47,7 @@ public class CheckAuthenRegisterServlet extends HttpServlet {
             Integer accountID = accDAO.addAccount(account);
             if (accountID != null) {
                 new CustomerDAO().addCustomer(new Customer(accountID, 0, 0));
+                request.getSession().setAttribute("contactInformation", contact);
                 response.sendRedirect("home-page.jsp");
             } else {
                 // Rollback the contact information in case of failure

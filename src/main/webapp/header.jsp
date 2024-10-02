@@ -24,7 +24,7 @@
                                     String accountName = request.getParameter("accountName");
                                     if(accountName.isEmpty()){
                                 %>
-                                <a href="login.jsp"><span class="lable ml-0">Login</span></a>
+                                <a href="login"><span class="lable ml-0">Login</span></a>
                                 <%
                                     }
                                     else{

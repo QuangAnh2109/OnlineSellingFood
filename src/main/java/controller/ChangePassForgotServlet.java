@@ -30,9 +30,15 @@ public class ChangePassForgotServlet extends HttpServlet {
         Account account = (Account) request.getSession().getAttribute("account");
         if(account.getStatusID()==2){
             String newPassword = request.getParameter("newPassword"),confirmPassword = request.getParameter("confirmPassword");
+            //Validate password
+            if (!newPassword.equals(confirmPassword)) {
+                request.setAttribute("msg", "Confirm password does not match!");
+                request.getRequestDispatcher("page-change-pass.jsp").forward(request, response);
+                return;
+            }
             if(newPassword.equals(confirmPassword)){
                 if (accountDAO.getAccountByEmailPassword(account.getEmail(), newPassword)!=null) {
-                    request.setAttribute("errorMessages", "New password duplicate old password!");
+                    request.setAttribute("msg", "New password duplicate old password!");
                     request.getRequestDispatcher("page-change-pass.jsp").forward(request, response);
                 } else {
                     accountDAO.updateAccountPassword(account.getAccountID(), newPassword);
