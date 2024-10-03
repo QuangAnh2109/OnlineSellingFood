@@ -115,13 +115,25 @@
                         <label class="form-label">Salary</label>
                         <input class="form-control" name="salary" value="${staffListDetail.salary}" placeholder="Salary" type="text" required />
                     </div>
-
+                    <div>
+                        <input name="accountID" value="${accountID}" hidden="">
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Warehouse Name</label>
-                        <select class="form-control" name="warehoseID" required>
-                            <option value="1" ${staffListDetail.warehouseID == 1 ? 'selected' : ''}>Ha Noi</option>
-                            <option value="2" ${staffListDetail.warehouseID == 2 ? 'selected' : ''}>Hoa Lac</option>
-                            <option value="3" ${staffListDetail.warehouseID == 3 ? 'selected' : ''}>Thai Nguyen</option>
+                        <select class="form-control" name="warehouseID" required>
+                            <option value="1" ${staffListDetail.warehouseID == 1 ? 'selected' : ''}>Kho A</option>
+                            <option value="2" ${staffListDetail.warehouseID == 2 ? 'selected' : ''}>Kho B</option>
+                            <option value="3" ${staffListDetail.warehouseID == 3 ? 'selected' : ''}>Kho C</option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status Account</label>
+                        <select class="form-control" name="statusID" required>
+                            <option value="1" ${staffListDetail.statusID == 1 ? 'selected' : ''}>Activity</option>
+<%--                            <option value="2" ${staffListDetail.statusID == 2 ? 'selected' : ''}>No Authenticate</option>--%>
+                            <option value="3" ${staffListDetail.statusID == 3 ? 'selected' : ''}>Password change request</option>
+                            <option value="4" ${staffListDetail.statusID == 4? 'selected' : ''}>Lock</option>
 
                         </select>
                     </div>

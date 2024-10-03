@@ -27,6 +27,7 @@ public class StaffListDetailServlet extends HttpServlet {
             int accountID = Integer.parseInt(accountID_raw);
             StaffDetailRespone sdr=sd.getStaffDetail(accountID);
             request.setAttribute("staffListDetail", sdr);
+            request.setAttribute("accountID", accountID);
             request.getRequestDispatcher("staff-detail.jsp").forward(request, response);
         } catch (Exception e) {
             throw new RuntimeException(e);

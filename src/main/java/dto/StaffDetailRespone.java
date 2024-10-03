@@ -1,7 +1,7 @@
 package dto;
 
 public class StaffDetailRespone {
-    private int roleID;
+    private int roleID,statusID;
     private String firstName,lastName,email,phoneNumber,address;
     private int yearOfBirth;
     private int salary;
@@ -9,8 +9,9 @@ public class StaffDetailRespone {
 
     public StaffDetailRespone() {}
 
-    public StaffDetailRespone(int roleID, String firstName, String lastName, String email, String phoneNumber, String address, int yearOfBirth, int salary, int warehouseID) {
+    public StaffDetailRespone(int roleID,int statusID, String firstName, String lastName, String email, String phoneNumber, String address, int yearOfBirth, int salary, int warehouseID) {
         this.roleID = roleID;
+        this.statusID = statusID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,6 +27,12 @@ public class StaffDetailRespone {
    }
    public void setRoleID(int roleID) {
         this.roleID = roleID;
+   }
+   public int getStatusID() {
+        return statusID;
+   }
+   public void setStatusID(int statusID) {
+        this.statusID = statusID;
    }
 
     public String getFirstName() {

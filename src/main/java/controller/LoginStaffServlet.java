@@ -58,7 +58,12 @@ public class LoginStaffServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }else{
-            if(a.getStatusID()==3){
+            if(a.getStatusID()==4){
+                errorMessages.add("The account has been locked!");
+                request.setAttribute("errorMessages", errorMessages);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+            else if(a.getStatusID()==3){
                 ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
                 HttpSession session = request.getSession();
                 session.setAttribute("account", a);
