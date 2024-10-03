@@ -7,6 +7,15 @@
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
+                        <form action="#">
+                            <select name="category" style="width: 200px">
+                                <option value="0">All Categories</option>
+                                <option value="1">Category 1</option>
+                                <option value="2">Category 2</option>
+                                <option value="3">Category 3</option>
+                            </select>
+                            <input type="text" name="search" placeholder="Search for items..." />
+                        </form>
                     </div>
                     <div class="header-action-right">
                         <div class="header-action-2">
@@ -67,7 +76,7 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a href="#">Home</a>
+                                    <a href="home-page.jsp">Home</a>
                                 </li>
                                 <li>
                                     <a href="#">Product</a>

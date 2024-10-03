@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                       <button type="submit" class="button is-primary" >Submit</button>
-                    </div><
+                    </div>
                   </form>
                   <%
                     }
