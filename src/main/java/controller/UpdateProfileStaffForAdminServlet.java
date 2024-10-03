@@ -1,23 +1,19 @@
 package controller;
 
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import dal.AccountDAO;
 import dal.ContactInformationDAO;
-import dal.RoleDAO;
 import dal.StaffDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Account;
 import model.ContactInformation;
-import model.Role;
 import model.Staff;
 
-@WebServlet(name = "UpdateProfileForAdminServletServlet", urlPatterns = {"/updateProfileForAdmin"})
-public class UpdateProfileForAdminServlet extends HttpServlet {
+@WebServlet(name = "UpdateProfileStaffForAdminServletServlet", urlPatterns = {"/updateProfileStaffForAdmin"})
+public class UpdateProfileStaffForAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("staffList");

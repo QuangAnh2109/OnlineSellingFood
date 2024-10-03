@@ -66,7 +66,7 @@
         <div class="card mx-auto card-login">
             <div class="card-body">
                 <h4 class="card-title mb-4">Customer Information</h4>
-                <form action="updateProfileForAdmin" method="post">
+                <form action="updateProfileCustomerForAdmin" method="post">
                     <!-- Hidden field for StaffID and AccountID -->
                     <%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
                     <%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
@@ -76,10 +76,10 @@
                         <select class="form-control" name="statusID" required>
                             <option value="1" ${customerListDetail.statusID == 1 ? 'selected' : ''}>Active</option>
                             <option value="2" ${customerListDetail.statusID == 2 ? 'selected' : ''}>No Authenticate</option>
-                            <option value="3" ${customerListDetail.statusID == 3 ? 'selected' : ''}>Password change request</option>
                             <option value="4" ${customerListDetail.statusID == 4 ? 'selected' : ''}>Lock</option>
                         </select>
                     </div>
+                    <input type="hidden" value="${accountID}" name="accountId">
 
                     <div class="mb-3">
                         <label class="form-label">First Name</label>

@@ -66,7 +66,7 @@
         <div class="card mx-auto card-login">
             <div class="card-body">
                 <h4 class="card-title mb-4">Edit Staff Information</h4>
-                <form action="updateProfileForAdmin" method="post">
+                <form action="updateProfileStaffForAdmin" method="post">
                     <!-- Hidden field for StaffID and AccountID -->
 <%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
 <%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>

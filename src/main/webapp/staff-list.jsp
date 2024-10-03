@@ -253,7 +253,7 @@
                   </div>
                 </a>
               </td>
-              <td><input value="${sl.accountID}" name="accountID" hidden=""> </td>
+              <input value="${sl.accountID}" name="accountID" type="hidden">
               <td>${sl.email}</td>
               <td><span class="badge rounded-pill alert-success">${sl.detail}</span></td>
               <td>${sl.time}</td>

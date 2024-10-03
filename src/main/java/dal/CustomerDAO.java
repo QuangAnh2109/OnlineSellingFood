@@ -3,6 +3,7 @@ package dal;
 import dto.CustomerDetailRespone;
 import dto.StaffDetailRespone;
 import dto.StaffListResponse;
+import model.Account;
 import model.Customer;
 
 import java.sql.PreparedStatement;
@@ -33,7 +34,11 @@ public class CustomerDAO extends DBContext{
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Customer where AccountID=?");
             ps.setInt(1, accountID);
-            return (Customer)getObject(ps);
+            //return (Customer)getObject(ps);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                return new Customer(rs.getInt("CustomerID"),rs.getInt("AccountID"),rs.getInt("Point"),rs.getInt("Level"));
+            }
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
@@ -123,9 +128,49 @@ public class CustomerDAO extends DBContext{
         return null;
     }
 
+    public void updateProfileCustomerForAdmin(Account a,Customer c){
+        String sql="UPDATE [dbo].[Account]\n" +
+                "   SET [StatusID] =?\n" +
+                " WHERE AccountID=?";
+        try{
+            PreparedStatement st=connection.prepareStatement(sql);
+           st.setInt(2, a.getAccountID());
+           st.setInt(1, a.getStatusID());
+            st.executeUpdate();
+            System.out.println("after execute update status");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        sql="UPDATE [dbo].[Customer]\n" +
+                "   SET  [Point] = ?\n" +
+                "      ,[Level] = ?\n" +
+                " WHERE AccountID=?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1,c.getPoint());
+            st.setInt(2,c.getLevel());
+            st.setInt(3,c.getAccountID());
+
+            System.out.println(c.getPoint());
+            System.out.println(c.getLevel());
+            System.out.println(c.getAccountID());
+            st.executeUpdate();
+
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
+    }
     public static void main(String[] args) {
         CustomerDAO customerDAO = new CustomerDAO();
-         CustomerDetailRespone cdr=customerDAO.getCustomerDetail(2);
-        System.out.println(cdr);
+        AccountDAO accountDAO = new AccountDAO();
+        Account account=accountDAO.getAccountByAccountID(2);
+        System.out.println(account.getStatusID());
+        Customer customer=customerDAO.getCustomerByAccountID(account.getAccountID());
+        System.out.println(customer.getCustomerID());
+        Customer cutomer1=new Customer(customer.getAccountID(),3000,100);
+        customerDAO.updateProfileCustomerForAdmin(account,cutomer1);
+        System.out.println(customer.getAccountID());
     }
 }

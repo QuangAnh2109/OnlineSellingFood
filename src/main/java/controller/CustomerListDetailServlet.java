@@ -29,6 +29,7 @@ public class CustomerListDetailServlet extends HttpServlet {
             int accountID = Integer.parseInt(accountID_raw);
             CustomerDetailRespone cdr = cd.getCustomerDetail(accountID);
             request.setAttribute("customerListDetail", cdr);
+            request.setAttribute("accountID", accountID);
             request.getRequestDispatcher("customer-detail.jsp").forward(request, response);
         } catch (Exception e) {
             throw new RuntimeException(e);
