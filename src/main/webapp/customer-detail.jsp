@@ -65,78 +65,62 @@
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">
             <div class="card-body">
-                <h4 class="card-title mb-4">Edit Staff Information</h4>
-                <form action="updateProfileStaffForAdmin" method="post">
+                <h4 class="card-title mb-4">Customer Information</h4>
+                <form action="updateProfileCustomerForAdmin" method="post">
                     <!-- Hidden field for StaffID and AccountID -->
-<%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
-<%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
+                    <%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
+                    <%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
 
                     <div class="mb-3">
-                        <label class="form-label">Role Name</label>
-                        <select class="form-control" name="roleID" required>
-                            <option value="2" ${staffListDetail.roleID == 2 ? 'selected' : ''}>Delivery Staff</option>
-                            <option value="3" ${staffListDetail.roleID == 3 ? 'selected' : ''}>Import Staff</option>
-                            <option value="4" ${staffListDetail.roleID == 4 ? 'selected' : ''}>Warehouse Management</option>
-                            <option value="5" ${staffListDetail.roleID == 5 ? 'selected' : ''}>Sales Management</option>
+                        <label class="form-label">Status Account</label>
+                        <select class="form-control" name="statusID" required>
+                            <option value="1" ${customerListDetail.statusID == 1 ? 'selected' : ''}>Active</option>
+                            <option value="2" ${customerListDetail.statusID == 2 ? 'selected' : ''}>No Authenticate</option>
+                            <option value="4" ${customerListDetail.statusID == 4 ? 'selected' : ''}>Lock</option>
                         </select>
                     </div>
+                    <input type="hidden" value="${accountID}" name="accountId">
 
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
-                        <input class="form-control" name="firstName" value="${staffListDetail.firstName}" placeholder="First Name" type="text" required />
+                        <input class="form-control" name="firstName" value="${customerListDetail.firstName}" placeholder="First Name" type="text" required readonly />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Last Name</label>
-                        <input class="form-control" name="lastName" value="${staffListDetail.lastName}" placeholder="Last Name" type="text" required />
+                        <input class="form-control" name="lastName" value="${customerListDetail.lastName}" placeholder="Last Name" type="text" required readonly />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input class="form-control" name="email" value="${staffListDetail.email}" placeholder="Email" type="email" required />
+                        <input class="form-control" name="email" value="${customerListDetail.email}" placeholder="Email" type="email" required readonly />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
-                        <input class="form-control" name="phone" value="${staffListDetail.phoneNumber}" placeholder="Phone Number" type="text" required />
+                        <input class="form-control" name="phone" value="${customerListDetail.phoneNumber}" placeholder="Phone Number" type="text" required readonly/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Address</label>
-                        <input class="form-control" name="address" value="${staffListDetail.address}" placeholder="Address" type="text" required />
+                        <input class="form-control" name="address" value="${customerListDetail.address}" placeholder="Address" type="text" required readonly/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Birth Year</label>
-                        <input class="form-control" name="birthYear" value="${staffListDetail.yearOfBirth}" placeholder="Year of birth" type="text" required />
+                        <input class="form-control" name="birthYear" value="${customerListDetail.birthYear}" placeholder="Year of birth" type="text" required readonly />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Salary</label>
-                        <input class="form-control" name="salary" value="${staffListDetail.salary}" placeholder="Salary" type="text" required />
+                        <label class="form-label">Point</label>
+                        <input class="form-control" name="point" value="${customerListDetail.point}" placeholder="Point" type="text" required />
                     </div>
-                    <div>
-                        <input name="accountID" value="${accountID}" hidden="">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Warehouse Name</label>
-                        <select class="form-control" name="warehouseID" required>
-                            <option value="1" ${staffListDetail.warehouseID == 1 ? 'selected' : ''}>Kho A</option>
-                            <option value="2" ${staffListDetail.warehouseID == 2 ? 'selected' : ''}>Kho B</option>
-                            <option value="3" ${staffListDetail.warehouseID == 3 ? 'selected' : ''}>Kho C</option>
 
-                        </select>
-                    </div>
                     <div class="mb-3">
-                        <label class="form-label">Status Account</label>
-                        <select class="form-control" name="statusID" required>
-                            <option value="1" ${staffListDetail.statusID == 1 ? 'selected' : ''}>Activity</option>
-<%--                            <option value="2" ${staffListDetail.statusID == 2 ? 'selected' : ''}>No Authenticate</option>--%>
-                            <option value="3" ${staffListDetail.statusID == 3 ? 'selected' : ''}>Password change request</option>
-                            <option value="4" ${staffListDetail.statusID == 4? 'selected' : ''}>Lock</option>
-
-                        </select>
+                        <label class="form-label">Level</label>
+                        <input class="form-control" name="level" value="${customerListDetail.level}" placeholder="Level" type="text" required  />
                     </div>
+
 
                     <div class="mb-4">
                         <button type="submit" class="btn btn-primary w-100">Update</button>

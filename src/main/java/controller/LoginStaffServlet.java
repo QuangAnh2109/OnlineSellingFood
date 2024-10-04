@@ -54,16 +54,22 @@ public class LoginStaffServlet extends HttpServlet {
         a = dao.getAccountByEmailPassword(email, password);
 
         if(a==null){
-            errorMessages.add("Username or Password invalid!!");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.setAttribute("msg", "Username or Password invalid!");
+            request.getRequestDispatcher("page-login-staff.jsp").forward(request, response);
         }else{
-            ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
-            HttpSession session = request.getSession();
-            session.setAttribute("account", a);
-            session.setAttribute("contactInformation", ci);
-            if(a.getStatusID()==3) response.sendRedirect("changepassstaff");
-            else response.sendRedirect("home-page-staff.jsp");
+            if(a.getStatusID()==4){
+                request.setAttribute("msg", "Account has been locked!");
+                request.getRequestDispatcher("page-login-staff.jsp").forward(request, response);
+            }
+            else{
+                ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
+                HttpSession session = request.getSession();
+                session.setAttribute("account", a);
+                session.setAttribute("contactInformation", ci);
+                if(a.getStatusID()==3) response.sendRedirect("changepassstaff");
+                else response.sendRedirect("home-page-staff.jsp");
+            }
+
         }
     }
 }

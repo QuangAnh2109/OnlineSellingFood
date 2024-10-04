@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ADMIN
-  Date: 9/25/2024
-  Time: 6:25 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page import="model.Account" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +103,7 @@
                 <div class="new-member-list">
                   <div class="d-flex align-items-center justify-content-between mb-4">
                     <div class="d-flex align-items-center">
-                      <img src="assets/imgs/people/avatar-4.png" alt="" class="avatar" />
+                      <img src="nest-backend/assets/imgs/people/avatar-4.png" alt="" class="avatar" />
                       <div>
                         <h6>Patric Adams</h6>
                         <p class="text-muted font-xs">Sanfrancisco</p>
@@ -120,7 +113,7 @@
                   </div>
                   <div class="d-flex align-items-center justify-content-between mb-4">
                     <div class="d-flex align-items-center">
-                      <img src="assets/imgs/people/avatar-2.png" alt="" class="avatar" />
+                      <img src="nest-backend/assets/imgs/people/avatar-2.png" alt="" class="avatar" />
                       <div>
                         <h6>Dilan Specter</h6>
                         <p class="text-muted font-xs">Sanfrancisco</p>
@@ -130,7 +123,7 @@
                   </div>
                   <div class="d-flex align-items-center justify-content-between mb-4">
                     <div class="d-flex align-items-center">
-                      <img src="assets/imgs/people/avatar-3.png" alt="" class="avatar" />
+                      <img src="nest-backend/assets/imgs/people/avatar-3.png" alt="" class="avatar" />
                       <div>
                         <h6>Tomas Baker</h6>
                         <p class="text-muted font-xs">Sanfrancisco</p>
@@ -459,6 +452,4 @@
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 <script src="nest-backend/assets/js/custom-chart.js" type="text/javascript"></script>
 </body>
-</html>
-
 </html>

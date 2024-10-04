@@ -59,7 +59,11 @@ public class LoginServlet extends HttpServlet {
             errorMessages.add("Username or Password invalid!!");
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
-        }else{
+        } else if (a.getStatusID()==4) {
+            errorMessages.add("The account has been locked!");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        } else{
             ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
             HttpSession session = request.getSession();
             session.setAttribute("account", a);

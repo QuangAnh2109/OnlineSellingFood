@@ -50,7 +50,7 @@ public class ChangePassServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         } else {
-            if (np.length() < 8||cp.length() < 8) {
+            if (np.length() < 8) {
                 errorMessages.add("Password must be more than 8 characters.");
                 request.setAttribute("errorMessages", errorMessages);
                 request.getRequestDispatcher("error.jsp").forward(request, response);
