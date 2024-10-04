@@ -58,7 +58,7 @@ public class CheckAuthenRegisterServlet extends HttpServlet {
         }
         else{
             request.setAttribute("msg", "Wrong otp or expired otp");
-            request.getRequestDispatcher("authen-account.jsp").forward(request,response);
+            request.getRequestDispatcher("register-authen.jsp").forward(request,response);
         }
 
     }
