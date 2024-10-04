@@ -81,9 +81,9 @@
                     <span class="text">Account</span>
                 </a>
                 <div class="submenu">
-                    <a href="page-account-login.html">User login</a>
-                    <a href="registerstaff">User registration</a>
-                    <a href="page-error-404.html">Error 404</a>
+                    <a href="staffList">Staff list</a>
+                    <a href="customerList">Customer list</a>
+                    <a href="registerstaff">Staff register</a>
                 </div>
             </li>
             <li class="menu-item">

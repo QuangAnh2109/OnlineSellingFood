@@ -34,10 +34,6 @@ public class CustomerDAO extends DBContext{
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Customer where AccountID=?");
             ps.setInt(1, accountID);
-            return (Customer)getObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
-            //return (Customer)getObject(ps);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 return new Customer(rs.getInt("CustomerID"),rs.getInt("AccountID"),rs.getInt("Point"),rs.getInt("Level"));
