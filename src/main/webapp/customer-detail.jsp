@@ -75,7 +75,6 @@
                         <label class="form-label">Status Account</label>
                         <select class="form-control" name="statusID" required>
                             <option value="1" ${customerListDetail.statusID == 1 ? 'selected' : ''}>Active</option>
-                            <option value="2" ${customerListDetail.statusID == 2 ? 'selected' : ''}>No Authenticate</option>
                             <option value="4" ${customerListDetail.statusID == 4 ? 'selected' : ''}>Lock</option>
                         </select>
                     </div>
