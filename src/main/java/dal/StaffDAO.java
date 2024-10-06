@@ -17,12 +17,12 @@ import java.util.List;
 public class StaffDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Staff(rs.getInt("StaffID"),rs.getInt("AccountID"),rs.getInt("Salary"),rs.getInt("SarehouseID"));
+        return new Staff(rs.getInt("StaffID"),rs.getInt("AccountID"),rs.getInt("Salary"),rs.getInt("WarehouseID"));
     }
 
     public Staff getStaffByCustomerID(int staffID){
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from Staff where StaffID=?");
+            PreparedStatement ps = connection.prepareStatement("select StaffID,AccountID,Salary,WarehouseID from Staff where StaffID=?");
             ps.setInt(1, staffID);
             return (Staff)getObject(ps);
         }catch (SQLException e){
@@ -33,15 +33,11 @@ public class StaffDAO extends DBContext{
 
     public Staff getStaffByAccountID(int accountID){
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from Staff where AccountID=?");
+            PreparedStatement ps = connection.prepareStatement("select StaffID,AccountID,Salary,WarehouseID from Staff where AccountID=?");
             ps.setInt(1, accountID);
-//            return (Staff)getObject(ps);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-                return new Staff(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4));
-            }
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
+            return (Staff)getObject(ps);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }

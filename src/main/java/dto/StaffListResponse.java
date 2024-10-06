@@ -4,12 +4,13 @@ import java.sql.Date;
 
 public class StaffListResponse {
     private int accountID;
-    private String firstName, lastName,email,detail;
+    private String name;
+    private String email;
+    private String detail;
     private Date time;
-    public StaffListResponse(int accountID,String firstName, String lastName, String email, String detail, Date time) {
+    public StaffListResponse(int accountID,String name, String email, String detail, Date time) {
         this.accountID = accountID;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.email = email;
         this.detail = detail;
         this.time = time;
@@ -24,20 +25,13 @@ public class StaffListResponse {
      public void setAcoountID(int accountID) {
         this.accountID = accountID;
      }
-    public String getFirstName() {
-        return firstName;
+
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

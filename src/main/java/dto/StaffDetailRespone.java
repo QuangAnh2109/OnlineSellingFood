@@ -1,19 +1,22 @@
 package dto;
 
 public class StaffDetailRespone {
-    private int roleID,statusID;
-    private String firstName,lastName,email,phoneNumber,address;
+    private int roleID;
+    private int statusID;
+    private String name;
+    private String email;
+    private String phoneNumber;
+    private String address;
     private int yearOfBirth;
     private int salary;
     private int warehouseID;
 
     public StaffDetailRespone() {}
 
-    public StaffDetailRespone(int roleID,int statusID, String firstName, String lastName, String email, String phoneNumber, String address, int yearOfBirth, int salary, int warehouseID) {
+    public StaffDetailRespone(int roleID,int statusID, String name, String email, String phoneNumber, String address, int yearOfBirth, int salary, int warehouseID) {
         this.roleID = roleID;
         this.statusID = statusID;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -35,20 +38,12 @@ public class StaffDetailRespone {
         this.statusID = statusID;
    }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

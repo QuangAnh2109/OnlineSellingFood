@@ -2,16 +2,20 @@ package dto;
 
 public class CustomerDetailRespone {
     private int statusID;
-    private String firstName,lastName,email,phoneNumber,address;
-    private int birthYear,point,level;
+    private String name;
+    private String email;
+    private String phoneNumber;
+    private String address;
+    private int birthYear;
+    private int point;
+    private int level;
 
     public CustomerDetailRespone() {
     }
 
-    public CustomerDetailRespone(int statusID, String firstName, String lastName, String email, String phoneNumber, String address, int birthYear, int point, int level) {
+    public CustomerDetailRespone(int statusID, String name, String email, String phoneNumber, String address, int birthYear, int point, int level) {
         this.statusID = statusID;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -28,20 +32,12 @@ public class CustomerDetailRespone {
         this.statusID = statusID;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
