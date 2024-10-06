@@ -3,24 +3,24 @@ package model;
 import java.time.LocalDateTime;
 
 public class OrderShip {
-    private int orderID;
+    private Integer orderID;
     private Integer staffID;
     private LocalDateTime finishTime;
 
     public OrderShip() {
     }
 
-    public OrderShip(int orderID, Integer staffID, LocalDateTime finishTime) {
+    public OrderShip(Integer orderID, Integer staffID, LocalDateTime finishTime) {
         this.orderID = orderID;
         this.staffID = staffID;
         this.finishTime = finishTime;
     }
 
-    public int getOrderID() {
+    public Integer getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(Integer orderID) {
         this.orderID = orderID;
     }
 

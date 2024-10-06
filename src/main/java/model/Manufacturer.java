@@ -1,23 +1,24 @@
 package model;
 
 public class Manufacturer {
-    private int manufacturerID;
-    private String name, introduce;
+    private Integer manufacturerID;
+    private String name;
+    private String introduce;
 
     public Manufacturer() {
     }
 
-    public Manufacturer(int manufacturerID, String name, String introduce) {
+    public Manufacturer(Integer manufacturerID, String name, String introduce) {
         this.manufacturerID = manufacturerID;
         this.name = name;
         this.introduce = introduce;
     }
 
-    public int getManufacturerID() {
+    public Integer getManufacturerID() {
         return manufacturerID;
     }
 
-    public void setManufacturerID(int manufacturerID) {
+    public void setManufacturerID(Integer manufacturerID) {
         this.manufacturerID = manufacturerID;
     }
 

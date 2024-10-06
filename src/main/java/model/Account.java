@@ -3,99 +3,38 @@ package model;
 import java.time.LocalDateTime;
 
 public class Account {
-    private int accountID, roleID, birthYear, contactInformationID, statusID;
-    private String email, firstName, lastName, password;
+    private Integer accountID;
+    private Integer roleID;
+    private String email;
+    private String name;
+    private Integer genderID;
+    private LocalDateTime birth;
+    private String password;
     private LocalDateTime time;
+    private Integer statusID;
 
 
     public Account() {
     }
 
-    public Account(int accountID, int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, String password, LocalDateTime time) {
+    public Account(Integer accountID, Integer roleID, String email, String name, Integer genderID, String password, LocalDateTime birth, LocalDateTime time, Integer statusID) {
         this.accountID = accountID;
         this.roleID = roleID;
-        this.birthYear = birthYear;
-        this.contactInformationID = contactInformationID;
-        this.statusID = statusID;
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
+        this.genderID = genderID;
         this.password = password;
+        this.birth = birth;
         this.time = time;
-    }
-
-    public Account(int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, String password, LocalDateTime time) {
-        this.roleID = roleID;
-        this.birthYear = birthYear;
-        this.contactInformationID = contactInformationID;
         this.statusID = statusID;
-        this.email = email;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.password = password;
-        this.time = time;
     }
 
-    public Account(int roleID, int birthYear, int contactInformationID, int statusID, String email, String firstName, String lastName, int accountID) {
-        this.roleID = roleID;
-        this.birthYear = birthYear;
-        this.contactInformationID = contactInformationID;
-        this.statusID = statusID;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.accountID = accountID;
-    }
-
-    public Account(int roleID, int birthYear, int statusID, String email, String firstName, String lastName, String password, LocalDateTime time) {
-        this.roleID = roleID;
-        this.birthYear = birthYear;
-        this.statusID = statusID;
-        this.email = email;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.password = password;
-        this.time = time;
-    }
-
-    public int getAccountID() {
+    public Integer getAccountID() {
         return accountID;
     }
 
-    public void setAccountID(int accountID) {
+    public void setAccountID(Integer accountID) {
         this.accountID = accountID;
-    }
-
-    public int getRoleID() {
-        return roleID;
-    }
-
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
-    }
-
-    public int getBirthYear() {
-        return birthYear;
-    }
-
-    public void setBirthYear(int birthYear) {
-        this.birthYear = birthYear;
-    }
-
-    public int getContactInformationID() {
-        return contactInformationID;
-    }
-
-    public void setContactInformationID(int contactInformationID) {
-        this.contactInformationID = contactInformationID;
-    }
-
-    public int getStatusID() {
-        return statusID;
-    }
-
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
     }
 
     public String getEmail() {
@@ -106,20 +45,36 @@ public class Account {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public Integer getRoleID() {
+        return roleID;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setRoleID(Integer roleID) {
+        this.roleID = roleID;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getGenderID() {
+        return genderID;
+    }
+
+    public void setGenderID(Integer genderID) {
+        this.genderID = genderID;
+    }
+
+    public LocalDateTime getBirth() {
+        return birth;
+    }
+
+    public void setBirth(LocalDateTime birth) {
+        this.birth = birth;
     }
 
     public String getPassword() {
@@ -136,5 +91,13 @@ public class Account {
 
     public void setTime(LocalDateTime time) {
         this.time = time;
+    }
+
+    public Integer getStatusID() {
+        return statusID;
+    }
+
+    public void setStatusID(Integer statusID) {
+        this.statusID = statusID;
     }
 }

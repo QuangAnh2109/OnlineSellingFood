@@ -1,40 +1,42 @@
 package model;
 
 public class Warehouse {
-    private int warehouseID, contactInformationID, statusID;
+    private Integer warehouseID;
+    private Integer contactInformationID;
+    private Integer statusID;
     private String name;
 
     public Warehouse() {
     }
 
-    public Warehouse(int warehouseID, int contactInformationID, int statusID, String name) {
+    public Warehouse(Integer warehouseID, Integer contactInformationID, Integer statusID, String name) {
         this.warehouseID = warehouseID;
         this.contactInformationID = contactInformationID;
         this.statusID = statusID;
         this.name = name;
     }
 
-    public int getWarehouseID() {
+    public Integer getWarehouseID() {
         return warehouseID;
     }
 
-    public void setWarehouseID(int warehouseID) {
+    public void setWarehouseID(Integer warehouseID) {
         this.warehouseID = warehouseID;
     }
 
-    public int getContactInformationID() {
+    public Integer getContactInformationID() {
         return contactInformationID;
     }
 
-    public void setContactInformationID(int contactInformationID) {
+    public void setContactInformationID(Integer contactInformationID) {
         this.contactInformationID = contactInformationID;
     }
 
-    public int getStatusID() {
+    public Integer getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(int statusID) {
+    public void setStatusID(Integer statusID) {
         this.statusID = statusID;
     }
 

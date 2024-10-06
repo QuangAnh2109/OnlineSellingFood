@@ -1,52 +1,55 @@
 package model;
 
 public class Staff {
-    private int staffID, accountID, salary, warehouseID;
+    private Integer staffID;
+    private Integer accountID;
+    private Integer salary;
+    private Integer warehouseID;
 
     public Staff() {
     }
 
-    public Staff(int staffID, int accountID, int salary, int warehouseID) {
+    public Staff(Integer staffID, Integer accountID, Integer salary, Integer warehouseID) {
         this.staffID = staffID;
         this.accountID = accountID;
         this.salary = salary;
         this.warehouseID = warehouseID;
     }
-    public Staff(int accountID, int salary, int warehouseID) {
+    public Staff(Integer accountID, Integer salary, Integer warehouseID) {
         this.accountID = accountID;
         this.salary = salary;
         this.warehouseID = warehouseID;
     }
 
-    public int getStaffID() {
+    public Integer getStaffID() {
         return staffID;
     }
 
-    public void setStaffID(int staffID) {
+    public void setStaffID(Integer staffID) {
         this.staffID = staffID;
     }
 
-    public int getAccountID() {
+    public Integer getAccountID() {
         return accountID;
     }
 
-    public void setAccountID(int accountID) {
+    public void setAccountID(Integer accountID) {
         this.accountID = accountID;
     }
 
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(Integer salary) {
         this.salary = salary;
     }
 
-    public int getWarehouseID() {
+    public Integer getWarehouseID() {
         return warehouseID;
     }
 
-    public void setWarehouseID(int warehouseID) {
+    public void setWarehouseID(Integer warehouseID) {
         this.warehouseID = warehouseID;
     }
 }

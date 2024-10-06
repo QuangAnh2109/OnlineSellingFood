@@ -1,13 +1,16 @@
 package model;
 
 public class News {
-    private int newsID, staffID, imgID;
-    private String title, content;
+    private Integer newsID;
+    private Integer staffID;
+    private Integer imgID;
+    private String title;
+    private String content;
 
     public News() {
     }
 
-    public News(int newsID, int staffID, int imgID, String title, String content) {
+    public News(Integer newsID, Integer staffID, Integer imgID, String title, String content) {
         this.newsID = newsID;
         this.staffID = staffID;
         this.imgID = imgID;
@@ -15,27 +18,27 @@ public class News {
         this.content = content;
     }
 
-    public int getNewsID() {
+    public Integer getNewsID() {
         return newsID;
     }
 
-    public void setNewsID(int newsID) {
+    public void setNewsID(Integer newsID) {
         this.newsID = newsID;
     }
 
-    public int getStaffID() {
+    public Integer getStaffID() {
         return staffID;
     }
 
-    public void setStaffID(int staffID) {
+    public void setStaffID(Integer staffID) {
         this.staffID = staffID;
     }
 
-    public int getImgID() {
+    public Integer getImgID() {
         return imgID;
     }
 
-    public void setImgID(int imgID) {
+    public void setImgID(Integer imgID) {
         this.imgID = imgID;
     }
 

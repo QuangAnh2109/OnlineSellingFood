@@ -1,53 +1,56 @@
 package model;
 
 public class Customer {
-    private int customerID, accountID, point, level;
+    private Integer customerID;
+    private Integer accountID;
+    private Integer point;
+    private Integer level;
 
 
     public Customer() {
     }
 
-    public Customer(int customerID, int accountID, int point, int level) {
+    public Customer(Integer customerID, Integer accountID, Integer point, Integer level) {
         this.customerID = customerID;
         this.accountID = accountID;
         this.point = point;
         this.level = level;
     }
-    public Customer(int accountID, int point, int level) {
+    public Customer(Integer accountID, Integer point, Integer level) {
         this.accountID = accountID;
         this.point = point;
         this.level = level;
     }
 
-    public int getCustomerID() {
+    public Integer getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Integer customerID) {
         this.customerID = customerID;
     }
 
-    public int getAccountID() {
+    public Integer getAccountID() {
         return accountID;
     }
 
-    public void setAccountID(int accountID) {
+    public void setAccountID(Integer accountID) {
         this.accountID = accountID;
     }
 
-    public int getPoint() {
+    public Integer getPoint() {
         return point;
     }
 
-    public void setPoint(int point) {
+    public void setPoint(Integer point) {
         this.point = point;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 }

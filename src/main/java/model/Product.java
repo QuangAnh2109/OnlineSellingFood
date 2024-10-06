@@ -1,13 +1,23 @@
 package model;
 
 public class Product {
-    private int productID, price, discountID, weight, categoryID, manufacturerID, originID, unitID, certificationID, statusID;
-    private String name, detail;
+    private Integer productID;
+    private Integer price;
+    private Integer discountID;
+    private Integer weight;
+    private Integer categoryID;
+    private Integer manufacturerID;
+    private Integer originID;
+    private Integer unitID;
+    private Integer certificationID;
+    private Integer statusID;
+    private String name;
+    private String detail;
 
     public Product() {
     }
 
-    public Product(int productID, int price, int discountID, int weight, int categoryID, int manufacturerID, int originID, int unitID, int certificationID, int statusID, String name, String detail) {
+    public Product(Integer productID, Integer price, Integer discountID, Integer weight, Integer categoryID, Integer manufacturerID, Integer originID, Integer unitID, Integer certificationID, Integer statusID, String name, String detail) {
         this.productID = productID;
         this.price = price;
         this.discountID = discountID;
@@ -22,83 +32,83 @@ public class Product {
         this.detail = detail;
     }
 
-    public int getProductID() {
+    public Integer getProductID() {
         return productID;
     }
 
-    public void setProductID(int productID) {
+    public void setProductID(Integer productID) {
         this.productID = productID;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public int getDiscountID() {
+    public Integer getDiscountID() {
         return discountID;
     }
 
-    public void setDiscountID(int discountID) {
+    public void setDiscountID(Integer discountID) {
         this.discountID = discountID;
     }
 
-    public int getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public int getCategoryID() {
+    public Integer getCategoryID() {
         return categoryID;
     }
 
-    public void setCategoryID(int categoryID) {
+    public void setCategoryID(Integer categoryID) {
         this.categoryID = categoryID;
     }
 
-    public int getManufacturerID() {
+    public Integer getManufacturerID() {
         return manufacturerID;
     }
 
-    public void setManufacturerID(int manufacturerID) {
+    public void setManufacturerID(Integer manufacturerID) {
         this.manufacturerID = manufacturerID;
     }
 
-    public int getOriginID() {
+    public Integer getOriginID() {
         return originID;
     }
 
-    public void setOriginID(int originID) {
+    public void setOriginID(Integer originID) {
         this.originID = originID;
     }
 
-    public int getUnitID() {
+    public Integer getUnitID() {
         return unitID;
     }
 
-    public void setUnitID(int unitID) {
+    public void setUnitID(Integer unitID) {
         this.unitID = unitID;
     }
 
-    public int getCertificationID() {
+    public Integer getCertificationID() {
         return certificationID;
     }
 
-    public void setCertificationID(int certificationID) {
+    public void setCertificationID(Integer certificationID) {
         this.certificationID = certificationID;
     }
 
-    public int getStatusID() {
+    public Integer getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(int statusID) {
+    public void setStatusID(Integer statusID) {
         this.statusID = statusID;
     }
 

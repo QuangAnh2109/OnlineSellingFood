@@ -1,29 +1,30 @@
 package model;
 
 public class ProductImg {
-    private int productID, imgID;
+    private Integer productID;
+    private Integer imgID;
 
     public ProductImg() {
     }
 
-    public ProductImg(int productID, int imgID) {
+    public ProductImg(Integer productID, Integer imgID) {
         this.productID = productID;
         this.imgID = imgID;
     }
 
-    public int getProductID() {
+    public Integer getProductID() {
         return productID;
     }
 
-    public void setProductID(int productID) {
+    public void setProductID(Integer productID) {
         this.productID = productID;
     }
 
-    public int getImgID() {
+    public Integer getImgID() {
         return imgID;
     }
 
-    public void setImgID(int imgID) {
+    public void setImgID(Integer imgID) {
         this.imgID = imgID;
     }
 }

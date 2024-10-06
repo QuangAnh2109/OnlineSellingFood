@@ -3,13 +3,16 @@ package model;
 import java.time.LocalDateTime;
 
 public class Import {
-    private int importID, staffID, warehouseID, supplierID;
+    private Integer importID;
+    private Integer staffID;
+    private Integer warehouseID;
+    private Integer supplierID;
     private LocalDateTime time;
 
     public Import() {
     }
 
-    public Import(int importID, int staffID, int warehouseID, int supplierID, LocalDateTime time) {
+    public Import(Integer importID, Integer staffID, Integer warehouseID, Integer supplierID, LocalDateTime time) {
         this.importID = importID;
         this.staffID = staffID;
         this.warehouseID = warehouseID;
@@ -17,35 +20,35 @@ public class Import {
         this.time = time;
     }
 
-    public int getImportID() {
+    public Integer getImportID() {
         return importID;
     }
 
-    public void setImportID(int importID) {
+    public void setImportID(Integer importID) {
         this.importID = importID;
     }
 
-    public int getStaffID() {
+    public Integer getStaffID() {
         return staffID;
     }
 
-    public void setStaffID(int staffID) {
+    public void setStaffID(Integer staffID) {
         this.staffID = staffID;
     }
 
-    public int getWarehouseID() {
+    public Integer getWarehouseID() {
         return warehouseID;
     }
 
-    public void setWarehouseID(int warehouseID) {
+    public void setWarehouseID(Integer warehouseID) {
         this.warehouseID = warehouseID;
     }
 
-    public int getSupplierID() {
+    public Integer getSupplierID() {
         return supplierID;
     }
 
-    public void setSupplierID(int supplierID) {
+    public void setSupplierID(Integer supplierID) {
         this.supplierID = supplierID;
     }
 

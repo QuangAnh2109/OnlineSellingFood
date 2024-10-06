@@ -1,7 +1,7 @@
 package model;
 
 public class WarehouseStatus {
-    private int statusID;
+    private Integer statusID;
     private String detail;
 
     public WarehouseStatus(int statusID, String detail) {
@@ -9,11 +9,11 @@ public class WarehouseStatus {
         this.detail = detail;
     }
 
-    public int getStatusID() {
+    public Integer getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(int statusID) {
+    public void setStatusID(Integer statusID) {
         this.statusID = statusID;
     }
 

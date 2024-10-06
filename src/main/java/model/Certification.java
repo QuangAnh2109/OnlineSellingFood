@@ -1,36 +1,36 @@
 package model;
 
-import java.time.LocalDateTime;
-
 public class Certification {
-    private int certificationID, certificateIssuerID;
-    private String name, detail;
-    private LocalDateTime time;
+    private Integer certificationID;
+    private Integer certificateIssuerID;
+    private String name;
+    private String detail;
+    private Integer imgID;
 
     public Certification() {
     }
 
-    public Certification(int certificationID, int certificateIssuerID, String name, String detail, LocalDateTime time) {
-        this.certificationID = certificationID;
+    public Certification(Integer certificateIssuerID, Integer certificationID, String name, String detail, Integer imgID) {
         this.certificateIssuerID = certificateIssuerID;
+        this.certificationID = certificationID;
         this.name = name;
         this.detail = detail;
-        this.time = time;
+        this.imgID = imgID;
     }
 
-    public int getCertificationID() {
+    public Integer getCertificationID() {
         return certificationID;
     }
 
-    public void setCertificationID(int certificationID) {
+    public void setCertificationID(Integer certificationID) {
         this.certificationID = certificationID;
     }
 
-    public int getCertificateIssuerID() {
+    public Integer getCertificateIssuerID() {
         return certificateIssuerID;
     }
 
-    public void setCertificateIssuerID(int certificateIssuerID) {
+    public void setCertificateIssuerID(Integer certificateIssuerID) {
         this.certificateIssuerID = certificateIssuerID;
     }
 
@@ -50,11 +50,11 @@ public class Certification {
         this.detail = detail;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public Integer getImgID() {
+        return imgID;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setImgID(Integer imgID) {
+        this.imgID = imgID;
     }
 }

@@ -3,13 +3,18 @@ package model;
 import java.time.LocalDateTime;
 
 public class ImportProduct {
-    private int importID, productID, price, importQuantity, inventoryQuantity;
-    private LocalDateTime mfg, exp;
+    private Integer importID;
+    private Integer productID;
+    private Integer price;
+    private Integer importQuantity;
+    private Integer inventoryQuantity;
+    private LocalDateTime mfg;
+    private LocalDateTime exp;
 
     public ImportProduct() {
     }
 
-    public ImportProduct(int importID, int productID, int price, int importQuantity, int inventoryQuantity, LocalDateTime mfg, LocalDateTime exp) {
+    public ImportProduct(Integer importID, Integer productID, Integer price, Integer importQuantity, Integer inventoryQuantity, LocalDateTime mfg, LocalDateTime exp) {
         this.importID = importID;
         this.productID = productID;
         this.price = price;
@@ -19,43 +24,43 @@ public class ImportProduct {
         this.exp = exp;
     }
 
-    public int getImportID() {
+    public Integer getImportID() {
         return importID;
     }
 
-    public void setImportID(int importID) {
+    public void setImportID(Integer importID) {
         this.importID = importID;
     }
 
-    public int getProductID() {
+    public Integer getProductID() {
         return productID;
     }
 
-    public void setProductID(int productID) {
+    public void setProductID(Integer productID) {
         this.productID = productID;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public int getImportQuantity() {
+    public Integer getImportQuantity() {
         return importQuantity;
     }
 
-    public void setImportQuantity(int importQuantity) {
+    public void setImportQuantity(Integer importQuantity) {
         this.importQuantity = importQuantity;
     }
 
-    public int getInventoryQuantity() {
+    public Integer getInventoryQuantity() {
         return inventoryQuantity;
     }
 
-    public void setInventoryQuantity(int inventoryQuantity) {
+    public void setInventoryQuantity(Integer inventoryQuantity) {
         this.inventoryQuantity = inventoryQuantity;
     }
 

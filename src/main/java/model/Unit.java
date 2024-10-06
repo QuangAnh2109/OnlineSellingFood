@@ -1,22 +1,22 @@
 package model;
 
 public class Unit {
-    private int unitID;
+    private Integer unitID;
     private String name;
 
     public Unit() {
     }
 
-    public Unit(int unitID, String name) {
+    public Unit(Integer unitID, String name) {
         this.unitID = unitID;
         this.name = name;
     }
 
-    public int getUnitID() {
+    public Integer getUnitID() {
         return unitID;
     }
 
-    public void setUnitID(int unitID) {
+    public void setUnitID(Integer unitID) {
         this.unitID = unitID;
     }
 

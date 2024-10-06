@@ -1,47 +1,50 @@
 package model;
 
 public class Voucher {
-    private int voucherID, discountID, quantity, inventory;
+    private Integer voucherID;
+    private Integer discountID;
+    private Integer quantity;
+    private Integer inventory;
 
     public Voucher() {
     }
 
-    public Voucher(int voucherID, int discountID, int quantity, int inventory) {
+    public Voucher(Integer voucherID, Integer discountID, Integer quantity, Integer inventory) {
         this.voucherID = voucherID;
         this.discountID = discountID;
         this.quantity = quantity;
         this.inventory = inventory;
     }
 
-    public int getVoucherID() {
+    public Integer getVoucherID() {
         return voucherID;
     }
 
-    public void setVoucherID(int voucherID) {
+    public void setVoucherID(Integer voucherID) {
         this.voucherID = voucherID;
     }
 
-    public int getDiscountID() {
+    public Integer getDiscountID() {
         return discountID;
     }
 
-    public void setDiscountID(int discountID) {
+    public void setDiscountID(Integer discountID) {
         this.discountID = discountID;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public int getInventory() {
+    public Integer getInventory() {
         return inventory;
     }
 
-    public void setInventory(int inventory) {
+    public void setInventory(Integer inventory) {
         this.inventory = inventory;
     }
 }

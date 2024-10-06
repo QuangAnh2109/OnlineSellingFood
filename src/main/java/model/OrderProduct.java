@@ -1,14 +1,18 @@
 package model;
 
 public class OrderProduct {
-    private int orderID, importID, productID, price, quantity;
+    private Integer orderID;
+    private Integer importID;
+    private Integer productID;
+    private Integer price;
+    private Integer quantity;
     private String feedback;
     private Integer star;
 
     public OrderProduct() {
     }
 
-    public OrderProduct(int orderID, int importID, int productID, int price, int quantity, String feedback, Integer star) {
+    public OrderProduct(Integer orderID, Integer importID, Integer productID, Integer price, Integer quantity, String feedback, Integer star) {
         this.orderID = orderID;
         this.importID = importID;
         this.productID = productID;
@@ -18,43 +22,43 @@ public class OrderProduct {
         this.star = star;
     }
 
-    public int getOrderID() {
+    public Integer getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(Integer orderID) {
         this.orderID = orderID;
     }
 
-    public int getImportID() {
+    public Integer getImportID() {
         return importID;
     }
 
-    public void setImportID(int importID) {
+    public void setImportID(Integer importID) {
         this.importID = importID;
     }
 
-    public int getProductID() {
+    public Integer getProductID() {
         return productID;
     }
 
-    public void setProductID(int productID) {
+    public void setProductID(Integer productID) {
         this.productID = productID;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

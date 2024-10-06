@@ -3,13 +3,19 @@ package model;
 import java.time.LocalDateTime;
 
 public class Order {
-    private int orderID, customerID, paymentStatementID, contactInformationID, voucherID, price, statusID;
+    private Integer orderID;
+    private Integer customerID;
+    private Integer paymentStatementID;
+    private Integer contactInformationID;
+    private Integer voucherID;
+    private Integer price;
     private LocalDateTime orderTime;
+    private Integer statusID;
 
     public Order() {
     }
 
-    public Order(int orderID, int customerID, int paymentStatementID, int contactInformationID, int voucherID, int price, int statusID, LocalDateTime orderTime) {
+    public Order(Integer orderID, Integer customerID, Integer paymentStatementID, Integer contactInformationID, Integer voucherID, Integer price, Integer statusID, LocalDateTime orderTime) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.paymentStatementID = paymentStatementID;
@@ -20,59 +26,59 @@ public class Order {
         this.orderTime = orderTime;
     }
 
-    public int getOrderID() {
+    public Integer getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(Integer orderID) {
         this.orderID = orderID;
     }
 
-    public int getCustomerID() {
+    public Integer getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Integer customerID) {
         this.customerID = customerID;
     }
 
-    public int getPaymentStatementID() {
+    public Integer getPaymentStatementID() {
         return paymentStatementID;
     }
 
-    public void setPaymentStatementID(int paymentStatementID) {
+    public void setPaymentStatementID(Integer paymentStatementID) {
         this.paymentStatementID = paymentStatementID;
     }
 
-    public int getContactInformationID() {
+    public Integer getContactInformationID() {
         return contactInformationID;
     }
 
-    public void setContactInformationID(int contactInformationID) {
+    public void setContactInformationID(Integer contactInformationID) {
         this.contactInformationID = contactInformationID;
     }
 
-    public int getVoucherID() {
+    public Integer getVoucherID() {
         return voucherID;
     }
 
-    public void setVoucherID(int voucherID) {
+    public void setVoucherID(Integer voucherID) {
         this.voucherID = voucherID;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public int getStatusID() {
+    public Integer getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(int statusID) {
+    public void setStatusID(Integer statusID) {
         this.statusID = statusID;
     }
 

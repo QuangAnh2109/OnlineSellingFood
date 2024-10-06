@@ -1,23 +1,24 @@
 package model;
 
 public class CertificateIssuer {
-    private int certificateIssuerID;
-    private String name, detail;
+    private Integer certificateIssuerID;
+    private String name;
+    private String detail;
 
     public CertificateIssuer() {
     }
 
-    public CertificateIssuer(int certificateIssuerID, String name, String detail) {
+    public CertificateIssuer(Integer certificateIssuerID, String name, String detail) {
         this.certificateIssuerID = certificateIssuerID;
         this.name = name;
         this.detail = detail;
     }
 
-    public int getCertificateIssuerID() {
+    public Integer getCertificateIssuerID() {
         return certificateIssuerID;
     }
 
-    public void setCertificateIssuerID(int certificateIssuerID) {
+    public void setCertificateIssuerID(Integer certificateIssuerID) {
         this.certificateIssuerID = certificateIssuerID;
     }
 

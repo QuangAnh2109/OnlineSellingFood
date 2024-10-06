@@ -1,13 +1,14 @@
 package model;
 
 public class ContactInformation {
-    private int contactInformationID;
-    private String address, phoneNumber; //len between 6 and 11
+    private Integer contactInformationID;
+    private String address;
+    private String phoneNumber;
 
     public ContactInformation() {
     }
 
-    public ContactInformation(int contactInformationID, String address, String phoneNumber) {
+    public ContactInformation(Integer contactInformationID, String address, String phoneNumber) {
         this.contactInformationID = contactInformationID;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -18,11 +19,11 @@ public class ContactInformation {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getContactInformationID() {
+    public Integer getContactInformationID() {
         return contactInformationID;
     }
 
-    public void setContactInformationID(int contactInformationID) {
+    public void setContactInformationID(Integer contactInformationID) {
         this.contactInformationID = contactInformationID;
     }
 

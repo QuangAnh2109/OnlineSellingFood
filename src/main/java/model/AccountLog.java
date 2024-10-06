@@ -1,14 +1,18 @@
 package model;
 
 public class AccountLog {
-    private int logID, eventTypeID;
+    private Integer logID;
+    private Integer eventTypeID;
     private Integer accountID;
-    private String ipAddress, dataType, value, time;
+    private String ipAddress;
+    private String dataType;
+    private String value;
+    private String time;
 
     public AccountLog() {
     }
 
-    public AccountLog(int logID, int eventTypeID, Integer accountID, String ipAddress, String dataType, String value, String time) {
+    public AccountLog(Integer logID, Integer eventTypeID, Integer accountID, String ipAddress, String dataType, String value, String time) {
         this.logID = logID;
         this.eventTypeID = eventTypeID;
         this.accountID = accountID;
@@ -18,19 +22,19 @@ public class AccountLog {
         this.time = time;
     }
 
-    public int getLogID() {
+    public Integer getLogID() {
         return logID;
     }
 
-    public void setLogID(int logID) {
+    public void setLogID(Integer logID) {
         this.logID = logID;
     }
 
-    public int getEventTypeID() {
+    public Integer getEventTypeID() {
         return eventTypeID;
     }
 
-    public void setEventTypeID(int eventTypeID) {
+    public void setEventTypeID(Integer eventTypeID) {
         this.eventTypeID = eventTypeID;
     }
 

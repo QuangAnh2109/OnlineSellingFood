@@ -1,38 +1,40 @@
 package model;
 
 public class Cart {
-    private int customerID, productID, quantity;
+    private Integer customerID;
+    private Integer productID;
+    private Integer quantity;
 
     public Cart() {
     }
 
-    public Cart(int customerID, int productID, int quantity) {
+    public Cart(Integer customerID, Integer productID, Integer quantity) {
         this.customerID = customerID;
         this.productID = productID;
         this.quantity = quantity;
     }
 
-    public int getCustomerID() {
+    public Integer getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Integer customerID) {
         this.customerID = customerID;
     }
 
-    public int getProductID() {
+    public Integer getProductID() {
         return productID;
     }
 
-    public void setProductID(int productID) {
+    public void setProductID(Integer productID) {
         this.productID = productID;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 }

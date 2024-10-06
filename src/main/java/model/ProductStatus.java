@@ -1,19 +1,19 @@
 package model;
 
 public class ProductStatus {
-    private int statusID;
+    private Integer statusID;
     private String detail;
 
-    public ProductStatus(int statusID, String detail) {
+    public ProductStatus(Integer statusID, String detail) {
         this.statusID = statusID;
         this.detail = detail;
     }
 
-    public int getStatusID() {
+    public Integer getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(int statusID) {
+    public void setStatusID(Integer statusID) {
         this.statusID = statusID;
     }
 

@@ -1,22 +1,22 @@
 package model;
 
 public class Origin {
-    private int originID;
+    private Integer originID;
     private String name;
 
     public Origin() {
     }
 
-    public Origin(int originID, String name) {
+    public Origin(Integer originID, String name) {
         this.originID = originID;
         this.name = name;
     }
 
-    public int getOriginID() {
+    public Integer getOriginID() {
         return originID;
     }
 
-    public void setOriginID(int originID) {
+    public void setOriginID(Integer originID) {
         this.originID = originID;
     }
 

@@ -1,17 +1,17 @@
 package model;
 
 public class PaymentStatement {
-    private int paymentStatementID;
+    private Integer paymentStatementID;
     private String name;
 
     public PaymentStatement() {
     }
 
-    public int getPaymentStatementID() {
+    public Integer getPaymentStatementID() {
         return paymentStatementID;
     }
 
-    public void setPaymentStatementID(int paymentStatementID) {
+    public void setPaymentStatementID(Integer paymentStatementID) {
         this.paymentStatementID = paymentStatementID;
     }
 

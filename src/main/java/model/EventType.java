@@ -1,22 +1,22 @@
 package model;
 
 public class EventType {
-    private int evenTypeID;
+    private Integer evenTypeID;
     private String detail;
 
     public EventType() {
     }
 
-    public EventType(int evenTypeID, String detail) {
+    public EventType(Integer evenTypeID, String detail) {
         this.evenTypeID = evenTypeID;
         this.detail = detail;
     }
 
-    public int getEvenTypeID() {
+    public Integer getEvenTypeID() {
         return evenTypeID;
     }
 
-    public void setEvenTypeID(int evenTypeID) {
+    public void setEvenTypeID(Integer evenTypeID) {
         this.evenTypeID = evenTypeID;
     }
 

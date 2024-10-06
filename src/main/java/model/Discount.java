@@ -3,32 +3,34 @@ package model;
 import java.time.LocalDateTime;
 
 public class Discount {
-    private int discountID, discountPercent;
-    private LocalDateTime startTime, endTime;
+    private Integer discountID;
+    private Integer discountPercent;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     public Discount() {
     }
 
-    public Discount(int discountID, int discountPercent, LocalDateTime startTime, LocalDateTime endTime) {
+    public Discount(Integer discountID, Integer discountPercent, LocalDateTime startTime, LocalDateTime endTime) {
         this.discountID = discountID;
         this.discountPercent = discountPercent;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public int getDiscountID() {
+    public Integer getDiscountID() {
         return discountID;
     }
 
-    public void setDiscountID(int discountID) {
+    public void setDiscountID(Integer discountID) {
         this.discountID = discountID;
     }
 
-    public int getDiscountPercent() {
+    public Integer getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(int discountPercent) {
+    public void setDiscountPercent(Integer discountPercent) {
         this.discountPercent = discountPercent;
     }
 

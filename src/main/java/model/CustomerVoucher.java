@@ -1,29 +1,30 @@
 package model;
 
 public class CustomerVoucher {
-    private int customerID, voucherID;
+    private Integer customerID;
+    private Integer voucherID;
 
     public CustomerVoucher() {
     }
 
-    public CustomerVoucher(int customerID, int voucherID) {
+    public CustomerVoucher(Integer customerID, Integer voucherID) {
         this.customerID = customerID;
         this.voucherID = voucherID;
     }
 
-    public int getCustomerID() {
+    public Integer getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Integer customerID) {
         this.customerID = customerID;
     }
 
-    public int getVoucherID() {
+    public Integer getVoucherID() {
         return voucherID;
     }
 
-    public void setVoucherID(int voucherID) {
+    public void setVoucherID(Integer voucherID) {
         this.voucherID = voucherID;
     }
 }

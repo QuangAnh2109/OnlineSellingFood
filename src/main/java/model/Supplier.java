@@ -1,32 +1,34 @@
 package model;
 
 public class Supplier {
-    private int supplierID, contactInformationID;
-    private String name, note;
+    private Integer supplierID;
+    private Integer contactInformationID;
+    private String name;
+    private String note;
 
     public Supplier() {
     }
 
-    public Supplier(int supplierID, int contactInformationID, String name, String note) {
+    public Supplier(Integer supplierID, Integer contactInformationID, String name, String note) {
         this.supplierID = supplierID;
         this.contactInformationID = contactInformationID;
         this.name = name;
         this.note = note;
     }
 
-    public int getSupplierID() {
+    public Integer getSupplierID() {
         return supplierID;
     }
 
-    public void setSupplierID(int supplierID) {
+    public void setSupplierID(Integer supplierID) {
         this.supplierID = supplierID;
     }
 
-    public int getContactInformationID() {
+    public Integer getContactInformationID() {
         return contactInformationID;
     }
 
-    public void setContactInformationID(int contactInformationID) {
+    public void setContactInformationID(Integer contactInformationID) {
         this.contactInformationID = contactInformationID;
     }
 
