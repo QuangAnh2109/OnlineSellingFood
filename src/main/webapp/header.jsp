@@ -1,3 +1,7 @@
+<%@ page import="model.Account" %>
+<%
+    Account account = (Account)session.getAttribute("account");
+%>
 <header class="header-area header-style-1 header-style-5 header-height-2">
     <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
         <div class="container">
@@ -21,15 +25,14 @@
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                                 </a>
                                 <%
-                                    String accountName = request.getParameter("accountName");
-                                    if(accountName.isEmpty()){
+                                    if(account==null){
                                 %>
                                 <a href="login"><span class="lable ml-0">Login</span></a>
                                 <%
                                     }
                                     else{
                                 %>
-                                <a><span class="lable ml-0"><%=accountName%></span></a>
+                                <a><span class="lable ml-0"><%=account.getName()%></span></a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
                                         <li>

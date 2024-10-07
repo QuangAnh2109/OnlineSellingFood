@@ -1,27 +1,24 @@
 package controller;
 
-import dal.WarehouseDAO;
+import dal.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
-import dal.AccountDAO;
-import dal.ContactInformationDAO;
-import model.ContactInformation;
+import model.*;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.security.SecureRandom;
+import java.time.format.DateTimeParseException;
 import java.util.Base64;
 import java.util.ArrayList;
 import java.util.List;
-import model.Staff;
-import dal.StaffDAO;
-import model.Warehouse;
 
 @WebServlet(name = "RegisterStaffServlet", urlPatterns = {"/registerstaff"})
 public class RegisterStaffServlet extends HttpServlet {
@@ -43,12 +40,22 @@ public class RegisterStaffServlet extends HttpServlet {
         // Get form parameters
         String roleID = request.getParameter("roleID");
         String warehouseID = request.getParameter("WarehouseID");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+        String name = request.getParameter("name");
         String email = request.getParameter("email");
-        String birthYearStr = request.getParameter("birthYear");
         String phoneNumber = request.getParameter("phone");
         String address = request.getParameter("address");
+        Integer genderID;
+        LocalDateTime birth;
+        try{
+            birth = LocalDate.parse(request.getParameter("birth"), DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
+        }catch(DateTimeParseException e){
+            birth = null;
+        }
+        try{
+            genderID = Integer.valueOf(request.getParameter("gender"));
+        }catch (NumberFormatException e){
+            genderID = null;
+        }
 
         // Validate input lengths
         if (address.length() < 5 || address.length() > 200) {
@@ -79,12 +86,14 @@ public class RegisterStaffServlet extends HttpServlet {
         try {
             if(errorMessages.isEmpty()) {
                 // Create the new Account
-                Account newAccount = new Account(Integer.parseInt(roleID), Integer.parseInt(birthYearStr), contact.getContactInformationID(), 3, email, firstName, lastName, "123456789", LocalDateTime.now());
+                Account newAccount = new Account(Integer.valueOf(roleID),email,name,genderID, "123456789", birth,LocalDateTime.now(),3);
                 // Add account to the database
                 Integer accountID = accountDAO.addAccount(newAccount);
                 if (accountID != null) {
                     // Insert Staff record with default salary and warehouseID set to 0
                     Staff newStaff = new Staff(accountID, 1000, Integer.parseInt(warehouseID));
+                    AccountContact accountContact = new AccountContact(accountID,contact.getContactInformationID(),1);
+                    new AccountContactDAO().addAccountContact(accountContact);
                     staffDAO.addStaff(newStaff);
                     request.getSession().setAttribute("msg", "Successfully added staff.");
                     response.sendRedirect("registerstaff");

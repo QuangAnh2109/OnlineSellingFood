@@ -1,5 +1,7 @@
 package dto;
 
+import java.time.LocalDateTime;
+
 public class StaffDetailRespone {
     private int roleID;
     private int statusID;
@@ -7,20 +9,20 @@ public class StaffDetailRespone {
     private String email;
     private String phoneNumber;
     private String address;
-    private int yearOfBirth;
+    private LocalDateTime birth;
     private int salary;
     private int warehouseID;
 
     public StaffDetailRespone() {}
 
-    public StaffDetailRespone(int roleID,int statusID, String name, String email, String phoneNumber, String address, int yearOfBirth, int salary, int warehouseID) {
+    public StaffDetailRespone(int roleID,int statusID, String name, String email, String phoneNumber, String address, LocalDateTime birth, int salary, int warehouseID) {
         this.roleID = roleID;
         this.statusID = statusID;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.yearOfBirth = yearOfBirth;
+        this.birth = birth;
         this.salary = salary;
         this.warehouseID = warehouseID;
     }
@@ -70,12 +72,12 @@ public class StaffDetailRespone {
         this.address = address;
     }
 
-    public int getYearOfBirth() {
-        return yearOfBirth;
+    public LocalDateTime getBirth() {
+        return birth;
     }
 
-    public void setYearOfBirth(int yearOfBirth) {
-        this.yearOfBirth = yearOfBirth;
+    public void setBirth(LocalDateTime birth) {
+        this.birth = birth;
     }
 
     public int getSalary() {

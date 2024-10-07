@@ -1,3 +1,5 @@
+<%@ page import="dto.CustomerDetailRespone" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,50 +20,7 @@
 
 <body>
 <main>
-    <header class="main-header style-2 navbar">
-        <div class="col-brand">
-            <a href="index.html" class="brand-wrap">
-                <img src="nest-backend/assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
-            </a>
-        </div>
-        <div class="col-nav">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link btn-icon" href="#">
-                        <i class="material-icons md-notifications animation-shake"></i>
-                        <span class="badge rounded-pill">3</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
-                </li>
-                <li class="dropdown nav-item">
-                    <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-                        <a class="dropdown-item text-brand" href="#"><img src="nest-backend/assets/imgs/theme/flag-us.png" alt="English" />English</a>
-                        <a class="dropdown-item" href="#"><img src="nest-backend/assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
-                        <a class="dropdown-item" href="#"><img src="nest-backend/assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
-                        <a class="dropdown-item" href="#"><img src="nest-backend/assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
-                    </div>
-                </li>
-                <li class="dropdown nav-item">
-                    <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="nest-backend/assets/imgs/people/avatar-2.png" alt="User" /></a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                        <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                        <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-                        <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
-                        <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
-                        <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </header>
+    <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">
             <div class="card-body">
@@ -82,12 +41,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
-                        <input class="form-control" name="firstName" value="${customerListDetail.firstName}" placeholder="First Name" type="text" required readonly />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Last Name</label>
-                        <input class="form-control" name="lastName" value="${customerListDetail.lastName}" placeholder="Last Name" type="text" required readonly />
+                        <input class="form-control" name="firstName" value="${customerListDetail.name}" placeholder="First Name" type="text" required readonly />
                     </div>
 
                     <div class="mb-3">
@@ -106,8 +60,15 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Birth Year</label>
-                        <input class="form-control" name="birthYear" value="${customerListDetail.birthYear}" placeholder="Year of birth" type="text" required readonly />
+                        <label class="form-label">Birth</label>
+                        <%
+                            CustomerDetailRespone cdr = (CustomerDetailRespone)request.getAttribute("customerListDetail");
+                            String birth = "";
+                            if(cdr.getBirth()!=null){
+                                birth = cdr.getBirth().format(DateTimeFormatter.ISO_LOCAL_DATE);
+                            }
+                        %>
+                        <input id="datePicker" class="form-control" name="birth" value="<%=birth%>" type="date" readonly/>
                     </div>
 
                     <div class="mb-3">
@@ -129,16 +90,11 @@
         </div>
 
     </section>
-    <footer class="main-footer text-center">
-        <p class="font-xs">
-            <script>
-                document.write(new Date().getFullYear());
-            </script>
-            &copy; Nest - HTML Ecommerce Template .
-        </p>
-        <p class="font-xs mb-30">All rights reserved</p>
-    </footer>
 </main>
+<script>
+    datePicker.max = new Date().toISOString().split("T")[0];
+</script>
+<script>document.getElementById("birth").defaultValue = "2014-02-09";</script>
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>

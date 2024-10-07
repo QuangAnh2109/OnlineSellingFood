@@ -4,6 +4,7 @@ import model.AccountStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AccountStatusDAO extends DBContext{
@@ -36,15 +37,12 @@ public class AccountStatusDAO extends DBContext{
     }
 
     public List<AccountStatus> getAllStatus(){
-        ArrayList<AccountStatus> list = new ArrayList<>();
         try{
             PreparedStatement ps = connection.prepareStatement("select * from AccountStatus");
-            for(Object ob:getListObject(ps)){
-                list.add((AccountStatus) ob);
-            }
+            return (List<AccountStatus>) (Object) getListObject(ps);
         }catch (SQLException e){
             logger.info(getClass().getName()+": "+e.getMessage());
         }
-        return list;
+        return Collections.emptyList();
     }
 }

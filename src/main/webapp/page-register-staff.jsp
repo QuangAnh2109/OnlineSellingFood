@@ -20,21 +20,23 @@
 </head>
 
 <body>
+<%
+  String msg = (String)session.getAttribute("msg");
+  if(msg==null) msg="";
+  session.removeAttribute("msg");
+%>
 <div class="screen-overlay"></div>
-<jsp:include page="bar-staff.jsp"></jsp:include>
+<jsp:include page="bar-staff.jsp">
+  <jsp:param name="page" value="registerstaff"/>
+  <jsp:param name="menu" value="account"/>
+</jsp:include>
 <main class="main-wrap">
-  <%
-    String accountName = ((Account)session.getAttribute("account")).getLastName();
-    String msg = (String)session.getAttribute("msg");
-    session.removeAttribute("msg");
-  %>
-  <jsp:include page="header-staff.jsp">
-    <jsp:param name="accountName" value="<%=accountName%>"/>
-  </jsp:include>
+  <jsp:include page="header-staff.jsp"></jsp:include>
   <section class="content-main mt-80 mb-80">
     <div class="card mx-auto card-login">
       <div class="card-body">
-        <h4 class="card-title mb-4">Create an Account <%=msg%></h4>
+        <h4 class="card-title mb-4">Create an Account</h4>
+        <h5 style="color: red"><%=msg%></h5>
         <form action="registerstaff" method="post">
           <div class="mb-3">
             <label class="form-label">Role ID</label>
@@ -60,13 +62,16 @@
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input class="form-control" name="firstName" placeholder="Your first name" type="text" required />
+            <label class="form-label">Name</label>
+            <input class="form-control" name="name" placeholder="Your name" type="text" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input class="form-control" name="lastName" placeholder="Your last name" type="text" required />
+            <label class="form-label">Gender</label>
+            <select class="form-control" name="gender" required>
+              <option value="1">Male</option>
+              <option value="2">Female</option>
+            </select>
           </div>
           <!-- form-group// -->
           <div class="mb-3">
@@ -84,8 +89,8 @@
           </div>
           <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Birth Year</label>
-            <input class="form-control" name="birthYear" placeholder="Year of birth" type="text" required />
+            <label class="form-label">Birth</label>
+            <input class="form-control" name="birth" type="date" required id="datePicker"/>
           </div>
           <!-- form-group  .// -->
           <div class="mb-4">
@@ -97,6 +102,9 @@
     </div>
   </section>
 </main>
+<script>
+  datePicker.max = new Date().toISOString().split("T")[0];
+</script>
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>

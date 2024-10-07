@@ -7,7 +7,7 @@ import java.sql.Types;
 import java.time.LocalDateTime;
 
 public class InsertPrepareStatement {
-    public static void insertInt(Integer ob, PreparedStatement ps, int index) throws SQLException {
+    public static void insertInteger(Integer ob, PreparedStatement ps, int index) throws SQLException {
         if(ob==null) ps.setNull(index, Types.INTEGER);
         else ps.setInt(index, ob);
     }

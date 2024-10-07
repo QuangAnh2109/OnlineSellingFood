@@ -1,25 +1,27 @@
 package dto;
 
+import java.time.LocalDateTime;
+
 public class CustomerDetailRespone {
     private int statusID;
     private String name;
     private String email;
     private String phoneNumber;
     private String address;
-    private int birthYear;
+    private LocalDateTime birth;
     private int point;
     private int level;
 
     public CustomerDetailRespone() {
     }
 
-    public CustomerDetailRespone(int statusID, String name, String email, String phoneNumber, String address, int birthYear, int point, int level) {
+    public CustomerDetailRespone(int statusID, String name, String email, String phoneNumber, String address, LocalDateTime birth, int point, int level) {
         this.statusID = statusID;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.birthYear = birthYear;
+        this.birth = birth;
         this.point = point;
         this.level = level;
     }
@@ -64,12 +66,12 @@ public class CustomerDetailRespone {
         this.point = point;
     }
 
-    public int getBirthYear() {
-        return birthYear;
+    public LocalDateTime getBirth() {
+        return birth;
     }
 
-    public void setBirthYear(int birthYear) {
-        this.birthYear = birthYear;
+    public void setBirth(LocalDateTime birth) {
+        this.birth = birth;
     }
 
     public String getAddress() {

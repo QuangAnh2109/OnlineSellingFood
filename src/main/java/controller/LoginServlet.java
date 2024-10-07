@@ -1,5 +1,6 @@
 package controller;
 
+import dal.AccountContactDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -64,7 +65,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             request.getRequestDispatcher("error.jsp").forward(request, response);
         } else{
-            ContactInformation ci = cdao.getContactInformationByContactID(a.getContactInformationID());
+            ContactInformation ci = cdao.getContactInformationByContactID(new AccountContactDAO().getAccountContact(a.getAccountID()).getContactInformationID());
             HttpSession session = request.getSession();
             session.setAttribute("account", a);
             session.setAttribute("contactInformation", ci);

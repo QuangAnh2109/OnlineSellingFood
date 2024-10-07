@@ -25,7 +25,7 @@
 
 <body>
 <%
-  String accountName =  ((Account)session.getAttribute("account")).getLastName();
+  String accountName =  ((Account)session.getAttribute("account")).getName();
 %>
 <jsp:include page="header.jsp">
   <jsp:param name="accountName" value="<%=accountName%>"/>

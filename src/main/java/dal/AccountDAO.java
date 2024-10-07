@@ -1,6 +1,7 @@
 package dal;
 
 import common.Encrypt;
+import common.InsertPrepareStatement;
 import model.Account;
 
 import java.security.NoSuchAlgorithmException;
@@ -13,13 +14,13 @@ import java.sql.SQLException;
 public class AccountDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-            return new Account(rs.getInt("AccountID"), rs.getInt("RoleID"), rs.getInt("BirthYear"), rs.getInt("ContactInformationID"), rs.getInt("StatusID"), rs.getString("Email"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Password"), rs.getObject("Time", LocalDateTime.class));
+            return new Account(rs.getObject("accountid",Integer.class),rs.getObject("roleid",Integer.class),rs.getString("email"),rs.getString("name"),rs.getObject("genderid",Integer.class),rs.getString("password"),rs.getObject("birth",LocalDateTime.class),rs.getObject("time",LocalDateTime.class),rs.getObject("statusID",Integer.class));
     }
 
     //login check
     public Account getAccountByEmailPassword(String email, String password){
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from Account where Email=? and Password=?");
+            PreparedStatement ps = connection.prepareStatement("select AccountID,RoleID,Email,Name,GenderID,Birth,Password,Time,StatusID from Account where Email=? and Password=?");
             ps.setString(1, email);
             ps.setString(2,Encrypt.toHexString(Encrypt.getSHA(password)));
             return (Account)getObject(ps);
@@ -31,7 +32,7 @@ public class AccountDAO extends DBContext{
 
     public Account getAccountByEmail(String email){
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from Account where Email=?");
+            PreparedStatement ps = connection.prepareStatement("select AccountID,RoleID,Email,Name,GenderID,Birth,Password,Time,StatusID from Account where Email=?");
             ps.setString(1, email);
             return (Account)getObject(ps);
         }catch (SQLException e){
@@ -43,7 +44,7 @@ public class AccountDAO extends DBContext{
     //get account by account id
     public Account getAccountByAccountID(int accountID){
         try{
-            PreparedStatement ps = connection.prepareStatement("select * from Account where AccountID=?");
+            PreparedStatement ps = connection.prepareStatement("select AccountID,RoleID,Email,Name,GenderID,Birth,Password,Time,StatusID from Account where AccountID=?");
             ps.setInt(1, accountID);
             return (Account)getObject(ps);
         }catch (SQLException e){
@@ -54,15 +55,14 @@ public class AccountDAO extends DBContext{
 
     public boolean updateAccountInformation(Account acc){
         try{
-            PreparedStatement ps = connection.prepareStatement("update Account set RoleID=?, Email=?, FirstName=?, LastName=?, BirthYear=?, ContactInformationID=?, StatusID=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement("update Account set RoleID=?, Email=?, Name=?, GenderID=?, Birth=?, StatusID=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, acc.getRoleID());
             ps.setString(2, acc.getEmail());
-            ps.setNString(3, acc.getFirstName());
-            ps.setNString(4, acc.getLastName());
-            ps.setInt(5, acc.getBirthYear());
-            ps.setInt(6, acc.getContactInformationID());
-            ps.setInt(7, acc.getStatusID());
-            ps.setInt(8, acc.getAccountID());
+            ps.setNString(3, acc.getName());
+            InsertPrepareStatement.insertInteger(acc.getGenderID(),ps,4);
+            InsertPrepareStatement.insertDateTime(acc.getBirth(),ps,5);
+            ps.setInt(6, acc.getStatusID());
+            ps.setInt(7, acc.getAccountID());
             ResultSet rs = executeUpdate(ps);
             if(rs!=null)return rs.next();
         }catch (SQLException e){
@@ -86,16 +86,15 @@ public class AccountDAO extends DBContext{
 
     public Integer addAccount(Account acc) {
         try{
-            PreparedStatement ps = connection.prepareStatement("insert into Account (RoleID, Email, FirstName, LastName, BirthYear, ContactInformationID, Password, Time, StatusID) values (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement("insert into Account (RoleID, Email, Name, GenderID, Birth, Password, Time, StatusID) values (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, acc.getRoleID());
             ps.setString(2, acc.getEmail());
-            ps.setNString(3, acc.getFirstName());
-            ps.setNString(4, acc.getLastName());
-            ps.setInt(5, acc.getBirthYear());
-            ps.setInt(6, acc.getContactInformationID());
-            ps.setString(7, Encrypt.toHexString(Encrypt.getSHA(acc.getPassword())));
-            ps.setTimestamp(8, Timestamp.valueOf(acc.getTime()));
-            ps.setInt(9, acc.getStatusID());
+            ps.setNString(3, acc.getName());
+            InsertPrepareStatement.insertInteger(acc.getGenderID(),ps,4);
+            InsertPrepareStatement.insertDateTime(acc.getBirth(),ps,5);
+            ps.setString(6, Encrypt.toHexString(Encrypt.getSHA(acc.getPassword())));
+            ps.setTimestamp(7, Timestamp.valueOf(acc.getTime()));
+            ps.setInt(8, acc.getStatusID());
             ResultSet rs = executeUpdate(ps);
             if(rs!=null && rs.next()) return rs.getInt(1);
         }catch (SQLException | NoSuchAlgorithmException e){

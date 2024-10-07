@@ -25,16 +25,11 @@ public class CustomerListDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CustomerDAO cd = new CustomerDAO();
         String accountID_raw=request.getParameter("accountID");
-        try {
-            int accountID = Integer.parseInt(accountID_raw);
-            CustomerDetailRespone cdr = cd.getCustomerDetail(accountID);
-            request.setAttribute("customerListDetail", cdr);
-            request.setAttribute("accountID", accountID);
-            request.getRequestDispatcher("customer-detail.jsp").forward(request, response);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        int accountID = Integer.parseInt(accountID_raw);
+        CustomerDetailRespone cdr = cd.getCustomerDetail(accountID);
+        request.setAttribute("customerListDetail", cdr);
+        request.setAttribute("accountID", accountID);
+        request.getRequestDispatcher("customer-detail.jsp").forward(request, response);
     }
 
     @Override

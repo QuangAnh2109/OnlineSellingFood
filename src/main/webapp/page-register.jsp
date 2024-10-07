@@ -17,9 +17,7 @@
 </head>
 
 <body>
-<jsp:include page="header.jsp">
-  <jsp:param name="accountName" value=""/>
-</jsp:include>
+<jsp:include page="header.jsp"></jsp:include>
 <!--End header-->
 <main class="main pages">
   <div class="page-header breadcrumb-wrap">
@@ -43,14 +41,9 @@
                     <p class="mb-30">Already have an account? <a href="page-login.html">Login</a></p>
                   </div>
                   <form action="register" method="post">
-                    <!-- First Name -->
+                    <!-- Name -->
                     <div class="form-group">
-                      <input type="text" required="" name="firstName" minlength="2" maxlength="100" placeholder="First Name" />
-                    </div>
-
-                    <!-- Last Name -->
-                    <div class="form-group">
-                      <input type="text" required="" name="lastName" minlength="2" maxlength="100" placeholder="Last Name" />
+                      <input type="text" required="" name="name" minlength="2" maxlength="100" placeholder="Name" />
                     </div>
 
                     <!-- Email -->
@@ -58,10 +51,17 @@
                       <input type="email" required="" name="email" placeholder="Email" minlength="10" maxlength="100"/>
                     </div>
 
-                    <!-- Birth Year -->
+                    <!-- Birth -->
                     <div class="form-group">
-                      <input type="number" required="" name="birthYear" placeholder="Birth Year" min="1900" max="2023" />
+                        Birth<input type="date" id="datePicker" name="birth"/>
                     </div>
+
+                    <!-- Gender -->
+                    <select class="form-group" name="gender">
+                      <option value="1">Male</option>
+                      <option value="2">Female</option>
+                    </select>
+
                     <!-- Contact Information -->
                     <div class="form-group">
                       <input type="text" required="" name="phone" placeholder="PhoneNumber" minlength="10" maxlength="10"/>
@@ -113,7 +113,9 @@
   </div>
 </main>
 <jsp:include page="footer.jsp"></jsp:include>
-
+<script>
+  datePicker.max = new Date().toISOString().split("T")[0];
+</script>
 <!-- Vendor JS-->
 <script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>

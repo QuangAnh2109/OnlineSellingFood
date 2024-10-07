@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,11 +93,12 @@ public class CustomerDAO extends DBContext{
     }
 
     public CustomerDetailRespone getCustomerDetail(int accountID){
-        String sql = "select [as].StatusID,a.Name,a.Email,ci.PhoneNumber,ci.[Address],a.BirthYear,c.Point,c.[Level]\n" +
+        String sql = "select [as].StatusID,a.Name,a.Email,ci.PhoneNumber,ci.[Address],a.Birth,c.Point,c.[Level]\n" +
                 "from Account a join AccountStatus [as] on a.StatusID = [as].StatusID\n" +
                 "join [Role] r on r.RoleID=a.RoleID\n" +
                 "join [Customer] c on c.AccountID = a.AccountID\n" +
-                "join ContactInformation ci on ci.ContactInformationID = a.ContactInformationID\n" +
+                "join AccountContact ac on ac.AccountID = a.AccountID\n" +
+                "join ContactInformation ci on ci.ContactInformationID = ac.ContactInformationID\n" +
                 "where (a.RoleID = 6 and a.RoleID != 1 and a.AccountID=?)";
 
         try {
@@ -111,7 +113,7 @@ public class CustomerDAO extends DBContext{
                 cdr.setEmail(rs.getString("Email"));
                 cdr.setPhoneNumber(rs.getString("PhoneNumber"));
                 cdr.setAddress(rs.getString("Address"));
-                cdr.setBirthYear(rs.getInt("BirthYear"));
+                cdr.setBirth(rs.getObject("birth", LocalDateTime.class));
                 cdr.setPoint(rs.getInt("Point"));
                 cdr.setLevel(rs.getInt("Level"));
 
@@ -157,16 +159,5 @@ public class CustomerDAO extends DBContext{
             System.out.println(ex.getMessage());
         }
 
-    }
-    public static void main(String[] args) {
-        CustomerDAO customerDAO = new CustomerDAO();
-        AccountDAO accountDAO = new AccountDAO();
-        Account account=accountDAO.getAccountByAccountID(2);
-        System.out.println(account.getStatusID());
-        Customer customer=customerDAO.getCustomerByAccountID(account.getAccountID());
-        System.out.println(customer.getCustomerID());
-        Customer cutomer1=new Customer(customer.getAccountID(),3000,100);
-        customerDAO.updateProfileCustomerForAdmin(account,cutomer1);
-        System.out.println(customer.getAccountID());
     }
 }

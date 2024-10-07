@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WarehouseDAO extends DBContext{
@@ -26,42 +27,33 @@ public class WarehouseDAO extends DBContext{
     }
 
     public List<Warehouse> getAllWarehouse(){
-        ArrayList<Warehouse> warehouses = new ArrayList<>();
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Warehouse");
-            for(Object ob:getListObject(ps)){
-                warehouses.add((Warehouse) ob);
-            }
+            return (List<Warehouse>) (Object) getListObject(ps);
         }catch (SQLException e){
             logger.info(getClass().getName()+": "+e.getMessage());
         }
-        return warehouses;
+        return Collections.emptyList();
     }
 
     public List<Warehouse> getAllWarehouseActivity(){
-        ArrayList<Warehouse> warehouses = new ArrayList<>();
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Warehouse where StatusID=1");
-            for(Object ob:getListObject(ps)){
-                warehouses.add((Warehouse) ob);
-            }
+            return (List<Warehouse>) (Object) getListObject(ps);
         }catch (SQLException e){
             logger.info(getClass().getName()+": "+e.getMessage());
         }
-        return warehouses;
+        return Collections.emptyList();
     }
 
     public List<Warehouse> getAllWarehouseClose(){
-        ArrayList<Warehouse> warehouses = new ArrayList<>();
         try{
             PreparedStatement ps = connection.prepareStatement("select * from Warehouse where StatusID=2");
-            for(Object ob:getListObject(ps)){
-                warehouses.add((Warehouse) ob);
-            }
+            return (List<Warehouse>) (Object) getListObject(ps);
         }catch (SQLException e){
             logger.info(getClass().getName()+": "+e.getMessage());
         }
-        return warehouses;
+        return Collections.emptyList();
     }
 
     public boolean updateWarehouse(Warehouse warehouse){

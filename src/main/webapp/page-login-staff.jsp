@@ -5,7 +5,6 @@
   Time: 7:54 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="model.Account" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,9 +25,7 @@
 
 <body>
 <main>
-    <jsp:include page="header-staff.jsp">
-        <jsp:param name="accountName" value=""/>
-    </jsp:include>
+    <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">
             <div class="card-body">

@@ -13,7 +13,10 @@ import model.ContactInformation;
 import dal.AccountDAO;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,14 +33,24 @@ public class GetRegisterInforServlet extends HttpServlet {
         List<String> errorMessages = new ArrayList<>();
 
         // Get form parameters
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+        String name = request.getParameter("name");
         String email = request.getParameter("email");
-        String birthYearStr = request.getParameter("birthYear");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String phoneNumber = request.getParameter("phone");
         String address = request.getParameter("address");
+        Integer genderID;
+        LocalDateTime birth;
+        try{
+            birth = LocalDate.parse(request.getParameter("birth"), DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
+        }catch(DateTimeParseException e){
+            birth = null;
+        }
+        try{
+            genderID = Integer.valueOf(request.getParameter("gender"));
+        }catch (NumberFormatException e){
+            genderID = null;
+        }
 
         //Validate password
         if (!password.equals(confirmPassword)) {
@@ -57,7 +70,7 @@ public class GetRegisterInforServlet extends HttpServlet {
         if(Mail.sendEmail(email, otp)){
             // Create the new Account
             HttpSession session = request.getSession();
-            session.setAttribute("account", new Account(6, Integer.parseInt(birthYearStr), 2, email, firstName, lastName, password, LocalDateTime.now()));
+            session.setAttribute("account", new Account(6,email,name,genderID,password,birth,LocalDateTime.now(),2));
             session.setAttribute("contact", new ContactInformation(address, phoneNumber));
             session.setAttribute("otp", otp);
             session.setAttribute("datetime", LocalDateTime.now().plusMinutes(5));

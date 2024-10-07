@@ -23,7 +23,7 @@
 
 <body>
 <%
-  String accountName =  ((Account)session.getAttribute("account")).getLastName();
+  String accountName =  ((Account)session.getAttribute("account")).getName();
   String msg = (String)request.getAttribute("msg");
   if(msg==null)msg="";
 %>

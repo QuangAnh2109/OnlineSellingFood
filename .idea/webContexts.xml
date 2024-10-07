@@ -4,6 +4,8 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/Forgotpassword.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/bar-staff.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/home-page-staff.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/nest-frontend/page-account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/nest-frontend" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/page-account-register.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/page-login-staff.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />

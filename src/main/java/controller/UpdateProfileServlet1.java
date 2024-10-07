@@ -13,6 +13,10 @@ import model.ContactInformation;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @WebServlet(name = "UpdateProfileServlet1", urlPatterns = {"/profile1"})
 public class UpdateProfileServlet1 extends HttpServlet {
@@ -24,13 +28,21 @@ public class UpdateProfileServlet1 extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String fName = request.getParameter("firstName");
-        String lName = request.getParameter("lastName");
-        String email = request.getParameter("email");
+        String name = request.getParameter("name");
         String address = request.getParameter("address");
         String phoneNumber = request.getParameter("phone");
-        String birthYear = request.getParameter("birthYear");
-
+        Integer genderID;
+        LocalDateTime birth;
+        try{
+            birth = LocalDate.parse(request.getParameter("birth"), DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
+        }catch(DateTimeParseException e){
+            birth = null;
+        }
+        try{
+            genderID = Integer.valueOf(request.getParameter("gender"));
+        }catch (NumberFormatException e){
+            genderID = null;
+        }
         AccountDAO accountDAO = new AccountDAO();
         HttpSession session = request.getSession();
         ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
@@ -43,10 +55,7 @@ public class UpdateProfileServlet1 extends HttpServlet {
             contact = new ContactInformation(address, phoneNumber);
             contact.setContactInformationID(contactInfoDAO.addContact(contact));
         }
-
-        int status = account.getStatusID();
-        if(!email.equals(account.getEmail())) status = 2;
-        Account account1 = new Account(account.getRoleID(), Integer.parseInt(birthYear), contact.getContactInformationID(), status, email, fName, lName, account.getAccountID());
+        Account account1 = new Account(account.getAccountID(),account.getRoleID(),account.getEmail(),name,genderID, account.getPassword(), birth,account.getTime(),account.getStatusID());
         accountDAO.updateAccountInformation(account1);
         contactInfoDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
         request.getSession().removeAttribute("account");
@@ -55,6 +64,5 @@ public class UpdateProfileServlet1 extends HttpServlet {
         request.getSession().setAttribute("contactInformation", contact);
 
         doGet(request, response);
-
     }
 }

@@ -1,5 +1,6 @@
 package dal;
 
+import model.Warehouse;
 import model.WarehouseStatus;
 
 import java.sql.PreparedStatement;
@@ -7,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WarehouseStatusDAO extends DBContext{
@@ -39,15 +41,12 @@ public class WarehouseStatusDAO extends DBContext{
     }
 
     public List<WarehouseStatus> getAllStatus(){
-        ArrayList<WarehouseStatus> list = new ArrayList<>();
         try{
             PreparedStatement ps = connection.prepareStatement("select * from WarehouseStatus");
-            for(Object ob:getListObject(ps)){
-                list.add((WarehouseStatus) ob);
-            }
+            return (List<WarehouseStatus>) (Object) getListObject(ps);
         }catch (SQLException e){
             logger.info(getClass().getName()+": "+e.getMessage());
         }
-        return list;
+        return Collections.emptyList();
     }
 }

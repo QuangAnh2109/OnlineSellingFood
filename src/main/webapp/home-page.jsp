@@ -23,7 +23,7 @@
 <%
 String accountName;
 try{
-  accountName =  ((Account)session.getAttribute("account")).getLastName();
+  accountName =  ((Account)session.getAttribute("account")).getName();
 }catch(NullPointerException e){
   accountName="";
 }

@@ -1,20 +1,22 @@
-<%--
+<%@ page import="model.Account" %><%--
   Created by IntelliJ IDEA.
   User: anh21
   Date: 9/30/2024
   Time: 10:53 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%
+    Account account = ((Account)request.getSession().getAttribute("account"));
+%>
 <header class="main-header style-2 navbar">
     <div class="col-brand">
-        <a href="index.html" class="brand-wrap">
+        <a href="home-page-staff.jsp" class="brand-wrap">
             <img src="nest-backend/assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
         </a>
     </div>
     <div class="col-nav">
         <%
-            String accountName = request.getParameter("accountName");
-            if(accountName.isEmpty()){
+            if(account==null){
         %>
         <a href="loginstaff">Login</a>
         <%

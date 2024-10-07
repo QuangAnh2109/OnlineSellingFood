@@ -23,15 +23,11 @@ public class StaffListDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         StaffDAO sd = new StaffDAO();
         String accountID_raw=request.getParameter("accountID");
-        try {
-            int accountID = Integer.parseInt(accountID_raw);
-            StaffDetailRespone sdr=sd.getStaffDetail(accountID);
-            request.setAttribute("staffListDetail", sdr);
-            request.setAttribute("accountID", accountID);
-            request.getRequestDispatcher("staff-detail.jsp").forward(request, response);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        int accountID = Integer.parseInt(accountID_raw);
+        StaffDetailRespone sdr=sd.getStaffDetail(accountID);
+        request.setAttribute("staffListDetail", sdr);
+        request.setAttribute("accountID", accountID);
+        request.getRequestDispatcher("staff-detail.jsp").forward(request, response);
 
     }
 

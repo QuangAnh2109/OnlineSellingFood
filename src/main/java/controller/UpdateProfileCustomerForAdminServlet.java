@@ -31,27 +31,23 @@ public class UpdateProfileCustomerForAdminServlet extends HttpServlet {
 
 
         int accountID,statusID,point,level;
-        try {
-            accountID=Integer.parseInt(accountID_raw);
-            statusID=Integer.parseInt(statusID_raw);
-            point=Integer.parseInt(point_raw);
-            level=Integer.parseInt(level_raw);
+        accountID=Integer.parseInt(accountID_raw);
+        statusID=Integer.parseInt(statusID_raw);
+        point=Integer.parseInt(point_raw);
+        level=Integer.parseInt(level_raw);
 
 
-            AccountDAO accountDAO = new AccountDAO();
-            Account account = accountDAO.getAccountByAccountID(accountID);
-            Account account1=new Account(accountID,account.getRoleID(),account.getBirthYear(),account.getContactInformationID(),statusID,account.getEmail(),account.getFirstName(),account.getLastName(),account.getPassword(),account.getTime());
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.getAccountByAccountID(accountID);
+        account.setStatusID(statusID);
+
+        CustomerDAO customerDAO = new CustomerDAO();
+        Customer customer = customerDAO.getCustomerByAccountID(accountID);
+        customer.setLevel(level);
+        customer.setPoint(point);
 
 
-            CustomerDAO customerDAO = new CustomerDAO();
-            Customer customer = customerDAO.getCustomerByAccountID(accountID);
-            Customer customer1=new Customer(customer.getCustomerID(),customer.getAccountID(),point,level);
-
-
-            customerDAO.updateProfileCustomerForAdmin(account1,customer1);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        customerDAO.updateProfileCustomerForAdmin(account,customer);
 
 
         doGet(request, response);
