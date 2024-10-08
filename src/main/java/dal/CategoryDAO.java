@@ -18,10 +18,7 @@ public class CategoryDAO extends DBContext{
         String sql = "SELECT CategoryID, Name FROM Category";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-
-            for (Object obj : rs) {
-                categories.add((Category) obj);
-            }
+            return (List<Category>) (Object) getListObject(ps);
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
         }

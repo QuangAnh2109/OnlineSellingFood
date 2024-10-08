@@ -15,13 +15,13 @@ public class CategoryListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CategoryDAO categoryDAO = new CategoryDAO();
-        List<Category> categoryList = categoryDAO.getAllCategories(); // Phương thức để lấy tất cả category
+        List<Category> categoryList = categoryDAO.getAllCategories();
         request.setAttribute("categoryList", categoryList);
         request.getRequestDispatcher("page-origin-category.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Nếu bạn có xử lý cho POST, thực hiện ở đây
+
     }
 }
