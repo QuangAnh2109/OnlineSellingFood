@@ -42,12 +42,24 @@ public class AccountContactDAO extends DBContext{
         return false;
     }
 
-    public boolean updateAccountContact(AccountContact accountContact){
+    public boolean updateAccountContact(int contactID, int accountID){
         try{
-            PreparedStatement ps = connection.prepareStatement("update AccountContact set ContactInformationID=?,IsDefault=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, accountContact.getContactInformationID());
-            ps.setInt(2, accountContact.getIsDefault());
-            ps.setInt(3, accountContact.getAccountID());
+            PreparedStatement ps = connection.prepareStatement("update AccountContact set ContactInformationID=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, contactID);
+            ps.setInt(2, accountID);
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null) return rs.next();
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean updateDefaultAccountContact(int isDefault, int accountID){
+        try{
+            PreparedStatement ps = connection.prepareStatement("update AccountContact set IsDefault=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, isDefault);
+            ps.setInt(2, accountID);
             ResultSet rs = executeUpdate(ps);
             if(rs!=null) return rs.next();
         }catch (SQLException e){

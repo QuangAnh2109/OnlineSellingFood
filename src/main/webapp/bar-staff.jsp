@@ -43,15 +43,15 @@
             %>
             <%
                 }
-                else if(role==2){
+                else if(role==3){
             %>
             <%
                 }
-                else if(role==2){
+                else if(role==4){
             %>
             <%
                 }
-                else if(role==2){
+                else if(role==5){
             %>
             <%
                 }
