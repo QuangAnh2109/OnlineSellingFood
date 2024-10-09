@@ -16,7 +16,7 @@ import java.io.IOException;
 @MultipartConfig
 @WebServlet(name = "AddImgServlet", value = "/AddImgServlet")
 public class AddImgServlet extends HttpServlet {
-   
+
 
     // Thư mục lưu file
     private static final String UPLOAD_DIRECTORY = "uploads";
@@ -57,10 +57,10 @@ public class AddImgServlet extends HttpServlet {
             request.setAttribute("message", "Có lỗi xảy ra: " + e.getMessage());
         }
 
-        // Chuyển hướng đến trang page-products-list.jsp
-        getServletContext().getRequestDispatcher("page-products-list.jsp").forward(request, response);
+        // Chuyển hướng đến trang PageProductList.jsp
+        getServletContext().getRequestDispatcher("PageProductList.jsp").forward(request, response);
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("page-products-list.jsp");
+        response.sendRedirect("PageProductList.jsp");
     }
 }
