@@ -264,7 +264,11 @@
                                     <span>02.11.2021</span>
                                 </div>
                                 <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-                                    <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                    <form action="AddImgServlet" method="post" enctype="multipart/form-data">
+                                        <input type="file" name="file" accept=".png" required><br><br>
+                                        <input type="submit" value="Upload File">
+                                    </form>
+
                                     <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
                                 </div>
                             </div>
