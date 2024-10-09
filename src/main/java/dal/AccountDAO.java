@@ -54,6 +54,7 @@ public class AccountDAO extends DBContext{
     }
 
     public boolean updateAccountInformation(Account acc){
+//        int insertedKey = 0;
         try{
             PreparedStatement ps = connection.prepareStatement("update Account set RoleID=?, Email=?, Name=?, GenderID=?, Birth=?, StatusID=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, acc.getRoleID());
@@ -64,6 +65,7 @@ public class AccountDAO extends DBContext{
             ps.setInt(6, acc.getStatusID());
             ps.setInt(7, acc.getAccountID());
             ResultSet rs = executeUpdate(ps);
+
             if(rs!=null)return rs.next();
         }catch (SQLException e){
             logger.info(getClass().getName()+": "+e.getMessage());
