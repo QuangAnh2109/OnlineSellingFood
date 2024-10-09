@@ -212,28 +212,15 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form>
+                        <form action="categoryCU" method="post" onsubmit="return validateForm()">
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Name</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_name" />
+                                <input type="text" placeholder="Type here" class="form-control" id="product_name" name="name" required />
+                                <input type="hidden" id="category_id" name="categoryID" />
                             </div>
-<%--                            <div class="mb-4">--%>
-<%--                                <label for="product_slug" class="form-label">Slug</label>--%>
-<%--                                <input type="text" placeholder="Type here" class="form-control" id="product_slug" />--%>
-<%--                            </div>--%>
-<%--                            <div class="mb-4">--%>
-<%--                                <label class="form-label">Parent</label>--%>
-<%--                                <select class="form-select">--%>
-<%--                                    <option>Fruit</option>--%>
-<%--                                    <option>Snack</option>--%>
-<%--                                </select>--%>
-<%--                            </div>--%>
-<%--                            <div class="mb-4">--%>
-<%--                                <label class="form-label">Description</label>--%>
-<%--                                <textarea placeholder="Type here" class="form-control"></textarea>--%>
-<%--                            </div>--%>
                             <div class="d-grid">
-                                <button class="btn btn-primary">Create category</button>
+                                <button type="submit" class="btn btn-primary" id="submit_button">Create category</button>
+                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -242,11 +229,6 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                    </th>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th class="text-end">Action</th>
@@ -258,26 +240,13 @@
                                     if (categoryList != null && !categoryList.isEmpty()) {
                                         for (Category category : categoryList) {
                                 %>
-                                <tr>
-                                    <td class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="<%= category.getCategoryID() %>" />
-                                        </div>
-                                    </td>
-                                    <td><%= category.getCategoryID() %></td>
-                                    <td><b><%= category.getName() %></b></td>
+                                <tr >
+                                    <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><%= category.getCategoryID() %></td>
+                                    <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><b><%= category.getName() %></b></td>
                                     <td class="text-end">
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
-                                                <i class="material-icons md-more_horiz"></i>
-                                            </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                        <!-- dropdown //end -->
+                                        <button class="btn btn-light rounded btn-sm font-sm">
+                                            <a href="categoryDelete?categoryID=<%=category.getCategoryID()%>"><i class="material-icons md-delete"></i>Delete</a>
+                                        </button>
                                     </td>
                                 </tr>
                                 <%
@@ -294,16 +263,68 @@
                             </table>
                         </div>
                     </div>
-
-
-                    <!-- .col// -->
                 </div>
-                <!-- .row // -->
             </div>
-            <!-- card body .// -->
         </div>
-        <!-- card .// -->
     </section>
+
+    <!-- Script to populate the form -->
+    <script>
+        function populateForm(categoryID, categoryName) {
+            document.getElementById("product_name").value = categoryName;
+            document.getElementById("category_id").value = categoryID;
+            document.getElementById("submit_button").innerText = "Update category"; // Đổi nhãn nút thành "Update category"
+
+            // Hiển thị nút Cancel
+            document.getElementById("cancel_button").style.display = "block";
+        }
+
+        function validateForm() {
+            const nameField = document.getElementById("product_name");
+            if (nameField.value.trim() === "") {
+                alert("Please enter a category name.");
+                return false; // Ngăn gửi form nếu trường tên để trống
+            }
+            return true; // Cho phép gửi form nếu tất cả các kiểm tra đều hợp lệ
+        }
+
+        function resetForm() {
+            document.getElementById("product_name").value = "";
+            document.getElementById("category_id").value = "";
+            document.getElementById("submit_button").innerText = "Create category"; // Đặt lại nhãn nút về trạng thái ban đầu
+            document.getElementById("cancel_button").style.display = "none"; // Ẩn nút Cancel
+        }
+    </script>
+
+    <%
+        if (categoryList != null) {
+            for (Category category : categoryList) {
+    %>
+    <div class="modal fade" id="deleteModal<%= category.getCategoryID() %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the category "<%= category.getName() %>"?
+                </div>
+                <div class="modal-footer">
+                    <form action="categoryDelete" method="post">
+                        <input type="hidden" name="categoryID" value="<%= category.getCategoryID() %>">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+            }
+        }
+    %>
+
     <!-- content-main end// -->
     <footer class="main-footer font-xs">
         <div class="row pb-30 pt-15">
