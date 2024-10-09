@@ -11,6 +11,11 @@ public class Img {
         return imgID;
     }
 
+    public Img(int imgID, String imglink) {
+        this.imgID = imgID;
+        this.imglink = imglink;
+    }
+
     public void setImgID(int imgID) {
         this.imgID = imgID;
     }
