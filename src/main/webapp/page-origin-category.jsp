@@ -205,7 +205,10 @@
                 <p>Add, edit or delete a category</p>
             </div>
             <div>
-                <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+                <form action="categorySearch" method="post">
+                    <input type="text" name="searchKeyword" placeholder="Search Categories" class="form-control bg-white" />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
             </div>
         </div>
         <div class="card">

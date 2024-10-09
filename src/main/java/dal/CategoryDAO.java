@@ -93,4 +93,30 @@ public class CategoryDAO extends DBContext{
 
 
 
+        public List<Category> searchCategories(String keyword) {
+            List<Category> categories = new ArrayList<>();
+            String sql = "SELECT CategoryID, Name FROM Category WHERE Name LIKE ?";
+
+            try {
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setString(1, "%" + keyword + "%");
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    int categoryID = rs.getInt("CategoryID");
+                    String name = rs.getString("Name");
+
+                    Category category = new Category(categoryID, name);
+                    categories.add(category);
+                }
+            } catch (SQLException ex) {
+                logger.info(ex.getMessage());
+            }
+
+            return categories;
+        }
+
+
+
+
+
 }
