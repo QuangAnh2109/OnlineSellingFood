@@ -13,15 +13,11 @@ import model.Category;
 
 @WebServlet(name = "CategorySearchServlet", value = "/categorySearch")
 public class CategorySearchServlet extends HttpServlet {
-    private CategoryDAO categoryDAO;
 
-    @Override
-    public void init() {
-        categoryDAO = new CategoryDAO();
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        CategoryDAO categoryDAO = new CategoryDAO();
         String searchKeyword = request.getParameter("searchKeyword");
         List<Category> categoryList = categoryDAO.searchCategories(searchKeyword);
 
