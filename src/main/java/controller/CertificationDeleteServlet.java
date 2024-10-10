@@ -18,7 +18,7 @@ public class CertificationDeleteServlet extends HttpServlet {
         if (certificationIdParam != null) {
             int certificationID = Integer.parseInt(certificationIdParam);
             CertificateDAO certificationDAO = new CertificateDAO();
-            certificationDAO.deleteCertification(certificationID);
+            System.out.println(certificationDAO.deleteCertification(certificationID));
         }
         response.sendRedirect("certificationList");
     }

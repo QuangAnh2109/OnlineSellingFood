@@ -44,15 +44,17 @@ public class CertificateDAO extends DBContext {
         return certifications;
     }
 
-    public void deleteCertification(int certificationID) {
+    public boolean deleteCertification(int certificationID) {
         String sql = "DELETE FROM Certification WHERE CertificationID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, certificationID);
-            ps.executeUpdate();
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null) return rs.next();
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
         }
+        return false;
     }
 
     public boolean updateCertification(int certificationID, String name, String detail, int certificateIssuerID, int imgID) {

@@ -22,7 +22,7 @@ public class CertificationSearchServlet extends HttpServlet {
         List<Certification> certificationList = certificationDAO.searchCertifications(searchKeyword);
 
         request.setAttribute("certificationList", certificationList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("page-certification.jsp"); 
+        RequestDispatcher dispatcher = request.getRequestDispatcher("page-certification.jsp");
         dispatcher.forward(request, response);
     }
 }

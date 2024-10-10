@@ -276,7 +276,8 @@
                                     <td onclick="populateForm('<%= certification.getCertificationID() %>', '<%= certification.getName() %>', '<%= certification.getDetail() %>', '<%= certification.getImgID() %>', '<%= certification.getCertificateIssuerID() %>')"><b><%= certification.getName() %></b></td>
                                     <td><%= certification.getDetail() %></td>
                                     <td><%= certification.getCertificateIssuerID() %></td>
-                                    <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>
+<%--                                    <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>--%>
+                                    <td><iframe src="https://drive.google.com/file/d/1xkIu0lq41MMsoxSOD7SqHxW9PnSOgbDy/preview" width="640" height="480" allow="autoplay"></iframe></td>
                                     <td class="text-end">
                                         <button class="btn btn-light rounded btn-sm font-sm">
                                             <a href="certificationDelete?certificationID=<%= certification.getCertificationID() %>"><i class="material-icons md-delete"></i>Delete</a>
