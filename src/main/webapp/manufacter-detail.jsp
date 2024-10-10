@@ -25,15 +25,16 @@
             <div class="card-body">
                 <h4 class="card-title mb-4">Edit Manufacter Information</h4>
                 <form action="updateManuForAdmin" method="post">
+                    <input type="hidden" name="ManufacturerID" value="${manuListDetail.manufacturerID}" /> <!-- Ensure this is passed -->
 
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input class="form-control" name="name" value="${manuListDetail.name}" placeholder="First Name" type="text" required />
+                        <input class="form-control" name="name" value="${manuListDetail.name}" placeholder="Name" type="text" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Introduce</label>
-                        <input class="form-control" name="introduce" value="${manuListDetail.introduce}" placeholder="Email" type="text" required />
+                        <input class="form-control" name="introduce" value="${manuListDetail.introduce}" placeholder="Introduce" type="text" required />
                     </div>
 
                     <div class="mb-4">
