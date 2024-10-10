@@ -38,7 +38,7 @@
                 </div>
             </li>
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-sellers-cards.html">
+                <a class="menu-link" href="#">
                     <i class="icon material-icons md-store"></i>
                     <span class="text">Manufacter</span>
                 </a>
@@ -47,7 +47,6 @@
                     <a href="page-seller-detail.html">Add New Manufacter</a>
                 </div>
             </li>
-
             <%
                 }
                 else if(role==2){

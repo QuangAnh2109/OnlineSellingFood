@@ -89,6 +89,12 @@
                                             </a>
                                         </td>
                                         <td>${mn.introduce}</td>
+                                        <td class="text-end">
+                                            <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
+                                                <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                                <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </c:otherwise>
