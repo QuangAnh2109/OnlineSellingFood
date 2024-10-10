@@ -28,9 +28,6 @@
     <section class="content-main">
         <div class="content-header">
             <h2 class="content-title">Customer List</h2>
-            <div>
-                <a href="${pageContext.request.contextPath}/register-admin" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
-            </div>
         </div>
         <div class="card mb-4">
             <header class="card-header">

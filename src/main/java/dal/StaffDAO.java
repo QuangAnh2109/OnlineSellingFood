@@ -124,7 +124,7 @@ public class StaffDAO extends DBContext{
         }
         return null;
     }
-
+/*
     public void updateProfileForStaff(Account a, ContactInformation c, Staff s){
         String sql="UPDATE [dbo].[Account]\n" +
                 "   SET [RoleID] = ?\n" +
@@ -179,4 +179,6 @@ public class StaffDAO extends DBContext{
             throw new RuntimeException(e);
         }
     }
+
+ */
 }

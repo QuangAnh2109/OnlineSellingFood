@@ -42,35 +42,41 @@ public class UpdateProfileStaffForAdminServlet extends HttpServlet {
 
         int accountID,roleID,salary,warehouseID,statusID,genderID;
         LocalDateTime birth;
-        try {
-            accountID=Integer.parseInt(accountID_raw);
-            roleID=Integer.parseInt(rID_raw);
-            birth= LocalDate.parse(birth_raw, DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
-            salary=Integer.parseInt(salary_raw);
-            warehouseID=Integer.parseInt(whID_raw);
-            statusID=Integer.parseInt(statusID_raw);
-            genderID = Integer.parseInt(genderID_raw);
 
-            AccountDAO accountDAO = new AccountDAO();
-            Account account = accountDAO.getAccountByAccountID(accountID);
-            account.setRoleID(roleID);
-            account.setName(name);
-            account.setGenderID(genderID);
-            account.setEmail(email);
-            account.setBirth(birth);
-            account.setStatusID(statusID);
+        accountID=Integer.parseInt(accountID_raw);
+        roleID=Integer.parseInt(rID_raw);
+        birth= LocalDate.parse(birth_raw, DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
+        salary=Integer.parseInt(salary_raw);
+        warehouseID=Integer.parseInt(whID_raw);
+        statusID=Integer.parseInt(statusID_raw);
+        genderID = Integer.parseInt(genderID_raw);
+        System.out.println(warehouseID);
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.getAccountByAccountID(accountID);
+        account.setRoleID(roleID);
+        account.setName(name);
+        account.setGenderID(genderID);
+        account.setEmail(email);
+        account.setBirth(birth);
+        account.setStatusID(statusID);
 
-            ContactInformation contactInformation=new ContactInformation(new AccountContactDAO().getAccountContact(account.getAccountID()).getContactInformationID(),address,phone);
+        StaffDAO staffDAO = new StaffDAO();
+        Staff staff= staffDAO.getStaffByAccountID(accountID);
+        staff.setSalary(salary);
+        staff.setWarehouseID(warehouseID);
 
-            StaffDAO staffDAO = new StaffDAO();
-            Staff staff=new Staff(accountID,salary,warehouseID);
-            staff.setSalary(salary);
-            staff.setWarehouseID(warehouseID);
-
-            staffDAO.updateProfileForStaff(account,contactInformation,staff);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        new AccountDAO().updateAccountInformation(account);
+        ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
+        ContactInformation contact = contactInfoDAO.getContactInformationByAddressAndPhone(address, phone);
+        //if contact don't have in database, add new contact to database
+        if (contact == null) {
+            contact = new ContactInformation(address, phone);
+            contact.setContactInformationID(contactInfoDAO.addContact(contact));
+            AccountContactDAO accountContactDAO = new AccountContactDAO();
+            int contactID = accountContactDAO.getAccountContact(accountID).getContactInformationID();
+            accountContactDAO.updateAccountContact(contactID,accountID);
         }
+        staffDAO.updateStaffInformation(staff);
         doGet(request, response);
     }
 }

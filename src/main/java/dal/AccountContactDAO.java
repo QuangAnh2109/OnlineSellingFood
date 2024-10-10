@@ -1,6 +1,7 @@
 package dal;
 
 import model.AccountContact;
+import model.ContactInformation;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +45,7 @@ public class AccountContactDAO extends DBContext{
 
     public boolean updateAccountContact(int contactID, int accountID){
         try{
-            PreparedStatement ps = connection.prepareStatement("update AccountContact set ContactInformationID=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement("update AccountContact set ContactInformationID=? where AccountID=? and IsDeFault=1", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, contactID);
             ps.setInt(2, accountID);
             ResultSet rs = executeUpdate(ps);

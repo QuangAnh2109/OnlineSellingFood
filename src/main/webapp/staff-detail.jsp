@@ -1,5 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="dto.StaffDetailRespone" %>
+<%@ page import="model.Warehouse" %>
+<%@ page import="java.util.List" %>
+<%@ page import="dal.AccountDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,9 +51,14 @@
 
                     <div class="mb-3">
                         <label class="form-label">Gender</label>
+                        <%
+                            StaffDetailRespone sdr = (StaffDetailRespone)request.getAttribute("staffListDetail");
+                            int accountID = (int)request.getAttribute("accountID");
+                            int genderID = new AccountDAO().getAccountByAccountID(accountID).getGenderID();
+                        %>
                         <select class="form-control" name="gender" required>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
+                            <option <%if(genderID==1){out.print("selected");}%> value="1">Male</option>
+                            <option <%if(genderID==2){out.print("selected");}%> value="2">Female</option>
                         </select>
                     </div>
 
@@ -71,10 +80,9 @@
                     <div class="mb-3">
                         <label class="form-label">Birth</label>
                         <%
-                            StaffDetailRespone cdr = (StaffDetailRespone)request.getAttribute("staffListDetail");
                             String birth = "";
-                            if(cdr.getBirth()!=null){
-                                birth = cdr.getBirth().format(DateTimeFormatter.ISO_LOCAL_DATE);
+                            if(sdr.getBirth()!=null){
+                                birth = sdr.getBirth().format(DateTimeFormatter.ISO_LOCAL_DATE);
                             }
                         %>
                         <input class="form-control" name="birth" value="<%=birth%>" type="date"/>
@@ -89,11 +97,19 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Warehouse Name</label>
+                        <%
+                            List<Warehouse> warehouses = (List<Warehouse>)request.getAttribute("warehouses");
+                        %>
+                        selected
                         <select class="form-control" name="warehouseID" required>
-                            <option value="1" ${staffListDetail.warehouseID == 1 ? 'selected' : ''}>Kho A</option>
-                            <option value="2" ${staffListDetail.warehouseID == 2 ? 'selected' : ''}>Kho B</option>
-                            <option value="3" ${staffListDetail.warehouseID == 3 ? 'selected' : ''}>Kho C</option>
-
+                            <%
+                                for(Warehouse warehouse:warehouses){
+                                    int warehouseID = warehouse.getWarehouseID();
+                            %>
+                            <option <%if(sdr.getWarehouseID()==warehouseID){out.print("selected");}%> value="<%=warehouseID%>" ><%=warehouse.getName()%></option>
+                            <%
+                                }
+                            %>
                         </select>
                     </div>
                     <div class="mb-3">

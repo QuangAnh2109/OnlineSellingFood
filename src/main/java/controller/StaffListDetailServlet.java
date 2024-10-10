@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.List;
 
 import dal.StaffDAO;
+import dal.WarehouseDAO;
 import dto.StaffDetailRespone;
 import dto.StaffListResponse;
 import jakarta.servlet.ServletException;
@@ -25,10 +26,10 @@ public class StaffListDetailServlet extends HttpServlet {
         String accountID_raw=request.getParameter("accountID");
         int accountID = Integer.parseInt(accountID_raw);
         StaffDetailRespone sdr=sd.getStaffDetail(accountID);
+        request.setAttribute("warehouses",new WarehouseDAO().getAllWarehouseActivity());
         request.setAttribute("staffListDetail", sdr);
         request.setAttribute("accountID", accountID);
         request.getRequestDispatcher("staff-detail.jsp").forward(request, response);
-
     }
 
     @Override
