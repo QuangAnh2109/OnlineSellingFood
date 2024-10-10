@@ -29,7 +29,7 @@
         <div class="content-header">
             <h2 class="content-title">Manufacter</h2>
             <div>
-                <a href="registerstaff" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+                <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
             </div>
         </div>
         <div class="card mb-4">
