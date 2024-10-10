@@ -32,8 +32,8 @@
                     <span class="text">Account</span>
                 </a>
                 <div class="submenu">
-                    <a href="staffList" id="stafflist">Staff list</a>
-                    <a href="customerList" id="customerlist">Customer list</a>
+                    <a href="staffList" id="staff">Staff list</a>
+                    <a href="customerList" id="customer">Customer list</a>
                     <a href="registerstaff" id="registerstaff">Staff register</a>
                 </div>
             </li>
@@ -53,6 +53,25 @@
                 }
                 else if(role==5){
             %>
+
+            <li class="menu-item has-submenu" id="product">
+                <a class="menu-link" href="#">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+                <div class="submenu">
+                    <a href="certificationList" id="certification">Certificate</a>
+                    <a href="certificateIssuerList" id="certificateissuer">Certificate Issuer</a>
+                    <a href="categoryList" id="category">Category</a>
+                    <a href="originList" id="origin">Origin</a>
+                </div>
+            </li>
+            <li class="menu-item" id="discount">
+                <a class="menu-link" href="discount">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Discount</span>
+                </a>
+            </li>
             <%
                 }
             %>

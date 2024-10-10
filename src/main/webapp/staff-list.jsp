@@ -20,7 +20,7 @@
 <body>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
-  <jsp:param name="page" value="stafflist"/>
+  <jsp:param name="page" value="staff"/>
   <jsp:param name="menu" value="account"/>
 </jsp:include>
 <main class="main-wrap">

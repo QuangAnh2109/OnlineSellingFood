@@ -23,11 +23,8 @@ public class DiscountModifyServlet extends HttpServlet {
         List<ProductDiscountResponse> pdr=dao.getProductDiscount(search);
         request.setAttribute("productDiscount", pdr);
         request.getRequestDispatcher("create-discount.jsp").forward(request, respone);
-
-
-
-
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int productID = Integer.parseInt(request.getParameter("productID"));

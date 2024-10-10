@@ -30,6 +30,11 @@
         <div class="card mx-auto card-login">
             <div class="card-body">
                 <h4 class="card-title mb-4">Sign in</h4>
+                <%
+                    String msg = (String)request.getAttribute("msg");
+                    if(msg==null) msg="";
+                %>
+                <h6 style="color:red"><%=msg%></h6>
                 <form action="loginstaff" method="post">
                     <div class="mb-3">
                         <input class="form-control" placeholder="Email" name="email" type="text" />
