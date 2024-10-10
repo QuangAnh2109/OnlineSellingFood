@@ -20,14 +20,14 @@
 <body>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
-  <jsp:param name="page" value="manulist"/>
+  <jsp:param name="page" value="stafflist"/>
   <jsp:param name="menu" value="account"/>
 </jsp:include>
 <main class="main-wrap">
   <jsp:include page="header-staff.jsp"></jsp:include>
   <section class="content-main">
     <div class="content-header">
-      <h2 class="content-title">Manufacter</h2>
+      <h2 class="content-title">Account</h2>
       <div>
         <a href="registerstaff" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
       </div>
@@ -61,38 +61,36 @@
           <table class="table table-hover">
             <thead>
             <tr>
-              <th>Name</th>
-              <%--              <th>Email</th>--%>
+              <th>Seller</th>
+              <th>Email</th>
               <th>Status</th>
-              <%--              <th>Registered</th>--%>
+              <th>Registered</th>
               <th class="text-end">Action</th>
             </tr>
             </thead>
             <tbody>
-            <c:choose>
-              <c:when test="${empty manuList}">
-                <tr>
-                  <td colspan="3">No manufacturers found.</td>
-                </tr>
-              </c:when>
-              <c:otherwise>
-                <c:forEach items="${manuList}" var="mn">
-                  <tr>
-                    <td width="40%">
-                      <a href="#" class="itemside">
-                        <div class="left">
-                          <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
-                        </div>
-                        <div class="info pl-3">
-                          <h6 class="mb-0 title">${mn.name}</h6>
-                        </div>
-                      </a>
-                    </td>
-                    <td>${mn.introduce}</td>
-                  </tr>
-                </c:forEach>
-              </c:otherwise>
-            </c:choose>
+            <c:forEach items="${staffList}"  var="sl">
+            <tr>
+              <td width="40%">
+                <a href="#" class="itemside">
+                  <div class="left">
+                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
+                  </div>
+                  <div class="info pl-3">
+                    <h6 class="mb-0 title">${sl.name}</h6>
+                  </div>
+                </a>
+              </td>
+              <input value="${sl.accountID}" name="accountID" type="hidden">
+              <td>${sl.email}</td>
+              <td><span class="badge rounded-pill alert-success">${sl.detail}</span></td>
+              <td>${sl.time}</td>
+              <td class="text-end">
+                <a href="staffListDetail?accountID=${sl.accountID}" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+              </td>
+            </tr>
+            </c:forEach>
+
             </tbody>
           </table>
           <!-- table-responsive.// -->
