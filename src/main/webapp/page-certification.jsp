@@ -1,5 +1,7 @@
 <%@ page import="model.Category" %>
 <%@ page import="java.util.List" %>
+<%@ page import="model.Certification" %>
+<%@ page import="model.CertificateIssuer" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,9 +45,9 @@
                     <span class="text">Products</span>
                 </a>
                 <div class="submenu">
-                    <a href="certificationList">Certification</a>
+                    <a href="certificationList"class="active">Certification</a>
                     <a href="certificateIssuerList">Certificate Issuer</a>
-                    <a href="categoryList" class="active" >Categories</a>
+                    <a href="categoryList"  >Categories</a>
                     <a href="originList" >Origin</a>
                 </div>
             </li>
@@ -201,12 +203,12 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Categories</h2>
-                <p>Add, edit or delete a category</p>
+                <h2 class="content-title card-title">Certifications</h2>
+                <p>Add, edit or delete a certification</p>
             </div>
             <div>
-                <form action="categorySearch" method="post">
-                    <input type="text" name="searchKeyword" placeholder="Search Categories" class="form-control bg-white" />
+                <form action="certificationSearch" method="post">
+                    <input type="text" name="searchKeyword" placeholder="Search Certifications" class="form-control bg-white" />
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
@@ -215,14 +217,37 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form action="categoryCU" method="post" onsubmit="return validateForm()">
+                        <form action="certificationCU" method="post" onsubmit="return validateForm()">
                             <div class="mb-4">
-                                <label for="product_name" class="form-label">Name</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_name" name="name" required />
-                                <input type="hidden" id="category_id" name="categoryID" />
+                                <label for="certificate_name" class="form-label">Name</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="certificate_name" name="name" required />
+                                <input type="hidden" id="certification_id" name="certificationID" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="certificate_detail" class="form-label">Detail</label>
+                                <input type="text" placeholder="Enter details" class="form-control" id="certificate_detail" name="detail" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="certificate_issuer" class="form-label">Certificate Issuer</label>
+                                <select class="form-control" id="certificate_issuer" name="certificateIssuerID" required>
+                                    <%
+                                        List<CertificateIssuer> issuerList = (List<CertificateIssuer>) request.getAttribute("issuerList");
+                                        if (issuerList != null && !issuerList.isEmpty()) {
+                                            for (CertificateIssuer issuer : issuerList) {
+                                    %>
+                                    <option value="<%= issuer.getCertificateIssuerID() %>"><%= issuer.getName() %></option>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="image_link" class="form-label">Image Link</label>
+                                <input type="text" placeholder="Enter image link" class="form-control" id="image_link" name="imgID" />
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="submit_button">Create category</button>
+                                <button type="submit" class="btn btn-primary" id="submit_button">Create certification</button>
                                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
                             </div>
                         </form>
@@ -234,21 +259,27 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Detail</th>
+                                    <th>Issuer</th>
+                                    <th>Image</th>
                                     <th class="text-end">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    List<Category> categoryList = (List<Category>) request.getAttribute("categoryList");
-                                    if (categoryList != null && !categoryList.isEmpty()) {
-                                        for (Category category : categoryList) {
+                                    List<Certification> certificationList = (List<Certification>) request.getAttribute("certificationList");
+                                    if (certificationList != null && !certificationList.isEmpty()) {
+                                        for (Certification certification : certificationList) {
                                 %>
-                                <tr >
-                                    <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><%= category.getCategoryID() %></td>
-                                    <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><b><%= category.getName() %></b></td>
+                                <tr>
+                                    <td onclick="populateForm('<%= certification.getCertificationID() %>', '<%= certification.getName() %>', '<%= certification.getDetail() %>', '<%= certification.getImgID() %>', '<%= certification.getCertificateIssuerID() %>')"><%= certification.getCertificationID() %></td>
+                                    <td onclick="populateForm('<%= certification.getCertificationID() %>', '<%= certification.getName() %>', '<%= certification.getDetail() %>', '<%= certification.getImgID() %>', '<%= certification.getCertificateIssuerID() %>')"><b><%= certification.getName() %></b></td>
+                                    <td><%= certification.getDetail() %></td>
+                                    <td><%= certification.getCertificateIssuerID() %></td>
+                                    <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>
                                     <td class="text-end">
                                         <button class="btn btn-light rounded btn-sm font-sm">
-                                            <a href="categoryDelete?categoryID=<%=category.getCategoryID()%>"><i class="material-icons md-delete"></i>Delete</a>
+                                            <a href="certificationDelete?certificationID=<%= certification.getCertificationID() %>"><i class="material-icons md-delete"></i>Delete</a>
                                         </button>
                                     </td>
                                 </tr>
@@ -257,7 +288,7 @@
                                 } else {
                                 %>
                                 <tr>
-                                    <td colspan="4" class="text-center">No categories found.</td>
+                                    <td colspan="6" class="text-center">No certifications found.</td>
                                 </tr>
                                 <%
                                     }
@@ -273,60 +304,41 @@
 
     <!-- Script to populate the form -->
     <script>
-        function populateForm(categoryID, categoryName) {
-            document.getElementById("product_name").value = categoryName;
-            document.getElementById("category_id").value = categoryID;
-            document.getElementById("submit_button").innerText = "Update category"; // Đổi nhãn nút thành "Update category"
+        function populateForm(certificationID, name, detail, imgID, certificateIssuerID) {
+            document.getElementById("certificate_name").value = name;
+            document.getElementById("certificate_detail").value = detail;
+            document.getElementById("image_link").value = imgID;
+            document.getElementById("certification_id").value = certificationID;
 
-            // Hiển thị nút Cancel
+            // Set the selected value for the issuer
+            document.getElementById("certificate_issuer").value = certificateIssuerID;
+
+            document.getElementById("submit_button").innerText = "Update certification"; // Change button label to "Update certification"
+
+            // Show Cancel button
             document.getElementById("cancel_button").style.display = "block";
         }
 
         function validateForm() {
-            const nameField = document.getElementById("product_name");
-            if (nameField.value.trim() === "") {
-                alert("Please enter a category name.");
-                return false; // Ngăn gửi form nếu trường tên để trống
+            const nameField = document.getElementById("certificate_name");
+            const detailField = document.getElementById("certificate_detail");
+            if (nameField.value.trim() === "" || detailField.value.trim() === "") {
+                alert("Please fill in all required fields.");
+                return false; // Prevent form submission if any required field is empty
             }
-            return true; // Cho phép gửi form nếu tất cả các kiểm tra đều hợp lệ
+            return true; // Allow form submission if all checks pass
         }
 
         function resetForm() {
-            document.getElementById("product_name").value = "";
-            document.getElementById("category_id").value = "";
-            document.getElementById("submit_button").innerText = "Create category"; // Đặt lại nhãn nút về trạng thái ban đầu
-            document.getElementById("cancel_button").style.display = "none"; // Ẩn nút Cancel
+            document.getElementById("certificate_name").value = "";
+            document.getElementById("certificate_detail").value = "";
+            document.getElementById("image_link").value = "";
+            document.getElementById("certification_id").value = "";
+            document.getElementById("submit_button").innerText = "Create certification"; // Reset button label to default
+            document.getElementById("cancel_button").style.display = "none"; // Hide Cancel button
         }
     </script>
 
-    <%
-        if (categoryList != null) {
-            for (Category category : categoryList) {
-    %>
-    <div class="modal fade" id="deleteModal<%= category.getCategoryID() %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete the category "<%= category.getName() %>"?
-                </div>
-                <div class="modal-footer">
-                    <form action="categoryDelete" method="post">
-                        <input type="hidden" name="categoryID" value="<%= category.getCategoryID() %>">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <%
-            }
-        }
-    %>
 
     <!-- content-main end// -->
     <footer class="main-footer font-xs">

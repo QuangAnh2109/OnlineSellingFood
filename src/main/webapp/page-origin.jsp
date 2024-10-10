@@ -44,7 +44,7 @@
           <span class="text">Products</span>
         </a>
         <div class="submenu">
-          <a href="page-products-list.html">Product List</a>
+          <a href="certificationList">Certification</a>
           <a href="certificateIssuerList">Certificate Issuer</a>
           <a href="categoryList" >Categories</a>
           <a href="originList" class="active">Origin</a>
