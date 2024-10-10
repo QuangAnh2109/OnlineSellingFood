@@ -10,11 +10,12 @@ public class ImportProduct {
     private Integer inventoryQuantity;
     private LocalDateTime mfg;
     private LocalDateTime exp;
+    private Integer unitID;
 
     public ImportProduct() {
     }
 
-    public ImportProduct(Integer importID, Integer productID, Integer price, Integer importQuantity, Integer inventoryQuantity, LocalDateTime mfg, LocalDateTime exp) {
+    public ImportProduct(Integer importID, Integer productID, Integer price, Integer importQuantity, Integer inventoryQuantity, LocalDateTime mfg, LocalDateTime exp, Integer unitID) {
         this.importID = importID;
         this.productID = productID;
         this.price = price;
@@ -22,6 +23,7 @@ public class ImportProduct {
         this.inventoryQuantity = inventoryQuantity;
         this.mfg = mfg;
         this.exp = exp;
+        this.unitID = unitID;
     }
 
     public Integer getImportID() {
@@ -78,5 +80,13 @@ public class ImportProduct {
 
     public void setExp(LocalDateTime exp) {
         this.exp = exp;
+    }
+
+    public Integer getUnitID() {
+        return unitID;
+    }
+
+    public void setUnitID(Integer unitID) {
+        this.unitID = unitID;
     }
 }

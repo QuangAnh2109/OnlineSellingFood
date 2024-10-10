@@ -8,11 +8,12 @@ public class OrderProduct {
     private Integer quantity;
     private String feedback;
     private Integer star;
+    private Integer unitID;
 
     public OrderProduct() {
     }
 
-    public OrderProduct(Integer orderID, Integer importID, Integer productID, Integer price, Integer quantity, String feedback, Integer star) {
+    public OrderProduct(Integer orderID, Integer importID, Integer productID, Integer price, Integer quantity, String feedback, Integer star, Integer unitID) {
         this.orderID = orderID;
         this.importID = importID;
         this.productID = productID;
@@ -20,6 +21,7 @@ public class OrderProduct {
         this.quantity = quantity;
         this.feedback = feedback;
         this.star = star;
+        this.unitID = unitID;
     }
 
     public Integer getOrderID() {
@@ -38,20 +40,20 @@ public class OrderProduct {
         this.importID = importID;
     }
 
-    public Integer getProductID() {
-        return productID;
-    }
-
-    public void setProductID(Integer productID) {
-        this.productID = productID;
-    }
-
     public Integer getPrice() {
         return price;
     }
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Integer getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Integer productID) {
+        this.productID = productID;
     }
 
     public Integer getQuantity() {
@@ -76,5 +78,13 @@ public class OrderProduct {
 
     public void setStar(Integer star) {
         this.star = star;
+    }
+
+    public Integer getUnitID() {
+        return unitID;
+    }
+
+    public void setUnitID(Integer unitID) {
+        this.unitID = unitID;
     }
 }
