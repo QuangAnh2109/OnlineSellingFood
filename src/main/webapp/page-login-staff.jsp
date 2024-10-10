@@ -40,7 +40,7 @@
                     </div>
                     <!-- form-group// -->
                     <div class="mb-3">
-                        <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
+                        <a href="ForgotPasswordStaff.jsp" class="float-end font-sm text-muted">Forgot password?</a>
                         <label class="form-check">
                             <input type="checkbox" class="form-check-input" ${(cookie.crem!=null?'checked':'')} name="rem" id="remember_me" value="ON" />
                             <span class="form-check-label">Remember</span>
