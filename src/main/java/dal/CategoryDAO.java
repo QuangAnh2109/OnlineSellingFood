@@ -11,7 +11,7 @@ import java.util.List;
 public class CategoryDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new AccountStatus(rs.getInt("StatusID"),rs.getString("Detail"));
+        return new Category(rs.getInt("CategoryID"),rs.getString("CategoryName"));
     }
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();

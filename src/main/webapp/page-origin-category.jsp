@@ -45,8 +45,8 @@
                 <div class="submenu">
                     <a href="page-products-list.html">Product List</a>
                     <a href="page-products-grid.html">Product grid</a>
-                    <a href="page-origin-category.jsp" class="active">Categories</a>
-                    <a href="page-categories.html" class="active">Origin</a>
+                    <a href="categoryList" class="active">Categories</a>
+                    <a href="originList" class="active">Origin</a>
                 </div>
             </li>
             <li class="menu-item has-submenu">
