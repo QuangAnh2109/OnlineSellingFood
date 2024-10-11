@@ -32,12 +32,11 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
         String certificationID = request.getParameter("certificationID");
         String name = request.getParameter("name");
         String detail = request.getParameter("detail");
-        String imgID = request.getParameter("imgID");
+        int imgID = Integer.parseInt(request.getParameter("imgID"));
         String certificateIssuerID = request.getParameter("certificateIssuerID");
-
         if (certificationID != null && !certificationID.isEmpty()) {
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isUpdated = certificationDAO.updateCertification(Integer.parseInt(certificationID), name, detail, Integer.parseInt(imgID), Integer.parseInt(certificateIssuerID));
+                boolean isUpdated = certificationDAO.updateCertification(Integer.parseInt(certificationID), name, detail, imgID, Integer.parseInt(certificateIssuerID));
                 if (isUpdated) {
                     response.sendRedirect("certificationList");
                 } else {
@@ -50,16 +49,15 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
             }
         } else {
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isCreated = certificationDAO.createCertification(name, detail, Integer.parseInt(imgID), Integer.parseInt(certificateIssuerID));
+                boolean isCreated = certificationDAO.createCertification(name, detail, imgID, Integer.parseInt(certificateIssuerID));
                 if (isCreated) {
-                    response.sendRedirect("certificationList");
+                    //thanh cong
                 } else {
-                    request.setAttribute("error", "Create failed. Please try again.");
-                    request.getRequestDispatcher("certificationCU").forward(request, response);
+                    //that bai
                 }
+                response.sendRedirect("certificationList");
             } else {
-                request.setAttribute("error", "Name and detail cannot be empty.");
-                request.getRequestDispatcher("certificationCU").forward(request, response);
+                response.sendRedirect("certificationList");
             }
         }
     }

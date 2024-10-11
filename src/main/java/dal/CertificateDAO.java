@@ -141,7 +141,8 @@ public class CertificateDAO extends DBContext {
             ps.setInt(4, imgID);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
-            logger.info(ex.getMessage());
+            //logger.info(ex.getMessage());
+            System.out.println(ex.getMessage());
             return false;
         }
     }
