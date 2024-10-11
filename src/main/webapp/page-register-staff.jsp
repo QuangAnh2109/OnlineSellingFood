@@ -63,7 +63,7 @@
           <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Name</label>
-            <input class="form-control" name="name" placeholder="Your name" type="text" required />
+            <input class="form-control" name="name" maxlength="100" placeholder="Your name" type="text" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
@@ -81,11 +81,12 @@
           <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Phone Number</label>
-            <input class="form-control" name="phone" placeholder="Phone Number" type="text" required />
+
+            <input class="form-control" name="phone" minlength="10" maxlength="10" placeholder="Phone Number" type="text" required />
           </div>
           <div class="mb-3">
             <label class="form-label">Address</label>
-            <input class="form-control" name="address" placeholder="Adress" type="text" required />
+            <input class="form-control" name="address" maxlength="200" placeholder="Adress" type="text" required />
           </div>
           <!-- form-group// -->
           <div class="mb-3">
