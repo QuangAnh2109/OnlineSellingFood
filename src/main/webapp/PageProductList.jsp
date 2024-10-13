@@ -175,14 +175,14 @@
         <li class="dropdown nav-item">
           <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English" />English</a>
-            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
-            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
-            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+            <a class="dropdown-item text-brand" href="#"><img src="nest-backend/assets/imgs/theme/flag-us.png" alt="English" />English</a>
+            <a class="dropdown-item" href="#"><img src="nest-backend/assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+            <a class="dropdown-item" href="#"><img src="nest-backend/assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+            <a class="dropdown-item" href="#"><img src="nest-backend/assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
           </div>
         </li>
         <li class="dropdown nav-item">
-          <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+          <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="nest-backend/assets/imgs/people/avatar-2.png" alt="User" /></a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
             <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
             <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
@@ -249,7 +249,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/1.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/1.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Seeds of Change Organic Quinoa</h6>
@@ -285,7 +285,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/2.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/2.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">All Natural Italian-Style Chicken</h6>
@@ -317,7 +317,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Gortons Beer Battered Fish Fillets</h6>
@@ -349,7 +349,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Foster Farms Takeout Crispy Classic Buffalo</h6>
@@ -381,7 +381,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Blue Diamond Almonds Lightly Salted</h6>
@@ -413,7 +413,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/5.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/5.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Chobani Complete Vanilla Greek Yogurt</h6>
@@ -445,7 +445,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/6.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/6.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Canada Dry Ginger Ale 2 L Bottle</h6>
@@ -477,7 +477,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Gortons Beer Battered Fish Fillets</h6>
@@ -509,7 +509,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Gortons Beer Battered Fish Fillets</h6>
@@ -541,7 +541,7 @@
             <div class="col-lg-3 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
+                  <img src="nest-backend/assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Haagen-Dazs Caramel Cone Ice</h6>
@@ -597,12 +597,12 @@
     </div>
   </footer>
 </main>
-<script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
-<script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
-<script src="assets/js/vendors/select2.min.js"></script>
-<script src="assets/js/vendors/perfect-scrollbar.js"></script>
-<script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+<script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
+<script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
+<script src="nest-backend/assets/js/vendors/select2.min.js"></script>
+<script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
+<script src="anest-backend/ssets/js/vendors/jquery.fullscreen.min.js"></script>
 <!-- Main Script -->
-<script src="assets/js/main.js" type="text/javascript"></script>
+<script src="nest-backend/assets/js/main.js" type="text/javascript"></script>
 </body>
 </html>
