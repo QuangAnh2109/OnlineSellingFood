@@ -11,17 +11,27 @@
   <meta property="og:url" content="" />
   <meta property="og:image" content="" />
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+  <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
   <!-- Template CSS -->
-  <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+  <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
 </head>
-
+<script>
+  function chooseFile(fileInput){
+    if (fileInput.files && fileInput.files[0]){
+      var reader =  new FileReader();
+      reader.onload = function(e){
+        $('#image').attr('src',e.target.result);
+      }
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  }
+</script>
 <body>
 <div class="screen-overlay"></div>
 <aside class="navbar-aside" id="offcanvas_aside">
   <div class="aside-top">
     <a href="index.html" class="brand-wrap">
-      <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+      <img src="nest-backend/assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
     </a>
     <div>
       <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
@@ -264,9 +274,11 @@
               <span>02.11.2021</span>
             </div>
             <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <form action="AddImgServlet" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" accept=".png" required><br><br>
-                <input type="submit" value="Upload File">
+              <form action="AddImgServlet" method="get" >
+                <img src="Img/sonic.png" alt"" id="imagefile" width="200" height="200">
+                <input type="file" name="img" id="imagefile" onchange="chooseFile(this)"
+                       accept="image/gif, image/jpeg, image/png"  required><br><br>
+                <button type="submit">Upload</button>
               </form>
 
               <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
