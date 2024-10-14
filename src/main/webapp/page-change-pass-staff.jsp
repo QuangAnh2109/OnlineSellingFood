@@ -1,4 +1,4 @@
-<%--
+<%@ page import="model.Account" %><%--
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 9/25/2024
@@ -33,11 +33,11 @@
 <body>
 <main>
     <%
-        String msg = (String)request.getAttribute("msg");
+        String msg = (String)request.getAttribute("msg"), accountName = ((Account)request.getSession().getAttribute("account")).getName();
         if(msg==null) msg="";
     %>
     <jsp:include page="header-staff.jsp">
-        <jsp:param name="accountName" value=""/>
+        <jsp:param name="accountName" value="<%=accountName%>"/>
     </jsp:include>
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">

@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "SendOtpForgotpasswordController", urlPatterns = "/forgotpassword")
-public class SendOtpForgotpasswordController extends HttpServlet {
+@WebServlet(name = "SendOtpForgotpasswordStaffController", urlPatterns = "/forgotpasswordstaff")
+public class SendOtpForgotpasswordStaffController extends HttpServlet {
 
 
 
@@ -55,7 +55,7 @@ public class SendOtpForgotpasswordController extends HttpServlet {
                 request.setAttribute(msg, errorMsg);
             }
         }
-        request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+        request.getRequestDispatcher("ForgotPasswordStaff.jsp").forward(request, response);
     }
 
     @Override

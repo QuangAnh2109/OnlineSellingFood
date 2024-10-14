@@ -1,6 +1,7 @@
 package controller;
 
 import common.Encrypt;
+import dal.OtpDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,32 +23,27 @@ import java.util.List;
 
 @WebServlet(name = "ChangePassStaffServlet", urlPatterns = {"/changepassstaff"})
 public class ChangePassStaffServlet extends HttpServlet {
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LogoutServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+    private String changePass = "page-change-pass-staff.jsp";
 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
+        String email = request.getParameter("email"), otp = request.getParameter("otp");
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.getAccountByEmail(email);
+        if(new OtpDAO().checkOtp(account.getAccountID(),otp)){
+            account.setStatusID(2);
+            request.getSession().setAttribute("account",account);
+            response.sendRedirect(changePass);
+        }
+        else{
+            request.setAttribute("msg","OTP is not correct");
+            request.getRequestDispatcher("ForgotPasswordStaff.jsp?email="+email).forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> errorMessages = new ArrayList<>();
         String np = request.getParameter("newPassword");
         String cp = request.getParameter("confirmPassword");
         AccountDAO dao = new AccountDAO();
@@ -56,11 +52,11 @@ public class ChangePassStaffServlet extends HttpServlet {
 
         if (!np.equals(cp)) {
             request.setAttribute("msg", "Confirm password does not match!");
-            request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
+            request.getRequestDispatcher(changePass).forward(request, response);
         } else {
             if (dao.getAccountByEmailPassword(account.getEmail(), np)!=null) {
                 request.setAttribute("msg", "New password duplicate old password!");
-                request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
+                request.getRequestDispatcher(changePass).forward(request, response);
             } else {
                 dao.updateAccountPassword(account.getAccountID(), np);
                 account.setStatusID(1);

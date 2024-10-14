@@ -43,6 +43,11 @@
                 <div class="padding_eight_all bg-white">
                   <div class="heading_s1">
                     <h1 class="mb-5">Forgot Password</h1>
+                    <%
+                      String msg = (String)request.getAttribute("msg");
+                      if(msg==null) msg="";
+                    %>
+                    <h6 style="color: red"><%=msg%></h6>
                     <p class="mb-30">Don't have an account? <a href="register">Create here</a></p>
                   </div>
                   <%
@@ -55,7 +60,7 @@
                     </div>
                     <div class="form-group">
                       <button type="submit" class="button is-primary" >Submit</button>
-                    </div><
+                    </div>
                   </form>
                   <%
                     }
@@ -68,7 +73,7 @@
                     </div>
                     <div class="form-group">
                       <button type="submit" class="button is-primary" >Submit</button>
-                    </div><
+                    </div>
                   </form>
                   <a href="forgotpassword?email=<%=email%>">Resend otp</a>
                   <%
