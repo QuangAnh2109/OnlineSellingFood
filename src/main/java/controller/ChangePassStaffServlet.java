@@ -61,7 +61,7 @@ public class ChangePassStaffServlet extends HttpServlet {
                 dao.updateAccountPassword(account.getAccountID(), np);
                 account.setStatusID(1);
                 dao.updateAccountInformation(account);
-                response.sendRedirect("home-page-staff.jsp");
+                response.sendRedirect("logout");
             }
         }
 

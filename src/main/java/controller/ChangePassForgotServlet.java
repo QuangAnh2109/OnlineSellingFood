@@ -48,7 +48,8 @@ public class ChangePassForgotServlet extends HttpServlet {
                 } else {
                     accountDAO.updateAccountPassword(account.getAccountID(), newPassword);
                     account.setStatusID(1);
-                    response.sendRedirect("home-page.jsp");
+                    accountDAO.updateAccountInformation(account);
+                    response.sendRedirect("logout");
                 }
             }
         }

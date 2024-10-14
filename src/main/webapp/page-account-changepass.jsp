@@ -58,19 +58,24 @@
                                             <h5>Change Password</h5>
                                         </div>
                                         <div class="card-body">
-                                            <p>Already have an account? <a href="login">Log in instead!</a></p>
-                                            <form  action="${pageContext.request.contextPath}/changepass" name="enq">
+                                            <%
+                                                String msg = (String)request.getAttribute("msg");
+                                                if(msg==null) msg="";
+                                            %>
+                                            <h6 style="color: red"><%=msg%></h6>
+                                            <form  action="changepass" name="enq">
+                                                <input type="text" hidden value="page-account-changepass.jsp" name="PageChangePass"/>
                                                 <div class="form-group col-md-12">
                                                     <label>Old Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="oldPassword" type="password" />
+                                                    <input required="" class="form-control" name="oldPassword" type="password" minlength="8"/>
                                                 </div>
                                                 <div class="form-group col-md-12">
                                                     <label>New Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="newPassword" type="password" />
+                                                    <input required="" class="form-control" name="newPassword" type="password" minlength="8"/>
                                                 </div>
                                                 <div class="form-group col-md-12">
                                                     <label>Confirm Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="confirmPassword" type="password" />
+                                                    <input required="" class="form-control" name="confirmPassword" type="password" minlength="8"/>
                                                 </div>
 
                                                 <div class="col-md-12">

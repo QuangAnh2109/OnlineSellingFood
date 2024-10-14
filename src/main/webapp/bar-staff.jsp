@@ -23,6 +23,12 @@
                     <span class="text">Dashboard</span>
                 </a>
             </li>
+            <li class="menu-item" id="changepass">
+                <a class="menu-link" href="account-changepass-staff.jsp">
+                    <i class="icon material-icons md-person"></i>
+                    <span class="text">Change Password</span>
+                </a>
+            </li>
             <%
                 if(role==1){
             %>
