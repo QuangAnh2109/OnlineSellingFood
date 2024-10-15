@@ -36,7 +36,10 @@
             <header class="card-header">
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
-                        <input type="text" placeholder="Search..." class="form-control" />
+                        <form action="manulist" method="GET" style="display: flex;">
+                            <input type="text" name="search" placeholder="Search..." class="form-control" style="flex: 1;" />
+                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+                        </form>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6">
                         <select class="form-select">
@@ -63,7 +66,7 @@
                         <tr>
                             <th>Name</th>
                             <%--              <th>Email</th>--%>
-                            <th>Status</th>
+<%--                            <th>Status</th>--%>
                             <%--              <th>Registered</th>--%>
                             <th class="text-end">Action</th>
                         </tr>
@@ -80,19 +83,25 @@
                                     <tr>
                                         <td width="40%">
                                             <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
+<%--                                                <div class="left">--%>
+<%--                                                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />--%>
+<%--                                                </div>--%>
                                                 <div class="info pl-3">
                                                     <h6 class="mb-0 title">${mn.name}</h6>
                                                 </div>
                                             </a>
                                         </td>
-                                        <td>${mn.introduce}</td>
+<%--                                        <td>${mn.introduce}</td>--%>
                                         <td class="text-end">
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
                                                 <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-                                                <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                                <a href="#" onclick="confirmDelete(${mn.manufacturerID}); return false;" class="btn btn-sm font-sm btn-light rounded">
+                                                    <i class="material-icons md-delete_forever"></i> Delete
+                                                </a>
+                                                <form id="deleteForm${mn.manufacturerID}" action="manulist" method="POST" style="display:none;">
+                                                    <input type="hidden" name="action" value="delete" />
+                                                    <input type="hidden" name="ManufacturerID" value="${mn.manufacturerID}" />
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -129,6 +138,14 @@
 <script src="nest-backend/assets/js/vendors/select2.min.js"></script>
 <script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
+<script type="text/javascript">
+    function confirmDelete(manufacturerID) {
+        var confirmed = confirm("Are you sure you want to delete this manufacturer?");
+        if (confirmed) {
+            document.getElementById('deleteForm' + manufacturerID).submit();
+        }
+    }
+</script>
 <!-- Main Script -->
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 </body>

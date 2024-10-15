@@ -111,5 +111,37 @@ public class ManufacterDAO extends DBContext{
         }
         return false;
     }
+    public boolean deleteManufacturer(int manufacturerID) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "DELETE FROM Manufacturer WHERE ManufacturerID = ?"
+            );
+            ps.setInt(1, manufacturerID);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return false;
+    }
+    public List<Manufacturer> searchManufacturersByName(String name) {
+        List<Manufacturer> manufacturers = new ArrayList<>();
+        try {
+            String query = "SELECT ManufacturerID, Introduce, Name FROM Manufacturer WHERE Name LIKE ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, "%" + name.trim() + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Manufacturer manufacturer = new Manufacturer();
+                manufacturer.setManufacturerID(rs.getInt("ManufacturerID"));
+                manufacturer.setIntroduce(rs.getString("Introduce"));
+                manufacturer.setName(rs.getString("Name"));
+                manufacturers.add(manufacturer);
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return manufacturers;
+    }
 
 }
