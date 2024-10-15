@@ -21,7 +21,7 @@
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
     <jsp:param name="page" value="manulist"/>
-    <jsp:param name="menu" value="account"/>
+    <jsp:param name="menu" value="manufacter"/>
 </jsp:include>
 <main class="main-wrap">
     <jsp:include page="header-staff.jsp"></jsp:include>
