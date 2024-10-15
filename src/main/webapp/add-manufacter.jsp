@@ -35,18 +35,32 @@
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">
             <div class="card-body">
-                <h4 class="card-title mb-4">Create Manufacter</h4>
+                <h4 class="card-title mb-4">Create Manufacturer</h4>
+
+                <!-- Success message -->
+                <!-- Success message -->
+                <c:if test="${not empty successMessage}">
+                    <div id="successAlert" class="alert alert-success" role="alert" style="display: none;">
+                            ${successMessage}
+                    </div>
+                </c:if>
+
+                <!-- Error message -->
+                <c:if test="${not empty errorMessage}">
+                    <div id="errorAlert" class="alert alert-danger" role="alert" style="display: none;">
+                            ${errorMessage}
+                    </div>
+                </c:if>
+
                 <form action="registerManu" method="post">
-
-
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input class="form-control" name="name"  placeholder="Name" type="text" required />
+                        <input class="form-control" name="name" placeholder="Name" type="text" required />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Introduce</label>
-                        <input class="form-control" name="introduce"  placeholder="Introduce" type="text" required />
+                        <input class="form-control" name="introduce" placeholder="Introduce" type="text" required />
                     </div>
 
                     <div class="mb-4">
@@ -54,16 +68,37 @@
                     </div>
                 </form>
             </div>
+
         </div>
     </section>
 </main>
+
 <script>
 </script>
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var successAlert = document.getElementById('successAlert');
+        var errorAlert = document.getElementById('errorAlert');
+
+        if (successAlert && successAlert.innerHTML.trim() !== '') {
+            successAlert.style.display = 'block';
+            setTimeout(function() {
+                successAlert.style.display = 'none';
+            }, 5000); // Hide after 5 seconds
+        }
+
+        if (errorAlert && errorAlert.innerHTML.trim() !== '') {
+            errorAlert.style.display = 'block';
+            setTimeout(function() {
+                errorAlert.style.display = 'none';
+            }, 5000); // Hide after 5 seconds
+        }
+    });
+</script>
 <!-- Main Script -->
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 </body>
 </html>
-

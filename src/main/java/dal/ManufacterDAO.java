@@ -56,6 +56,15 @@ public class ManufacterDAO extends DBContext{
     }
     public boolean updateManufacturer(Manufacturer manufacturer) {
         try {
+            // Kiểm tra xem tên mới có trùng với tên của nhà sản xuất khác không
+            Manufacturer existingManufacturer = getManufacturerByID(manufacturer.getManufacturerID());
+            if (!existingManufacturer.getName().equals(manufacturer.getName())) {
+                // Chỉ kiểm tra nếu tên đã thay đổi
+                if (isManufacturerNameExists(manufacturer.getName())) {
+                    return false; // Tên đã tồn tại, không thể cập nhật
+                }
+            }
+
             PreparedStatement ps = connection.prepareStatement(
                     "UPDATE Manufacturer SET Introduce=?, Name=? WHERE ManufacturerID=?"
             );
@@ -89,6 +98,18 @@ public class ManufacterDAO extends DBContext{
         }
         return manufacturers;
     }
-
+    public boolean isManufacturerNameExists(String name) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT ManufacturerID FROM Manufacturer WHERE Name = ?"
+            );
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // Return true if a manufacturer with the same name exists
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return false;
+    }
 
 }

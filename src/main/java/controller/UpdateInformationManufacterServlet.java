@@ -20,7 +20,7 @@ public class UpdateInformationManufacterServlet extends HttpServlet {
 
             // Pass manufacturer data to the JSP
             request.setAttribute("manuListDetail", manufacturer);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("manufacter-detail.jsp"); // Update this with the correct JSP page
+            RequestDispatcher dispatcher = request.getRequestDispatcher("manufacter-detail.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,13 +45,23 @@ public class UpdateInformationManufacterServlet extends HttpServlet {
             manufacturer.setIntroduce(introduce);
 
             // Call DAO to update in the database
-            manufacturerDAO.updateManufacturer(manufacturer);
+            boolean updateSuccess = manufacturerDAO.updateManufacturer(manufacturer);
 
-            // Redirect back to the manufacturer list or success page
-            response.sendRedirect("manulist");
+            if (updateSuccess) {
+                // Set success message in session and redirect to manulist
+                HttpSession session = request.getSession();
+                session.setAttribute("successMessage", "Manufacturer information updated successfully.");
+                response.sendRedirect(request.getContextPath() + "/manulist");
+            } else {
+                // Set error message and forward back to the update form
+                request.setAttribute("errorMessage", "Update failed. The manufacturer name may already exist.");
+                request.setAttribute("manuListDetail", manufacturer);
+                request.getRequestDispatcher("manufacter-detail.jsp").forward(request, response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("errorPage.jsp"); // Handle error scenarios
+            request.setAttribute("errorMessage", "An error occurred while updating the manufacturer information.");
+            request.getRequestDispatcher("manufacter-detail.jsp").forward(request, response);
         }
     }
 }

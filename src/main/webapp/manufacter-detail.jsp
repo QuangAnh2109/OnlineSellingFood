@@ -24,6 +24,15 @@
         <div class="card mx-auto card-login">
             <div class="card-body">
                 <h4 class="card-title mb-4">Edit Manufacter Information</h4>
+
+                <!-- Error message -->
+                <c:if test="${not empty errorMessage}">
+                    <div id="errorAlert" class="alert alert-danger" role="alert" style="display: none;">
+                            ${errorMessage}
+                    </div>
+                </c:if>
+
+                <form action="updateManuForAdmin" method="post">
                 <form action="updateManuForAdmin" method="post">
                     <input type="hidden" name="ManufacturerID" value="${manuListDetail.manufacturerID}" /> <!-- Ensure this is passed -->
 
@@ -52,6 +61,26 @@
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var successAlert = document.getElementById('successAlert');
+        var errorAlert = document.getElementById('errorAlert');
+
+        if (successAlert && successAlert.innerHTML.trim() !== '') {
+            successAlert.style.display = 'block';
+            setTimeout(function() {
+                successAlert.style.display = 'none';
+            }, 3000); // Hide after 5 seconds
+        }
+
+        if (errorAlert && errorAlert.innerHTML.trim() !== '') {
+            errorAlert.style.display = 'block';
+            setTimeout(function() {
+                errorAlert.style.display = 'none';
+            }, 3000); // Hide after 5 seconds
+        }
+    });
+</script>
 <!-- Main Script -->
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 </body>
