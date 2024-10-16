@@ -53,6 +53,7 @@
                     <p class="mb-30">Don't have an account? <a href="page-register.jsp">Create here</a></p>
                   </div>
                   <c:set var="cookie" value="${pageContext.request.cookies}"/>
+
                   <form  action="login" method="post">
                     <div class="form-group">
                       <input type="text" required="" name="email" placeholder="Email *"
@@ -62,7 +63,7 @@
                       <input required="" type="password" name="password" placeholder="Your password *"
                              value="${cookie.cpass.value}"/>
                     </div>
-                    <h4 style="color: red">${requestScope.error}</h4>
+                    <h6 style="color: red">${requestScope.error}</h6>
                     <div class="login_footer form-group mb-50">
                       <div class="chek-form">
                         <div class="custome-checkbox">

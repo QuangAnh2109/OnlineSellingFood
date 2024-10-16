@@ -57,13 +57,11 @@ public class LoginServlet extends HttpServlet {
         a = dao.getAccountByEmailPassword(email, password);
 
         if(a==null){
-            errorMessages.add("Username or Password invalid!!");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.setAttribute("error","Username or Password invalid!!");
+            request.getRequestDispatcher("page-login.jsp").forward(request, response);
         } else if (a.getStatusID()==4) {
-            errorMessages.add("The account has been locked!");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.setAttribute("error","The account has been locked!");
+            request.getRequestDispatcher("page-login.jsp").forward(request, response);
         } else{
             ContactInformation ci = cdao.getContactInformationByContactID(new AccountContactDAO().getAccountContact(a.getAccountID()).getContactInformationID());
             HttpSession session = request.getSession();
