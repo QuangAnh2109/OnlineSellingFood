@@ -50,7 +50,6 @@ public class UpdateProfileStaffForAdminServlet extends HttpServlet {
         warehouseID=Integer.parseInt(whID_raw);
         statusID=Integer.parseInt(statusID_raw);
         genderID = Integer.parseInt(genderID_raw);
-        System.out.println(warehouseID);
         AccountDAO accountDAO = new AccountDAO();
         Account account = accountDAO.getAccountByAccountID(accountID);
         account.setRoleID(roleID);
@@ -74,7 +73,7 @@ public class UpdateProfileStaffForAdminServlet extends HttpServlet {
             contact.setContactInformationID(contactInfoDAO.addContact(contact));
             AccountContactDAO accountContactDAO = new AccountContactDAO();
             int contactID = accountContactDAO.getAccountContact(accountID).getContactInformationID();
-            accountContactDAO.updateAccountContact(contactID,accountID);
+            if(contactID!=contact.getContactInformationID()) accountContactDAO.updateAccountContact(contact.getContactInformationID(),accountID);
         }
         staffDAO.updateStaffInformation(staff);
         doGet(request, response);

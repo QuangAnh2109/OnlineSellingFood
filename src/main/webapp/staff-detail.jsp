@@ -69,7 +69,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
-                        <input class="form-control" name="phone" value="${staffListDetail.phoneNumber}" placeholder="Phone Number" type="text" required />
+                        <input class="form-control" name="phone" value="${staffListDetail.phoneNumber}" placeholder="Phone Number" type="text" required minlength="10" maxlength="10"/>
                     </div>
 
                     <div class="mb-3">
