@@ -1,3 +1,4 @@
+package controller;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -38,8 +39,9 @@ public class RegisterManufacterServlet extends HttpServlet {
             // Step 5: Handle response based on whether manufacturerID is null
             if (manufacturerID != null) {
                 // If added successfully, set success message
-                request.setAttribute("successMessage", "Manufacturer added successfully.");
-                request.getRequestDispatcher("add-manufacter.jsp").forward(request, response);
+//                request.setAttribute("successMessage", "Manufacturer added successfully.");
+//                request.getRequestDispatcher("add-manufacter.jsp").forward(request, response);
+                response.sendRedirect("manulist");
             } else {
                 // If adding failed, set error message
                 request.setAttribute("errorMessage", "Failed to add the manufacturer.");
