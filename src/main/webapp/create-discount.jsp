@@ -58,6 +58,7 @@
             <div>
                 <form action="discount" method="get">
                     <input type="text" placeholder="Search Categories" name="search" class="form-control bg-white" />
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </form>
 
             </div>
