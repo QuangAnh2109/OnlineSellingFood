@@ -23,7 +23,7 @@ public class UpdateProfileServlet1 extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("page-account.jsp");
+        response.sendRedirect("page-account-information.jsp");
     }
 
     @Override
@@ -57,7 +57,6 @@ public class UpdateProfileServlet1 extends HttpServlet {
         }
         Account account1 = new Account(account.getAccountID(),account.getRoleID(),account.getEmail(),name,genderID, account.getPassword(), birth,account.getTime(),account.getStatusID());
         accountDAO.updateAccountInformation(account1);
-        contactInfoDAO.deleteContact(((ContactInformation) session.getAttribute("contactInformation")).getContactInformationID());
         request.getSession().removeAttribute("account");
         request.getSession().removeAttribute("contactInformation");
         request.getSession().setAttribute("account", account1);
