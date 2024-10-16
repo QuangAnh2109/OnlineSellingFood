@@ -35,13 +35,16 @@
                     if(msg==null) msg="";
                 %>
                 <h6 style="color:red"><%=msg%></h6>
+                <c:set var="cookie" value="${pageContext.request.cookies}"/>
                 <form action="loginstaff" method="post">
                     <div class="mb-3">
-                        <input class="form-control" placeholder="Email" name="email" type="text" />
+                        <input class="form-control" placeholder="Email" name="email"  type="text"
+                               value="${cookie.cuser.value}"/>
                     </div>
                     <!-- form-group// -->
                     <div class="mb-3">
-                        <input class="form-control" placeholder="Password" name="password" type="password" />
+                        <input class="form-control" placeholder="Password" name="password" type="password"
+                               value="${cookie.cpass.value}"/>
                     </div>
                     <!-- form-group// -->
                     <div class="mb-3">

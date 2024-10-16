@@ -37,22 +37,23 @@
       <h6 style="color: red"><%=msg%></h6>
       <form  action="changepass" name="enq">
         <input type="text" hidden value="account-changepass-staff.jsp" name="PageChangePass"/>
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-5">
           <label>Old Password <span class="required">*</span></label>
           <input required="" class="form-control" name="oldPassword" type="password" minlength="8"/>
         </div>
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-5">
           <label>New Password <span class="required">*</span></label>
           <input required="" class="form-control" name="newPassword" type="password" minlength="8"/>
         </div>
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-5">
           <label>Confirm Password <span class="required">*</span></label>
           <input required="" class="form-control" name="confirmPassword" type="password" minlength="8"/>
         </div>
 
         <div class="col-md-12">
-          <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
+          <button style="color: green;" type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
         </div>
+
       </form>
     </div>
   </div>
