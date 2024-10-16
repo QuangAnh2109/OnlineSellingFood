@@ -273,15 +273,22 @@
             <div class="col-lg-1 col-sm-2 col-4 col-date">
               <span>02.11.2021</span>
             </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <form action="AddImgServlet" method="get" >
-                <img src="Img/sonic.png" alt"" id="imagefile" width="200" height="200">
-                <input type="file" name="img" id="imagefile" onchange="chooseFile(this)"
-                       accept="image/gif, image/jpeg, image/png"  required><br><br>
-                <button type="submit">Upload</button>
-              </form>
-
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+            <div class="container">
+              <div class="upload-container text-center">
+                <h3 class="mb-4">Upload Your Image</h3>
+                <form action="AddImgServlet" method="POST" enctype="multipart/form-data">
+                  <img src="Img/sonic.png" alt="Preview" id="previewImage" width="200" height="200">
+                  <div class="mt-3">
+                    <input type="file" name="img" id="imageFile" class="form-control"
+                           accept="image/gif, image/jpeg, image/png"
+                           onchange="chooseFile(this)" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-upload mt-3">Upload</button>
+                </form>
+                <a href="#" class="btn btn-danger btn-sm mt-3">
+                  <i class="material-icons md-delete_forever"></i> Delete
+                </a>
+              </div>
             </div>
           </div>
           <!-- row .// -->
