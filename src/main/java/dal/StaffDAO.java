@@ -179,4 +179,36 @@ public class StaffDAO extends DBContext{
             throw new RuntimeException(e);
         }
     }
+    public List<StaffListResponse> searchStaffByName(String searchName) {
+        List<StaffListResponse> listStaff = new ArrayList<>();
+        String sql = "SELECT a.AccountID, a.Name, a.Email, ast.Detail, a.[Time] " +
+                "FROM Account a " +
+                "JOIN AccountStatus ast ON a.StatusID = ast.StatusID " +
+                "WHERE a.RoleID != 6 AND a.RoleID != 1";
+
+        if (searchName != null && !searchName.trim().isEmpty()) {
+            sql += " AND LOWER(a.Name) LIKE ?";
+        }
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            if (searchName != null && !searchName.trim().isEmpty()) {
+                st.setString(1, "%" + searchName.toLowerCase() + "%");
+            }
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                StaffListResponse slr = new StaffListResponse();
+                slr.setAcoountID(rs.getInt("AccountID"));
+                slr.setName(rs.getString("Name"));
+                slr.setEmail(rs.getString("Email"));
+                slr.setDetail(rs.getString("Detail"));
+                slr.setTime(rs.getDate("Time"));
+                listStaff.add(slr);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listStaff;
+    }
 }
