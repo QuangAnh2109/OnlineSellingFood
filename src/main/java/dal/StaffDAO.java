@@ -67,13 +67,16 @@ public class StaffDAO extends DBContext{
         }
         return null;
     }
-    public List<StaffListResponse> getAllStaff(){
-        List<StaffListResponse> listStaff = new ArrayList<StaffListResponse>();
-        String sql = "\tselect a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
-                "\tfrom Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
-                "\twhere a.RoleID != 6 and a.RoleID != 1";
+    public List<StaffListResponse> getAllStaff(int index){
+        List<StaffListResponse> listStaff = new ArrayList<>();
+        String sql = "select a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
+                "from Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
+                "where a.RoleID != 6 and a.RoleID != 1\n" +
+                "order by AccountID\n" +
+                "offset ? ROWS FETCH NEXT 5 ROWS ONLY\n";
         try {
             PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, (index-1)*5);
             ResultSet rs=st.executeQuery();
             while(rs.next()){
                 StaffListResponse slr=new StaffListResponse();
@@ -181,4 +184,26 @@ public class StaffDAO extends DBContext{
     }
 
  */
+public int getTotalAccountStaff() {
+    String sql = "select count(*) from Account where RoleID!=1 And RoleID!=6";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            return rs.getInt(1);
+        }
+
+
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return 0;
+}
+    public static void main(String[] args) {
+        StaffDAO dao = new StaffDAO();
+        List<StaffListResponse> staffList = dao.getAllStaff(1);
+        for (StaffListResponse staff : staffList) {
+            System.out.println(staff);
+        }
+    }
 }

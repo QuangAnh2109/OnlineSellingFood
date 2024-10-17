@@ -1,5 +1,6 @@
 package controller;
 
+import dal.AccountDAO;
 import dal.StaffDAO;
 import dto.StaffListResponse;
 import jakarta.servlet.ServletException;
@@ -16,9 +17,27 @@ public class StaffListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+       String indexPage=request.getParameter("index");
+        if(indexPage==null){
+            indexPage="1";
+        }
+
+       int index=Integer.parseInt(indexPage);
+
         StaffDAO sd = new StaffDAO();
-        List<StaffListResponse> sls=sd.getAllStaff();
+        int count=sd.getTotalAccountStaff();
+        int endPage=count/5;
+        if(count%5!=0){
+            endPage++;
+        }
+
+
+        List<StaffListResponse> sls=sd.getAllStaff(index);
         request.setAttribute("staffList", sls);
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("index", index);
         request.getRequestDispatcher("staff-list.jsp").forward(request, response);
     }
 

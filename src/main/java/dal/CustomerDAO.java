@@ -69,13 +69,16 @@ public class CustomerDAO extends DBContext{
         }
         return null;
     }
-    public List<StaffListResponse> getAllCustomer(){
+    public List<StaffListResponse> getAllCustomer(int index){
         List<StaffListResponse> listCustomer = new ArrayList<StaffListResponse>();
-        String sql = "\tselect a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
-                "\tfrom Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
-                "\twhere a.RoleID = 6 and a.RoleID != 1";
+        String sql = "select a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
+                "from Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
+                "where a.RoleID = 6 and a.RoleID != 1\n" +
+                "order by AccountID\n" +
+                "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY";
         try {
             PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, (index-1)*5);
             ResultSet rs=st.executeQuery();
             while(rs.next()){
                 StaffListResponse slr=new StaffListResponse();
@@ -159,5 +162,27 @@ public class CustomerDAO extends DBContext{
             System.out.println(ex.getMessage());
         }
 
+    }
+
+    public int getTotalAccountCustomer() {
+        String sql = "select count(*) from Account where   RoleID=6";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        CustomerDAO cdao = new CustomerDAO();
+        List<StaffListResponse> staffListResponses = cdao.getAllCustomer(1);
+        for (StaffListResponse staffListResponse : staffListResponses) {
+            System.out.println(staffListResponse);
+        }
     }
 }
