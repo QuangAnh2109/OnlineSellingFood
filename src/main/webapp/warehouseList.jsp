@@ -211,8 +211,8 @@
         <p>Add, edit or delete a warehouse</p>
       </div>
       <div>
-        <form action="warehouseSearch" method="post">
-          <input type="text" name="searchKeyword" placeholder="Search Warehouses" class="form-control bg-white" />
+        <form action="warehouseList" method="get">
+          <input type="text" name="search" placeholder="Search Warehouses" class="form-control bg-white" />
           <button type="submit" class="btn btn-primary">Search</button>
         </form>
       </div>
@@ -229,15 +229,18 @@
               </div>
               <div class="mb-4">
                 <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" id="address" name="address" required />
+                <input type="text" placeholder="Type here" class="form-control" id="address" name="address" required />
               </div>
               <div class="mb-4">
                 <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phone" name="phone" required />
+                <input type="text" placeholder="Type here" class="form-control" id="phone" name="phone" required />
               </div>
+
+              <input type="text" hidden class="form-control" id="contactID" name="contactID"/>
               <div class="mb-4">
                 <label for="status" class="form-label">Status</label>
                 <select class="form-control" id="status" name="statusID" required>
+                  <option value="" disabled selected>Select Status</option>
                   <%
                     List<WarehouseStatus> statusList = (List<WarehouseStatus>) request.getAttribute("statusList");
                     if (statusList != null) {
@@ -250,6 +253,7 @@
                   %>
                 </select>
               </div>
+
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary" id="submit_button">Create Warehouse</button>
                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
@@ -266,7 +270,7 @@
                   <th>Address</th>
                   <th>Phone Number</th>
                   <th>Status</th>
-                  <th class="text-end">Action</th>
+<%--                  <th class="text-end">Action</th>--%>
                 </tr>
                 </thead>
                 <tbody>
@@ -278,16 +282,17 @@
                       WarehouseStatus status = (WarehouseStatus) request.getAttribute("status_" + warehouse.getStatusID());
                 %>
                 <tr>
-                  <td onclick="populateForm('<%= warehouse.getWarehouseID() %>', '<%= warehouse.getName() %>', '<%= contactInfo.getAddress() %>', '<%= contactInfo.getPhoneNumber() %>', '<%= status.getStatusID() %>')"><%= warehouse.getWarehouseID() %></td>
-                  <td><b><%= warehouse.getName() %></b></td>
+                  <td onclick="populateForm('<%= warehouse.getWarehouseID() %>', '<%= warehouse.getName() %>', '<%= contactInfo.getAddress() %>', '<%= contactInfo.getPhoneNumber() %>', '<%= status.getStatusID() %>','<%= contactInfo.getContactInformationID() %>')">
+                    <%= warehouse.getWarehouseID() %></td>
+                    <td><%= warehouse.getName() %></td>
                   <td><%= contactInfo.getAddress() %></td>
                   <td><%= contactInfo.getPhoneNumber() %></td>
                   <td><%= status.getDetail() %></td>
-                  <td class="text-end">
-                    <button class="btn btn-light rounded btn-sm font-sm">
-                      <a href="warehouseDelete?warehouseID=<%= warehouse.getWarehouseID() %>"><i class="material-icons md-delete"></i>Delete</a>
-                    </button>
-                  </td>
+<%--                  <td class="text-end">--%>
+<%--                    <button class="btn btn-light rounded btn-sm font-sm">--%>
+<%--                      <a href="warehouseDelete?warehouseID=<%= warehouse.getWarehouseID() %>"><i class="material-icons md-delete"></i>Delete</a>--%>
+<%--                    </button>--%>
+<%--                  </td>--%>
                 </tr>
                 <%
                   }
@@ -310,11 +315,12 @@
 
   <!-- Script to populate the form -->
   <script>
-    function populateForm(warehouseID, warehouseName, address, phone, statusID) {
+    function populateForm(warehouseID, warehouseName, address, phone, statusID,contactID) {
       document.getElementById("warehouse_name").value = warehouseName;
       document.getElementById("address").value = address;
       document.getElementById("phone").value = phone;
       document.getElementById("status").value = statusID;
+      document.getElementById("contactID").value = contactID;
       document.getElementById("warehouse_id").value = warehouseID;
       document.getElementById("submit_button").innerText = "Update Warehouse";
 

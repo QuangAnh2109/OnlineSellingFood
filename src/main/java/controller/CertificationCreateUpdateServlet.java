@@ -50,7 +50,7 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
             }
         } else {
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isCreated = certificationDAO.createCertification(name, detail, Integer.parseInt(imgID), Integer.parseInt(certificateIssuerID));
+                boolean isCreated = certificationDAO.createCertification(name, detail, Integer.parseInt(certificateIssuerID),Integer.parseInt(imgID));
                 if (isCreated) {
                     response.sendRedirect("certificationList");
                 } else {

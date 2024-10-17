@@ -15,6 +15,12 @@ public class Warehouse {
         this.statusID = statusID;
         this.name = name;
     }
+    public Warehouse(Integer contactInformationID, Integer statusID, String name) {
+        this.warehouseID = warehouseID;
+        this.contactInformationID = contactInformationID;
+        this.statusID = statusID;
+        this.name = name;
+    }
 
     public Integer getWarehouseID() {
         return warehouseID;

@@ -16,6 +16,17 @@ public class WarehouseStatusDAO extends DBContext{
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new WarehouseStatus(rs.getInt("StatusID"),rs.getString("Detail"));
     }
+    public List<WarehouseStatus> getAllWarehouseStatuses() {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM WarehouseStatus");
+
+            return (List<WarehouseStatus>) (Object) getListObject(ps);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return Collections.emptyList();
+    }
+
 
     public Integer addStatus(WarehouseStatus status){
         try{
