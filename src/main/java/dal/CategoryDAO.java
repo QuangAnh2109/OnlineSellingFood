@@ -91,8 +91,6 @@ public class CategoryDAO extends DBContext{
         }
     }
 
-
-
         public List<Category> searchCategories(String keyword) {
             List<Category> categories = new ArrayList<>();
             String sql = "SELECT CategoryID, Name FROM Category WHERE Name LIKE ?";

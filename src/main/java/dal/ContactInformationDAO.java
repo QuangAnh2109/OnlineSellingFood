@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.ContactInformation;
 
@@ -60,4 +62,28 @@ public class ContactInformationDAO extends DBContext{
         }
         return null;
     }
+    public List<ContactInformation> getAllContactInformation() {
+        List<ContactInformation> contactList = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM ContactInformation");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                contactList.add(new ContactInformation(rs.getInt("ContactInformationID"), rs.getString("Address"), rs.getString("PhoneNumber")));
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return contactList;
+    }
+    public Integer updateContact(String address, String phoneNumber) {
+        ContactInformation contact = getContactInformationByAddressAndPhone(address, phoneNumber);
+        if (contact == null) {
+            contact = new ContactInformation(address,phoneNumber);
+            contact.setContactInformationID(addContact(contact));
+        }
+        return contact.getContactInformationID();
+    }
+
+
+
 }

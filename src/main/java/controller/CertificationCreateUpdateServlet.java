@@ -32,32 +32,26 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
         String certificationID = request.getParameter("certificationID");
         String name = request.getParameter("name");
         String detail = request.getParameter("detail");
-        int imgID = Integer.parseInt(request.getParameter("imgID"));
+        String imgID = request.getParameter("imgID");
         String certificateIssuerID = request.getParameter("certificateIssuerID");
+
         if (certificationID != null && !certificationID.isEmpty()) {
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isUpdated = certificationDAO.updateCertification(Integer.parseInt(certificationID), name, detail, imgID, Integer.parseInt(certificateIssuerID));
+                boolean isUpdated = certificationDAO.updateCertification(Integer.parseInt(certificationID), name, detail, Integer.parseInt(imgID), Integer.parseInt(certificateIssuerID));
                 if (isUpdated) {
                     response.sendRedirect("certificationList");
                 } else {
-                    request.setAttribute("error", "Update failed. Please try again.");
-                    request.getRequestDispatcher("certificationCU").forward(request, response);
+                    System.out.println("update failed");
                 }
-            } else {
-                request.setAttribute("error", "Name and detail cannot be empty.");
-                request.getRequestDispatcher("certificationCU").forward(request, response);
             }
         } else {
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isCreated = certificationDAO.createCertification(name, detail, imgID, Integer.parseInt(certificateIssuerID));
+                boolean isCreated = certificationDAO.createCertification(name, detail, Integer.parseInt(certificateIssuerID),Integer.parseInt(imgID));
                 if (isCreated) {
-                    //thanh cong
+                    response.sendRedirect("certificationList");
                 } else {
-                    //that bai
+                    System.out.println("create fail");
                 }
-                response.sendRedirect("certificationList");
-            } else {
-                response.sendRedirect("certificationList");
             }
         }
     }

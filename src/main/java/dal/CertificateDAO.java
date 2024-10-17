@@ -4,6 +4,7 @@ import model.Certification;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,8 @@ public class CertificateDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Certification certification = new Certification(
-                        rs.getInt("CertificationID"),
                         rs.getInt("CertificateIssuerID"),
+                        rs.getInt("CertificationID"),
                         rs.getString("Name"),
                         rs.getString("Detail"),
                         rs.getInt("ImgID")
@@ -47,7 +48,7 @@ public class CertificateDAO extends DBContext {
     public boolean deleteCertification(int certificationID) {
         String sql = "DELETE FROM Certification WHERE CertificationID = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, certificationID);
             ResultSet rs = executeUpdate(ps);
             if(rs!=null) return rs.next();
@@ -84,6 +85,11 @@ public class CertificateDAO extends DBContext {
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        CertificateDAO dao = new CertificateDAO();
+        dao.deleteCertification(545);
     }
 
     public Certification getCertificationById(int certificationID) {
