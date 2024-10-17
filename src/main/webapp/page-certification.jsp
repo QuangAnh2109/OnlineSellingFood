@@ -250,6 +250,7 @@
                                 <button type="submit" class="btn btn-primary" id="submit_button">Create certification</button>
                                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
                             </div>
+                            <input type="text" hidden class="form-control" id="certificationID" name="certificationID"/>
                         </form>
                     </div>
                     <div class="col-md-9">
@@ -273,7 +274,8 @@
                                 %>
                                 <tr>
                                     <td onclick="populateForm('<%= certification.getCertificationID() %>', '<%= certification.getName() %>', '<%= certification.getDetail() %>', '<%= certification.getImgID() %>', '<%= certification.getCertificateIssuerID() %>')"><%= certification.getCertificationID() %></td>
-                                    <td onclick="populateForm('<%= certification.getCertificationID() %>', '<%= certification.getName() %>', '<%= certification.getDetail() %>', '<%= certification.getImgID() %>', '<%= certification.getCertificateIssuerID() %>')"><b><%= certification.getName() %></b></td>
+                                    <td onclick="populateForm('<%= certification.getCertificationID() %>', '<%= certification.getName() %>', '<%= certification.getDetail() %>', '<%= certification.getImgID() %>', '<%= certification.getCertificateIssuerID() %>')">
+                                        <b><%= certification.getName() %></b></td>
                                     <td><%= certification.getDetail() %></td>
                                     <td><%= certification.getCertificateIssuerID() %></td>
 <%--                                    <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>--%>

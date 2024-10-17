@@ -15,6 +15,7 @@ public class CertificationDeleteServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String certificationIdParam = request.getParameter("certificationID");
+        System.out.println(certificationIdParam);
         if (certificationIdParam != null) {
             int certificationID = Integer.parseInt(certificationIdParam);
             CertificateDAO certificationDAO = new CertificateDAO();

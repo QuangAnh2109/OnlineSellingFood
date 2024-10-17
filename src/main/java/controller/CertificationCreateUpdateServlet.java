@@ -41,25 +41,17 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
                 if (isUpdated) {
                     response.sendRedirect("certificationList");
                 } else {
-                    request.setAttribute("error", "Update failed. Please try again.");
-                    request.getRequestDispatcher("certificationCU").forward(request, response);
+                    System.out.println("update failed");
                 }
-            } else {
-                request.setAttribute("error", "Name and detail cannot be empty.");
-                request.getRequestDispatcher("certificationCU").forward(request, response);
-            }
+            } 
         } else {
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
                 boolean isCreated = certificationDAO.createCertification(name, detail, Integer.parseInt(certificateIssuerID),Integer.parseInt(imgID));
                 if (isCreated) {
                     response.sendRedirect("certificationList");
                 } else {
-                    request.setAttribute("error", "Create failed. Please try again.");
-                    request.getRequestDispatcher("certificationCU").forward(request, response);
+                    System.out.println("create fail");
                 }
-            } else {
-                request.setAttribute("error", "Name and detail cannot be empty.");
-                request.getRequestDispatcher("certificationCU").forward(request, response);
             }
         }
     }
