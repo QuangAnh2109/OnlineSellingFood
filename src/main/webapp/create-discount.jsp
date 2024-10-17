@@ -43,8 +43,8 @@
 <body>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
-    <jsp:param name="page" value=""/>
-    <jsp:param name="menu" value="discount"/>
+    <jsp:param name="page" value="discount"/>
+    <jsp:param name="menu" value="product"/>
 </jsp:include>
 <main class="main-wrap">
     <jsp:include page="header-staff.jsp"></jsp:include>

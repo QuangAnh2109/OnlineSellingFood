@@ -43,6 +43,12 @@
                     <a href="registerstaff" id="registerstaff">Staff register</a>
                 </div>
             </li>
+            <li class="menu-item" id="warehouse">
+                <a class="menu-link" href="warehouseList">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Warehouse</span>
+                </a>
+            </li>
             <%
                 }
                 else if(role==2){
@@ -70,13 +76,8 @@
                     <a href="certificateIssuerList" id="certificateissuer">Certificate Issuer</a>
                     <a href="categoryList" id="category">Category</a>
                     <a href="originList" id="origin">Origin</a>
+                    <a href="discount" id="discount">Discount</a>
                 </div>
-            </li>
-            <li class="menu-item" id="discount">
-                <a class="menu-link" href="discount">
-                    <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Discount</span>
-                </a>
             </li>
             <%
                 }
