@@ -51,7 +51,6 @@ public class WarehouseCreateUpdateServlet extends HttpServlet {
         String address = request.getParameter("address");
         String phoneNumber = request.getParameter("phone");
         String contactID = request.getParameter("contactID");
-
         if (warehouseID != null && !warehouseID.isEmpty()) {
 
             Warehouse warehouse = new Warehouse(Integer.parseInt(warehouseID), contactInformationDAO.updateContact(address, phoneNumber), Integer.parseInt(statusID), name);
