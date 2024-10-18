@@ -1,7 +1,6 @@
 package dal;
 
 import model.AccountContact;
-import model.ContactInformation;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,11 +29,11 @@ public class AccountContactDAO extends DBContext{
         return false;
     }
 
-    public boolean deleteAccountContact(AccountContact accountContact){
+    public boolean deleteAccountContact(int accountID, int contactID){
         try{
             PreparedStatement ps = connection.prepareStatement("delete from AccountContact where AccountID=? and ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, accountContact.getAccountID());
-            ps.setInt(2, accountContact.getContactInformationID());
+            ps.setInt(1, accountID);
+            ps.setInt(2, contactID);
             ResultSet rs = executeUpdate(ps);
             if(rs!=null) return rs.next();
         }catch (SQLException e){
@@ -43,11 +42,12 @@ public class AccountContactDAO extends DBContext{
         return false;
     }
 
-    public boolean updateAccountContact(int contactID, int accountID){
+    public boolean updateAccountContact(int newContactID, int oldContactID, int accountID){
         try{
-            PreparedStatement ps = connection.prepareStatement("update AccountContact set ContactInformationID=? where AccountID=? and IsDeFault=1", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, contactID);
+            PreparedStatement ps = connection.prepareStatement("update AccountContact set ContactInformationID=? where AccountID=? and ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, newContactID);
             ps.setInt(2, accountID);
+            ps.setInt(3, oldContactID);
             ResultSet rs = executeUpdate(ps);
             if(rs!=null) return rs.next();
         }catch (SQLException e){
@@ -56,11 +56,12 @@ public class AccountContactDAO extends DBContext{
         return false;
     }
 
-    public boolean updateDefaultAccountContact(int isDefault, int accountID){
+    public boolean updateDefaultAccountContact(int isDefault, int accountID, int contact){
         try{
-            PreparedStatement ps = connection.prepareStatement("update AccountContact set IsDefault=? where AccountID=?", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement("update AccountContact set IsDefault=? where AccountID=? and ContactInformationID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, isDefault);
             ps.setInt(2, accountID);
+            ps.setInt(3,contact);
             ResultSet rs = executeUpdate(ps);
             if(rs!=null) return rs.next();
         }catch (SQLException e){

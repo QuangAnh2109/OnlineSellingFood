@@ -39,7 +39,6 @@ public class UpdateProfileStaffForAdminServlet extends HttpServlet {
         String genderID_raw = request.getParameter("gender");
 
 
-
         int accountID,roleID,salary,warehouseID,statusID,genderID;
         LocalDateTime birth;
 
@@ -73,7 +72,7 @@ public class UpdateProfileStaffForAdminServlet extends HttpServlet {
             contact.setContactInformationID(contactInfoDAO.addContact(contact));
             AccountContactDAO accountContactDAO = new AccountContactDAO();
             int contactID = accountContactDAO.getAccountContact(accountID).getContactInformationID();
-            if(contactID!=contact.getContactInformationID()) accountContactDAO.updateAccountContact(contact.getContactInformationID(),accountID);
+            if(contactID!=contact.getContactInformationID()) accountContactDAO.updateAccountContact(contact.getContactInformationID(), contactID,accountID);
         }
         staffDAO.updateStaffInformation(staff);
         doGet(request, response);

@@ -3,6 +3,7 @@ package controller;
 import java.io.*;
 import java.util.List;
 
+import dal.AccountContactDAO;
 import dal.StaffDAO;
 import dal.WarehouseDAO;
 import dto.StaffDetailRespone;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.AccountContact;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +31,7 @@ public class StaffListDetailServlet extends HttpServlet {
         request.setAttribute("warehouses",new WarehouseDAO().getAllWarehouseActivity());
         request.setAttribute("staffListDetail", sdr);
         request.setAttribute("accountID", accountID);
+        request.setAttribute("contactID", new AccountContactDAO().getAccountContact(accountID));
         request.getRequestDispatcher("staff-detail.jsp").forward(request, response);
     }
 

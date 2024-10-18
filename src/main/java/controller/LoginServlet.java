@@ -52,7 +52,6 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(cr);
 
         AccountDAO dao=new AccountDAO();
-        ContactInformationDAO cdao=new ContactInformationDAO();
         Account a= null;
         a = dao.getAccountByEmailPassword(email, password);
 
@@ -63,10 +62,8 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error","The account has been locked!");
             request.getRequestDispatcher("page-login.jsp").forward(request, response);
         } else{
-            ContactInformation ci = cdao.getContactInformationByContactID(new AccountContactDAO().getAccountContact(a.getAccountID()).getContactInformationID());
             HttpSession session = request.getSession();
             session.setAttribute("account", a);
-            session.setAttribute("contactInformation", ci);
             response.sendRedirect("home-page.jsp");
         }
     }

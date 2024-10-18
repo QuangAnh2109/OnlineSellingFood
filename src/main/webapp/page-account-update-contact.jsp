@@ -1,8 +1,7 @@
 <%@ page import="model.Account" %>
-<%@ page import="model.AccountContact" %>
-<%@ page import="java.util.List" %>
-<%@ page import="dal.ContactInformationDAO" %>
-<%@ page import="model.ContactInformation" %><%--
+<%@ page import="model.Customer" %>
+<%@ page import="dal.CustomerDAO" %>
+<%@ page import="java.time.format.DateTimeFormatter" %><%--
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 9/19/2024
@@ -29,7 +28,18 @@
 
 <body>
 <%
-    String accountName =  ((Account)session.getAttribute("account")).getName();
+    Account account = (Account)session.getAttribute("account");
+    String accountName = account.getName();
+    String contactID = request.getParameter("contactID");
+    String address = request.getParameter("address");
+    String phoneNumber = request.getParameter("phone");
+    String method = "get";
+    String msg = (String)request.getAttribute("msg");
+    if(msg==null) msg="";
+    if(contactID==null || address == null || phoneNumber == null){
+        contactID = address = phoneNumber = "";
+        method = "post";
+    }
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
@@ -56,51 +66,32 @@
                         </div>
                         <div class="col-md-9">
                             <div class="tab-content account dashboard-content pl-50">
-                                <div class="tab-pane fade active show" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                <div class="tab-pane fade active show" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="mb-0">Your Orders</h3>
-                                            <button><a href="page-account-update-contact.jsp">Add new contact</a></button>
+                                            <h5>Update Contact</h5>
+                                            <h6><%=msg%></h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <%
-                                                        List<AccountContact> accountContacts = (List<AccountContact>)request.getAttribute("contacts");
-                                                        ContactInformationDAO contactInformationDAO = new ContactInformationDAO();
-                                                        ContactInformation contactInformation;
-                                                        for(AccountContact ac:accountContacts){
-                                                            contactInformation = contactInformationDAO.getContactInformationByContactID(ac.getContactInformationID());
-                                                    %>
-                                                    <tr>
-                                                        <td>
-                                                            <p><%=contactInformation.getPhoneNumber()%></p>
-                                                            <p><%=contactInformation.getAddress()%></p>
-                                                            <%
-                                                                if(ac.getIsDefault()==1){
-                                                            %>
-                                                                <p style="color: red">Default</p>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </td>
-                                                        <td>
-                                                            <a href="page-account-update-contact.jsp?contactID=<%=ac.getContactInformationID()%>&address=<%=contactInformation.getAddress()%>&phone=<%=contactInformation.getPhoneNumber()%>">Update</a><br>
-                                                            <%
-                                                                if(ac.getIsDefault()!=1){
-                                                            %>
-                                                                <a href="DeleteContactServlet?contactID=<%=ac.getContactInformationID()%>">Delete</a><br>
-                                                                <a href="UpdateContactServlet?contactID=<%=ac.getContactInformationID()%>&isdefault=1">Set default</a><br>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </td>
-                                                    </tr>
-                                                    <%
-                                                        }
-                                                    %>
-                                                </table>
-                                            </div>
+                                            <form action="UpdateContactServlet" method="<%=method%>" name="enq">
+                                                <div class="row">
+                                                    <input type="hidden" name="contactID" value="<%=contactID%>">
+                                                    <div class="form-group col-md-6">
+                                                        <label>Phone number <span class="required">*</span></label>
+                                                        <input required="" class="form-control" name="address" type="text"
+                                                               value="<%=phoneNumber%>"/>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label>Address <span class="required">*</span></label>
+                                                        <input required class="form-control" name="phone" type="text"
+                                                               value="<%=address%>"/>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

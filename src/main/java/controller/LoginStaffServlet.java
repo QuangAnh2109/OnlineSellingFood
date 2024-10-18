@@ -27,7 +27,6 @@ public class LoginStaffServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> errorMessages = new ArrayList<>();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String remember=request.getParameter("rem");
@@ -50,7 +49,6 @@ public class LoginStaffServlet extends HttpServlet {
         response.addCookie(cr);
 
         AccountDAO dao=new AccountDAO();
-        ContactInformationDAO cdao=new ContactInformationDAO();
         Account a= null;
         a = dao.getAccountByEmailPassword(email, password);
 
@@ -63,10 +61,8 @@ public class LoginStaffServlet extends HttpServlet {
                 request.getRequestDispatcher("page-login-staff.jsp").forward(request, response);
             }
             else{
-                ContactInformation ci = cdao.getContactInformationByContactID(new AccountContactDAO().getAccountContact(a.getAccountID()).getContactInformationID());
                 HttpSession session = request.getSession();
                 session.setAttribute("account", a);
-                session.setAttribute("contactInformation", ci);
                 if(a.getStatusID()==3) response.sendRedirect("changepassstaff");
                 else response.sendRedirect("home-page-staff.jsp");
             }
