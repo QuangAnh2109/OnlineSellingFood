@@ -26,11 +26,12 @@ public class SupplierDeleteServlet extends HttpServlet {
 
             if (supplier != null) {
                 boolean isSupplierDeleted = supplierDAO.deleteSupplier(Integer.parseInt(supplierID));
-                boolean isContactDeleted = contactInformationDAO.deleteContact(supplier.getContactInformationID());
+                contactInformationDAO.deleteContact(supplier.getContactInformationID());
 
-                if (isContactDeleted && isSupplierDeleted) {
+                if (isSupplierDeleted) {
                     response.sendRedirect("supplierList");
-                } else {
+                }
+                 else {
                     System.out.println("Failed to delete supplier or contact information");
                 }
             } else {
