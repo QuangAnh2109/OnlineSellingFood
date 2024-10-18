@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import javax.mail.Address;
 import java.io.IOException;
 import java.util.List;
 
@@ -50,38 +49,53 @@ public class WarehouseCreateUpdateServlet extends HttpServlet {
         String statusID = request.getParameter("statusID");
         String address = request.getParameter("address");
         String phoneNumber = request.getParameter("phone");
-        String contactID = request.getParameter("contactID");
+
+        // Kiểm tra thông tin liên lạc có tồn tại không
+        ContactInformation existingContactInfo = contactInformationDAO.getContactInformationByAddressAndPhone(address, phoneNumber);
 
         if (warehouseID != null && !warehouseID.isEmpty()) {
+            // Cập nhật warehouse
+            int contactID;
+            if (existingContactInfo != null) {
+                // Nếu thông tin liên lạc đã tồn tại, lấy ContactInformationID
+                contactID = existingContactInfo.getContactInformationID();
+            } else {
+                // Nếu không tồn tại, thêm mới thông tin liên lạc
+                ContactInformation newContactInfo = new ContactInformation(address, phoneNumber);
+                contactID = contactInformationDAO.addContact(newContactInfo);
+            }
 
-            Warehouse warehouse = new Warehouse(Integer.parseInt(warehouseID), contactInformationDAO.updateContact(address, phoneNumber), Integer.parseInt(statusID), name);
-
+            // Cập nhật warehouse với ContactInformationID
+            Warehouse warehouse = new Warehouse(Integer.parseInt(warehouseID), contactID, Integer.parseInt(statusID), name);
             boolean isUpdated = warehouseDAO.updateWarehouse(warehouse);
 
             if (isUpdated) {
-                contactInformationDAO.deleteContact(Integer.parseInt(contactID));
                 response.sendRedirect("warehouseList");
             } else {
                 // Nếu cập nhật warehouse thất bại
-                System.out.println("update warehouse failed");
+                System.out.println("Update warehouse failed");
             }
         } else {
-            ContactInformation contactInfo = new ContactInformation(address, phoneNumber);
-            Integer newContactID = contactInformationDAO.addContact(contactInfo);
-
-            if (newContactID != null) {
-                Warehouse warehouse = new Warehouse(newContactID, Integer.parseInt(statusID), name);
-                Integer newWarehouseID = warehouseDAO.addWarehouse(warehouse);
-
-                if (newWarehouseID != null) {
-                    response.sendRedirect("warehouseList");
-                } else {
-                    // Nếu thêm Warehouse thất bại
-                    System.out.println("create warehouse failed");
-                }
+            // Tạo mới warehouse
+            Integer contactID;
+            if (existingContactInfo != null) {
+                // Nếu thông tin liên lạc đã tồn tại, lấy ContactInformationID
+                contactID = existingContactInfo.getContactInformationID();
             } else {
-                // Nếu thêm ContactInformation thất bại
-                System.out.println("create contactinformation failed");
+                // Nếu không tồn tại, thêm mới thông tin liên lạc
+                ContactInformation contactInfo = new ContactInformation(address, phoneNumber);
+                contactID = contactInformationDAO.addContact(contactInfo);
+            }
+
+            // Tạo mới warehouse
+            Warehouse warehouse = new Warehouse(contactID, Integer.parseInt(statusID), name);
+            Integer newWarehouseID = warehouseDAO.addWarehouse(warehouse);
+
+            if (newWarehouseID != null) {
+                response.sendRedirect("warehouseList");
+            } else {
+                // Nếu thêm warehouse thất bại
+                System.out.println("Create warehouse failed");
             }
         }
     }
