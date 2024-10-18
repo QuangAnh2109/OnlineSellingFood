@@ -31,10 +31,10 @@ public class SendOtpForgotpasswordController extends HttpServlet {
         String msg = "msg";
         String errorMsg = "Không thể gửi email, vui lòng thử lại.";
         String completeMsg = "Mã otp mới đã được gửi đến email của bạn.";
-
         // Kiểm tra email có tồn tại trong database không
         if (account == null) {
             request.setAttribute(msg, errorMsg);
+            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
             return;
         }
         else{
