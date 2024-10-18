@@ -53,7 +53,7 @@
 
                     <!-- Birth -->
                     <div class="form-group">
-                        Birth<input type="date" id="datePicker" name="birth"/>
+                        Birth<input type="date" id="datePicker" name="birth" required/>
                     </div>
 
                     <!-- Gender -->

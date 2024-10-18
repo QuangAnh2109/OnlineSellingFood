@@ -83,7 +83,4 @@ public class ContactInformationDAO extends DBContext{
         }
         return contact.getContactInformationID();
     }
-
-
-
 }

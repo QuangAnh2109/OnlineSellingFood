@@ -70,7 +70,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h5>Update Contact</h5>
-                                            <h6><%=msg%></h6>
+                                            <h6 style="color:red;"><%=msg%></h6>
                                         </div>
                                         <div class="card-body">
                                             <form action="UpdateContactServlet" method="<%=method%>" name="enq">
@@ -78,12 +78,12 @@
                                                     <input type="hidden" name="contactID" value="<%=contactID%>">
                                                     <div class="form-group col-md-6">
                                                         <label>Phone number <span class="required">*</span></label>
-                                                        <input required="" class="form-control" name="address" type="text"
+                                                        <input required="" class="form-control" name="phone" type="text"
                                                                value="<%=phoneNumber%>"/>
                                                     </div>
                                                     <div class="form-group col-md-12">
                                                         <label>Address <span class="required">*</span></label>
-                                                        <input required class="form-control" name="phone" type="text"
+                                                        <input required class="form-control" name="address" type="text"
                                                                value="<%=address%>"/>
                                                     </div>
 
