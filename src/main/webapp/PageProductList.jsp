@@ -259,7 +259,7 @@
             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
               <a class="itemside" href="#">
                 <div class="left">
-                  <img src="Img/dep.jpg" class="img-sm img-thumbnail" alt="Preview" id="previewImage" />
+                  <img src="Img/c80b8c90d59871c6288924.jpg" class="img-sm img-thumbnail" alt="Preview" id="previewImage" />
                 </div>
                 <div class="info">
                   <h6 class="mb-0">Seeds of Change Organic Quinoa</h6>
@@ -275,7 +275,7 @@
             </div>
 
             <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <form action="AddImgServlet" method="get" >
+              <form action="AddImgServlet" method="post" enctype="multipart/form-data">
 
                 <input type="file" name="img" id="imagefile" onchange="chooseFile(this)"
                        accept="image/gif, image/jpeg, image/png"  required><br><br>

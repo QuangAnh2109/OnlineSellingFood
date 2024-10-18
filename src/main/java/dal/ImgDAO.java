@@ -15,35 +15,17 @@ public class ImgDAO extends DBContext{
 
     }
 
-    public boolean addImage(String imgLink) {
 
-        try {
-            // Kết nối đến cơ sở dữ liệu
 
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO Img (Imglink) VALUES (?)");
-            ps.setString(1, imgLink);
-            // Thực thi câu lệnh
-            ps.executeQuery();
-            return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public void addImg(Img img) {
+        String sql = "INSERT INTO Img (Imglink) VALUES (?)";
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, img.getImglink());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return false;
-    }
-
-    public ResultSet addImg(Img img) {
-        try {
-            // Kết nối đến cơ sở dữ liệu
-
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO Img (Imglink) VALUES (?)");
-            ps.setString(1, img.getImglink());
-            // Thực thi câu lệnh
-            ps.executeQuery();
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
     }
     }
 
