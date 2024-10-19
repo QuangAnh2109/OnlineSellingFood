@@ -1,22 +1,22 @@
 package model;
 
 public class Img {
-    private Integer imgID;
+    private int imgID;
     private String imglink;
 
     public Img() {
     }
 
-    public Img(String imglink, Integer imgID) {
-        this.imglink = imglink;
-        this.imgID = imgID;
-    }
-
-    public Integer getImgID() {
+    public int getImgID() {
         return imgID;
     }
 
-    public void setImgID(Integer imgID) {
+    public Img(int imgID, String imglink) {
+        this.imgID = imgID;
+        this.imglink = imglink;
+    }
+
+    public void setImgID(int imgID) {
         this.imgID = imgID;
     }
 
