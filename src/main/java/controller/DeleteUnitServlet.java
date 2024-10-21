@@ -11,13 +11,17 @@ import model.Unit;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "LoadUnitServlet", urlPatterns = {"/unitlist"})
-public class LoadUnitServlet extends HttpServlet {
+@WebServlet(name = "DeleteUnitServlet", urlPatterns = {"/deleteunit"})
+public class DeleteUnitServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Unit> units = new UnitDAO().getAllUnit();
-        request.setAttribute("units",units);
-        request.getRequestDispatcher("unit-list.jsp").forward(request,response);
+        int unitId = Integer.parseInt(request.getParameter("unitid"));
+        String msg;
+        if(new UnitDAO().deleteUnit(unitId)){
+            msg = "Delete Faild";
+        }
+        else msg = "Delete Success";
+        response.sendRedirect("unitlist?msg="+msg);
     }
 }

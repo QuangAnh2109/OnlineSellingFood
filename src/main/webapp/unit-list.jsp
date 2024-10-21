@@ -1,7 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="model.ContactInformation" %>
-<%@ page import="model.WarehouseStatus" %>
-<%@ page import="model.Warehouse" %>
+<%@ page import="model.Unit" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +24,9 @@
     <jsp:param name="page" value=""/>
     <jsp:param name="menu" value="warehouse"/>
 </jsp:include>
+<%
+    List<Unit> units = (List<Unit>) request.getAttribute("units");
+%>
 <main class="main-wrap">
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
@@ -47,9 +48,12 @@
                     <div class="col-md-3">
                         <form action="warehouseCU" method="post" onsubmit="return validateForm()">
                             <div class="mb-4">
+                                <label for="warehouse_id" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="warehouse_id" name="warehouse_id" readonly />
+                            </div>
+                            <div class="mb-4">
                                 <label for="warehouse_name" class="form-label">Name</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="warehouse_name" name="name" required />
-                                <input type="hidden" id="warehouse_id" name="warehouseID" />
                             </div>
                             <div class="mb-4">
                                 <label for="address" class="form-label">Address</label>
@@ -62,20 +66,20 @@
 
                             <input type="text" hidden class="form-control" id="contactID" name="contactID"/>
                             <div class="mb-4">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-control" id="status" name="statusID" required>
-                                    <option value="" disabled selected>Select Status</option>
+                                <label class="form-label">Base Unit</label>
+                                <select class="form-control" name="baseunitid" required>
                                     <%
-                                        List<WarehouseStatus> statusList = (List<WarehouseStatus>) request.getAttribute("statusList");
-                                        if (statusList != null) {
-                                            for (WarehouseStatus status : statusList) {
+                                        for (Unit unit : units) {
                                     %>
-                                    <option value="<%= status.getStatusID() %>"><%= status.getDetail() %></option>
+                                    <option value="<%= unit.getUnitID() %>"><%= unit.getName() %></option>
                                     <%
-                                            }
                                         }
                                     %>
                                 </select>
+
+
+
+                                
                             </div>
 
                             <div class="d-grid">
