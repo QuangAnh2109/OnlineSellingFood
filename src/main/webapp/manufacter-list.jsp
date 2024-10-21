@@ -1,4 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="dal.ManufacterDAO.TextTruncator" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,9 +69,10 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <%--              <th>Email</th>--%>
-<%--                            <th>Status</th>--%>
-                            <%--              <th>Registered</th>--%>
+                                          <th>Introduce</th>
+                            <th></th>
+                            <th>Number of products</th>
+                                          <th></th>
                             <th class="text-end">Action</th>
                         </tr>
                         </thead>
@@ -92,6 +97,18 @@
                                             </a>
                                         </td>
 <%--                                        <td>${mn.introduce}</td>--%>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${fn:length(mn.introduce) > 40}">
+                                                    ${fn:substring(mn.introduce, 0, 40)}...
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${mn.introduce}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td><td>${mn.productCount}</td></td>
+                                        <td></td>
                                         <td class="text-end">
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
                                                 <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>

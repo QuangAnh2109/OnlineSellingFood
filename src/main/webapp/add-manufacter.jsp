@@ -60,7 +60,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Introduce</label>
-                        <input class="form-control" name="introduce" placeholder="Introduce" type="text" required />
+
+                        <textarea class="form-control" name="introduce" placeholder="Introduce" ></textarea>
                     </div>
 
                     <div class="mb-4">
@@ -87,14 +88,14 @@
             successAlert.style.display = 'block';
             setTimeout(function() {
                 successAlert.style.display = 'none';
-            }, 5000); // Hide after 5 seconds
+            }, 1000); // Hide after 5 seconds
         }
 
         if (errorAlert && errorAlert.innerHTML.trim() !== '') {
             errorAlert.style.display = 'block';
             setTimeout(function() {
                 errorAlert.style.display = 'none';
-            }, 5000); // Hide after 5 seconds
+            }, 1000); // Hide after 5 seconds
         }
     });
 </script>

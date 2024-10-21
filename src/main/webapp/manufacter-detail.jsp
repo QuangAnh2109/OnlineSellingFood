@@ -33,7 +33,6 @@
                 </c:if>
 
                 <form action="updateManuForAdmin" method="post">
-                <form action="updateManuForAdmin" method="post">
                     <input type="hidden" name="ManufacturerID" value="${manuListDetail.manufacturerID}" /> <!-- Ensure this is passed -->
 
                     <div class="mb-3">
@@ -43,7 +42,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Introduce</label>
-                        <input class="form-control" name="introduce" value="${manuListDetail.introduce}" placeholder="Introduce" type="text" required />
+                        <textarea class="form-control" name="introduce" placeholder="Introduce" rows="4" required>${manuListDetail.introduce}</textarea>
                     </div>
 
                     <div class="mb-4">

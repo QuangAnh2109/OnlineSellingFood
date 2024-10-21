@@ -13,7 +13,7 @@ import java.sql.*;
 public class ManufacterDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Manufacturer(rs.getInt("ManufacturerID"),rs.getString("Introduce"),rs.getString("Name"));
+        return new Manufacturer(rs.getInt("ManufacturerID"),rs.getString("Introduce"),rs.getString("Name"),rs.getInt("productCount"));
     }
     public Manufacturer getManufacturerByID(int manufacturerID) {
         try {
@@ -80,17 +80,20 @@ public class ManufacterDAO extends DBContext{
         return false;
     }
     public List<Manufacturer> getAllManufacturers() {
-        List<Manufacturer> manufacturers = new ArrayList<Manufacturer>();
+        List<Manufacturer> manufacturers = new ArrayList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(
-                    "SELECT m.ManufacturerID, m.Introduce, m.Name FROM Manufacturer m"
-            );
+            String query = "SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount " +
+                    "FROM Manufacturer m " +
+                    "LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID " +
+                    "GROUP BY m.ManufacturerID, m.Introduce, m.Name";
+            PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Manufacturer manufacturer = new Manufacturer();
                 manufacturer.setManufacturerID(rs.getInt("ManufacturerID"));
                 manufacturer.setIntroduce(rs.getString("Introduce"));
                 manufacturer.setName(rs.getString("Name"));
+                manufacturer.setProductCount(rs.getInt("ProductCount")); // Add product count
                 manufacturers.add(manufacturer);
             }
         } catch (SQLException e) {
@@ -98,6 +101,7 @@ public class ManufacterDAO extends DBContext{
         }
         return manufacturers;
     }
+
     public boolean isManufacturerNameExists(String name) {
         try {
             PreparedStatement ps = connection.prepareStatement(
@@ -143,5 +147,18 @@ public class ManufacterDAO extends DBContext{
         }
         return manufacturers;
     }
+    public class TextTruncator {
+        private static final int MAX_LENGTH = 40;
 
+        public static String truncate(String text) {
+            if (text == null) return "";
+            if (text.length() <= MAX_LENGTH) return text;
+
+            // Find the last space before MAX_LENGTH to avoid cutting words
+            int lastSpace = text.substring(0, MAX_LENGTH).lastIndexOf(' ');
+            int truncateIndex = lastSpace > 0 ? lastSpace : MAX_LENGTH;
+
+            return text.substring(0, truncateIndex) + "...";
+        }
+    }
 }
