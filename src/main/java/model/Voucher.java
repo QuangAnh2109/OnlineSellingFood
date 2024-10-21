@@ -16,6 +16,12 @@ public class Voucher {
         this.inventory = inventory;
     }
 
+    public Voucher(Integer discountID, Integer quantity, Integer inventory) {
+        this.discountID = discountID;
+        this.quantity = quantity;
+        this.inventory = inventory;
+    }
+
     public Integer getVoucherID() {
         return voucherID;
     }

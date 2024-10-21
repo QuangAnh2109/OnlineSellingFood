@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -8,7 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <script>
-    function selectVoucher( discountPercent, startTime, endTime, quantity) {
+    function selectVoucher(discountPercent, startTime, endTime, quantity) {
         // Update the form fields with the product data
 
         document.getElementById('discount_percent').value = discountPercent || '';
@@ -54,7 +53,7 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Voucher Products</h2>
+                <h2 class="content-title card-title">Add Customer Voucher</h2>
                 <p>Add, edit or delete a voucher</p>
             </div>
 
@@ -64,77 +63,78 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form method="post" action="voucher">
-                            <%--                            <div class="mb-4">--%>
-                            <%--                                <label for="product_name" class="form-label">Name</label>--%>
-                            <%--                                <input type="text" placeholder="Type here" class="form-control" id="product_name" />--%>
-                            <%--                            </div>--%>
-
+                        <c:set var="vr" value="${voucher}"></c:set>
+                        <!-- Bắt đầu form chính -->
+                        <form method="post" action="customervoucher">
+                            <!-- Phần thông tin voucher -->
+                            <div class="mb-4">
+                                <label for="voucher_id" class="form-label">VoucherID</label>
+                                <input type="number" class="form-control" id="voucher_id" name="voucherID"
+                                       value="${vr.voucherID}" readonly=""/>
+                            </div>
 
                             <div class="mb-4">
-                                <label for="discount_percent" class="form-label">Discount(Percent)</label>
+                                <label class="form-label">DiscountID</label>
+                                <input type="number" class="form-control" id="discount_id"
+                                       name="discountID" value="${vr.discountID}" readonly=""/>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Discount(Percent)</label>
                                 <input type="number" class="form-control" id="discount_percent" name="discountPercent"
-                                       min="1" max="100"/>
+                                       value="${vr.discountPercent}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label">Start Date</label>
                                 <input type="datetime-local" class="form-control" id="voucher_start_date"
-                                       name="startDate"/>
+                                       name="startDate" value="${vr.startTime}" readonly=""/>
                             </div>
+
                             <div class="mb-4">
                                 <label class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" id="voucher_end_date" name="endDate"/>
+                                <input type="datetime-local" class="form-control" id="voucher_end_date" name="endDate"
+                                       value="${vr.endTime}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="voucher_quantity" name="quantity"/>
+                                <input type="number" class="form-control" id="voucher_quantity" name="quantity"
+                                       value="${vr.quantity}" readonly=""/>
                             </div>
 
-                            <div class="d-grid">
-                                <button class="btn btn-primary" type="submit">Create Voucher</button>
+                            <div class="mb-4">
+                                <label class="form-label">Inventory</label>
+                                <input type="number" class="form-control" id="voucher_inventory" name="inventory"
+                                       value="${vr.inventory}" readonly=""/>
                             </div>
-                        </form>
                     </div>
+
                     <div class="col-md-9">
+                        <!-- Phần danh sách khách hàng với checkbox -->
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>VoucherID</th>
-                                    <th>DiscountID</th>
-                                    <th>Discount Percent</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Quantity</th>
-                                    <th>Inventory</th>
-                                    <th  style="text-align: center;">Action</th>
+                                    <th>CustomerID</th>
+                                    <th>CustomerName</th>
+                                    <th>Point</th>
+                                    <th>Level</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
-                                <c:forEach var="v" items="${voucher}">
-
-                                    <tr onclick="selectVoucher( '${v.discountPercent}', '${v.startTime}', '${v.endTime}','${v.quantity}')">
-                                        <td>${v.voucherID}</td>
-                                        <td>${v.discountID}</td>
-                                        <td>${v.discountPercent}</td>
-                                        <td>${v.startTime}</td>
-                                        <td>${v.endTime}</td>
-                                        <td>${v.quantity}</td>
-                                        <td>${v.inventory}</td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <!-- Button Edit -->
-                                                <a href="editvoucher?id=${v.voucherID}" class="btn btn-sm font-sm btn-light rounded mx-2">
-                                                    <i class="material-icons md-edit_forever"></i> Edit
-                                                </a>
-
-                                                <!-- Button Add Customer -->
-                                                <a href="customervoucher?id=${v.voucherID}" class="btn btn-sm font-sm btn-light rounded mx-2">
-                                                    <i class="material-icons md-add_circle"></i> Add Customer
-                                                </a>
+                                <c:forEach var="cv" items="${customervoucher}">
+                                    <tr>
+                                        <td>${cv.customerID}</td>
+                                        <td>${cv.customerName}</td>
+                                        <td>${cv.point}</td>
+                                        <td>${cv.level}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <input type="checkbox" name="selectedCustomer"
+                                                       value="${cv.customerID}" class="form-check-input"
+                                                       style="transform: scale(1.5);"  />
                                             </div>
                                         </td>
                                     </tr>
@@ -143,12 +143,15 @@
                             </table>
                         </div>
                     </div>
-                    <!-- .col// -->
+
+                    <!-- Nút submit để gửi toàn bộ form -->
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-sm" style="width: 24%;" type="submit">Add Customer Voucher</button>
+                    </div>
+                    </form>
+                    <!-- Kết thúc form chính -->
                 </div>
-                <!-- .row // -->
             </div>
-            <!-- card body .// -->
-        </div>
         <!-- card .// -->
     </section>
     <!-- content-main end// -->
