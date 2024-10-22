@@ -49,6 +49,12 @@
                     <span class="text">Warehouse</span>
                 </a>
             </li>
+            <li class="menu-item" id="unit">
+                <a class="menu-link" href="unitlist">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Unit</span>
+                </a>
+            </li>
             <%
                 }
                 else if(role==2){

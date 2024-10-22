@@ -22,7 +22,7 @@
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
     <jsp:param name="page" value=""/>
-    <jsp:param name="menu" value="warehouse"/>
+    <jsp:param name="menu" value="unit"/>
 </jsp:include>
 <%
     List<Unit> units = (List<Unit>) request.getAttribute("units");
@@ -38,10 +38,7 @@
                 <p>Add, edit or delete a unit</p>
             </div>
             <div>
-                <form action="warehouseList" method="get">
-                    <input type="text" name="search" placeholder="Search Warehouses" class="form-control bg-white" />
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
+                <input type="text" id="myinput" onkeyup="myFunction()" placeholder="Search">
             </div>
         </div>
         <div class="card">
@@ -85,7 +82,7 @@
                     </div>
                     <div class="col-md-9">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="mytable">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -118,6 +115,27 @@
 
     <!-- Script to populate the form -->
     <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myinput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("mytable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
         function populateForm(unitid, name, conversionrate, baseunitid) {
             document.getElementById("unitid").value = unitid;
             document.getElementById("unitname").value = name;
