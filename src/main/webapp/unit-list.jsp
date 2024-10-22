@@ -26,14 +26,16 @@
 </jsp:include>
 <%
     List<Unit> units = (List<Unit>) request.getAttribute("units");
+    String msg  = request.getParameter("msg");
+    if(msg==null) msg="";
 %>
 <main class="main-wrap">
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Warehouses</h2>
-                <p>Add, edit or delete a warehouse</p>
+                <h2 class="content-title card-title">Unit</h2>
+                <p>Add, edit or delete a unit</p>
             </div>
             <div>
                 <form action="warehouseList" method="get">
@@ -46,45 +48,38 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form action="warehouseCU" method="post" onsubmit="return validateForm()">
+                        <h6 style="color: red"><%=msg%></h6>
+                        <form action="createunit" method="get" onsubmit="return validateForm()">
                             <div class="mb-4">
-                                <label for="warehouse_id" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="warehouse_id" name="warehouse_id" readonly />
+                                <label class="form-label">UnitID</label>
+                                <input type="text" class="form-control" id="unitid" name="unitid" readonly />
                             </div>
                             <div class="mb-4">
-                                <label for="warehouse_name" class="form-label">Name</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="warehouse_name" name="name" required />
-                            </div>
-                            <div class="mb-4">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="address" name="address" required />
-                            </div>
-                            <div class="mb-4">
-                                <label for="phone" class="form-label">Phone Number</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="phone" name="phone" required />
+                                <label class="form-label">Name</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="unitname" name="unitname" required />
                             </div>
 
-                            <input type="text" hidden class="form-control" id="contactID" name="contactID"/>
-                            <div class="mb-4">
+                            <div class="mb-4" id="conversionratediv">
+                                <label class="form-label">Conversion rate</label>
+                                <input type="number" placeholder="Type here" class="form-control" id="conversionrate" name="conversionrate" required min="1"/>
+                            </div>
+
+                            <div class="mb-4" id="baseunitdiv">
                                 <label class="form-label">Base Unit</label>
-                                <select class="form-control" name="baseunitid" required>
+                                <select class="form-control" id="baseunitid" name="baseunitid" required>
                                     <%
                                         for (Unit unit : units) {
                                     %>
-                                    <option value="<%= unit.getUnitID() %>"><%= unit.getName() %></option>
+                                    <option value="<%=unit.getUnitID()%>"><%= unit.getName() %></option>
                                     <%
                                         }
                                     %>
                                 </select>
-
-
-
-                                
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="submit_button">Create Warehouse</button>
-                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
+                                <button type="submit" class="btn btn-primary" id="submit_button">Create Unit</button>
+                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" style="display: none;"><a href="unitlist">Cancel</a></button>
                             </div>
                         </form>
                     </div>
@@ -94,40 +89,20 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Phone Number</th>
-                                    <th>Status</th>
-                                    <%--                  <th class="text-end">Action</th>--%>
+                                    <th>Unit</th>
+                                    <th>Conversion rate</th>
+                                    <th>Base Unit</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    List<Warehouse> warehouseList = (List<Warehouse>) request.getAttribute("warehouseList");
-                                    if (warehouseList != null && !warehouseList.isEmpty()) {
-                                        for (Warehouse warehouse : warehouseList) {
-                                            ContactInformation contactInfo = (ContactInformation) request.getAttribute("contactInfo_" + warehouse.getContactInformationID());
-                                            WarehouseStatus status = (WarehouseStatus) request.getAttribute("status_" + warehouse.getStatusID());
+                                    for (Unit unit : units) {
                                 %>
-                                <tr>
-                                    <td onclick="populateForm('<%= warehouse.getWarehouseID() %>', '<%= warehouse.getName() %>', '<%= contactInfo.getAddress() %>', '<%= contactInfo.getPhoneNumber() %>', '<%= status.getStatusID() %>','<%= contactInfo.getContactInformationID() %>')">
-                                        <%= warehouse.getWarehouseID() %></td>
-                                    <td><%= warehouse.getName() %></td>
-                                    <td><%= contactInfo.getAddress() %></td>
-                                    <td><%= contactInfo.getPhoneNumber() %></td>
-                                    <td><%= status.getDetail() %></td>
-                                    <%--                  <td class="text-end">--%>
-                                    <%--                    <button class="btn btn-light rounded btn-sm font-sm">--%>
-                                    <%--                      <a href="warehouseDelete?warehouseID=<%= warehouse.getWarehouseID() %>"><i class="material-icons md-delete"></i>Delete</a>--%>
-                                    <%--                    </button>--%>
-                                    <%--                  </td>--%>
-                                </tr>
-                                <%
-                                    }
-                                } else {
-                                %>
-                                <tr>
-                                    <td colspan="6" class="text-center">No warehouses found.</td>
+                                <tr onclick="populateForm('<%=unit.getUnitID()%>', '<%=unit.getName()%>', '<%=unit.getConversionRate()%>', '<%=unit.getBaseUnitID()%>')">
+                                    <td><%=unit.getUnitID()%></td>
+                                    <td><%=unit.getName()%></td>
+                                    <td><%=unit.getConversionRate()%></td>
+                                    <td><%=unit.getBaseUnitID()%></td>
                                 </tr>
                                 <%
                                     }
@@ -143,14 +118,20 @@
 
     <!-- Script to populate the form -->
     <script>
-        function populateForm(warehouseID, warehouseName, address, phone, statusID,contactID) {
-            document.getElementById("warehouse_name").value = warehouseName;
-            document.getElementById("address").value = address;
-            document.getElementById("phone").value = phone;
-            document.getElementById("status").value = statusID;
-            document.getElementById("contactID").value = contactID;
-            document.getElementById("warehouse_id").value = warehouseID;
-            document.getElementById("submit_button").innerText = "Update Warehouse";
+        function populateForm(unitid, name, conversionrate, baseunitid) {
+            document.getElementById("unitid").value = unitid;
+            document.getElementById("unitname").value = name;
+            if(conversionrate==='null'){
+                document.getElementById("conversionratediv").setAttribute("hidden","");
+            }else{
+                document.getElementById("conversionrate").value = conversionrate;
+            }
+            if(baseunitid==='null'){
+                document.getElementById("baseunitdiv").setAttribute("hidden","");
+            }else{
+                document.getElementById("baseunitid").value = baseunitid;
+            }
+            document.getElementById("submit_button").innerText = "Update Unit";
 
             document.getElementById("cancel_button").style.display = "block";
         }
@@ -162,16 +143,6 @@
                 return false;
             }
             return true;
-        }
-
-        function resetForm() {
-            document.getElementById("warehouse_name").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("phone").value = "";
-            document.getElementById("status").value = "";
-            document.getElementById("warehouse_id").value = "";
-            document.getElementById("submit_button").innerText = "Create Warehouse";
-            document.getElementById("cancel_button").style.display = "none";
         }
     </script>
 
