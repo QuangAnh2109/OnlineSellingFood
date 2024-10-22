@@ -5,30 +5,26 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import java.io.IOException;
-import java.util.List;
-
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
 import model.Cart;
 import model.Product;
-import dal.CartDAO;
+import model.Customer;
 import dal.ProductDAO;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
+import dal.CustomerDAO;
 
-@WebServlet(name = "CartServlet", urlPatterns = {"/cart"})
+@WebServlet(name = "CartServlet", urlPatterns = {"/cart", "/shop-cart"})  // Thêm cả 2 URL pattern
 public class CartServlet extends HttpServlet {
-
     private CartDAO cartDAO;
     private ProductDAO productDAO;
+    private CustomerDAO customerDAO;
 
     @Override
     public void init() throws ServletException {
         cartDAO = new CartDAO();
         productDAO = new ProductDAO();
+        customerDAO = new CustomerDAO();
     }
 
     @Override
@@ -37,40 +33,55 @@ public class CartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
 
+        // Debug log
+        System.out.println("Account: " + account);
+
         if (account == null) {
             response.sendRedirect("login");
             return;
         }
+        Customer customer = customerDAO.getCustomerByAccountID(account.getAccountID());
 
-        Integer customerID = account.getAccountID();
+        if (customer == null) {
+            // If no customer details are found, redirect to login
+            response.sendRedirect("login");
+            return;
+        }
+        Integer customerID = customer.getCustomerID();
+        Integer AccountID = account.getAccountID();
+        System.out.println("CustomerID: " + customerID);
+
         session.setAttribute("customerID", customerID);
         session.setAttribute("account", account);
 
         // Retrieve cart items
         List<Cart> cartItems = cartDAO.getCartByCustomerID(customerID);
+        System.out.println("Cart Items size: " + cartItems.size());
+
         List<Product> products = new ArrayList<>();
         double total = 0;
-
-        // Check if cartItems is empty
-        if (cartItems.isEmpty()) {
-            System.out.println("Cart is empty for customer ID: " + customerID);
-        }
 
         // Retrieve product details
         for (Cart item : cartItems) {
             Product product = productDAO.getProductByID(item.getProductID());
+            System.out.println("Product found for ID " + item.getProductID() + ": " + product);
+
             if (product != null) {
                 products.add(product);
                 total += product.getPrice();
-            } else {
-                System.out.println("Product not found for ID: " + item.getProductID());
             }
         }
+
+        System.out.println("Total Products: " + products.size());
+        System.out.println("Total Price: " + total);
 
         request.setAttribute("cartItems", cartItems);
         request.setAttribute("products", products);
         request.setAttribute("total", total);
         request.getRequestDispatcher("shop-cart.jsp").forward(request, response);
+        System.out.println("Cart Items size: " + cartItems.size());
+        System.out.println("Products size: " + products.size());
+        System.out.println("Total: " + total);
     }
 
     @Override
@@ -78,38 +89,42 @@ public class CartServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer customerID = (Integer) session.getAttribute("customerID");
+
         if (customerID == null) {
             response.sendRedirect("login");
             return;
         }
 
         String action = request.getParameter("action");
-        int productID = Integer.parseInt(request.getParameter("productID"));
+        String productIDParam = request.getParameter("productID");
+
+        if (action == null || productIDParam == null) {
+            response.sendRedirect("cart");
+            return;
+        }
+
+        int productID = Integer.parseInt(productIDParam);
 
         switch (action) {
             case "add":
-                // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
                 Cart existingItem = cartDAO.getCartItem(customerID, productID);
                 if (existingItem == null) {
-                    cartDAO.addToCart(customerID, productID);
+                    boolean added = cartDAO.addToCart(customerID, productID);
+                    System.out.println("Product " + productID + " added to cart: " + added);
                 }
                 break;
 
             case "remove":
-                cartDAO.removeFromCart(customerID, productID);
+                boolean removed = cartDAO.removeFromCart(customerID, productID);
+                System.out.println("Product " + productID + " removed from cart: " + removed);
                 break;
 
             case "clear":
-                cartDAO.clearCart(customerID);
-                break;
-
-            case "update":
-                // Có thể thêm logic cập nhật số lượng ở đây
+                boolean cleared = cartDAO.clearCart(customerID);
+                System.out.println("Cart cleared: " + cleared);
                 break;
         }
 
-        // Redirect back to cart page
-        response.sendRedirect("shop-cart");
-
+        response.sendRedirect("cart");
     }
 }
