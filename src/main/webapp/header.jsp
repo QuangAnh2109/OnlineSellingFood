@@ -15,10 +15,10 @@
                     <div class="header-action-right">
                         <div class="header-action-2">
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="shop-cart.html">
+                                <a class="mini-cart-icon" href="cart">
                                     <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-cart.svg" />
                                 </a>
-                                <a href="#"><span class="lable">Cart</span></a>
+                                <a href="cart"><span class="lable">Cart</span></a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a href="#">
