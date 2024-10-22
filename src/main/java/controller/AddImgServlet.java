@@ -23,7 +23,7 @@ public class AddImgServlet extends HttpServlet {
 
 
     // Thư mục lưu file
-    private static final String IMG_FOLDER = "D:/Fall2024/SWP391/OnlineSellingFood/src/main/webapp/Img";
+    private static final String IMG_FOLDER = "C:/Users/admin/OneDrive/Documents/GitHub/OnlineSellingFood/src/main/webapp/Img";
 
     private String getFileName(Part part) {
         String contentDisposition = part.getHeader("content-disposition");

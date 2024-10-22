@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Certification" %>
 <%@ page import="model.CertificateIssuer" %>
+<%@ page import="dal.ImgDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +46,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form action="certificationCU" method="post" onsubmit="return validateForm()">
+                        <form action="certificationCU" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                             <div class="mb-4">
                                 <label for="certificate_name" class="form-label">Name</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="certificate_name" name="name" required />
@@ -71,8 +72,8 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label for="imgID" class="form-label">Image ID</label>
-                                <input type="number" placeholder="Enter image ID" class="form-control" id="imgID" name="imgID" />
+                                <label for="imagefile" class="form-label">Upload Image</label>
+                                <input type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary" id="submit_button">Create certification</button>
@@ -80,6 +81,7 @@
                             </div>
                             <input type="text" hidden class="form-control" id="certificationID" name="certificationID"/>
                         </form>
+
                     </div>
                     <div class="col-md-9">
                         <div class="table-responsive">
@@ -98,6 +100,7 @@
                                 <%
                                     List<Certification> certificationList = (List<Certification>) request.getAttribute("certificationList");
                                     if (certificationList != null && !certificationList.isEmpty()) {
+                                        ImgDAO imgdao = new ImgDAO();
                                         for (Certification certification : certificationList) {
                                 %>
                                 <tr>
@@ -106,8 +109,8 @@
                                         <b><%= certification.getName() %></b></td>
                                     <td><%= certification.getDetail() %></td>
                                     <td><%= certification.getCertificateIssuerID() %></td>
-<%--                                    <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>--%>
-                                    <td><iframe src="https://drive.google.com/file/d/1xkIu0lq41MMsoxSOD7SqHxW9PnSOgbDy/preview" width="300" height="200" allow="autoplay"></iframe></td>
+<%--                                 <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>--%>
+                                    <td><img src="Img/<%= imgdao.getImgLinkByID(certification.getImgID()) %>" alt="Image" style="width: 100px; height: auto;"></td>
                                     <td class="text-end">
                                         <button class="btn btn-light rounded btn-sm font-sm">
                                             <a href="certificationDelete?certificationID=<%= certification.getCertificationID() %>"><i class="material-icons md-delete"></i>Delete</a>
@@ -138,15 +141,14 @@
         function populateForm(certificationID, name, detail, imgID, certificateIssuerID) {
             document.getElementById("certificate_name").value = name;
             document.getElementById("certificate_detail").value = detail;
-            document.getElementById("image_link").value = imgID;
             document.getElementById("certification_id").value = certificationID;
-
-            // Set the selected value for the issuer
             document.getElementById("certificate_issuer").value = certificateIssuerID;
 
-            document.getElementById("submit_button").innerText = "Update certification";
+            // Cập nhật hình ảnh
+            const imgTag = document.getElementById("imagefile");
+            imgTag.src = imgID;
 
-            // Show Cancel button
+            document.getElementById("submit_button").innerText = "Update certification";
             document.getElementById("cancel_button").style.display = "block";
         }
 

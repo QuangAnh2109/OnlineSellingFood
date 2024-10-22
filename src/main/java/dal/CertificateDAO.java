@@ -138,18 +138,38 @@ public class CertificateDAO extends DBContext {
         return certifications;
     }
 
-    public boolean createCertification(String name, String detail, int certificateIssuerID, int imgID) {
-        String sql = "INSERT INTO Certification (Name, Detail, CertificateIssuerID, ImgID) VALUES (?, ?, ?, ?)";
+    public boolean createCertification(String name, String detail, String imgID, int certificateIssuerID) {
+        String sql = "INSERT INTO Certification (Name, Detail, ImgID, CertificateIssuerID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, detail);
-            ps.setInt(3, certificateIssuerID);
-            ps.setInt(4, imgID);
+            ps.setString(3, imgID); // Lưu đường dẫn hình ảnh
+            ps.setInt(4, certificateIssuerID);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
-            //logger.info(ex.getMessage());
             System.out.println(ex.getMessage());
             return false;
         }
     }
+    public boolean createCertification1(String name, String detail, String certificateIssuerID, Integer imgID) {
+        String sql = "INSERT INTO Certification (name, detail, certificateIssuerID, imgID) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            stmt.setString(2, detail);
+            stmt.setString(3, certificateIssuerID);
+
+            if (imgID != null) {
+                stmt.setInt(4, imgID);  // Nếu imgID không phải null
+            } else {
+                stmt.setNull(4, java.sql.Types.INTEGER);  // Nếu imgID là null, đặt giá trị null
+            }
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

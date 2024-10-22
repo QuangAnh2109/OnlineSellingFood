@@ -276,12 +276,10 @@
 
             <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
               <form action="AddImgServlet" method="post" enctype="multipart/form-data">
-
                 <input type="file" name="img" id="imagefile" onchange="chooseFile(this)"
                        accept="image/gif, image/jpeg, image/png"  required><br><br>
                 <button type="submit" class="btn btn-primary btn-upload mt-3">Upload</button>
               </form>
-
               <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
             </div>
           </div>
