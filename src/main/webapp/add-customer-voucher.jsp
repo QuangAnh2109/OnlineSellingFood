@@ -134,7 +134,7 @@
                                             <div class="d-flex justify-content-center align-items-center">
                                                 <input type="checkbox" name="selectedCustomer"
                                                        value="${cv.customerID}" class="form-check-input"
-                                                       style="transform: scale(1.5);"  />
+                                                       style="transform: scale(1.5);"  ${selectedCustomerID.contains(cv.customerID) ? 'checked' : ''}  />
                                             </div>
                                         </td>
                                     </tr>

@@ -52,7 +52,7 @@ public class CustomerVoucherDAO  extends DBContext{
         }
     }
 
-    public List<CustomerVoucherResponse> getCustomerVouchers()  {
+    public List<CustomerVoucherResponse> getCustomerVoucher()  {
         List<CustomerVoucherResponse> list = new ArrayList<CustomerVoucherResponse>();
         String sql = "select c.CustomerID,a.[Name],c.Point,c.[Level] from Customer" +
                 " c join Account a on c.AccountID=a.AccountID";
@@ -73,10 +73,28 @@ public class CustomerVoucherDAO  extends DBContext{
         return list;
     }
 
+    public List<Integer> getCustomerIDWithVoucher(int voucherID) {
+        List<Integer> customerIds = new ArrayList<>();
+        String sql = "SELECT CustomerID FROM CustomerVoucher WHERE voucherID = ?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, voucherID);
+            ResultSet rs=st.executeQuery();
+            while (rs.next()) {
+                customerIds.add(rs.getInt(1));
 
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return customerIds;
+
+    }
 
     public static void main(String[] args) {
-
+    CustomerVoucherDAO dao = new CustomerVoucherDAO();
+    List<Integer> customerIDs = dao.getCustomerIDWithVoucher(1);
+    System.out.println(customerIDs);
     }
 
 }
