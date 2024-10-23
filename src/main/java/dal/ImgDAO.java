@@ -3,6 +3,7 @@ package dal;
 
 
 import model.Img;
+import org.w3c.dom.ls.LSOutput;
 
 
 import java.sql.*;
@@ -42,7 +43,23 @@ public class ImgDAO extends DBContext{
         return null;
     }
 
+    public boolean deleteImg(int imgID) {
+        String sql = "DELETE FROM Img WHERE ImgID = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, imgID);
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null) return rs.next();
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+        }
+        return false;
+    }
 
+    public static void main(String[] args) {
+        ImgDAO dao = new ImgDAO();
+        System.out.println(dao.deleteImg(35));
+    }
 
     public void addImg(Img img) {
         String sql = "INSERT INTO Img (Imglink) VALUES (?)";

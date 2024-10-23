@@ -157,9 +157,9 @@
             const detailField = document.getElementById("certificate_detail");
             if (nameField.value.trim() === "" || detailField.value.trim() === "") {
                 alert("Please fill in all required fields.");
-                return false; // Prevent form submission if any required field is empty
+                return false;
             }
-            return true; // Allow form submission if all checks pass
+            return true;
         }
 
         function resetForm() {
@@ -167,8 +167,8 @@
             document.getElementById("certificate_detail").value = "";
             document.getElementById("image_link").value = "";
             document.getElementById("certification_id").value = "";
-            document.getElementById("submit_button").innerText = "Create certification"; // Reset button label to default
-            document.getElementById("cancel_button").style.display = "none"; // Hide Cancel button
+            document.getElementById("submit_button").innerText = "Create certification";
+            document.getElementById("cancel_button").style.display = "none";
         }
     </script>
 

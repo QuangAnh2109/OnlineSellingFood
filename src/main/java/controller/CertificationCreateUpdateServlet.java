@@ -38,36 +38,35 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String certificationID = request.getParameter("certificationID");
-        if (certificationID != null) {
-            Certification certification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
-            request.setAttribute("certificationID", certification.getCertificationID());
-            request.setAttribute("name", certification.getName());
-            request.setAttribute("detail", certification.getDetail());
-            request.setAttribute("imgID", certification.getImgID());
-            request.setAttribute("certificateIssuerID", certification.getCertificateIssuerID());
-        }
-        request.getRequestDispatcher("page-certification.jsp").forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String certificationID = request.getParameter("certificationID");
         String name = request.getParameter("name");
         String detail = request.getParameter("detail");
         String certificateIssuerID = request.getParameter("certificateIssuerID");
 
-        // Xử lý upload ảnh
+        int imgID = -1;
+        Certification existingCertification = null;
+        String oldImgLink = null;
+
+        if (certificationID != null && !certificationID.isEmpty()) {
+            // Lấy thông tin chứng chỉ cũ để xóa sau đó tạo lại
+            existingCertification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
+            if (existingCertification != null) {
+                imgID = existingCertification.getImgID();
+                oldImgLink = imgDAO.getImgLinkByID(imgID);
+            }
+        }
+        System.out.println("Existing imgID: " + imgID);
+
+        // Xử lý ảnh mới nếu có
         Part filePart = request.getPart("img");
         String fileName = getFileName(filePart);
         String imgLink = null;
-        int imgID = -1;  // imgID mặc định là -1 nếu không thêm được ảnh
 
         if (fileName != null && !fileName.isEmpty()) {
+
             InputStream fileContent = filePart.getInputStream();
             byte[] imageBytes = fileContent.readAllBytes();
-
             // Kiểm tra thư mục Img tồn tại
             File uploadDir = new File(IMG_FOLDER);
             if (!uploadDir.exists()) {
@@ -75,60 +74,53 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
                 System.out.println("Thư mục Img được tạo: " + dirCreated);
             }
 
-//            // Lưu file vào thư mục Img với đường dẫn nhất quán sử dụng /
-//            String filePath = IMG_FOLDER + "/" + fileName;
-//            try (FileOutputStream fos = new FileOutputStream(filePath)) {
-//                fos.write(imageBytes);
-//                System.out.println("File đã được lưu tại: " + filePath);
-//            } catch (IOException e) {
-//                System.err.println("Lỗi khi lưu file: " + e.getMessage());
-//                response.getWriter().println("Lỗi khi lưu file: " + e.getMessage());
-//                return;
-//            }
+            // Lưu file mới vào thư mục Img
+            String filePath = IMG_FOLDER + "\\" + fileName;
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                fos.write(imageBytes);
+                System.out.println("File mới đã được lưu tại: " + filePath);
+            }
 
-            // Lưu thông tin ảnh vào database và lấy imgID
+            // Lưu thông tin ảnh mới vào database và lấy imgID mới
             imgLink = fileName;
             Img img = new Img();
             img.setImglink(imgLink);
             imgID = imgDAO.addImg1(img);
+
         }
 
-        if (certificationID != null && !certificationID.isEmpty()) {
-            // Cập nhật chứng chỉ
-            if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isUpdated = certificationDAO.updateCertification(
-                        Integer.parseInt(certificationID),
-                        name,
-                        detail,
-                        imgID != -1 ? imgID : null,
-                        Integer.parseInt(certificateIssuerID)
-                );
-                if (isUpdated) {
-                    response.sendRedirect("certificationList");
-                } else {
-                    System.out.println("update failed");
-                }
+        // Nếu chứng chỉ cũ tồn tại, xóa chứng chỉ cũ
+        if (existingCertification != null) {
+            int imgId = existingCertification.getImgID();
+            boolean isDeletedCertification = certificationDAO.deleteCertification(imgId);
+            if (isDeletedCertification) {
+                System.out.println(isDeletedCertification);
+            } else {
+                System.out.println(isDeletedCertification);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cannot delete existing certification.");
+                return;
+            }
+        }
+        // Tạo chứng chỉ mới với thông tin được cập nhật
+        if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
+            Integer imgIDToUse = imgID != -1 ? imgID : null;
+
+            boolean isCreated = certificationDAO.createCertification1(
+                    name,
+                    detail,
+                    certificateIssuerID,
+                    imgIDToUse
+            );
+            if (isCreated) {
+                response.sendRedirect("certificationList");
+            } else {
+                System.out.println("create failed");
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cannot create new certification.");
             }
         } else {
-            // Tạo mới chứng chỉ
-            if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                // Chỉ thêm ảnh nếu imgID hợp lệ, nếu không thì truyền null
-                Integer imgIDToUse = imgID != -1 ? imgID : null;
-
-                boolean isCreated = certificationDAO.createCertification1(
-                        name,
-                        detail,
-                        certificateIssuerID,
-                        imgIDToUse
-                );
-                if (isCreated) {
-                    response.sendRedirect("certificationList");
-                } else {
-                    System.out.println("create fail");
-                }
-            }
+            System.out.println("Thông tin không hợp lệ để tạo chứng chỉ mới.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid certification information.");
         }
-
     }
 
 }
