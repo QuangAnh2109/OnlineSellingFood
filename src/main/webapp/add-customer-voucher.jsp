@@ -149,7 +149,7 @@
 
 
                     <div class="d-grid">
-                        <button class="btn btn-primary btn-sm" style="width: 24%;" type="submit">Add Customer Voucher</button>
+                        <button class="btn btn-primary btn-sm" style="width: 24%;" type="submit">Update Customer Voucher</button>
                     </div>
                     </form>
 

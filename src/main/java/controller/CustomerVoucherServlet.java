@@ -32,8 +32,6 @@
             // Lấy danh sách các customer ID đã có voucher
             List<Integer> selectedCustomerID = cvd.getCustomerIDWithVoucher(voucherID);
 
-
-
             request.setAttribute("voucher", vr);
             request.setAttribute("customervoucher", cvr);
             request.setAttribute("selectedCustomerID", selectedCustomerID);
@@ -53,13 +51,14 @@
                 }
             }
             for (Integer customerID : customerIds) {
-                boolean checkExist = cvd.checkExistCustomerVoucher(customerID,voucherID);
-                if(!checkExist){
-                    cvd.addCustomerVoucher(customerIds, voucherID);
-                }else{
-                    checkExist=true;
-                    request.setAttribute("isSelected", checkExist);
-                    request.getRequestDispatcher("add-customer-voucher.jsp").forward(request, response);
+                if(!cvd.checkExistCustomerVoucher(customerID,voucherID)){
+                    cvd.addCustomerVoucher(customerID, voucherID);
+                }
+            }
+            List<Integer> existingCustomerIDs = cvd.getCustomerIDWithVoucher(voucherID);
+            for (Integer customerID : existingCustomerIDs) {
+                if (!customerIds.contains(customerID)) {
+                    cvd.deleteCustomerVoucher(customerID, voucherID);
                 }
             }
             response.sendRedirect("voucher");

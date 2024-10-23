@@ -15,21 +15,24 @@ public class CustomerVoucherDAO  extends DBContext{
 //        return new Discount(rs.getObject("DiscountID",Integer.class),rs.getObject("DiscountPercent",Integer.class),rs.getObject("St"))
         return null;
     }
-    public void addCustomerVoucher(List<Integer> customerIDS, int voucherID) {
+    public void addCustomerVoucher(int customerID, int voucherID) {
         String sql = "INSERT INTO CustomerVoucher (customerID, voucherID) VALUES (?, ?)";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-            if (customerIDS.size() == 1) {
-                st.setInt(1, customerIDS.get(0));
-                st.setInt(2, voucherID);
-                st.executeUpdate();
-            } else {
-                for (int customerID : customerIDS) {
-                    st.setInt(1, customerID);
-                    st.setInt(2, voucherID);
-                    st.addBatch();
-                }
-                st.executeBatch();
-            }
+            st.setInt(1, customerID);
+            st.setInt(2, voucherID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteCustomerVoucher(int customerID,int voucherID) {
+        String sql = "DELETE FROM CustomerVoucher WHERE VoucherID = ? AND CustomerID = ?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, voucherID);
+            st.setInt(2, customerID);
+            st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -92,9 +95,9 @@ public class CustomerVoucherDAO  extends DBContext{
     }
 
     public static void main(String[] args) {
-    CustomerVoucherDAO dao = new CustomerVoucherDAO();
-    List<Integer> customerIDs = dao.getCustomerIDWithVoucher(1);
-    System.out.println(customerIDs);
+        CustomerVoucherDAO dao = new CustomerVoucherDAO();
+        List<Integer> customerIDs = dao.getCustomerIDWithVoucher(1);
+        System.out.println(customerIDs);
     }
 
 }
