@@ -38,7 +38,7 @@
                 <p>Add, edit or delete a unit</p>
             </div>
             <div>
-                <input type="text" id="myinput" onkeyup="myFunction()" placeholder="Search">
+                <input class="form-control bg-white" type="text" id="myinput" onkeyup="myFunction()" placeholder="Search">
             </div>
         </div>
         <div class="card">
@@ -143,11 +143,13 @@
                 document.getElementById("conversionratediv").setAttribute("hidden","");
             }else{
                 document.getElementById("conversionrate").value = conversionrate;
+                document.getElementById("conversionratediv").removeAttribute("hidden");
             }
             if(baseunitid==='null'){
                 document.getElementById("baseunitdiv").setAttribute("hidden","");
             }else{
                 document.getElementById("baseunitid").value = baseunitid;
+                document.getElementById("baseunitdiv").removeAttribute("hidden");
             }
             document.getElementById("submit_button").innerText = "Update Unit";
 
