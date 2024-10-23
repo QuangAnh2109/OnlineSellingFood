@@ -59,9 +59,14 @@ public class CertificateDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        CertificateDAO ca = new CertificateDAO();
-        System.out.println(ca.deleteCertification(12));
+        CertificateDAO dao = new CertificateDAO();
+        dao.deleteCertification(18);
     }
+
+//    public static void main(String[] args) {
+//        CertificateDAO ca = new CertificateDAO();
+//        System.out.println(ca.deleteCertification(12));
+//    }
     public boolean updateCertification(int certificationID, String name, String detail, int certificateIssuerID, int imgID) {
         String sql = "UPDATE Certification SET Name = ?, Detail = ?, CertificateIssuerID = ?, ImgID = ? WHERE CertificationID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -93,15 +98,15 @@ public class CertificateDAO extends DBContext {
 
 
     public Certification getCertificationById(int certificationID) {
-        String sql = "SELECT CertificationID, CertificateIssuerID, Name, Detail, ImgID FROM Certification WHERE CertificationID = ?";
+        String sql = "SELECT CertificateIssuerID,CertificationID,  Name, Detail, ImgID FROM Certification WHERE CertificationID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, certificationID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Certification(
-                        rs.getInt("CertificationID"),
                         rs.getInt("CertificateIssuerID"),
+                        rs.getInt("CertificationID"),
                         rs.getString("Name"),
                         rs.getString("Detail"),
                         rs.getInt("ImgID")
@@ -143,7 +148,7 @@ public class CertificateDAO extends DBContext {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, detail);
-            ps.setString(3, imgID); // Lưu đường dẫn hình ảnh
+            ps.setString(3, imgID);
             ps.setInt(4, certificateIssuerID);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
@@ -159,9 +164,9 @@ public class CertificateDAO extends DBContext {
             stmt.setString(3, certificateIssuerID);
 
             if (imgID != null) {
-                stmt.setInt(4, imgID);  // Nếu imgID không phải null
+                stmt.setInt(4, imgID);
             } else {
-                stmt.setNull(4, java.sql.Types.INTEGER);  // Nếu imgID là null, đặt giá trị null
+                stmt.setNull(4, java.sql.Types.INTEGER);
             }
 
             int rowsAffected = stmt.executeUpdate();

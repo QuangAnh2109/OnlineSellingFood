@@ -46,64 +46,36 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
 
         int imgID = -1;
         Certification existingCertification = null;
-        String oldImgLink = null;
-
         if (certificationID != null && !certificationID.isEmpty()) {
-            // Lấy thông tin chứng chỉ cũ để xóa sau đó tạo lại
             existingCertification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
-            if (existingCertification != null) {
-                imgID = existingCertification.getImgID();
-                oldImgLink = imgDAO.getImgLinkByID(imgID);
-            }
+            System.out.println(existingCertification.getCertificationID()+"+"+existingCertification.getName()+"+"+existingCertification.getDetail()+"+"+existingCertification.getCertificateIssuerID()+"+"+existingCertification.getImgID());
+            certificationDAO.deleteCertification(existingCertification.getCertificationID());
         }
-        System.out.println("Existing imgID: " + imgID);
 
-        // Xử lý ảnh mới nếu có
         Part filePart = request.getPart("img");
         String fileName = getFileName(filePart);
-        String imgLink = null;
-
         if (fileName != null && !fileName.isEmpty()) {
-
             InputStream fileContent = filePart.getInputStream();
             byte[] imageBytes = fileContent.readAllBytes();
-            // Kiểm tra thư mục Img tồn tại
             File uploadDir = new File(IMG_FOLDER);
             if (!uploadDir.exists()) {
                 boolean dirCreated = uploadDir.mkdir();
-                System.out.println("Thư mục Img được tạo: " + dirCreated);
+                System.out.println("Img folder created: " + dirCreated);
             }
 
-            // Lưu file mới vào thư mục Img
             String filePath = IMG_FOLDER + "\\" + fileName;
             try (FileOutputStream fos = new FileOutputStream(filePath)) {
                 fos.write(imageBytes);
-                System.out.println("File mới đã được lưu tại: " + filePath);
+                System.out.println("New file saved at: " + filePath);
             }
 
-            // Lưu thông tin ảnh mới vào database và lấy imgID mới
-            imgLink = fileName;
             Img img = new Img();
-            img.setImglink(imgLink);
+            img.setImglink(fileName);
             imgID = imgDAO.addImg1(img);
-
         }
 
-        // Nếu chứng chỉ cũ tồn tại, xóa chứng chỉ cũ
-        if (existingCertification != null) {
-            int imgId = existingCertification.getImgID();
-            boolean isDeletedCertification = certificationDAO.deleteCertification(imgId);
-            if (isDeletedCertification) {
-                System.out.println(isDeletedCertification);
-            } else {
-                System.out.println(isDeletedCertification);
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cannot delete existing certification.");
-                return;
-            }
-        }
-        // Tạo chứng chỉ mới với thông tin được cập nhật
         if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-            Integer imgIDToUse = imgID != -1 ? imgID : null;
+            Integer imgIDToUse = imgID != -1 ? imgID : existingCertification != null ? existingCertification.getImgID() : null;
 
             boolean isCreated = certificationDAO.createCertification1(
                     name,
@@ -114,13 +86,12 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
             if (isCreated) {
                 response.sendRedirect("certificationList");
             } else {
-                System.out.println("create failed");
+                System.out.println("Failed to create new certification.");
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cannot create new certification.");
             }
         } else {
-            System.out.println("Thông tin không hợp lệ để tạo chứng chỉ mới.");
+            System.out.println("Invalid certification information.");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid certification information.");
         }
     }
-
 }

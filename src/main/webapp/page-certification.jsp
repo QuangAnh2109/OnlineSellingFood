@@ -50,7 +50,7 @@
                             <div class="mb-4">
                                 <label for="certificate_name" class="form-label">Name</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="certificate_name" name="name" required />
-                                <input type="hidden" id="certification_id" name="certificationID" />
+                                <input type="hidden" id="certification_id" name="certificationID" value="" />
                             </div>
                             <div class="mb-4">
                                 <label for="certificate_detail" class="form-label">Detail</label>
@@ -79,7 +79,7 @@
                                 <button type="submit" class="btn btn-primary" id="submit_button">Create certification</button>
                                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
                             </div>
-                            <input type="text" hidden class="form-control" id="certificationID" name="certificationID"/>
+
                         </form>
 
                     </div>
@@ -170,6 +170,14 @@
             document.getElementById("submit_button").innerText = "Create certification";
             document.getElementById("cancel_button").style.display = "none";
         }
+
+        document.getElementById("submit_button").onclick = function() {
+            if (document.getElementById("certification_id").value === "") {
+                alert("No certification selected for update.");
+                return false;  // Ngăn form submit nếu không có giá trị ID
+            }
+        };
+
     </script>
 
 
