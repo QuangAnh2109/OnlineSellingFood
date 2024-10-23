@@ -72,6 +72,28 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
             existingCertification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
             System.out.println(existingCertification.getCertificationID()+"+"+existingCertification.getName()+"+"+existingCertification.getDetail()+"+"+existingCertification.getCertificateIssuerID()+"+"+existingCertification.getImgID());
             certificationDAO.deleteCertification(existingCertification.getCertificationID());
+            // Lấy ImgID từ chứng chỉ cũ
+            int oldImgID = existingCertification.getImgID();
+
+            // Xóa chứng chỉ cũ
+            certificationDAO.deleteCertification(existingCertification.getCertificationID());
+
+            // Xóa ảnh cũ sau khi xóa chứng chỉ
+            if (oldImgID != -1) {
+                Img oldImg = imgDAO.getImgById(oldImgID);
+                if (oldImg != null) {
+                    String oldImgPath = IMG_FOLDER + "\\" + oldImg.getImglink();
+                    File oldImgFile = new File(oldImgPath);
+                    if (oldImgFile.exists()) {
+                        boolean isDeleted = oldImgFile.delete();
+                        System.out.println("Old image deleted: " + isDeleted);
+                        // Nếu bạn muốn xóa luôn bản ghi ảnh trong database
+                        if (isDeleted) {
+                            imgDAO.deleteImg(oldImgID);
+                        }
+                    }
+                }
+            }
         }
 
         if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {

@@ -42,6 +42,20 @@ public class ImgDAO extends DBContext{
         }
         return null;
     }
+    public Img getImgById(int imgID) {
+        String sql = "SELECT ImgID, Imglink FROM Img WHERE ImgID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, imgID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Img(rs.getInt("ImgID"), rs.getString("Imglink"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public boolean deleteImg(int imgID) {
         String sql = "DELETE FROM Img WHERE ImgID = ?";
