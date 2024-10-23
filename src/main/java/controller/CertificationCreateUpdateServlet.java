@@ -45,12 +45,6 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
         String certificateIssuerID = request.getParameter("certificateIssuerID");
 
         int imgID = -1;
-        Certification existingCertification = null;
-        if (certificationID != null && !certificationID.isEmpty()) {
-            existingCertification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
-            System.out.println(existingCertification.getCertificationID()+"+"+existingCertification.getName()+"+"+existingCertification.getDetail()+"+"+existingCertification.getCertificateIssuerID()+"+"+existingCertification.getImgID());
-            certificationDAO.deleteCertification(existingCertification.getCertificationID());
-        }
 
         Part filePart = request.getPart("img");
         String fileName = getFileName(filePart);
@@ -72,6 +66,12 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
             Img img = new Img();
             img.setImglink(fileName);
             imgID = imgDAO.addImg1(img);
+        }
+        Certification existingCertification = null;
+        if (certificationID != null && !certificationID.isEmpty()) {
+            existingCertification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
+            System.out.println(existingCertification.getCertificationID()+"+"+existingCertification.getName()+"+"+existingCertification.getDetail()+"+"+existingCertification.getCertificateIssuerID()+"+"+existingCertification.getImgID());
+            certificationDAO.deleteCertification(existingCertification.getCertificationID());
         }
 
         if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
