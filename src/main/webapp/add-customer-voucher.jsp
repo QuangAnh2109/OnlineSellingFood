@@ -62,11 +62,13 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
+
                     <div class="col-md-3">
                         <c:set var="vr" value="${voucher}"></c:set>
-                        <!-- Bắt đầu form chính -->
+
+
                         <form method="post" action="customervoucher">
-                            <!-- Phần thông tin voucher -->
+
                             <div class="mb-4">
                                 <label for="voucher_id" class="form-label">VoucherID</label>
                                 <input type="number" class="form-control" id="voucher_id" name="voucherID"
@@ -81,8 +83,8 @@
 
                             <div class="mb-4">
                                 <label class="form-label">Discount(Percent)</label>
-                                <input type="number" class="form-control" id="discount_percent" name="discountPercent"
-                                       value="${vr.discountPercent}" readonly=""/>
+                                <input type="number" class="form-control" id="discount_percent"
+                                       name="discountPercent" value="${vr.discountPercent}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
@@ -93,8 +95,8 @@
 
                             <div class="mb-4">
                                 <label class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" id="voucher_end_date" name="endDate"
-                                       value="${vr.endTime}" readonly=""/>
+                                <input type="datetime-local" class="form-control" id="voucher_end_date"
+                                       name="endDate" value="${vr.endTime}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
@@ -110,8 +112,8 @@
                             </div>
                     </div>
 
+
                     <div class="col-md-9">
-                        <!-- Phần danh sách khách hàng với checkbox -->
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
@@ -134,7 +136,8 @@
                                             <div class="d-flex justify-content-center align-items-center">
                                                 <input type="checkbox" name="selectedCustomer"
                                                        value="${cv.customerID}" class="form-check-input"
-                                                       style="transform: scale(1.5);"  ${selectedCustomerID.contains(cv.customerID) ? 'checked' : ''}  />
+                                                       style="transform: scale(1.5);"
+                                                    ${selectedCustomerID.contains(cv.customerID) ? 'checked' : ''} />
                                             </div>
                                         </td>
                                     </tr>
@@ -144,15 +147,14 @@
                         </div>
                     </div>
 
-                    <!-- Nút submit để gửi toàn bộ form -->
+
                     <div class="d-grid">
                         <button class="btn btn-primary btn-sm" style="width: 24%;" type="submit">Add Customer Voucher</button>
                     </div>
                     </form>
-                    <!-- Kết thúc form chính -->
+
                 </div>
             </div>
-        <!-- card .// -->
     </section>
     <!-- content-main end// -->
     <footer class="main-footer font-xs">

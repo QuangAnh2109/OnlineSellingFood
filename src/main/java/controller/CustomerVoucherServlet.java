@@ -62,8 +62,6 @@
                     request.getRequestDispatcher("add-customer-voucher.jsp").forward(request, response);
                 }
             }
-
-
             response.sendRedirect("voucher");
         }
 
