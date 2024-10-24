@@ -58,6 +58,15 @@ public class CertificateDAO extends DBContext {
         return false;
     }
 
+    public static void main(String[] args) {
+        CertificateDAO dao = new CertificateDAO();
+        dao.deleteCertification(18);
+    }
+
+//    public static void main(String[] args) {
+//        CertificateDAO ca = new CertificateDAO();
+//        System.out.println(ca.deleteCertification(12));
+//    }
     public boolean updateCertification(int certificationID, String name, String detail, int certificateIssuerID, int imgID) {
         String sql = "UPDATE Certification SET Name = ?, Detail = ?, CertificateIssuerID = ?, ImgID = ? WHERE CertificationID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -87,21 +96,17 @@ public class CertificateDAO extends DBContext {
         }
     }
 
-    public static void main(String[] args) {
-        CertificateDAO dao = new CertificateDAO();
-        dao.deleteCertification(545);
-    }
 
     public Certification getCertificationById(int certificationID) {
-        String sql = "SELECT CertificationID, CertificateIssuerID, Name, Detail, ImgID FROM Certification WHERE CertificationID = ?";
+        String sql = "SELECT CertificateIssuerID,CertificationID,  Name, Detail, ImgID FROM Certification WHERE CertificationID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, certificationID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Certification(
-                        rs.getInt("CertificationID"),
                         rs.getInt("CertificateIssuerID"),
+                        rs.getInt("CertificationID"),
                         rs.getString("Name"),
                         rs.getString("Detail"),
                         rs.getInt("ImgID")
@@ -138,18 +143,38 @@ public class CertificateDAO extends DBContext {
         return certifications;
     }
 
-    public boolean createCertification(String name, String detail, int certificateIssuerID, int imgID) {
-        String sql = "INSERT INTO Certification (Name, Detail, CertificateIssuerID, ImgID) VALUES (?, ?, ?, ?)";
+    public boolean createCertification(String name, String detail, String imgID, int certificateIssuerID) {
+        String sql = "INSERT INTO Certification (Name, Detail, ImgID, CertificateIssuerID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, detail);
-            ps.setInt(3, certificateIssuerID);
-            ps.setInt(4, imgID);
+            ps.setString(3, imgID);
+            ps.setInt(4, certificateIssuerID);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
-            //logger.info(ex.getMessage());
             System.out.println(ex.getMessage());
             return false;
         }
     }
+    public boolean createCertification1(String name, String detail, String certificateIssuerID, Integer imgID) {
+        String sql = "INSERT INTO Certification (name, detail, certificateIssuerID, imgID) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            stmt.setString(2, detail);
+            stmt.setString(3, certificateIssuerID);
+
+            if (imgID != null) {
+                stmt.setInt(4, imgID);
+            } else {
+                stmt.setNull(4, java.sql.Types.INTEGER);
+            }
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

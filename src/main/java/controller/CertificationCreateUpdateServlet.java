@@ -1,30 +1,40 @@
 package controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
 import dal.CertificateDAO;
+import dal.ImgDAO;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.Certification;
+import model.Img;
 
 @WebServlet(name = "CertificationCreateUpdateServlet", value = "/certificationCU")
+@MultipartConfig
 public class CertificationCreateUpdateServlet extends HttpServlet {
-    private CertificateDAO certificationDAO = new CertificateDAO();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String certificationID = request.getParameter("certificationID");
-        if (certificationID != null) {
-            Certification certification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
-            request.setAttribute("certificationID", certification.getCertificationID());
-            request.setAttribute("name", certification.getName());
-            request.setAttribute("detail", certification.getDetail());
-            request.setAttribute("imgID", certification.getImgID());
-            request.setAttribute("certificateIssuerID", certification.getCertificateIssuerID());
+    private CertificateDAO certificationDAO = new CertificateDAO();
+    private ImgDAO imgDAO = new ImgDAO();
+
+    // Thư mục lưu file
+    private static final String IMG_FOLDER = "C:\\Users\\admin\\OneDrive\\Documents\\GitHub\\OnlineSellingFood\\src\\main\\webapp\\Img";
+
+    private String getFileName(Part part) {
+        String contentDisposition = part.getHeader("content-disposition");
+        for (String token : contentDisposition.split(";")) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf('=') + 2, token.length() - 1);
+            }
         }
-        request.getRequestDispatcher("page-certification.jsp").forward(request, response);
+        return null;
     }
 
     @Override
@@ -32,27 +42,78 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
         String certificationID = request.getParameter("certificationID");
         String name = request.getParameter("name");
         String detail = request.getParameter("detail");
-        String imgID = request.getParameter("imgID");
         String certificateIssuerID = request.getParameter("certificateIssuerID");
 
+        int imgID = -1;
+
+        Part filePart = request.getPart("img");
+        String fileName = getFileName(filePart);
+        if (fileName != null && !fileName.isEmpty()) {
+            InputStream fileContent = filePart.getInputStream();
+            byte[] imageBytes = fileContent.readAllBytes();
+            File uploadDir = new File(IMG_FOLDER);
+            if (!uploadDir.exists()) {
+                boolean dirCreated = uploadDir.mkdir();
+                System.out.println("Img folder created: " + dirCreated);
+            }
+
+            String filePath = IMG_FOLDER + "\\" + fileName;
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                fos.write(imageBytes);
+                System.out.println("New file saved at: " + filePath);
+            }
+
+            Img img = new Img();
+            img.setImglink(fileName);
+            imgID = imgDAO.addImg1(img);
+        }
+        Certification existingCertification = null;
         if (certificationID != null && !certificationID.isEmpty()) {
-            if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isUpdated = certificationDAO.updateCertification(Integer.parseInt(certificationID), name, detail, Integer.parseInt(imgID), Integer.parseInt(certificateIssuerID));
-                if (isUpdated) {
-                    response.sendRedirect("certificationList");
-                } else {
-                    System.out.println("update failed");
+            existingCertification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
+            System.out.println(existingCertification.getCertificationID()+"+"+existingCertification.getName()+"+"+existingCertification.getDetail()+"+"+existingCertification.getCertificateIssuerID()+"+"+existingCertification.getImgID());
+            certificationDAO.deleteCertification(existingCertification.getCertificationID());
+            // Lấy ImgID từ chứng chỉ cũ
+            int oldImgID = existingCertification.getImgID();
+
+            // Xóa chứng chỉ cũ
+            certificationDAO.deleteCertification(existingCertification.getCertificationID());
+
+            // Xóa ảnh cũ sau khi xóa chứng chỉ
+            if (oldImgID != -1) {
+                Img oldImg = imgDAO.getImgById(oldImgID);
+                if (oldImg != null) {
+                    String oldImgPath = IMG_FOLDER + "\\" + oldImg.getImglink();
+                    File oldImgFile = new File(oldImgPath);
+                    if (oldImgFile.exists()) {
+                        boolean isDeleted = oldImgFile.delete();
+                        System.out.println("Old image deleted: " + isDeleted);
+                        // Nếu bạn muốn xóa luôn bản ghi ảnh trong database
+                        if (isDeleted) {
+                            imgDAO.deleteImg(oldImgID);
+                        }
+                    }
                 }
+            }
+        }
+
+        if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
+            Integer imgIDToUse = imgID != -1 ? imgID : existingCertification != null ? existingCertification.getImgID() : null;
+
+            boolean isCreated = certificationDAO.createCertification1(
+                    name,
+                    detail,
+                    certificateIssuerID,
+                    imgIDToUse
+            );
+            if (isCreated) {
+                response.sendRedirect("certificationList");
+            } else {
+                System.out.println("Failed to create new certification.");
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cannot create new certification.");
             }
         } else {
-            if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isCreated = certificationDAO.createCertification(name, detail, Integer.parseInt(certificateIssuerID),Integer.parseInt(imgID));
-                if (isCreated) {
-                    response.sendRedirect("certificationList");
-                } else {
-                    System.out.println("create fail");
-                }
-            }
+            System.out.println("Invalid certification information.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid certification information.");
         }
     }
 }
