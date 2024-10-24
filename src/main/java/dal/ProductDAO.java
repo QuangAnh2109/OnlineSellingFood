@@ -1,6 +1,7 @@
 package dal;
 
 import common.Encrypt;
+import common.InsertPrepareStatement;
 import model.Account;
 import model.Origin;
 import model.Product;
@@ -9,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,38 +52,63 @@ public class ProductDAO extends DBContext{
         return Collections.emptyList();
     }
 
-    public void deleteOrigin(int originID) {
-        String sql = "DELETE FROM Origin WHERE OriginID = ?";
+    public boolean deleteProduct(int prodcutID) {
+        String sql = "DELETE FROM Product WHERE ProductID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, originID);
-            ps.executeUpdate();
+            ps.setInt(1, prodcutID);
+            return ps.executeUpdate()>0;
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
         }
+        return false;
     }
 
-    public boolean updateOrigin(String originID, String name) {
-        String sql = "UPDATE Origin SET Name = ? WHERE OriginID = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, name);
-            ps.setString(2, originID);
+    public boolean updateProduct(Product product) {
+        String sql = "UPDATE Product SET Price = ?, DiscountID =?, Weight =?, CategoryID =?, ManufacturerID =?, OriginID =?, UnitID =?, CertificationID =?, StatusID =?, Name =?, Detail =? WHERE ProductID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, product.getPrice());
+            InsertPrepareStatement.insertInteger(product.getDiscountID(),ps,2);
+            ps.setInt(3,product.getWeight());
+            ps.setInt(4,product.getCategoryID());
+            ps.setInt(5,product.getManufacturerID());
+            ps.setInt(6,product.getOriginID());
+            ps.setInt(7,product.getUnitID());
+            ps.setInt(8,product.getCertificationID());
+            ps.setInt(9,product.getStatusID());
+            ps.setNString(10,product.getName());
+            ps.setNString(11,product.getDetail());
+            ps.setInt(12,product.getProductID());
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
-            return false;
         }
+        return false;
     }
 
-    public void addOrigin(Origin origin) {
-        String sql = "INSERT INTO Origin (Name) VALUES (?)";
+    public Integer addProduct(Product product) {
+        String sql = "INSERT INTO Product (Price,DiscountID,Weight,CategoryID,ManufacturerID,OriginID,UnitID,CertificationID,StatusID,Name,Detail) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, origin.getName());
-            ps.executeUpdate();
+            ps.setInt(1, product.getPrice());
+            InsertPrepareStatement.insertInteger(product.getDiscountID(),ps,2);
+            ps.setInt(3,product.getWeight());
+            ps.setInt(4,product.getCategoryID());
+            ps.setInt(5,product.getManufacturerID());
+            ps.setInt(6,product.getOriginID());
+            ps.setInt(7,product.getUnitID());
+            ps.setInt(8,product.getCertificationID());
+            ps.setInt(9,product.getStatusID());
+            ps.setNString(10,product.getName());
+            ps.setNString(11,product.getDetail());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null && rs.next()){
+                return rs.getInt("ProductID");
+            }
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
         }
+        return null;
     }
 
     public void deleteDiscount(int productID){

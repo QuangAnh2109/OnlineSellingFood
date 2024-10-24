@@ -45,11 +45,11 @@ public class OriginDAO extends DBContext {
         }
     }
 
-    public boolean updateOrigin(String originID, String name) {
+    public boolean updateOrigin(int originID, String name) {
         String sql = "UPDATE Origin SET Name = ? WHERE OriginID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, name);
-            ps.setString(2, originID);
+            ps.setNString(1, name);
+            ps.setInt(2, originID);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
@@ -57,11 +57,11 @@ public class OriginDAO extends DBContext {
         }
     }
 
-    public void addOrigin(Origin origin) {
+    public void addOrigin(String name) {
         String sql = "INSERT INTO Origin (Name) VALUES (?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, origin.getName());
+            ps.setNString(1, name);
             ps.executeUpdate();
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
