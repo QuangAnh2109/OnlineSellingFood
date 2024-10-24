@@ -14,7 +14,7 @@ import java.util.List;
 import model.Account;
 import dal.CustomerDAO;
 
-@WebServlet(name = "CartServlet", urlPatterns = {"/cart", "/shop-cart"})  // Thêm cả 2 URL pattern
+@WebServlet(name = "CartServlet", urlPatterns = {"/cart"})  // Thêm cả 2 URL pattern
 public class CartServlet extends HttpServlet {
     private CartDAO cartDAO;
     private ProductDAO productDAO;
@@ -99,7 +99,7 @@ public class CartServlet extends HttpServlet {
         String productIDParam = request.getParameter("productID");
 
         if (action == null || productIDParam == null) {
-            response.sendRedirect("cart");
+            response.sendRedirect("shop-cart");
             return;
         }
 
@@ -125,6 +125,6 @@ public class CartServlet extends HttpServlet {
                 break;
         }
 
-        response.sendRedirect("cart");
+        response.sendRedirect("shop-cart");
     }
 }
