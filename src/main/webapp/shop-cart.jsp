@@ -72,6 +72,10 @@
                     <table class="table table-wishlist">
                         <thead>
                         <tr class="main-heading">
+                            <th class="custome-checkbox start pl-30">
+                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
+                                <label class="form-check-label" for="exampleCheckbox11"></label>
+                            </th>
                             <th scope="col" colspan="2">Product</th>
                             <th scope="col">Unit Price</th>
                             <th scope="col">Quantity</th>
@@ -87,7 +91,11 @@
 <%--                                    </tr>--%>
 <%--                        --%>
 
-                            <tr>
+                                    <tr>
+                                        <td class="custome-checkbox pl-30">
+                                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="">
+                                            <label class="form-check-label" for="exampleCheckbox2"></label>
+                                        </td>
                                 <!-- Product Image -->
                                 <td class="image product-thumbnail">
                                     <img src= alt=">
@@ -139,6 +147,7 @@
                                         <td colspan="3">No products in the cart.</td>
                                     </tr>
                                 </c:if>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
