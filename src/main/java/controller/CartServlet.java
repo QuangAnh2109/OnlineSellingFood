@@ -99,7 +99,7 @@ public class CartServlet extends HttpServlet {
         String productIDParam = request.getParameter("productID");
 
         if (action == null || productIDParam == null) {
-            response.sendRedirect("shop-cart");
+            response.sendRedirect("cart");
             return;
         }
 
@@ -125,6 +125,6 @@ public class CartServlet extends HttpServlet {
                 break;
         }
 
-        response.sendRedirect("shop-cart");
+        response.sendRedirect("cart");
     }
 }

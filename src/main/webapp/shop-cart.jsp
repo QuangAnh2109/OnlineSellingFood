@@ -85,12 +85,6 @@
                         </thead>
                         <tbody>
                                 <c:forEach items="${products}" var="product">
-<%--                                    <tr>--%>
-<%--                                        <td>${product.name}</td>--%>
-<%--                                        <td>${product.price}</td>--%>
-<%--                                    </tr>--%>
-<%--                        --%>
-
                                     <tr>
                                         <td class="custome-checkbox pl-30">
                                             <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="">
@@ -104,7 +98,7 @@
                                 <!-- Product Details (Name and Ratings) -->
                                 <td class="product-des product-name">
                                     <h6 class="mb-5">
-                                        <a class="product-name mb-10 text-heading" ">
+                                        <a class="product-name mb-10 text-heading" >
                                                 ${product.name}
                                         </a>
                                     </h6>
@@ -136,9 +130,11 @@
 
                                 <!-- Remove Item -->
                                 <td class="action text-center" data-title="Remove">
-                                    <a href="#" class="text-body">
-                                        <i class="fi-rs-trash"></i>
-                                    </a>
+                                    <h6 class="text-body">
+                                        <a href="#" onclick="clearCart(); return false;" class="text-muted">
+                                            <i class="fi-rs-trash mr-5"></i>Clear Cart
+                                        </a>
+                                    </h6>
                                 </td>
                             </tr>
                                 </c:forEach>
@@ -205,47 +201,22 @@
 </main>
 
 <script>
-    function removeFromCart(productId) {
-        fetch('cart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `action=remove&productID=${productId}`
-        }).then(() => window.location.reload());
-    }
-
     function clearCart() {
-        if(confirm('Are you sure you want to clear your cart?')) {
-            fetch('cart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'action=clear'
-            }).then(() => window.location.reload());
+        if (confirm('Are you sure you want to clear your cart?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'cart';
+
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'clear';
+
+            form.appendChild(actionInput);
+            document.body.appendChild(form);
+            form.submit();
         }
     }
-
-    function updateQuantity(productId, action) {
-        // Implement quantity update logic
-        const qtyElement = event.target.closest('.detail-qty').querySelector('.qty-val');
-        let qty = parseInt(qtyElement.textContent);
-
-        if(action === 'up') {
-            qty++;
-        } else if(action === 'down' && qty > 1) {
-            qty--;
-        }
-
-        qtyElement.textContent = qty;
-    }
-
-    function updateCart() {
-        // Implement cart update logic
-        window.location.reload();
-    }
-
 </script>
 <!-- Vendor JS-->
 <script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
