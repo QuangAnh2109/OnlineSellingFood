@@ -124,4 +124,91 @@ public class StaffDAO extends DBContext{
         }
         return null;
     }
+
+    public void updateProfileForStaff(Account a, ContactInformation c, Staff s){
+        String sql="UPDATE [dbo].[Account]\n" +
+                "   SET [RoleID] = ?\n" +
+                "      ,[Email] = ?\n" +
+                "      ,[Name] =? \n" +
+                "      ,[Birth] = ?\n" +
+                "      ,[StatusID] =? \n" +
+                " WHERE AccountID=?";
+        try{
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1,a.getRoleID());
+            st.setString(2,a.getEmail());
+            st.setString(3,a.getName());
+            st.setTimestamp(4, Timestamp.valueOf(a.getBirth()));
+            st.setInt(5,a.getStatusID());
+            st.setInt(6,a.getAccountID());
+
+
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+         sql="UPDATE [dbo].[ContactInformation]\n" +
+                "   SET [Address] =?\n" +
+                "      ,[PhoneNumber] =?\n" +
+                " WHERE ContactInformationID=?";
+
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setString(1,c.getAddress());
+            st.setString(2,c.getPhoneNumber());
+            st.setInt(3,c.getContactInformationID());
+            st.executeUpdate();
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        sql="UPDATE [dbo].[Staff]\n" +
+                "      SET [Salary] = ?\n" +
+                "      ,[WarehouseID] = ?\n" +
+                " WHERE AccountID=?";
+
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1,s.getSalary());
+            st.setInt(2,s.getWarehouseID());
+            st.setInt(3,s.getAccountID());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public List<StaffListResponse> searchStaffByName(String searchName) {
+        List<StaffListResponse> listStaff = new ArrayList<>();
+        String sql = "SELECT a.AccountID, a.Name, a.Email, ast.Detail, a.[Time] " +
+                "FROM Account a " +
+                "JOIN AccountStatus ast ON a.StatusID = ast.StatusID " +
+                "WHERE a.RoleID != 6 AND a.RoleID != 1";
+
+        if (searchName != null && !searchName.trim().isEmpty()) {
+            sql += " AND LOWER(a.Name) LIKE ?";
+        }
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            if (searchName != null && !searchName.trim().isEmpty()) {
+                st.setString(1, "%" + searchName.toLowerCase() + "%");
+            }
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                StaffListResponse slr = new StaffListResponse();
+                slr.setAcoountID(rs.getInt("AccountID"));
+                slr.setName(rs.getString("Name"));
+                slr.setEmail(rs.getString("Email"));
+                slr.setDetail(rs.getString("Detail"));
+                slr.setTime(rs.getDate("Time"));
+                listStaff.add(slr);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listStaff;
+    }
 }

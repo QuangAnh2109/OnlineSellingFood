@@ -55,6 +55,16 @@
                     <span class="text">Unit</span>
                 </a>
             </li>
+            <li class="menu-item has-submenu" id="manufacter">
+                <a class="menu-link" href="#">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Manufacter</span>
+                </a>
+                <div class="submenu">
+                    <a href="manulist" id="manulist">Manufacter list</a>
+                    <a href="registerManu" id="addmanu">Add New Manufacter</a>
+                </div>
+            </li>
             <%
                 }
                 else if(role==2){

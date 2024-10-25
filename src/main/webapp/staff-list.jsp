@@ -36,7 +36,11 @@
       <header class="card-header">
         <div class="row gx-3">
           <div class="col-lg-4 col-md-6 me-auto">
-            <input type="text" placeholder="Search..." class="form-control" />
+            <form action="staffList" method="GET" style="display: flex;">
+              <input type="text" name="searchName" placeholder="Search by name..." class="form-control"
+                     value="${param.searchName}" style="flex: 1;" />
+              <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+            </form>
           </div>
           <div class="col-lg-2 col-md-3 col-6">
             <select class="form-select">
