@@ -67,13 +67,16 @@ public class StaffDAO extends DBContext{
         }
         return null;
     }
-    public List<StaffListResponse> getAllStaff(){
-        List<StaffListResponse> listStaff = new ArrayList<StaffListResponse>();
-        String sql = "\tselect a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
-                "\tfrom Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
-                "\twhere a.RoleID != 6 and a.RoleID != 1";
+    public List<StaffListResponse> getAllStaff(int index){
+        List<StaffListResponse> listStaff = new ArrayList<>();
+        String sql = "select a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
+                "from Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
+                "where a.RoleID != 6 and a.RoleID != 1\n" +
+                "order by AccountID\n" +
+                "offset ? ROWS FETCH NEXT 5 ROWS ONLY\n";
         try {
             PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, (index-1)*5);
             ResultSet rs=st.executeQuery();
             while(rs.next()){
                 StaffListResponse slr=new StaffListResponse();
@@ -125,60 +128,6 @@ public class StaffDAO extends DBContext{
         return null;
     }
 
-    public void updateProfileForStaff(Account a, ContactInformation c, Staff s){
-        String sql="UPDATE [dbo].[Account]\n" +
-                "   SET [RoleID] = ?\n" +
-                "      ,[Email] = ?\n" +
-                "      ,[Name] =? \n" +
-                "      ,[Birth] = ?\n" +
-                "      ,[StatusID] =? \n" +
-                " WHERE AccountID=?";
-        try{
-            PreparedStatement st=connection.prepareStatement(sql);
-            st.setInt(1,a.getRoleID());
-            st.setString(2,a.getEmail());
-            st.setString(3,a.getName());
-            st.setTimestamp(4, Timestamp.valueOf(a.getBirth()));
-            st.setInt(5,a.getStatusID());
-            st.setInt(6,a.getAccountID());
-
-
-
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-         sql="UPDATE [dbo].[ContactInformation]\n" +
-                "   SET [Address] =?\n" +
-                "      ,[PhoneNumber] =?\n" +
-                " WHERE ContactInformationID=?";
-
-        try {
-            PreparedStatement st=connection.prepareStatement(sql);
-            st.setString(1,c.getAddress());
-            st.setString(2,c.getPhoneNumber());
-            st.setInt(3,c.getContactInformationID());
-            st.executeUpdate();
-        }catch (SQLException ex){
-            System.out.println(ex.getMessage());
-        }
-
-        sql="UPDATE [dbo].[Staff]\n" +
-                "      SET [Salary] = ?\n" +
-                "      ,[WarehouseID] = ?\n" +
-                " WHERE AccountID=?";
-
-        try {
-            PreparedStatement st=connection.prepareStatement(sql);
-            st.setInt(1,s.getSalary());
-            st.setInt(2,s.getWarehouseID());
-            st.setInt(3,s.getAccountID());
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public List<StaffListResponse> searchStaffByName(String searchName) {
         List<StaffListResponse> listStaff = new ArrayList<>();
         String sql = "SELECT a.AccountID, a.Name, a.Email, ast.Detail, a.[Time] " +
@@ -210,5 +159,28 @@ public class StaffDAO extends DBContext{
             throw new RuntimeException(e);
         }
         return listStaff;
+    }
+
+public int getTotalAccountStaff() {
+    String sql = "select count(*) from Account where RoleID!=1 And RoleID!=6";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            return rs.getInt(1);
+        }
+
+
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return 0;
+}
+    public static void main(String[] args) {
+        StaffDAO dao = new StaffDAO();
+        List<StaffListResponse> staffList = dao.getAllStaff(1);
+        for (StaffListResponse staff : staffList) {
+            System.out.println(staff);
+        }
     }
 }

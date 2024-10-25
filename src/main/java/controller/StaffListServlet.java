@@ -1,5 +1,6 @@
 package controller;
 
+import dal.AccountDAO;
 import dal.StaffDAO;
 import dto.StaffListResponse;
 import jakarta.servlet.ServletException;
@@ -16,27 +17,28 @@ public class StaffListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve the search parameter from the request
-        String searchName = request.getParameter("searchName");
 
-        // Initialize the StaffDAO to retrieve staff list
-        StaffDAO sd = new StaffDAO();
 
-        // If searchName is provided, perform a search; otherwise, get all staff
-        List<StaffListResponse> sls;
-        if (searchName != null && !searchName.trim().isEmpty()) {
-            sls = sd.searchStaffByName(searchName);
-        } else {
-            sls = sd.getAllStaff();
+       String indexPage=request.getParameter("index");
+        if(indexPage==null){
+            indexPage="1";
         }
 
-        // Set the staff list and the search query as attributes to be used in the JSP
+       int index=Integer.parseInt(indexPage);
+
+        StaffDAO sd = new StaffDAO();
+        int count=sd.getTotalAccountStaff();
+        int endPage=count/5;
+        if(count%5!=0){
+            endPage++;
+        }
+
+
+        List<StaffListResponse> sls=sd.getAllStaff(index);
         request.setAttribute("staffList", sls);
-        request.setAttribute("searchName", searchName);
-
-        // Forward the request to the JSP page
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("index", index);
         request.getRequestDispatcher("staff-list.jsp").forward(request, response);
-
     }
 
     @Override

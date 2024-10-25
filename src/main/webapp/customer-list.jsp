@@ -98,14 +98,9 @@
         <div class="pagination-area mt-15 mb-50">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-start">
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                    </li>
+                    <c:forEach begin="01" end="${endPage}" var="i">
+                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="customerList?index=${i}">${i}</a></li>
+                    </c:forEach>
                 </ul>
             </nav>
         </div>

@@ -74,7 +74,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Address</label>
-                        <input class="form-control" name="address" value="${staffListDetail.address}" placeholder="Address" type="text" required />
+                        <input class="form-control" name="address" value="${staffListDetail.address}" placeholder="Address" type="text" required
+                        minlength="5" maxlength="200"/>
                     </div>
 
                     <div class="mb-3">

@@ -13,9 +13,11 @@ public class Account {
     private LocalDateTime time;
     private Integer statusID;
 
-
+    private String timestring;
+    private String birthdaystring;
     public Account() {
     }
+
 
     public Account(Integer accountID, Integer roleID, String email, String name, Integer genderID, String password, LocalDateTime birth, LocalDateTime time, Integer statusID) {
         this.accountID = accountID;
@@ -111,4 +113,21 @@ public class Account {
     public void setStatusID(Integer statusID) {
         this.statusID = statusID;
     }
+
+    public String getTimestring() {
+        return timestring;
+    }
+
+    public String getBirthdaystring() {
+        return birthdaystring;
+    }
+
+    public void setBirthdaystring(String birthdaystring) {
+        this.birthdaystring = birthdaystring;
+    }
+
+    public void setTimestring(String timestring) {
+        this.timestring = timestring;
+    }
+
 }

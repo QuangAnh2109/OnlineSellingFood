@@ -119,6 +119,29 @@ public int checkExistPercent(int discountPercent, LocalDateTime startTime, Local
         }
     }
 
+    public int addDiscount(int discountPercent, LocalDateTime startTime, LocalDateTime endTime){
+        String sql = "insert into Discount values(?,?,?)";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, discountPercent);
+
+            // Chuyển LocalDateTime thành Timestamp để lưu vào cơ sở dữ liệu
+            Timestamp startTimestamp = Timestamp.valueOf(startTime);
+            Timestamp endTimestamp = Timestamp.valueOf(endTime);
+
+            ps.setTimestamp(2, startTimestamp);
+            ps.setTimestamp(3, endTimestamp);
+            ps.executeUpdate();
+            if (ps.getGeneratedKeys()!=null && ps.getGeneratedKeys().next()){
+                return ps.getGeneratedKeys().getInt(1);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public void deleteDiscount(int discountID){
         String sql = "delete from Discount where DiscountID=?";
         try {
