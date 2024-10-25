@@ -64,7 +64,7 @@
                     <span class="text">Products</span>
                 </a>
                 <div class="submenu">
-                    <a href="ImportList.jsp" id="import">Import</a>
+                    <a href="Import" >Import</a>
 
                 </div>
             </li>
