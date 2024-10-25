@@ -38,7 +38,7 @@
           <div class="col-lg-4 col-md-6 me-auto">
             <form action="staffList" method="GET" style="display: flex;">
               <input type="text" name="searchName" placeholder="Search by name..." class="form-control"
-                     value="${param.searchName}" style="flex: 1;" />
+                    value="${searchName}" style="flex: 1;" />
               <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
             </form>
           </div>
@@ -109,7 +109,7 @@
 
                     <ul class="pagination justify-content-start">
                         <c:forEach begin="01" end="${endPage}" var="i">
-                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="staffList?index=${i}">${i}</a></li>
+                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="staffList?index=${i}&searchName=${searchName}">${i}</a></li>
                         </c:forEach>
                     </ul>
 

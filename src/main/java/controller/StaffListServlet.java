@@ -18,6 +18,8 @@ public class StaffListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String searchName=request.getParameter("searchName");
+        if(searchName==null)searchName="";
 
        String indexPage=request.getParameter("index");
         if(indexPage==null){
@@ -25,19 +27,22 @@ public class StaffListServlet extends HttpServlet {
         }
 
        int index=Integer.parseInt(indexPage);
-
         StaffDAO sd = new StaffDAO();
-        int count=sd.getTotalAccountStaff();
+        List<StaffListResponse> sls=sd.getAllStaff(index,searchName);
+
+        int count=sd.getTotalAccountStaff(searchName);
         int endPage=count/5;
         if(count%5!=0){
             endPage++;
         }
 
 
-        List<StaffListResponse> sls=sd.getAllStaff(index);
+
+
         request.setAttribute("staffList", sls);
         request.setAttribute("endPage", endPage);
         request.setAttribute("index", index);
+        request.setAttribute("searchName", searchName);
         request.getRequestDispatcher("staff-list.jsp").forward(request, response);
     }
 

@@ -82,7 +82,7 @@ public class CustomerDAO extends DBContext{
             ResultSet rs=st.executeQuery();
             while(rs.next()){
                 StaffListResponse slr=new StaffListResponse();
-                slr.setAcoountID(rs.getInt("AccountID"));
+                slr.setAccountID(rs.getInt("AccountID"));
                 slr.setName(rs.getString("Name"));
                 slr.setEmail(rs.getString("Email"));
                 slr.setDetail(rs.getString("Detail"));

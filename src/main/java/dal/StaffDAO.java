@@ -12,75 +12,91 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDAO extends DBContext{
+public class StaffDAO extends DBContext {
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Staff(rs.getInt("StaffID"),rs.getInt("AccountID"),rs.getInt("Salary"),rs.getInt("WarehouseID"));
+        return new Staff(rs.getInt("StaffID"), rs.getInt("AccountID"), rs.getInt("Salary"), rs.getInt("WarehouseID"));
     }
 
-    public Staff getStaffByCustomerID(int staffID){
-        try{
+    public Staff getStaffByCustomerID(int staffID) {
+        try {
             PreparedStatement ps = connection.prepareStatement("select StaffID,AccountID,Salary,WarehouseID from Staff where StaffID=?");
             ps.setInt(1, staffID);
-            return (Staff)getObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            return (Staff) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
 
-    public Staff getStaffByAccountID(int accountID){
-        try{
+    public Staff getStaffByAccountID(int accountID) {
+        try {
             PreparedStatement ps = connection.prepareStatement("select StaffID,AccountID,Salary,WarehouseID from Staff where AccountID=?");
             ps.setInt(1, accountID);
-            return (Staff)getObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            return (Staff) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
 
-    public boolean updateStaffInformation(Staff staff){
-        try{
+    public boolean updateStaffInformation(Staff staff) {
+        try {
             PreparedStatement ps = connection.prepareStatement("update Staff set Salary=?, WarehouseID=? where StaffID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, staff.getSalary());
             ps.setInt(2, staff.getWarehouseID());
             ps.setInt(3, staff.getStaffID());
             ResultSet rs = executeUpdate(ps);
-            if(rs!=null)return rs.next();
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            if (rs != null) return rs.next();
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return false;
     }
 
-    public Integer addStaff(Staff staff){
-        try{
+    public Integer addStaff(Staff staff) {
+        try {
             PreparedStatement ps = connection.prepareStatement("insert into Staff(AccountID,Salary,WarehouseID) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, staff.getAccountID());
             ps.setInt(2, staff.getSalary());
             ps.setInt(3, staff.getWarehouseID());
             ResultSet rs = executeUpdate(ps);
-            if(rs!=null&&rs.next()) return rs.getInt(1);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            if (rs != null && rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
-    public List<StaffListResponse> getAllStaff(int index){
+
+    public List<StaffListResponse> getAllStaff(int index, String searchName) {
         List<StaffListResponse> listStaff = new ArrayList<>();
-        String sql = "select a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
-                "from Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
-                "where a.RoleID != 6 and a.RoleID != 1\n" +
-                "order by AccountID\n" +
-                "offset ? ROWS FETCH NEXT 5 ROWS ONLY\n";
+        String sql;
+        if (searchName != null && !searchName.isEmpty()) {
+            sql = "select a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
+                    "from Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
+                    "where a.RoleID != 6 and a.RoleID != 1 and a.[Name]  like ?\n" +
+                    "order by AccountID\n" +
+                    "offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
+        } else {
+            sql = "select a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
+                    "from Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
+                    "where a.RoleID != 6 and a.RoleID != 1 \n" +
+                    "order by AccountID\n" +
+                    "offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
+        }
+
         try {
-            PreparedStatement st=connection.prepareStatement(sql);
-            st.setInt(1, (index-1)*5);
-            ResultSet rs=st.executeQuery();
-            while(rs.next()){
-                StaffListResponse slr=new StaffListResponse();
-                slr.setAcoountID(rs.getInt("AccountID"));
+            PreparedStatement st = connection.prepareStatement(sql);
+            if (searchName != null && !searchName.isEmpty()) {
+                st.setString(1, "%" + searchName + "%");
+                st.setInt(2, (index - 1) * 5);
+            } else {
+                st.setInt(1, (index - 1) * 5);
+            }
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                StaffListResponse slr = new StaffListResponse();
+                slr.setAccountID(rs.getInt("AccountID"));
                 slr.setName(rs.getString("Name"));
                 slr.setEmail(rs.getString("Email"));
                 slr.setDetail(rs.getString("Detail"));
@@ -93,7 +109,7 @@ public class StaffDAO extends DBContext{
         }
     }
 
-    public StaffDetailRespone getStaffDetail(int accountID){
+    public StaffDetailRespone getStaffDetail(int accountID) {
         String sql = "select r.[RoleID],[as].StatusID,a.Name,a.Email,ci.PhoneNumber,ci.[Address],a.Birth,s.Salary,w.[WarehouseID]\n" +
                 "from Account a join Staff s on a.AccountID = s.AccountID\n" +
                 "join [Role] r on r.RoleID = a.RoleID\n" +
@@ -104,12 +120,12 @@ public class StaffDAO extends DBContext{
                 "where (a.RoleID != 6 and a.RoleID != 1 and a.AccountID=?)";
 
         try {
-            PreparedStatement st=connection.prepareStatement(sql);
+            PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, accountID);
-            ResultSet rs=st.executeQuery();
-            StaffDetailRespone sdr=new StaffDetailRespone();
+            ResultSet rs = st.executeQuery();
+            StaffDetailRespone sdr = new StaffDetailRespone();
 
-            while(rs.next()){
+            while (rs.next()) {
                 sdr.setRoleID(rs.getInt("RoleID"));
                 sdr.setStatusID(rs.getInt("StatusID"));
                 sdr.setName(rs.getString("Name"));
@@ -122,63 +138,38 @@ public class StaffDAO extends DBContext{
 
             }
             return sdr;
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
-    public List<StaffListResponse> searchStaffByName(String searchName) {
-        List<StaffListResponse> listStaff = new ArrayList<>();
-        String sql = "SELECT a.AccountID, a.Name, a.Email, ast.Detail, a.[Time] " +
-                "FROM Account a " +
-                "JOIN AccountStatus ast ON a.StatusID = ast.StatusID " +
-                "WHERE a.RoleID != 6 AND a.RoleID != 1";
 
-        if (searchName != null && !searchName.trim().isEmpty()) {
-            sql += " AND LOWER(a.Name) LIKE ?";
-        }
 
+    public int getTotalAccountStaff(String searchName) {
+        String sql = "select count(*) from Account where RoleID!=1 And RoleID!=6 and Name like ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            if (searchName != null && !searchName.trim().isEmpty()) {
-                st.setString(1, "%" + searchName.toLowerCase() + "%");
-            }
-
+            st.setNString(1, "%" + searchName + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                StaffListResponse slr = new StaffListResponse();
-                slr.setAcoountID(rs.getInt("AccountID"));
-                slr.setName(rs.getString("Name"));
-                slr.setEmail(rs.getString("Email"));
-                slr.setDetail(rs.getString("Detail"));
-                slr.setTime(rs.getDate("Time"));
-                listStaff.add(slr);
+                return rs.getInt(1);
             }
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listStaff;
+        return 0;
     }
 
-public int getTotalAccountStaff() {
-    String sql = "select count(*) from Account where RoleID!=1 And RoleID!=6";
-    try {
-        PreparedStatement st = connection.prepareStatement(sql);
-        ResultSet rs = st.executeQuery();
-        while (rs.next()) {
-            return rs.getInt(1);
-        }
+    public void getStaffByName(String name) {
 
-
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
     }
-    return 0;
-}
+
     public static void main(String[] args) {
         StaffDAO dao = new StaffDAO();
-        List<StaffListResponse> staffList = dao.getAllStaff(1);
+        List<StaffListResponse> staffList = dao.getAllStaff(1, "");
         for (StaffListResponse staff : staffList) {
             System.out.println(staff);
         }
