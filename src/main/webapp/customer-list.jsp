@@ -33,7 +33,11 @@
             <header class="card-header">
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
-                        <input type="text" placeholder="Search..." class="form-control" />
+                        <form action="customerList" method="GET" style="display: flex;">
+                            <input type="text" name="searchName" placeholder="Search by name..." class="form-control"
+                                   value="${searchName}" style="flex: 1;" />
+                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+                        </form>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6">
                         <select class="form-select">
@@ -99,7 +103,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-start">
                     <c:forEach begin="01" end="${endPage}" var="i">
-                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="customerList?index=${i}">${i}</a></li>
+                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="customerList?index=${i}&searhcName=${searchName}">${i}</a></li>
                     </c:forEach>
                 </ul>
             </nav>

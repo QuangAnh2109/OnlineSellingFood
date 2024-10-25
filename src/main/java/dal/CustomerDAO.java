@@ -14,62 +14,63 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDAO extends DBContext{
+public class CustomerDAO extends DBContext {
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Customer(rs.getInt("CustomerID"),rs.getInt("AccountID"),rs.getInt("Point"),rs.getInt("Level"));
+        return new Customer(rs.getInt("CustomerID"), rs.getInt("AccountID"), rs.getInt("Point"), rs.getInt("Level"));
     }
 
-    public Customer getCustomerByCustomerID(int customerID){
-        try{
+    public Customer getCustomerByCustomerID(int customerID) {
+        try {
             PreparedStatement ps = connection.prepareStatement("select CustomerID,AccountID,Point,Level from Customer where CustomerID=?");
             ps.setInt(1, customerID);
-            return (Customer)getObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            return (Customer) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
 
-    public Customer getCustomerByAccountID(int accountID){
-        try{
+    public Customer getCustomerByAccountID(int accountID) {
+        try {
             PreparedStatement ps = connection.prepareStatement("select CustomerID,AccountID,Point,Level from Customer where AccountID=?");
             ps.setInt(1, accountID);
-            return (Customer)getObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            return (Customer) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
 
-    public boolean updateCustomer(Customer customer){
-        try{
+    public boolean updateCustomer(Customer customer) {
+        try {
             PreparedStatement ps = connection.prepareStatement("update Customer set Point=?, Level=? where CustomerID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(3, customer.getCustomerID());
             ps.setInt(1, customer.getPoint());
             ps.setInt(2, customer.getLevel());
             ResultSet rs = executeUpdate(ps);
-            if(rs!=null)return rs.next();
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            if (rs != null) return rs.next();
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return false;
     }
 
-    public Integer addCustomer(Customer customer){
-        try{
+    public Integer addCustomer(Customer customer) {
+        try {
             PreparedStatement ps = connection.prepareStatement("insert into Customer(AccountID,Point,Level) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, customer.getAccountID());
             ps.setInt(2, customer.getPoint());
             ps.setInt(3, customer.getLevel());
             ResultSet rs = executeUpdate(ps);
-            if(rs!=null&&rs.next()) return rs.getInt(1);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            if (rs != null && rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
-    public List<StaffListResponse> getAllCustomer(int index){
+
+    public List<StaffListResponse> getAllCustomer(int index) {
         List<StaffListResponse> listCustomer = new ArrayList<StaffListResponse>();
         String sql = "select a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
                 "from Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
@@ -77,11 +78,11 @@ public class CustomerDAO extends DBContext{
                 "order by AccountID\n" +
                 "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY";
         try {
-            PreparedStatement st=connection.prepareStatement(sql);
-            st.setInt(1, (index-1)*5);
-            ResultSet rs=st.executeQuery();
-            while(rs.next()){
-                StaffListResponse slr=new StaffListResponse();
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, (index - 1) * 5);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                StaffListResponse slr = new StaffListResponse();
                 slr.setAccountID(rs.getInt("AccountID"));
                 slr.setName(rs.getString("Name"));
                 slr.setEmail(rs.getString("Email"));
@@ -95,7 +96,7 @@ public class CustomerDAO extends DBContext{
         }
     }
 
-    public CustomerDetailRespone getCustomerDetail(int accountID){
+    public CustomerDetailRespone getCustomerDetail(int accountID) {
         String sql = "select [as].StatusID,a.Name,a.Email,ci.PhoneNumber,ci.[Address],a.Birth,c.Point,c.[Level]\n" +
                 "from Account a join AccountStatus [as] on a.StatusID = [as].StatusID\n" +
                 "join [Role] r on r.RoleID=a.RoleID\n" +
@@ -105,12 +106,12 @@ public class CustomerDAO extends DBContext{
                 "where (a.RoleID = 6 and a.RoleID != 1 and a.AccountID=?)";
 
         try {
-            PreparedStatement st=connection.prepareStatement(sql);
+            PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, accountID);
-            ResultSet rs=st.executeQuery();
-            CustomerDetailRespone cdr=new CustomerDetailRespone();
+            ResultSet rs = st.executeQuery();
+            CustomerDetailRespone cdr = new CustomerDetailRespone();
 
-            while(rs.next()){
+            while (rs.next()) {
                 cdr.setStatusID(rs.getInt("StatusID"));
                 cdr.setName(rs.getString("Name"));
                 cdr.setEmail(rs.getString("Email"));
@@ -123,51 +124,52 @@ public class CustomerDAO extends DBContext{
 
             }
             return cdr;
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
-    public void updateProfileCustomerForAdmin(Account a,Customer c){
-        String sql="UPDATE [dbo].[Account]\n" +
+    public void updateProfileCustomerForAdmin(Account a, Customer c) {
+        String sql = "UPDATE [dbo].[Account]\n" +
                 "   SET [StatusID] =?\n" +
                 " WHERE AccountID=?";
-        try{
-            PreparedStatement st=connection.prepareStatement(sql);
-           st.setInt(2, a.getAccountID());
-           st.setInt(1, a.getStatusID());
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(2, a.getAccountID());
+            st.setInt(1, a.getStatusID());
             st.executeUpdate();
             System.out.println("after execute update status");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        sql="UPDATE [dbo].[Customer]\n" +
+        sql = "UPDATE [dbo].[Customer]\n" +
                 "   SET  [Point] = ?\n" +
                 "      ,[Level] = ?\n" +
                 " WHERE AccountID=?";
         try {
-            PreparedStatement st=connection.prepareStatement(sql);
-            st.setInt(1,c.getPoint());
-            st.setInt(2,c.getLevel());
-            st.setInt(3,c.getAccountID());
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, c.getPoint());
+            st.setInt(2, c.getLevel());
+            st.setInt(3, c.getAccountID());
 
             System.out.println(c.getPoint());
             System.out.println(c.getLevel());
             System.out.println(c.getAccountID());
             st.executeUpdate();
 
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
     }
 
-    public int getTotalAccountCustomer() {
-        String sql = "select count(*) from Account where   RoleID=6";
+    public int getTotalAccountCustomer(String name) {
+        String sql = "select count(*) from Account where   RoleID=6 and Name like ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + name + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt(1);
