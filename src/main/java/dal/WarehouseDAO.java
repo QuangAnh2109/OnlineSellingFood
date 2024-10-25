@@ -108,4 +108,23 @@ public class WarehouseDAO extends DBContext{
         }
         return warehouses;
     }
+    public List<Warehouse> getAllWarehouses() throws SQLException {
+        List<Warehouse> warehouses = new ArrayList<>();
+        String sql = "SELECT * FROM Warehouse"; // Thay đổi tên bảng nếu cần
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Warehouse warehouse = new Warehouse();
+                warehouse.setWarehouseID(rs.getInt("WarehouseID")); // Thay đổi tên cột nếu cần
+                warehouse.setName(rs.getString("Name")); // Thay đổi tên cột nếu cần
+                warehouse.setContactInformationID(rs.getInt("ContactInformationID")); // Thay đổi tên cột nếu cần
+                warehouse.setStatusID(rs.getInt("StatusID")); // Thay đổi tên cột nếu cần
+                warehouses.add(warehouse);
+            }
+        }
+        return warehouses;
+    }
 }

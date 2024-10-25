@@ -53,10 +53,21 @@
                 }
                 else if(role==2){
             %>
+
             <%
                 }
                 else if(role==3){
             %>
+            <li class="menu-item has-submenu" id="product">
+                <a class="menu-link" href="#">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+                <div class="submenu">
+                    <a href="ImportList.jsp" id="import">Import</a>
+
+                </div>
+            </li>
             <%
                 }
                 else if(role==4){
