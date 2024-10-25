@@ -10,23 +10,18 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:title" content="" />
-  <meta property="og:type" content="" />
-  <meta property="og:url" content="" />
-  <meta property="og:image" content="" />
-  <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
-  <!-- Template CSS -->
   <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+
   <script>
     function populateForm(importID, staffName, warehouseName, supplierName, importTime) {
       document.getElementById('import_id').value = importID;
-      document.getElementById('staffID').value = staffName; // Bạn có thể điều chỉnh lại theo đúng ID của nhân viên
-      document.getElementById('warehouseID').value = warehouseName; // Điều chỉnh lại theo ID
-      document.getElementById('supplierID').value = supplierName; // Điều chỉnh lại theo ID
-      document.getElementById('importTime').value = importTime; // Điền thời gian nhập
-      document.getElementById('submit_button').innerText = "Update Import"; // Thay đổi nút
-      document.getElementById('cancel_button').style.display = 'block'; // Hiện nút Hủy
+      document.getElementById('staffID').value = staffName; // Adjust according to the actual ID of the staff
+      document.getElementById('warehouseID').value = warehouseName; // Adjust according to the actual ID
+      document.getElementById('supplierID').value = supplierName; // Adjust according to the actual ID
+      document.getElementById('importTime').value = importTime; // Fill in the import time
+      document.getElementById('submit_button').innerText = "Update Import"; // Change button text
+      document.getElementById('cancel_button').style.display = 'block'; // Show cancel button
     }
 
     function resetForm() {
@@ -35,29 +30,25 @@
       document.getElementById('warehouseID').value = '';
       document.getElementById('supplierID').value = '';
       document.getElementById('importTime').value = '';
-      document.getElementById('submit_button').innerText = "Create Import"; // Đặt lại nút
-      document.getElementById('cancel_button').style.display = 'none'; // Ẩn nút Hủy
+      document.getElementById('submit_button').innerText = "Create Import"; // Reset button text
+      document.getElementById('cancel_button').style.display = 'none'; // Hide cancel button
     }
 
+    function validateForm() {
+      const staffField = document.getElementById("staffID");
+      const warehouseField = document.getElementById("warehouseID");
+      const supplierField = document.getElementById("supplierID");
 
-  function validateForm() {
-  const staffField = document.getElementById("staffID");
-  const warehouseField = document.getElementById("warehouseID");
-  const supplierField = document.getElementById("supplierID");
-
-  if (staffField.value === "" || warehouseField.value === "" || supplierField.value === "") {
-  alert("Please fill in all required fields.");
-  return false;
-  }
-  return true;
-  }
-
-
+      if (staffField.value === "" || warehouseField.value === "" || supplierField.value === "") {
+        alert("Please fill in all required fields.");
+        return false;
+      }
+      return true;
+    }
   </script>
 </head>
 
 <body>
-
 
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
@@ -138,13 +129,13 @@
                     for (Import imp : importList) {
                 %>
                 <tr>
-                  <td onclick="populateForm('<%= imp.getImportID() %>', '<%= imp.getAccountName() %>', '<%= imp.getWarehouseName() %>', '<%= imp.getSupplierName() %>', '<%= imp.getImportTime() %>')">
+                  <td onclick="populateForm('<%= imp.getImportID() %>', '<%= imp.getAccountName() %>', '<%= imp.getWarehouseName() %>', '<%= imp.getSupplierName() %>', '<%= imp.getTime() %>')">
                     <%= imp.getImportID() %>
                   </td>
                   <td><%= imp.getAccountName() %></td>
                   <td><%= imp.getWarehouseName() %></td>
                   <td><%= imp.getSupplierName() %></td>
-                  <td><%= imp.getImportTime() %></td>
+                  <td><%= imp.getTime() %></td>
                   <td class="text-end">
                     <button class="btn btn-light rounded btn-sm font-sm">
                       <a href="importDelete?importID=<%= imp.getImportID() %>">
@@ -173,15 +164,13 @@
   </section>
 
 </main>
-  </footer>
-</main>
+
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/select2.min.js"></script>
 <script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
 <script src="nest-backend/assets/js/vendors/chart.js"></script>
-<!-- Main Script -->
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 <script src="nest-backend/assets/js/custom-chart.js" type="text/javascript"></script>
 </body>

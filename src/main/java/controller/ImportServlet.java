@@ -28,46 +28,29 @@ public class ImportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // Lấy danh sách nhập khẩu
+            // Retrieve list of imports
             List<Import> imports = importDAO.getAllImports();
             request.setAttribute("imports", imports);
 
-            // Lấy danh sách kho
+            // Retrieve list of warehouses
             List<Warehouse> warehouseList = warehouseDAO.getAllWarehouses();
             request.setAttribute("warehouseList", warehouseList);
 
-            // Lấy danh sách nhà cung cấp
+            // Retrieve list of suppliers
             List<Supplier> supplierList = supplierDAO.getAllSuppliers();
             request.setAttribute("supplierList", supplierList);
 
-            // Chuyển tiếp đến JSP
-            request.getRequestDispatcher("ImportList.jsp").forward(request, response);
+            // Forward to JSP
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ImportList.jsp");
+            dispatcher.forward(request, response);
         } catch (SQLException e) {
-            e.printStackTrace();
-            response.getWriter().println("<p>Error: " + e.getMessage() + "</p>");
+            log("Error retrieving import data: ", e); // Log error for debugging
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while retrieving imports.");
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int importID = request.getParameter("importID").isEmpty() ? 0 : Integer.parseInt(request.getParameter("importID"));
-        int staffID = Integer.parseInt(request.getParameter("staffID"));
-        int warehouseID = Integer.parseInt(request.getParameter("warehouseID"));
-        int supplierID = Integer.parseInt(request.getParameter("supplierID"));
-        Timestamp time = Timestamp.valueOf(request.getParameter("time").replace("T", " "));  // Xử lý input datetime-local
 
-        try {
-            if (importID == 0) {
-                // Tạo mới nhập khẩu
-                importDAO.insertImport(staffID, warehouseID, supplierID, time); // Thêm time vào hàm insert
-            } else {
-                // Cập nhật nhập khẩu đã tồn tại
-                importDAO.updateImport(importID, warehouseID, supplierID, time); // Cập nhật supplierID và time
-            }
-            response.sendRedirect("Import"); // Chuyển hướng đến doGet
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.getWriter().println("<p>Error: " + e.getMessage() + "</p>");
-        }
     }
     }
 
