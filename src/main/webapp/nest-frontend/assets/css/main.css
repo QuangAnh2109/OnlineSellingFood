@@ -12360,4 +12360,36 @@ footer .hotline img {
     font-size: 35px;
   }
 }
+
+.rating-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.rating-section label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.stars {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.stars input[type="radio"] {
+  display: none;
+}
+
+.stars label {
+  font-size: 24px;
+  color: lightgray; /* Màu xám cho sao chưa chọn */
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.rating-text {
+  font-weight: bold;
+  color: #333;
+}
 /*# sourceMappingURL=main.css.map */
