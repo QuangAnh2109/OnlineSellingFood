@@ -11,6 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Supplier;
+import model.Warehouse;
 
 
 import java.io.IOException;
@@ -24,22 +26,28 @@ public class ImportServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ImportDAO dao = new ImportDAO();
         List<ImportRespone> importList = dao.getImportList(); // Lấy danh sách nhập hàng từ DAO
-        if (importList == null || importList.isEmpty()) {
-
-            request.getRequestDispatcher("page-login.jsp").forward(request, response);
-        } else {
-            request.setAttribute("importList", importList);
-            request.setAttribute("mess","Null");
-            request.getRequestDispatcher("ImportList.jsp").forward(request, response);
-
-        }
-
-
+        request.setAttribute("importList", importList);
+        WarehouseDAO warehouseDAO = new WarehouseDAO();
+        List<Warehouse> warehouses = warehouseDAO.getAllWarehouseActivity();
+        request.setAttribute("warehouses",warehouses);
+        SupplierDAO supplierDAO = new SupplierDAO();
+        List<Supplier> suppliers = supplierDAO.getAllSupplierActivity();
+        request.setAttribute("suppliers",suppliers);
+        request.getRequestDispatcher("ImportList.jsp").forward(request, response);
 
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int staffID = Integer.parseInt(request.getParameter("staffID"));
+        int warehouseID = Integer.parseInt(request.getParameter("warehouseID"));
+        int supplierID = Integer.parseInt(request.getParameter("supplierID"));
+        String time = request.getParameter("time");
 
+        // Thêm bản ghi vào cơ sở dữ liệu
+        ImportDAO dao = new ImportDAO();
+        boolean isAdded = dao.addImport(staffID, warehouseID, supplierID, time);
+
+        response.sendRedirect("Import");
     }
     }
 

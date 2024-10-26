@@ -1,6 +1,7 @@
 package controller;
 
 import dal.AccountContactDAO;
+import dal.StaffDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +13,8 @@ import dal.AccountDAO;
 import jakarta.servlet.http.HttpSession;
 import dal.ContactInformationDAO;
 import model.ContactInformation;
+import model.Staff;
+
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -63,6 +66,10 @@ public class LoginStaffServlet extends HttpServlet {
             else{
                 HttpSession session = request.getSession();
                 session.setAttribute("account", a);
+                StaffDAO stdao = new StaffDAO();
+
+
+                session.setAttribute("loggedInStaffID", stdao.getStaffIDbyAccountID(a.getAccountID()));
                 if(a.getStatusID()==3) response.sendRedirect("page-change-pass-staff.jsp"); 
                 else response.sendRedirect("home-page-staff.jsp");
             }

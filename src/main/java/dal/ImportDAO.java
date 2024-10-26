@@ -49,7 +49,21 @@ public class ImportDAO extends DBContext {
         return null;
     }
 
-    // Create a new import record
+    public boolean addImport(int staffID, int warehouseID, int supplierID, String time) {
+        String query = "INSERT INTO Import (StaffID, WarehouseID, SupplierID, Time) VALUES (?, ?, ?, ?)";
+        try (
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, staffID);
+            ps.setInt(2, warehouseID);
+            ps.setInt(3, supplierID);
+            ps.setString(4, time);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có bản ghi được thêm
+        } catch (SQLException e) {
+            e.printStackTrace(); // In ra lỗi để biết nguyên nhân
+        }
+        return false; // Trả về false nếu có lỗi
+    }
 
 
 }

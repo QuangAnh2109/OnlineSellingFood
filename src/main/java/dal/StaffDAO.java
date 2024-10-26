@@ -67,6 +67,24 @@ public class StaffDAO extends DBContext{
         }
         return null;
     }
+    public int getStaffIDbyAccountID(int accountID){
+        String sql="Select StaffID  from Staff where AccountID = ?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, accountID);
+            ResultSet rs=st.executeQuery();
+            Staff staff =new Staff();
+
+            while(rs.next()){
+                staff.setStaffID(rs.getInt("StaffID"));
+
+            }
+
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return accountID;
+    }
     public List<StaffListResponse> getAllStaff(){
         List<StaffListResponse> listStaff = new ArrayList<StaffListResponse>();
         String sql = "\tselect a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +

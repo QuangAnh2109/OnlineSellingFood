@@ -2,17 +2,19 @@ package dal;
 
 import model.Import;
 import model.Supplier;
+import model.Warehouse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SupplierDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Supplier();
+        return new Supplier(rs.getInt("SupplierID"),rs.getInt("ContactInformationID"),rs.getString("Name"),rs.getString("Note"));
     }
     public List<Supplier> getAllSuppliers() throws SQLException {
         List<Supplier> suppliers = new ArrayList<>();
@@ -67,5 +69,15 @@ public class SupplierDAO extends DBContext{
             stmt.setInt(1, supplierID);
             stmt.executeUpdate();
         }
+    }
+
+    public List<Supplier> getAllSupplierActivity(){
+        try{
+            PreparedStatement ps = connection.prepareStatement("select * from Supplier ");
+            return (List<Supplier>) (Object) getListObject(ps);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
+        }
+        return Collections.emptyList();
     }
 }

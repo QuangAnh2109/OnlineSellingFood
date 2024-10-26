@@ -1,5 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="dto.ImportRespone" %>
+<%@ page import="model.Warehouse" %>
+<%@ page import="model.Supplier" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
   <script>
@@ -46,35 +48,48 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-3">
-            <form action="importCU" method="post">
+            <form action="Import" method="post">
               <div class="mb-4">
                 <label for="staffID" class="form-label">Staff</label>
-                <input type="number" class="form-control" id="staffID" name="staffID" required />
+                <input type="number" class="form-control" id="staffID" name="staffID" value="${sessionScope.loggedInStaffID}" readonly="" />
               </div>
               <div class="mb-4">
                 <label for="warehouseID" class="form-label">Warehouse</label>
-                <select class="form-control" id="warehouseID" name="warehouseID" required>
-                  <c:forEach var="warehouse" items="${warehouseList}">
-                    <option value="${warehouse.warehouseID}">${warehouse.name}</option>
-                  </c:forEach>
+                <select class="form-control" id="warehouseID" name="warehouseID" >
+                  <%
+                    List<Warehouse> warehouseList = (List<Warehouse>) request.getAttribute("warehouses");
+                    if (warehouseList != null) {
+                      for (Warehouse wh : warehouseList) {
+                  %>
+                  <option value="<%= wh.getWarehouseID() %>"><%= wh.getName() %></option>
+                  <%
+                      }
+                    }
+                  %>
                 </select>
               </div>
               <div class="mb-4">
                 <label for="supplierID" class="form-label">Supplier</label>
-                <select class="form-control" id="supplierID" name="supplierID" required>
-                  <c:forEach var="supplier" items="${supplierList}">
-                    <option value="${supplier.supplierID}">${supplier.name}</option>
-                  </c:forEach>
+                <select class="form-control" id="supplierID" name="supplierID" >
+                  <%
+                    List<Supplier> supplierList = (List<Supplier>) request.getAttribute("suppliers");
+                    if (supplierList != null) {
+                      for (Supplier sp : supplierList) {
+                  %>
+                  <option value="<%= sp.getSupplierID() %>"><%= sp.getName() %></option>
+                  <%
+                      }
+                    }
+                  %>
                 </select>
               </div>
               <div class="mb-4">
-                <label for="importTime" class="form-label">Import Time</label>
-                <input type="datetime-local" class="form-control" id="importTime" name="time" required />
+                <label for="time" class="form-label">Import Time</label>
+                <input type="date" class="form-control" id="time" name="time" required />
               </div>
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Create Import</button>
               </div>
-              <input type="hidden" id="import_id" name="importID" />
             </form>
           </div>
 

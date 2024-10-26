@@ -61,10 +61,10 @@
             <li class="menu-item has-submenu" id="product">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Products</span>
+                    <span class="text">Import</span>
                 </a>
                 <div class="submenu">
-                    <a href="Import" >Import</a>
+                    <a href="Import" id="Import">Import</a>
 
                 </div>
             </li>
