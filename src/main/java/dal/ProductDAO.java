@@ -5,6 +5,8 @@ import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDAO extends DBContext{
     @Override
@@ -38,4 +40,68 @@ public class ProductDAO extends DBContext{
         }
 
     }
+    public List<Product> getAllProducts() {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM Product";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("ProductID"),
+                        rs.getInt("Price"),
+                        rs.getInt("DiscountID"),
+                        rs.getInt("Weight"),
+                        rs.getInt("CategoryID"),
+                        rs.getInt("ManufacturerID"),
+                        rs.getInt("OriginID"),
+                        rs.getInt("UnitID"),
+                        rs.getInt("CertificationID"),
+                        rs.getInt("StatusID"),
+                        rs.getString("Name"),
+                        rs.getString("Detail")
+                );
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+    public Product getProductById(int productId) {
+        Product product = null;
+        String sql = "SELECT * FROM Product WHERE ProductID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    product = new Product(
+                            rs.getInt("ProductID"),
+                            rs.getInt("Price"),
+                            rs.getInt("DiscountID"),
+                            rs.getInt("Weight"),
+                            rs.getInt("CategoryID"),
+                            rs.getInt("ManufacturerID"),
+                            rs.getInt("OriginID"),
+                            rs.getInt("UnitID"),
+                            rs.getInt("CertificationID"),
+                            rs.getInt("StatusID"),
+                            rs.getString("Name"),
+                            rs.getString("Detail")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return product;
+    }
+
+
+
+
 }

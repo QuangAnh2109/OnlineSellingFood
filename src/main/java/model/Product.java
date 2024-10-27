@@ -127,4 +127,6 @@ public class Product {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
+
 }

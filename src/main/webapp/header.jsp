@@ -73,7 +73,7 @@
                                     <a href="#">Home</a>
                                 </li>
                                 <li>
-                                    <a href="#">Product</a>
+                                    <a href="shop-grid-left.jsp">Product</a>
                                 </li>
                                 <li>
                                     <a href="#">News</a>
