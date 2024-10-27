@@ -11,8 +11,8 @@
 %>
 <div class="card-2 bg-<%=color%> wow animate__animated animate__fadeInUp" data-wow-delay="0s">
     <figure class="img-hover-scale overflow-hidden">
-        <a href="shop-grid-right.html"><img src="nest-frontend/assets/imgs/shop/cat-15.png" alt="" /></a>
+        <a href="shop-grid-left.jsp"><img src="nest-frontend/assets/imgs/shop/cat-15.png" alt="" /></a>
     </figure>
-    <h6><a href="shop-grid-right.html"><%=name%></a></h6>
+    <h6><a href="shop-grid-left.jsp"><%=name%></a></h6>
     <span><%=quantity%> items</span>
 </div>
