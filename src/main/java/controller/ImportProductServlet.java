@@ -17,10 +17,10 @@ public class ImportProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ImportProductDAO dao = new ImportProductDAO();
-        String importIDStr = request.getParameter("importID");
-        if (importIDStr != null) {
-            int importID = Integer.parseInt(importIDStr);
-            List<ImportProductResponse> list = dao.getAllImportProducts(importID);
+        String importID = request.getParameter("importID");
+        if (importID != null) {
+
+            List<ImportProductResponse> list = dao.getAllImportProducts(Integer.parseInt(importID));
             request.setAttribute("list", list);
         }
 

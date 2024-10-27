@@ -108,7 +108,7 @@
                                     <th>Price</th>
                                     <th>Import Quantity</th>
                                     <th>Inventory Quantity</th>
-                                    <th>Unit Name</th>
+                                    <th>Unit </th>
                                     <th class="text-end">Action</th>
                                 </tr>
                                 </thead>

@@ -124,10 +124,9 @@
                       <a href="#" onclick="doDelete('${imp.importID}')" class="btn btn-light rounded btn-sm font-sm">
                         <i class="material-icons md-delete"></i> Delete
                       </a>
-                      <a class="btn btn-light rounded btn-sm font-sm"
-                         id="btnImportProduct"
-                         onclick="navigateToImportProduct(${imp.importID})">
-                        <i class="material-icons">add</i> Import Product
+                      <a href="ImportProduct?importID=${imp.importID}"
+                         class="btn btn-light rounded btn-sm font-sm">
+                        <i class="material-icons md-add_shopping_cart"></i> Import Product
                       </a>
                     </td>
                   </tr>
