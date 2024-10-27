@@ -19,6 +19,11 @@
         window.location = "importDelete?importID=" + importID;
       }
     }
+
+    function navigateToImportProduct(importID) {
+      // Điều hướng sang trang ImportProduct
+      window.location.href = "ImportProduct?importID=" + importID;
+    }
   </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +34,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
   <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <div class="screen-overlay"></div>
@@ -117,6 +123,11 @@
                     <td class="text-end">
                       <a href="#" onclick="doDelete('${imp.importID}')" class="btn btn-light rounded btn-sm font-sm">
                         <i class="material-icons md-delete"></i> Delete
+                      </a>
+                      <a class="btn btn-light rounded btn-sm font-sm"
+                         id="btnImportProduct"
+                         onclick="navigateToImportProduct(${imp.importID})">
+                        <i class="material-icons">add</i> Import Product
                       </a>
                     </td>
                   </tr>
