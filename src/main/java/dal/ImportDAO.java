@@ -4,6 +4,7 @@ package dal;
 import dto.ImportRespone;
 import dto.ProductDiscountResponse;
 import model.Import;
+import model.Staff;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ import java.util.Vector;
 public class ImportDAO extends DBContext {
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Import();
+        return new Import(rs.getInt("inportID"),rs.getInt("staffID"),rs.getInt("warehouseID"),rs.getInt("supplierID"),rs.getTimestamp("time").toLocalDateTime());
     }
 
 
@@ -65,5 +66,16 @@ public class ImportDAO extends DBContext {
         return false; // Trả về false nếu có lỗi
     }
 
+
+    public Import getImportID(int importID){
+        try{
+            PreparedStatement ps = connection.prepareStatement("select * from Import where ImportID=?");
+            ps.setInt(1, importID);
+            return (Import)getObject(ps);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
+        }
+        return null;
+    }
 
 }

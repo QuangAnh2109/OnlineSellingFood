@@ -11,6 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Import;
 import model.Supplier;
 import model.Warehouse;
 
@@ -27,17 +29,14 @@ public class ImportServlet extends HttpServlet {
         ImportDAO dao = new ImportDAO();
         List<ImportRespone> importList = dao.getImportList();
         request.setAttribute("importList", importList);
-        String importID = request.getParameter("importID");
-        if (importID != null) {
 
-            request.setAttribute("importID", importID);
-        }
         WarehouseDAO warehouseDAO = new WarehouseDAO();
         List<Warehouse> warehouses = warehouseDAO.getAllWarehouseActivity();
         request.setAttribute("warehouses",warehouses);
         SupplierDAO supplierDAO = new SupplierDAO();
         List<Supplier> suppliers = supplierDAO.getAllSupplierActivity();
         request.setAttribute("suppliers",suppliers);
+
         request.getRequestDispatcher("ImportList.jsp").forward(request, response);
 
     }
@@ -51,7 +50,9 @@ public class ImportServlet extends HttpServlet {
         // Thêm bản ghi vào cơ sở dữ liệu
         ImportDAO dao = new ImportDAO();
         boolean isAdded = dao.addImport(staffID, warehouseID, supplierID, time);
-
+        HttpSession session = request.getSession();
+        Import i = null;
+        session.setAttribute("importID", dao.getImportID(i.getImportID()));
         response.sendRedirect("Import");
     }
     }

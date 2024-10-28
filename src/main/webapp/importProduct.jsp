@@ -51,10 +51,10 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form action="Import" method="post">
+                        <form action="ImportProduct" method="post">
                             <div class="mb-4">
-                                <label for="staffID" class="form-label">Staff</label>
-                                <input type="number" class="form-control" id="staffID" name="staffID" value="${sessionScope.loggedInStaffID}" readonly="" />
+                                <label for="importId" class="form-label">ImportID</label>
+                                <input type="number" class="form-control" id="importId" name="importId" value="id=${importID}" readonly="" />
                             </div>
                             <div class="mb-4">
                                 <label for="warehouseID" class="form-label">Warehouse</label>
@@ -98,6 +98,7 @@
 
                     <div class="col-md-9">
                         <div class="table-responsive">
+
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
