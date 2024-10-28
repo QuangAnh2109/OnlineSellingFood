@@ -4,10 +4,7 @@ package dal;
 import dto.ImportProductResponse;
 import model.ImportProduct;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,26 +43,47 @@ public class ImportProductDAO extends DBContext{
         }
         return importProducts;
     }
-    public boolean addImportProduct(int importID, int productID, String mfg, String exp,int price, int importQuantity, int inventoryQuantity, int unitID) {
-        String query = "INSERT INTO ImportProduct (ImportID, ProductID, Mfg, Exp, Price, "
-                + "ImportQuantity, InventoryQuantity, UnitID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    public boolean isProductImported(int importID, int productID) {
+        String sql = "SELECT COUNT(*) FROM ImportProduct WHERE ImportID = ? AND ProductID = ?";
         try (
-                PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, importID);
-            ps.setInt(2, productID);
-            ps.setString(3, mfg);
-            ps.setString(4, exp);
-            ps.setInt(5, price);
-            ps.setInt(6, importQuantity);
-            ps.setInt(7, inventoryQuantity);
-            ps.setInt(8, unitID);
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu có bản ghi được thêm
-        } catch (SQLException e) {
-            e.printStackTrace(); // In ra lỗi để biết nguyên nhân
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, importID);
+            stmt.setInt(2, productID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Nếu đếm lớn hơn 0, sản phẩm đã được nhập
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false; // Trả về false nếu có lỗi
+        return false; // Nếu không tìm thấy sản phẩm đã nhập
     }
+
+    public boolean addImportProduct(int ImportID, int ProductID, String mfg, String exp, int price, int importQuantity,int inventoryQuantity, int UnitID) {
+        String sql = "INSERT INTO ImportProduct (ImportID, ProductID, Mfg, Exp, Price, ImportQuantity, InventoryQuantity, UnitID) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+          stmt.setInt(1, ImportID);
+          stmt.setInt(2, ProductID);
+          stmt.setString(3, mfg);
+          stmt.setString(4, exp);
+          stmt.setInt(5, price);
+          stmt.setInt(6, importQuantity);
+          stmt.setInt(7, inventoryQuantity);
+          stmt.setInt(8, UnitID);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có bản ghi được thêm
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+    }
+
 }
 
 

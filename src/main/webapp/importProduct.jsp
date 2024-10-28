@@ -2,17 +2,23 @@
 <%@ page import="dto.ImportRespone" %>
 <%@ page import="model.Warehouse" %>
 <%@ page import="model.Supplier" %>
+<%@ page import="model.Product" %>
+<%@ page import="model.Unit" %>
+<%@ page import="dal.UnitDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
-    function populateForm(importID, accountName, warehouseName, supplierName, importTime) {
-        document.getElementById('import_id').value = importID || '';
-        document.getElementById('staffID').value = accountName || '';
-        document.getElementById('warehouseID').value = warehouseName || '';
-        document.getElementById('supplierID').value = supplierName || '';
-        document.getElementById('importTime').value = importTime || '';
-    }
 
+    function validateForm() {
+        const mfgDate = new Date(document.getElementById("mfg").value);
+        const expDate = new Date(document.getElementById("exp").value);
+
+        if (expDate < mfgDate) {
+            alert("Expiration date cannot be before Manufacturing date.");
+            return false; // Ngăn không cho gửi form
+        }
+        return true; // Cho phép gửi form nếu hợp lệ
+    }
 
     function doDelete(importID) {
         if (confirm("Are you sure you want to delete import with ID=" + importID + "?")) {
@@ -20,8 +26,26 @@
         }
     }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
 
+        form.addEventListener("submit", function(event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Ngăn không cho gửi form
+            }
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const importId = urlParams.get("id");
+
+        if (importId) {
+            document.getElementById("importId").value = importId;
+        }
+    });
 </script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,25 +70,31 @@
             <h2 class="content-title card-title">Imports</h2>
             <p>Add, edit, or delete imports</p>
         </div>
-
+        <c:if test="${not empty msg}">
+            <div class="alert alert-warning">${msg}</div>
+        </c:if>
         <div class="card">
+
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
+
                         <form action="ImportProduct" method="post">
+
                             <div class="mb-4">
                                 <label for="importId" class="form-label">ImportID</label>
-                                <input type="number" class="form-control" id="importId" name="importId" value="id=${importID}" readonly="" />
+                                <input type="number" class="form-control" id="importId" name="importId" readonly required />
+
                             </div>
                             <div class="mb-4">
-                                <label for="warehouseID" class="form-label">Warehouse</label>
-                                <select class="form-control" id="warehouseID" name="warehouseID" >
+                                <label for="productID" class="form-label">Product</label>
+                                <select class="form-control" id="productID" name="productID" required>
                                     <%
-                                        List<Warehouse> warehouseList = (List<Warehouse>) request.getAttribute("warehouses");
-                                        if (warehouseList != null) {
-                                            for (Warehouse wh : warehouseList) {
+                                        List<Product> productList = (List<Product>) request.getAttribute("products");
+                                        if (productList != null) {
+                                            for (Product pr : productList) {
                                     %>
-                                    <option value="<%= wh.getWarehouseID() %>"><%= wh.getName() %></option>
+                                    <option value="<%= pr.getProductID() %>"><%= pr.getName() %></option>
                                     <%
                                             }
                                         }
@@ -72,26 +102,44 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label for="supplierID" class="form-label">Supplier</label>
-                                <select class="form-control" id="supplierID" name="supplierID" >
+                                <label for="mfg" class="form-label">Manufacturing Time</label>
+                                <input type="date" class="form-control" id="mfg" name="mfg" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="exp" class="form-label">Expiration Time</label>
+                                <input type="date" class="form-control" id="exp" name="exp" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="price" name="price" min="1" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="inventory" class="form-label">Inventory Quantity</label>
+                                <input type="number" class="form-control" id="inventory" name="inventory" min="0" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="unitID" class="form-label">Unit</label>
+                                <select class="form-control" id="unitID" name="unitID" required>
                                     <%
-                                        List<Supplier> supplierList = (List<Supplier>) request.getAttribute("suppliers");
-                                        if (supplierList != null) {
-                                            for (Supplier sp : supplierList) {
+                                        List<Unit> unitList = (List<Unit>) request.getAttribute("units");
+                                        if (unitList != null) {
+                                            for (Unit un : unitList) {
                                     %>
-                                    <option value="<%= sp.getSupplierID() %>"><%= sp.getName() %></option>
+                                    <option value="<%= un.getUnitID() %>"><%= un.getName() %></option>
                                     <%
                                             }
                                         }
                                     %>
                                 </select>
                             </div>
-                            <div class="mb-4">
-                                <label for="time" class="form-label">Import Time</label>
-                                <input type="date" class="form-control" id="time" name="time" required />
-                            </div>
+
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Create Import</button>
+                                <a href="Import" class="btn btn-secondary">Back</a>
+                                <button type="submit" class="btn btn-primary">Import Product</button>
                             </div>
                         </form>
                     </div>
@@ -109,7 +157,7 @@
                                     <th>Price</th>
                                     <th>Import Quantity</th>
                                     <th>Inventory Quantity</th>
-                                    <th>Unit </th>
+                                    <th>Unit</th>
                                     <th class="text-end">Action</th>
                                 </tr>
                                 </thead>
@@ -125,10 +173,10 @@
                                         <td>${imp.getInventoryQuantity()}</td>
                                         <td>${imp.getUnitName()}</td>
                                         <td class="text-end">
-                                            <a href="#" onclick="doDelete('${imp.importID}')" class="btn btn-light rounded btn-sm font-sm">
+
+                                            <a href="#" onclick="doDelete('${imp.getImportID()}')" class="btn btn-light rounded btn-sm font-sm">
                                                 <i class="material-icons md-delete"></i> Delete
                                             </a>
-
                                         </td>
                                     </tr>
                                 </c:forEach>

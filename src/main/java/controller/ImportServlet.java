@@ -50,9 +50,6 @@ public class ImportServlet extends HttpServlet {
         // Thêm bản ghi vào cơ sở dữ liệu
         ImportDAO dao = new ImportDAO();
         boolean isAdded = dao.addImport(staffID, warehouseID, supplierID, time);
-        HttpSession session = request.getSession();
-        Import i = null;
-        session.setAttribute("importID", dao.getImportID(i.getImportID()));
         response.sendRedirect("Import");
     }
     }
