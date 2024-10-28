@@ -100,6 +100,25 @@ public class ProductDAO extends DBContext{
 
         return product;
     }
+    public List<String> getProductImages(int productId) {
+        List<String> images = new ArrayList<>();
+        String sql = "SELECT i.ImgLink FROM ProductImg pi " +
+                "JOIN Img i ON pi.ImgID = i.ImgID " +
+                "WHERE pi.ProductID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    images.add(rs.getString("ImgLink"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return images;
+    }
 
 
 
