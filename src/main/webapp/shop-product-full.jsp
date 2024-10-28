@@ -31,7 +31,7 @@
     }
 
     Product product = (Product) request.getAttribute("product");
-    String productImageUrl = "C:/Users/admin/OneDrive/Documents/GitHub/OnlineSellingFood/src/main/webapp/Img/dep1.png"; // Đặt ảnh mặc định
+    String productImageUrl = "C:/Users/admin/OneDrive/Documents/GitHub/OnlineSellingFood/src/main/webapp/Img/dep1.png"; // Default image
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%= accountName %>"/>
@@ -47,76 +47,50 @@
                                 <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                                 <div class="product-image-slider">
                                     <figure class="border-radius-10">
-                                        <img src="<%= productImageUrl %>" alt="<%= product.getName() %>" />
+                                        <img src="<%= productImageUrl %>" alt="<%= (product != null) ? product.getName() : "Product" %>" />
                                     </figure>
                                 </div>
                                 <div class="slider-nav-thumbnails">
-                                    <div><img src="<%= productImageUrl %>" alt="<%= product.getName() %> (Hover)" /></div>
+                                    <div><img src="<%= productImageUrl %>" alt="<%= (product != null) ? product.getName() : "Product" %> (Hover)" /></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="detail-info pr-30 pl-30">
+                                <!-- Stock Status and Product Name -->
                                 <span class="stock-status out-stock">Sale Off</span>
-                                <h2 class="title-detail"><%= product.getName() %></h2>
+                                <h2 class="title-detail"><%= (product != null) ? product.getName() : "Product name not available." %></h2>
+
+                                <!-- Static 4-Star Rating and Placeholder for Reviews -->
                                 <div class="product-detail-rating">
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: <%= product.getStar() * 20 %>%"></div>
+                                            <!-- Set to 80% width to represent a 4-star rating -->
+                                            <div class="product-rating" style="width: 80%;"></div>
                                         </div>
-                                        <span class="font-small ml-5 text-muted">( <%= product.getReviews() %> reviews)</span>
+                                        <span class="font-small ml-5 text-muted">(0 reviews)</span>
                                     </div>
                                 </div>
+
+                                <!-- Product Price (Without Discount) -->
                                 <div class="clearfix product-price-cover">
                                     <div class="product-price primary-color float-left">
-                                        <span class="current-price text-brand"><%= product.getPrice() %> VND</span>
-                                        <%
-                                            if (product.getDiscountID() != null && product.getDiscountID() != 0) {
-                                        %>
-                                        <span class="save-price font-md color3 ml-15"><%= product.getDiscount() %>% Off</span>
-                                        <span class="old-price font-md ml-15"><%= product.getOldPrice() %> VND</span>
-                                        <%
-                                            }
-                                        %>
+                                        <!-- Display current price only -->
+                                        <span class="current-price text-brand"><%= (product != null) ? product.getPrice() : "Price not available." %> VND</span>
                                     </div>
                                 </div>
+
+                                <!-- Product Description -->
                                 <div class="short-desc mb-30">
-                                    <p class="font-lg"><%= product.getDetail() %></p>
+                                    <p class="font-lg"><%= (product != null) ? product.getDetail() : "Product details not available." %></p>
                                 </div>
+
+                                <!-- Static Unit Display -->
                                 <div class="attr-detail attr-size mb-30">
-                                    <strong class="mr-10">Size / Weight: </strong>
+                                    <strong class="mr-10">Unit: </strong>
                                     <ul class="list-filter size-filter font-small">
-                                        <%
-                                            for (String size : product.getSizes()) {
-                                        %>
-                                        <li><a href="#"><%= size %></a></li>
-                                        <%
-                                            }
-                                        %>
-                                    </ul>
-                                </div>
-                                <div class="detail-extralink mb-50">
-                                    <div class="detail-qty border radius">
-                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                        <span class="qty-val">1</span>
-                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                    </div>
-                                    <div class="product-extra-link2">
-                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
-                                        <a class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                        <a class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                    </div>
-                                </div>
-                                <div class="font-xs">
-                                    <ul class="mr-50 float-start">
-                                        <li class="mb-5">Type: <span class="text-brand">Organic</span></li>
-                                        <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2021</span></li>
-                                        <li>LIFE: <span class="text-brand">70 days</span></li>
-                                    </ul>
-                                    <ul class="float-start">
-                                        <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
-                                        <li class="mb-5">Tags: <a href="#" rel="tag">Snack</a>, <a href="#" rel="tag">Organic</a>, <a href="#" rel="tag">Brown</a></li>
-                                        <li>Stock:<span class="in-stock text-brand ml-5">8 Items In Stock</span></li>
+                                        <!-- Display a fixed unit, e.g., "piece" -->
+                                        <li><a href="#">piece</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -131,73 +105,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Vendor</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews (<%= product.getReviews() %>)</a>
-                                </li>
+                                <%-- Uncomment when reviews are available --%>
+                                <%-- <li class="nav-item"> --%>
+                                <%-- <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews (<%= (product != null) ? product.getReviews() : 0 %>)</a> --%>
+                                <%-- </li> --%>
                             </ul>
-                            <div class="tab-pane fade" id="Reviews">
-                                <div class="comment-review">
-                                    <h4 class="mb-30"><%= product.getReviews() %> Reviews</h4>
-                                    <div class="review-list">
-                                        <%
-                                            for (Review review : product.getReviewList()) {
-                                        %>
-                                        <div class="single-review">
-                                            <div class="review-avatar">
-                                                <img src="<%= review.getAvatarUrl() %>" alt="Review Avatar" />
-                                            </div>
-                                            <div class="review-content">
-                                                <div class="review-header">
-                                                    <h5 class="review-title"><%= review.getTitle() %></h5>
-                                                    <div class="review-rating">
-                                                        <span><%= review.getRating() %></span>
-                                                        <i class="fi-rs-star"></i>
-                                                    </div>
-                                                </div>
-                                                <p><%= review.getContent() %></p>
-                                            </div>
-                                        </div>
-                                        <%
-                                            }
-                                        %>
-                                    </div>
-                                </div>
-                                <div class="review-form">
-                                    <h4 class="mb-30">Add a Review</h4>
-                                    <form action="#">
-                                        <div class="form-group">
-                                            <label for="review-title">Title</label>
-                                            <input type="text" id="review-title" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="review-text">Review</label>
-                                            <textarea id="review-text" class="form-control" rows="5"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="review-rating">Rating</label>
-                                            <select id="review-rating" class="form-control">
-                                                <%
-                                                    for (int i = 1; i <= 5; i++) {
-                                                %>
-                                                <option value="<%= i %>"><%= i %> Star</option>
-                                                <%
-                                                    }
-                                                %>
-                                            </select>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Submit Review</button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade show active" id="Description">
-                                <h4 class="mb-30">Product Description</h4>
-                                <p><%= product.getDetail() %></p>
-                            </div>
-                            <div class="tab-pane fade" id="Vendor-info">
-                                <h4 class="mb-30">Vendor Information</h4>
-                                <p>Vendor: <%= product.getVendor() %></p>
-                                <p>Contact: <%= product.getContactInfo() %></p>
-                            </div>
                         </div>
                     </div>
                 </div>

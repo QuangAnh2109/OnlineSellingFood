@@ -8,15 +8,15 @@
     int discount = Integer.parseInt(request.getParameter("discount"));
     int price = Integer.parseInt(request.getParameter("price"));
     int productID = Integer.parseInt(request.getParameter("productID"));
-    String imageUrl = "nest-frontend/assets/imgs/shop/product-" + productID + "-1.jpg";
-    String hoverImageUrl = "nest-frontend/assets/imgs/shop/product-" + productID + "-2.jpg";
+    String imageUrl = request.getParameter("imageUrl");
+    String hoverImageUrl = request.getParameter("hoverImageUrl");
 %>
 
 <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
     <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn" data-wow-delay=".1s">
         <div class="product-img-action-wrap">
             <div class="product-img product-img-zoom">
-                <a href="shop-product-full.jsp?productID=<%=productID%>">
+                <a href="ProductDetail?productID=<%=productID%>"> <!-- Updated Link -->
                     <img class="default-img" src="<%=imageUrl%>" alt="<%=name%>" />
                     <img class="hover-img" src="<%=hoverImageUrl%>" alt="<%=name%> (Hover)" />
                 </a>
@@ -26,7 +26,7 @@
             <div class="product-category">
                 <a href="shop-grid-left.jsp?category=<%=category%>"><%=category%></a>
             </div>
-            <h2><a href="shop-product-full.jsp?productID=<%=productID%>"><%=name%></a></h2>
+            <h2><a href="ProductDetail?productID=<%=productID%>"><%=name%></a></h2> <!-- Updated Link -->
             <div class="product-rate-cover">
                 <div class="product-rate d-inline-block">
                     <div class="product-rating" style="width: <%=star * 20%>%"></div>

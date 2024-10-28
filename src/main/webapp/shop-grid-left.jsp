@@ -102,32 +102,34 @@
                     </div>
                 </div>
             </div>
-            <div class="row product-grid">
-                <%--product list--%>
-                <%@ page import="dal.ProductDAO" %>
-                <%@ page import="model.Product" %>
-                <%@ page import="java.util.List" %>
-                <%@ page import="model.Account" %>
-                <%
-                    ProductDAO productDAO = new ProductDAO();
-                    List<Product> products = productDAO.getAllProducts();
+            <%@ page import="java.util.List" %>
+            <%@ page import="dal.ProductDAO" %>
+            <%@ page import="model.Product" %>
+            <%@ page import="model.Account" %>
+            <%
+                ProductDAO productDAO = new ProductDAO();
+                List<Product> products = productDAO.getAllProducts();
+            %>
+            <div class="row product-grid-4">
+                <% for (Product product : products) {
+                    List<String> images = productDAO.getProductImages(product.getProductID());
+                    String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
+                    String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
                 %>
-                <div class="row product-grid-4">
-                    <% for (Product product : products) {
-                        String discountValue = (product.getDiscountID() != null) ? product.getDiscountID().toString() : "0";
-                    %>
-                    <jsp:include page="product-box.jsp">
-                        <jsp:param name="category" value="<%= product.getCategoryID().toString() %>" />
-                        <jsp:param name="name" value="<%= product.getName() %>" />
-                        <jsp:param name="manufacturer" value="<%= product.getManufacturerID().toString() %>" />
-                        <jsp:param name="star" value="4" />
-                        <jsp:param name="discount" value="<%= discountValue %>" />
-                        <jsp:param name="price" value="<%= product.getPrice().toString() %>" />
-                        <jsp:param name="productID" value="<%= product.getProductID().toString() %>" />
-                    </jsp:include>
-                    <% } %>
-                </div>
+                <jsp:include page="product-box.jsp">
+                    <jsp:param name="category" value="<%= product.getCategoryID().toString() %>" />
+                    <jsp:param name="name" value="<%= product.getName() %>" />
+                    <jsp:param name="manufacturer" value="<%= product.getManufacturerID().toString() %>" />
+                    <jsp:param name="star" value="4" />
+                    <jsp:param name="discount" value='<%= product.getDiscountID() != null ? product.getDiscountID().toString() : "0" %>' />
+                    <jsp:param name="price" value="<%= product.getPrice().toString() %>" />
+                    <jsp:param name="productID" value="<%= product.getProductID().toString() %>" />
+                    <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
+                    <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
+                </jsp:include>
+                <% } %>
             </div>
+
             <!--product grid-->
             <div class="pagination-area mt-20 mb-20">
                 <nav aria-label="Page navigation example">
