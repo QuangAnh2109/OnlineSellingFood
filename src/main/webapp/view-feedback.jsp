@@ -96,7 +96,20 @@
                                         </div>
                                     </a>
                                 </td>
-                                <td>${l.star}</td>
+                                <div class="rate" style="width: ${l.star * 20}%">
+                                    <c:forEach var="i" begin="1" end="5">
+                                        <span class="star">
+                                            <c:choose>
+                                                <c:when test="${i <= l.star}">
+                                                    &#9733; <!-- Filled star -->
+                                                </c:when>
+                                                <c:otherwise>
+                                                    &#9734; <!-- Empty star -->
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </span>
+                                    </c:forEach>
+                                </div>
                                 <td><span class="badge rounded-pill alert-success">${l.feedback}</span></td>
                                 <td>${l.time}</td>
                                 <td class="text-end">
