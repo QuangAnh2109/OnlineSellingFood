@@ -3,13 +3,15 @@ package model;
 public class Cart {
     private int customerID;
     private int productID;
+    private int quantity;
 
     public Cart() {
     }
 
-    public Cart(int customerID, int productID) {
+    public Cart(int customerID, int productID, int quantity) {
         this.customerID = customerID;
         this.productID = productID;
+        this.quantity = quantity;
     }
 
     public int getCustomerID() {
@@ -26,5 +28,13 @@ public class Cart {
 
     public void setProductID(int productID) {
         this.productID = productID;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

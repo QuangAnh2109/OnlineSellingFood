@@ -44,11 +44,14 @@
                     <span><%=price%> VND</span>
                     <%}%>
                 </div>
+
                 <div class="add-cart">
-                    <form action="test" method="post">
-                        <input type="text" hidden name="productID" value="<%=productID%>">
-                        <input type="submit" class="add mr-5" value="Add to cart" style="color: #3BB77E">
-                    </form>
+                    <c:forEach items="${products}" var="pro">
+                        <form action="addtocart" method="post">
+                            <input type="hidden" name="productID" value="<%= productID %>">
+                            <input type="submit" class="add mr-5" value="Add to cart" style="color: #3BB77E">
+                        </form>
+                    </c:forEach>
                 </div>
             </div>
         </div>

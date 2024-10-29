@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.Account" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -172,15 +173,17 @@ try{
         <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
           <!--product list-->
           <div class="row product-grid-4">
-            <jsp:include page="product-box.jsp">
-              <jsp:param name="category" value="category name 1"/>
-              <jsp:param name="name" value="product name 1"/>
-              <jsp:param name="manufacturer" value="manufacturer name 1"/>
-              <jsp:param name="star" value="4"/>
-              <jsp:param name="discount" value="0"/>
-              <jsp:param name="price" value="100000"/>
-              <jsp:param name="productID" value="1"/>
-            </jsp:include>
+            <c:forEach items="${products}" var="pro">
+              <jsp:include page="product-box.jsp">
+                <jsp:param name="category" value="category name 1"/>
+                <jsp:param name="name" value="${pro.name}"/>
+                <jsp:param name="manufacturer" value="manufacturer name 1"/>
+                <jsp:param name="star" value="4"/>
+                <jsp:param name="discount" value="0"/>
+                <jsp:param name="price" value="${pro.price}"/>
+                <jsp:param name="productID" value="${pro.productID}"/>
+              </jsp:include>
+            </c:forEach>
             <jsp:include page="product-box.jsp">
               <jsp:param name="category" value="category name 2"/>
               <jsp:param name="name" value="product name 2"/>

@@ -42,6 +42,26 @@ public class CustomerDAO extends DBContext{
         return null;
     }
 
+    public Customer getCustomerByAccountId(int accountId) {
+        Customer customer = null;
+        try {
+            String sql = "SELECT * FROM Customer WHERE AccountID = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, accountId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                customer = new Customer();
+                customer.setCustomerID(rs.getInt("CustomerID"));
+                customer.setAccountID(rs.getInt("AccountID"));
+                customer.setPoint(rs.getInt("Point"));
+                customer.setLevel(rs.getInt("Level"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return customer;
+    }
+
     public boolean updateCustomer(Customer customer){
         try{
             PreparedStatement ps = connection.prepareStatement("update Customer set Point=?, Level=? where CustomerID=?", Statement.RETURN_GENERATED_KEYS);

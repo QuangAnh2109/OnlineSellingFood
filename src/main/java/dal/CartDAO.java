@@ -12,84 +12,108 @@ public class CartDAO extends DBContext {
         Cart cart = new Cart();
         cart.setCustomerID(rs.getInt("CustomerID"));
         cart.setProductID(rs.getInt("ProductID"));
+        cart.setQuantity(rs.getInt("quantity"));
         return cart;
     }
 
-    // Thêm sản phẩm vào giỏ hàng
-    public boolean addToCart(int customerID, int productID) {
-        String sql = "INSERT INTO Cart(CustomerID, ProductID) VALUES(?, ?)";
+    public int insert(Cart cart) {
+        int affectedRows = 0;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, customerID);
-            ps.setInt(2, productID);
-
-            return executeUpdate(ps) != null;
+            String sql = "INSERT INTO [dbo].[Cart] (CustomerID, ProductID, Quantity) VALUES (?, ?, ?)";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, cart.getCustomerID());
+            pre.setInt(2, cart.getProductID());
+            pre.setInt(3, cart.getQuantity());
+            affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
-            logger.info(ex.getMessage());
-            return false;
+            ex.printStackTrace();
         }
+        return affectedRows;
     }
 
-    // Xóa sản phẩm khỏi giỏ hàng
-    public boolean removeFromCart(int customerID, int productID) {
-        String sql = "DELETE FROM Cart WHERE CustomerID = ? AND ProductID = ?";
+    public int deleteByCustomerId(int customerId) {
+        int affectedRows = 0;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, customerID);
-            ps.setInt(2, productID);
-
-            return executeUpdate(ps) != null;
+            String sql = "DELETE FROM [dbo].[Cart] WHERE CustomerID = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
-            logger.info(ex.getMessage());
-            return false;
+            ex.printStackTrace();
         }
+        return affectedRows;
     }
 
-    // Lấy tất cả sản phẩm trong giỏ hàng của một khách hàng
-    public List<Cart> getCartByCustomerID(int customerID) {
-        String sql = "SELECT * FROM Cart WHERE CustomerID = ?";
-        List<Cart> cartItems = new ArrayList<>();
+    public int getCartIdByCustomerId(int customerId) {
+        int cartId = -1;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, customerID);
-
-            List<Object> objects = getListObject(ps);
-            for (Object obj : objects) {
-                cartItems.add((Cart) obj);
+            String sql = "SELECT id FROM [dbo].[Cart]\n"
+                    + " WHERE customerId = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) { // Kiểm tra xem có dữ liệu trong ResultSet hay không
+                cartId = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            logger.info(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return cartId;
+    }
+
+    public List<Cart> getCartByCustomerId(int customerId) {
+        List<Cart> cartItems = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Cart WHERE CustomerID = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                Cart cart = new Cart();
+                cart.setCustomerID(rs.getInt("CustomerID"));
+                cart.setProductID(rs.getInt("ProductID"));
+                cart.setQuantity(rs.getInt("Quantity"));
+                cartItems.add(cart);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return cartItems;
     }
 
-    // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
-    public Cart getCartItem(int customerID, int productID) {
-        String sql = "SELECT * FROM Cart WHERE CustomerID = ? AND ProductID = ?";
+    public Cart getCartByCustomerIdAndProductId(int customerId, int productId) {
+        Cart cart = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, customerID);
-            ps.setInt(2, productID);
-
-            Object obj = getObject(ps);
-            return obj != null ? (Cart) obj : null;
+            String sql = "SELECT * FROM Cart WHERE CustomerID = ? AND ProductID = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            pre.setInt(2, productId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                cart = new Cart();
+                cart.setCustomerID(rs.getInt("CustomerID"));
+                cart.setProductID(rs.getInt("ProductID"));
+                cart.setQuantity(rs.getInt("Quantity"));
+            }
         } catch (SQLException ex) {
-            logger.info(ex.getMessage());
-            return null;
+            ex.printStackTrace();
         }
+        return cart;
     }
 
-    // Xóa toàn bộ giỏ hàng của một khách hàng
-    public boolean clearCart(int customerID) {
-        String sql = "DELETE FROM Cart WHERE CustomerID = ?";
+    // Cập nhật số lượng sản phẩm trong giỏ hàng
+    public int update(Cart cart) {
+        int affectedRows = 0;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, customerID);
-
-            return executeUpdate(ps) != null;
+            String sql = "UPDATE Cart SET Quantity = ? WHERE CustomerID = ? AND ProductID = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, cart.getQuantity());
+            pre.setInt(2, cart.getCustomerID());
+            pre.setInt(3, cart.getProductID());
+            affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
-            logger.info(ex.getMessage());
-            return false;
+            ex.printStackTrace();
         }
+        return affectedRows;
     }
 }

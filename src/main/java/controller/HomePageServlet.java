@@ -17,12 +17,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+import dal.ProductDAO;
+import model.Product;
 
 @WebServlet(name = "HomePageServlet", urlPatterns = {"/homepage"})
 public class HomePageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ProductDAO productDAO = new ProductDAO();
+        Vector<Product> products = productDAO.getAllProducts();
+        request.setAttribute("products", products);
         request.getRequestDispatcher("home-page.jsp").forward(request, response);
     }
 
