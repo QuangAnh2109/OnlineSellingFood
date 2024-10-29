@@ -117,11 +117,11 @@
             <nav aria-label="Page navigation example">
 
 
-                <ul class="pagination justify-content-start">
-                    <c:forEach begin="01" end="${endPage}" var="i">
-                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="staffList?index=${i}&searchName=${searchName}">${i}</a></li>
-                    </c:forEach>
-                </ul>
+<%--                <ul class="pagination justify-content-start">--%>
+<%--                    <c:forEach begin="01" end="${endPage}" var="i">--%>
+<%--                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="staffList?index=${i}&searchName=${searchName}">${i}</a></li>--%>
+<%--                    </c:forEach>--%>
+<%--                </ul>--%>
 
 
             </nav>
