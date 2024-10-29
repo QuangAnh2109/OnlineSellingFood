@@ -1,11 +1,21 @@
 package controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import dal.CustomerDAO;
+import dal.FeedbackProductDAO;
+import dto.FeedbackResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
+import model.Customer;
 import model.Product;
 import dal.ProductDAO; // Make sure you have a DAO for Product
 
@@ -14,11 +24,12 @@ public class ProductDetailServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String productID = request.getParameter("productID");
+     int productID = Integer.parseInt(request.getParameter("productID"));
+
 
         // Assuming you have a ProductDAO to fetch product details
         ProductDAO productDAO = new ProductDAO();
-        Product product = productDAO.getProductById(Integer.parseInt(productID)); // Replace with your actual method to get product
+        Product product = productDAO.getProductById(productID); // Replace with your actual method to get product
 
         if (product != null) {
             request.setAttribute("product", product);
@@ -27,8 +38,47 @@ public class ProductDetailServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Product not found.");
         }
 
+        FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
+        List<FeedbackResponse> list=feedbackProductDAO.getAllFeedbackProduct(productID);
+        request.setAttribute("list", list);
+
+
         // Forward to JSP
         request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
+
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        ProductDAO productDAO = new ProductDAO();
+        Product product = productDAO.getProductById(productID);
+
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account==null) {
+            request.setAttribute("errorMessage", "You need to login first to write feedback!.");
+            request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
+            return;
+        }
+
+
+        CustomerDAO customerDAO = new CustomerDAO();
+        Customer c = customerDAO.getCustomerByAccountID(account.getAccountID());
+        FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
+        if (!feedbackProductDAO.existOrderProduct(productID, c.getCustomerID())) {
+            request.setAttribute("errorMessage", "You need to order " + product.getName() + " before you can write feedback!. ");
+            request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
+        }else{
+            String comment=request.getParameter("comment");
+            int rating=Integer.parseInt(request.getParameter("rating"));
+            LocalDateTime currentTime=LocalDateTime.now();
+            feedbackProductDAO.updateFeedbackProduct(productID, c.getCustomerID(), rating, comment,currentTime);
+
+            doGet(request, response);
+
+        }
+
+
     }
 }
 

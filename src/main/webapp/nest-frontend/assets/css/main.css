@@ -12392,4 +12392,45 @@ footer .hotline img {
   font-weight: bold;
   color: #333;
 }
+
+.comment-time {
+  font-size: 0.85rem; /* Adjust the size as needed */
+  color: gray; /* Change the color */
+  margin-left: 10px; /* Add space between the rating and time */
+}
+
+.single-comment {
+  border-bottom: 1px solid #ddd; /* Optional: add a border for separation */
+  padding-bottom: 15px; /* Add some padding */
+  margin-bottom: 15px; /* Space between comments */
+}
+
+.user .thumb {
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: center; /* Center items horizontally */
+}
+
+.user .thumb img {
+  border-radius: 50%; /* Make the profile picture round */
+  width: 40px; /* Adjust size */
+  height: 40px; /* Adjust size */
+}
+
+.user-name {
+  margin-top: 5px; /* Space between image and name */
+  font-size: 0.9rem; /* Adjust font size if necessary */
+}
+
+.rate {
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.star {
+  font-size: 20px; /* Chỉnh kích thước sao */
+  color: #ffd700; /* Màu vàng cho sao đầy */
+  display: inline-block;
+}
 /*# sourceMappingURL=main.css.map */
