@@ -22,7 +22,7 @@
 
     function doDelete(importID) {
 
-        if (confirm("Are you sure you want to delete import with ID=" + importID + "?")) {
+        if (confirm("Are you sure you want to delete Product ?")) {
             window.location = "importProductDelete?importID=" + importID ;
         }
     }
@@ -152,7 +152,7 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ImportID</th>
+
                                     <th>Product Name</th>
                                     <th>MFG Date</th>
                                     <th>EXP Date</th>
@@ -166,7 +166,7 @@
                                 <tbody>
                                 <c:forEach var="imp" items="${list}">
                                     <tr>
-                                        <td>${imp.getImportID()}</td>
+
                                         <td>${imp.getProductName()}</td>
                                         <td>${imp.getManufactureDate()}</td>
                                         <td>${imp.getExpireDate()}</td>
