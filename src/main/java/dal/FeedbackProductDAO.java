@@ -53,7 +53,7 @@ public class FeedbackProductDAO extends DBContext {
 
     public List<FeedbackResponse> getAllFeedbackProduct(int productID) {
         List<FeedbackResponse> list = new ArrayList<>();
-        String sql = "SELECT a.[Name], f.Star, f.Feedback, FORMAT(f.[Time], 'yyyy-MM-dd HH:mm') AS FormattedTime \n" +
+        String sql = "SELECT c.CustomerID,a.[Name], f.Star, f.Feedback, FORMAT(f.[Time], 'yyyy-MM-dd HH:mm') AS FormattedTime \n" +
                 "FROM FeedbackProduct f \n" +
                 "JOIN Customer c ON f.CustomerID = c.CustomerID\n" +
                 "JOIN Account a ON c.AccountID = a.AccountID\n" +
@@ -68,6 +68,7 @@ public class FeedbackProductDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 FeedbackResponse r = new FeedbackResponse();
+                r.setCustomerID(rs.getInt("CustomerID"));
                 r.setCustomerName(rs.getString("Name"));
                 r.setStar(rs.getInt("Star"));
                 r.setFeedback(rs.getString("Feedback"));
@@ -82,13 +83,28 @@ public class FeedbackProductDAO extends DBContext {
         return list;
     }
 
+    public void deleteFeedbackProduct(int productID, int customerID) {
+        String sql = "UPDATE [dbo].[FeedbackProduct]\n" +
+                "   SET Star=NULL,Feedback=NULL,Time=NULL\n" +
+                " WHERE ProductID=? and CustomerID=?\n";
+
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, productID);
+            st.setInt(2, customerID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 
     public static void main(String[] args) {
         FeedbackProductDAO dao=new FeedbackProductDAO();
-        List<FeedbackResponse> list=dao.getAllFeedbackProduct(2);
-        System.out.println(list);
+       dao.deleteFeedbackProduct(2,1);
+
     }
 
 

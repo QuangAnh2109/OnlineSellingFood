@@ -1,6 +1,7 @@
 package dto;
 
 public class FeedbackResponse {
+    private int customerID;
     private String customerName;
     private int star;
     private String feedback,time;
@@ -8,11 +9,20 @@ public class FeedbackResponse {
     public FeedbackResponse() {
     }
 
-    public FeedbackResponse(String customerName, int star, String feedback, String time) {
+    public FeedbackResponse(int customerID, String customerName, int star, String feedback, String time) {
+        this.customerID = customerID;
         this.customerName = customerName;
         this.star = star;
         this.feedback = feedback;
         this.time = time;
+    }
+
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
     public String getCustomerName() {
