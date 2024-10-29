@@ -103,7 +103,7 @@ public class ProductDAO extends DBContext{
             ps.setNString(11,product.getDetail());
             ResultSet rs = executeUpdate(ps);
             if(rs!=null && rs.next()){
-                return rs.getInt("ProductID");
+                return rs.getInt(1);
             }
         } catch (SQLException ex) {
             logger.info(ex.getMessage());

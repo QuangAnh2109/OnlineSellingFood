@@ -7,9 +7,13 @@ public class Img {
     public Img() {
     }
 
-    public Img(String imglink, Integer imgID) {
+    public Img(Integer imgID, String imglink) {
         this.imglink = imglink;
         this.imgID = imgID;
+    }
+
+    public Img(String imglink) {
+        this.imglink = imglink;
     }
 
     public Integer getImgID() {
