@@ -21,8 +21,9 @@
     }
 
     function doDelete(importID) {
+
         if (confirm("Are you sure you want to delete import with ID=" + importID + "?")) {
-            window.location = "importDelete?importID=" + importID;
+            window.location = "importProductDelete?importID=" + importID ;
         }
     }
 
@@ -67,12 +68,13 @@
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title card-title">Imports</h2>
-            <p>Add, edit, or delete imports</p>
+            <h2 class="content-title card-title">ImportProdcts</h2>
+            <p></p>
+            <div class="mt-3">
+                <a href="Import" class="btn btn-secondary">Back to Imports</a>
+            </div>
         </div>
-        <c:if test="${not empty msg}">
-            <div class="alert alert-warning">${msg}</div>
-        </c:if>
+
         <div class="card">
 
             <div class="card-body">
@@ -138,7 +140,7 @@
                             </div>
 
                             <div class="d-grid">
-                                <a href="Import" class="btn btn-secondary">Back</a>
+
                                 <button type="submit" class="btn btn-primary">Import Product</button>
                             </div>
                         </form>

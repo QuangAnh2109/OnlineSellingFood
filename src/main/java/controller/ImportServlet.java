@@ -26,6 +26,8 @@ public class ImportServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         ImportDAO dao = new ImportDAO();
         List<ImportRespone> importList = dao.getImportList();
         request.setAttribute("importList", importList);

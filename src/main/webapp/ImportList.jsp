@@ -18,12 +18,24 @@
       if (confirm("Are you sure you want to delete import with ID=" + importID + "?")) {
         window.location = "importDelete?importID=" + importID;
       }
+
     }
 
-    function navigateToImportProduct(importID) {
-      // Điều hướng sang trang ImportProduct
-      window.location.href = "ImportProduct?importID=" + importID;
+    function validateDate() {
+      const dateInput = document.getElementById('time').value;
+      const selectedDate = new Date(dateInput);
+      const today = new Date();
+
+
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        alert('The date cannot be in the past.');
+        return false;
+      }
+      return true;
     }
+
   </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +66,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-3">
-            <form action="Import" method="post">
+            <form action="Import" method="post" onsubmit="return validateDate()" >
               <div class="mb-4">
                 <label for="staffID" class="form-label">Staff</label>
                 <input type="number" class="form-control" id="staffID" name="staffID" value="${sessionScope.loggedInStaffID}" readonly="" />

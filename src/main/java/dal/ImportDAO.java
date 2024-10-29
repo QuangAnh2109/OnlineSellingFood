@@ -78,4 +78,41 @@ public class ImportDAO extends DBContext {
         return null;
     }
 
+    public boolean deleteImport(int importID) {
+        // First delete from the ImportProduct table
+        String deleteProductsSql = "DELETE FROM ImportProduct WHERE ImportID = ?";
+        String deleteImportSql = "DELETE FROM Import WHERE ImportID = ?";
+
+        try {
+            connection.setAutoCommit(false); // Start transaction
+
+            try (PreparedStatement productStmt = connection.prepareStatement(deleteProductsSql)) {
+                productStmt.setInt(1, importID);
+                productStmt.executeUpdate();
+            }
+
+            try (PreparedStatement importStmt = connection.prepareStatement(deleteImportSql)) {
+                importStmt.setInt(1, importID);
+                int rowsAffected = importStmt.executeUpdate();
+                connection.commit(); // Commit transaction if both deletions are successful
+                return rowsAffected > 0; // Return true if the import was deleted
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connection.rollback(); // Rollback transaction if there's an error
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            return false; // Return false if an error occurred
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Reset auto-commit mode
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
