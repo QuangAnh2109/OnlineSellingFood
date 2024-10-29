@@ -1,17 +1,19 @@
 import dal.CartDAO;
 import dal.CustomerDAO;
+import dal.ProductDAO;
+import model.Account;
 import model.Cart;
+import model.Customer;
+import model.Product;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+
 import java.io.IOException;
-import model.Cart;
-import model.Product;
-import model.Customer;
-import dal.ProductDAO;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import model.Account;
+import java.util.Map;
 
 @WebServlet(name = "CartServlet", urlPatterns = {"/cart"})
 public class CartServlet extends HttpServlet {
@@ -57,19 +59,16 @@ public class CartServlet extends HttpServlet {
             // Get cart items by CustomerID
             List<Cart> cartItems = cartDAO.getCartByCustomerId(customerId);
 
-            // Create a list to hold products
-            List<Product> productsInCart = new ArrayList<>();
-
-            // Fetch product details for each cart item
-            for (Cart cart : cartItems) {
-                Product product = productDAO.getProductByID(cart.getProductID());
-                if (product != null) {
-                    productsInCart.add(product);
-                }
+            // Fetch all products and store them in a map for quick access
+            List<Product> allProducts = productDAO.getAllProducts(); // Ensure this method exists
+            Map<Integer, Product> productMap = new HashMap<>();
+            for (Product product : allProducts) {
+                productMap.put(product.getProductID(), product);
             }
 
-            // Set products in request to be accessed in JSP
-            request.setAttribute("products", productsInCart);
+            // Set both cartItems and productMap in request attributes
+            request.setAttribute("cartItems", cartItems);
+            request.setAttribute("productMap", productMap);
 
             // Forward to cart page
             request.getRequestDispatcher("shop-cart.jsp").forward(request, response);
