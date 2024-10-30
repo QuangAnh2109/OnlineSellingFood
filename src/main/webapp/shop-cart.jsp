@@ -59,7 +59,8 @@
                 <div class="d-flex justify-content-between">
                     <h6 class="text-body">There are <span class="text-brand">${cartItems.size()}</span> products in your cart</h6>
                     <h6 class="text-body">
-                        <a href="#" onclick="clearCart()" class="text-muted">
+                        <a href="javascript:void(0);" class="text-muted"
+                           onclick="confirmDeletion('cart?action=clearCart')">
                             <i class="fi-rs-trash mr-5"></i>Clear Cart
                         </a>
                     </h6>
@@ -76,7 +77,7 @@
                                 <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
                                 <label class="form-check-label" for="exampleCheckbox11"></label>
                             </th>
-                            <th scope="col" colspan="2">Product</th>
+                            <th scope="col">Product</th>
                             <th scope="col">Unit Price</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Subtotal</th>
@@ -84,67 +85,68 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${cartItems}" var="cartItem">
-                                <tr>
-                                    <td class="custome-checkbox pl-30">
-                                        <input class="form-check-input" type="checkbox" name="selectedItems" id="checkbox_${cartItem.productID}" value="${cartItem.productID}">
-                                        <label class="form-check-label" for="checkbox_${cartItem.productID}"></label>
-                                    </td>
+                        <c:forEach items="${cartItems}" var="cartItem">
+                            <tr>
+                                <td class="custome-checkbox pl-30">
+                                    <input class="form-check-input" type="checkbox" name="selectedItems" id="checkbox_${cartItem.productID}" value="${cartItem.productID}">
+                                    <label class="form-check-label" for="checkbox_${cartItem.productID}"></label>
+                                </td>
 
-                                    <!-- Product Image -->
-                                    <td class="image product-thumbnail"><img src="assets/imgs/shop/product-2-1.jpg" alt="#"></td>
-                                    <!-- Product Details -->
-                                    <td class="product-des product-name">
-                                        <h6 class="mb-5">
-                                            <a class="product-name mb-10 text-heading">
-                                                    ${productMap[cartItem.productID].name}
+                                <!-- Product Image -->
+                                <td class="image product-thumbnail"><img src="assets/imgs/shop/product-2-1.jpg" alt="#"></td>
+                                <!-- Product Details -->
+                                <td class="product-des product-name">
+                                    <h6 class="mb-5">
+                                        <a class="product-name mb-10 text-heading">
+                                                ${productMap[cartItem.productID].name}
+                                        </a>
+                                    </h6>
+                                </td>
+
+                                <!-- Unit Price -->
+                                <td class="price" data-title="Price">
+                                    <h4 class="text-body">$${productMap[cartItem.productID].price}</h4>
+                                </td>
+
+                                <!-- Quantity Selection -->
+                                <td class="text-center detail-info" data-title="Stock">
+                                    <div class="detail-extralink mr-15">
+                                        <div class="detail-qty border radius">
+                                            <a href="#" class="qty-down">
+                                                <i class="fi-rs-angle-small-down"></i>
                                             </a>
-                                        </h6>
-                                    </td>
-
-                                    <!-- Unit Price -->
-                                    <td class="price" data-title="Price">
-                                        <h4 class="text-body">$${productMap[cartItem.productID].price}</h4>
-                                    </td>
-
-                                    <!-- Quantity Selection -->
-                                    <td class="text-center detail-info" data-title="Stock">
-                                        <div class="detail-extralink mr-15">
-                                            <div class="detail-qty border radius">
-                                                <a href="#" class="qty-down">
-                                                    <i class="fi-rs-angle-small-down"></i>
-                                                </a>
-                                                <span class="qty-val">${cartItem.quantity}</span> <!-- Display quantity -->
-                                                <a href="#" class="qty-up">
-                                                    <i class="fi-rs-angle-small-up"></i>
-                                                </a>
-                                            </div>
+                                            <span class="qty-val">${cartItem.quantity}</span> <!-- Display quantity -->
+                                            <a href="#" class="qty-up">
+                                                <i class="fi-rs-angle-small-up"></i>
+                                            </a>
                                         </div>
-                                    </td>
-                                    <td class="price" data-title="Price">
-                                        <h4 class="text-brand">$${productMap[cartItem.productID].price * cartItem.quantity}</h4>
-                                    </td>
-                                    <!-- Remove Item -->
-                                    <td class="action text-center" data-title="Remove">
-                                        <h6 class="text-body">
-                                            <a href="#" onclick="clearCart(); return false;" class="text-muted">
-                                                <i class="fi-rs-trash mr-5"></i>
-                                            </a>
-                                        </h6>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                                <td class="price" data-title="Price">
+                                    <h4 class="text-brand">$${productMap[cartItem.productID].price * cartItem.quantity}</h4>
+                                </td>
+                                <!-- Remove Item -->
+                                <td class="action text-center" data-title="Remove">
+                                    <h6 class="text-body">
+                                        <a href="javascript:void(0);" class="text-muted"
+                                           onclick="confirmDeletion('cart?action=removeItem&productId=${cartItem.productID}')">
+                                            <i class="fi-rs-trash mr-5"></i>
+                                        </a>
+                                    </h6>
+                                </td>
+                            </tr>
 
-                                <c:if test="${empty cartItem}">
-                                    <tr>
-                                        <td colspan="3">No products in the cart.</td>
-                                    </tr>
-                                </c:if>
-                            </c:forEach>
+                            <c:if test="${empty cartItem}">
+                                <tr>
+                                    <td colspan="3">No products in the cart.</td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="divider-2 mb-30"></div>
+        <div class="divider-2 mb-30"></div>
                 <div class="cart-action d-flex justify-content-between">
                     <a href="shop" class="btn">
                         <i class="fi-rs-arrow-left mr-10"></i>Continue Shopping
@@ -214,7 +216,16 @@
             form.submit();
         }
     }
+
 </script>
+<script type="text/javascript">
+    function confirmDeletion(url) {
+        if (confirm("Are you sure you want to delete this item?")) {
+            window.location.href = url;
+        }
+    }
+</script>
+
 <!-- Vendor JS-->
 <script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>

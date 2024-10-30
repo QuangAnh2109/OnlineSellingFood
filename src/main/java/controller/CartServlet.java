@@ -55,7 +55,18 @@ public class CartServlet extends HttpServlet {
             }
 
             int customerId = customer.getCustomerID();
+            String action = request.getParameter("action");
 
+            if ("clearCart".equals(action)) {
+                cartDAO.deleteByCustomerId(customerId);
+                response.sendRedirect("cart");
+                return;
+            } else if ("removeItem".equals(action)) {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                cartDAO.deleteByCustomerIdAndProductId(customerId, productId);
+                response.sendRedirect("cart");
+                return;
+            }
             // Get cart items by CustomerID
             List<Cart> cartItems = cartDAO.getCartByCustomerId(customerId);
 

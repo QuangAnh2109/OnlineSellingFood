@@ -69,7 +69,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("account", a);
             session.setAttribute("contactInformation", ci);
-            response.sendRedirect("home-page.jsp");
+            response.sendRedirect("homepage");
         }
     }
 }

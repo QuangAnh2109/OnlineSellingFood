@@ -116,4 +116,18 @@ public class CartDAO extends DBContext {
         }
         return affectedRows;
     }
+    public int deleteByCustomerIdAndProductId(int customerId, int productId) {
+        int affectedRows = 0;
+        try {
+            String sql = "DELETE FROM Cart WHERE CustomerID = ? AND ProductID = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            pre.setInt(2, productId);
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return affectedRows;
+    }
+
 }
