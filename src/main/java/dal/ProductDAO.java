@@ -119,8 +119,82 @@ public class ProductDAO extends DBContext{
 
         return images;
     }
+    public int countProductsByCategory(int categoryID) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM Product WHERE CategoryID = ?";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, categoryID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        return count;
+    }
+    public List<Product> get5ProductByDiscount() {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT TOP 5 * FROM Product WHERE DiscountID IS NOT NULL ORDER BY DiscountID DESC";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("ProductID"),
+                        rs.getInt("Price"),
+                        rs.getInt("DiscountID"),
+                        rs.getInt("Weight"),
+                        rs.getInt("CategoryID"),
+                        rs.getInt("ManufacturerID"),
+                        rs.getInt("OriginID"),
+                        rs.getInt("UnitID"),
+                        rs.getInt("CertificationID"),
+                        rs.getInt("StatusID"),
+                        rs.getString("Name"),
+                        rs.getString("Detail")
+                );
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+    public List<Product> getAllProductsWithDiscounts() {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM Product";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("ProductID"),
+                        rs.getInt("Price"),
+                        rs.getInt("DiscountID"),
+                        rs.getInt("Weight"),
+                        rs.getInt("CategoryID"),
+                        rs.getInt("ManufacturerID"),
+                        rs.getInt("OriginID"),
+                        rs.getInt("UnitID"),
+                        rs.getInt("CertificationID"),
+                        rs.getInt("StatusID"),
+                        rs.getString("Name"),
+                        rs.getString("Detail")
+                );
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
 
 }

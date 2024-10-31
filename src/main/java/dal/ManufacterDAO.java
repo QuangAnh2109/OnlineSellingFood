@@ -34,6 +34,21 @@ public class ManufacterDAO extends DBContext{
         }
         return null;
     }
+    public String getManufacturerName(int manufacturerID) {
+        String sql = "SELECT Name FROM Manufacturer WHERE ManufacturerID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, manufacturerID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Name");
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+
+
     public Integer addManufacturer(Manufacturer manufacturer) {
         try {
             PreparedStatement ps = connection.prepareStatement(

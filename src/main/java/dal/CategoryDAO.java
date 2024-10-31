@@ -33,6 +33,20 @@ public class CategoryDAO extends DBContext{
 
         return categories;
     }
+    public String getCategoryName(int categoryID) {
+        String sql = "SELECT Name FROM Category WHERE CategoryID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, categoryID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Name");
+            }
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+        }
+        return null;
+    }
+
 
     public void deleteCategory(int categoryID) {
         String sql = "DELETE FROM Category WHERE CategoryID = ?";

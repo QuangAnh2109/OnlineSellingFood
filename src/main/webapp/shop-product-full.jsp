@@ -31,7 +31,7 @@
     }
 
     Product product = (Product) request.getAttribute("product");
-    String productImageUrl = "C:/Users/admin/OneDrive/Documents/GitHub/OnlineSellingFood/src/main/webapp/Img/dep1.png"; // Default image
+    String productImageUrl = "C:\\Users\\admin\\OneDrive\\Documents\\GitHub\\OnlineSellingFood\\src\\main\\webapp\\Img\\dep1.png"; // Default image
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%= accountName %>"/>
