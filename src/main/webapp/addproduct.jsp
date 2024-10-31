@@ -1,4 +1,6 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="model.*" %>
+<%@ page import="dal.*" %><%--
   Created by IntelliJ IDEA.
   User: anh21
   Date: 10/31/2024
@@ -22,7 +24,18 @@
     <!-- Template CSS -->
     <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
 </head>
-
+<%
+    String msg = (String) request.getAttribute("msg");
+    if (msg==null) {
+        msg = "";
+    }
+    List<Category> categories = new CategoryDAO().getAllCategories();
+    List<Manufacturer> manufacturers = new ManufacturerDAO().getAllManufacturer();
+    List<Origin> origins = new OriginDAO().getAllOrigins();
+    List<Unit> units = new UnitDAO().getAllUnit();
+    List<Certification> certifications = new CertificationDAO().getAllCertification();
+    List<ProductStatus> statuses = new ProductStatusDAO().getAllProductStatus();
+%>
 <body>
 <div class="screen-overlay"></div>
 <main class="main-wrap">
@@ -31,65 +44,106 @@
             <div class="col-6">
                 <div class="content-header">
                     <h2 class="content-title">Add New Product</h2>
-                    <div>
-                        <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
-                        <button class="btn btn-md rounded font-sm hover-up">Publich</button>
-                    </div>
+                    <h5 style="color: red"><%=msg%></h5>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h6>1. General info</h6>
+                    <form action="AddProductStaffServlet" method="post" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div>
+                                <label class="form-label">Product name</label>
+                                <input type="text" placeholder="Type here" class="form-control" name="name">
                             </div>
-                            <div class="col-md-9">
-                                <div class="mb-4">
-                                    <label class="form-label">Product title</label>
-                                    <input type="text" placeholder="Type here" class="form-control">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Description</label>
-                                    <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Brand name</label>
-                                    <select class="form-select">
-                                        <option> Adidas </option>
-                                        <option> Nike </option>
-                                        <option> Puma </option>
-                                    </select>
-                                </div>
-                            </div> <!-- col.// -->
-                        </div> <!-- row.// -->
-                        <hr class="mb-4 mt-0">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h6>2. Pricing</h6>
+                            <div>
+                                <label class="form-label">Price</label>
+                                <input type="number" placeholder="Type here" class="form-control" name="price" minlength="1">
                             </div>
-                            <div class="col-md-9">
-                                <div class="mb-4">
-                                    <label class="form-label">Cost in USD</label>
-                                    <input type="text" placeholder="$00.0" class="form-control">
-                                </div>
-                            </div> <!-- col.// -->
-                        </div> <!-- row.// -->
-                        <hr class="mb-4 mt-0">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h6>3. Media</h6>
+                            <div>
+                                <label class="form-label">Description</label>
+                                <textarea placeholder="Type here" class="form-control" rows="4" name="detail"></textarea>
                             </div>
-                            <div class="col-md-9">
-                                <div class="mb-4">
-                                    <label class="form-label">Images</label>
-                                    <input class="form-control" type="file">
-                                </div>
-                            </div> <!-- col.// -->
-                        </div> <!-- .row end// -->
-                    </div>
+                            <div>
+                                <label class="form-label">Category</label>
+                                <select class="form-select" name="categoryid">
+                                    <%
+                                        for(Category category: categories) {
+                                    %>
+                                    <option value="<%=category.getCategoryID()%>"><%=category.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Manufacturer</label>
+                                <select class="form-select" name="manufacturerid">
+                                    <%
+                                        for(Manufacturer manufacturer: manufacturers) {
+                                    %>
+                                    <option value="<%=manufacturer.getManufacturerID()%>"><%=manufacturer.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Origin</label>
+                                <select class="form-select" name="originid">
+                                    <%
+                                        for(Origin origin: origins) {
+                                    %>
+                                    <option value="<%=origin.getOriginID()%>"><%=origin.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Unit</label>
+                                <select class="form-select" name="unitid">
+                                    <%
+                                        for(Unit unit: units) {
+                                    %>
+                                    <option value="<%=unit.getUnitID()%>"><%=unit.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Certification</label>
+                                <select class="form-select" name="certificationid">
+                                    <%
+                                        for(Certification certification: certifications) {
+                                    %>
+                                    <option value="<%=certification.getCertificationID()%>"><%=certification.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="statusid">
+                                    <%
+                                        for(ProductStatus status: statuses) {
+                                    %>
+                                    <option value="<%=status.getStatusID()%>"><%=status.getDetail()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Images</label>
+                                <input class="form-control" type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
+                            </div>
+                        </div>
+                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Create</button>"
+                    </form>
                 </div>
             </div>
         </div>

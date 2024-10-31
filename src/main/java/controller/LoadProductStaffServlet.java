@@ -16,6 +16,6 @@ public class LoadProductStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("products",new ProductDAO().getAllProduct());
-        request.getRequestDispatcher("product-manager.jsp").forward(request,response);
+        request.getRequestDispatcher("productliststaff.jsp").forward(request,response);
     }
 }

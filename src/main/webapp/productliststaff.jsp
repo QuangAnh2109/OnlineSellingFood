@@ -1,11 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: anh21
-  Date: 10/31/2024
-  Time: 10:02 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.*" %>
+<%@ page import="dal.*" %>
+<%@ page import="common.Host" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -25,397 +22,104 @@
 
 <body>
 <div class="screen-overlay"></div>
+<jsp:include page="bar-staff.jsp">
+  <jsp:param name="page" value=""/>
+  <jsp:param name="menu" value="warehouse"/>
+</jsp:include>
 <main class="main-wrap">
+  <jsp:include page="header-staff.jsp"></jsp:include>
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Products List</h2>
-        <p>Lorem ipsum dolor sit amet.</p>
+        <h2 class="content-title card-title">Product</h2>
+        <%
+          String msg = (String) request.getAttribute("msg");
+            if (msg==null) {
+              msg = "";
+            }
+        %>
+        <h5 style="color:red"><%=msg%></h5>
       </div>
       <div>
-        <a href="#" class="btn btn-light rounded font-md">Export</a>
-        <a href="#" class="btn btn-light rounded font-md">Import</a>
-        <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
+        <form action="warehouseList" method="get">
+          <input type="text" name="search" placeholder="Search Product" class="form-control bg-white" />
+          <a href="addproduct.jsp" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+        </form>
       </div>
     </div>
-    <div class="card mb-4">
-      <header class="card-header">
-        <div class="row align-items-center">
-          <div class="col col-check flex-grow-0">
-            <div class="form-check ms-2">
-              <input class="form-check-input" type="checkbox" value="" />
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Weight</th>
+                  <th>Category</th>
+                  <th>Manufacturer</th>
+                  <th>Origin</th>
+                  <th>Unit</th>
+                  <th>Certification</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                  List<Product> products = (List<Product>) request.getAttribute("products");
+                  CategoryDAO categoryDAO = new CategoryDAO();
+                  //ManufacturerDAO manufacturerDAO = new ManufacturerDAO();
+                  OriginDAO originDAO = new OriginDAO();
+                  //UnitDAO unitDAO = new UnitDAO();
+                  CertificateDAO certificateDAO = new CertificateDAO();
+                  ProductImgDAO productImgDAO = new ProductImgDAO();
+                  ProductStatusDAO productStatusDAO = new ProductStatusDAO();
+                  ImgDAO imgDAO = new ImgDAO();
+                  for (Product product : products) {
+                %>
+                <tr>
+                  <th><%=product.getProductID()%></th>
+                  <th><img src="http://<%=Host.getServerIPAddress(request)%>/OnlineSellingFood_war/Img/<%=imgDAO.getImgById(productImgDAO.getDefaultImg(product.getProductID()).getImgID()).getImglink()%>"></th>
+                  <th><%=product.getName()%></th>
+                  <th><%=product.getPrice()%></th>
+                  <th><%=product.getWeight()%></th>
+                  <th><%=categoryDAO.getCategoryById(product.getCategoryID()).getName()%></th>
+                  <th><%=product.getManufacturerID()%></th>
+                  <th><%=originDAO.getOriginById(product.getOriginID()).getName()%></th>
+                  <th><%=product.getUnitID()%></th>
+                  <th><%=certificateDAO.getCertificationById(product.getCertificationID()).getName()%></th>
+                  <th><%=productStatusDAO.getProductStatusById(product.getStatusID()).getDetail()%></th>
+                  <th>
+                    <a href="" class="btn btn-sm btn-brand rounded font-sm mt-15">Update</a>
+                    <a href="DeleteProductStaffServlet" class="btn btn-sm btn-brand rounded font-sm mt-15">Delete</a>
+                  </th>
+                </tr>
+                <%
+                  }
+                %>
+                </tbody>
+              </table>
             </div>
-          </div>
-          <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-            <select class="form-select">
-              <option selected>All category</option>
-              <option>Electronics</option>
-              <option>Clothes</option>
-              <option>Automobile</option>
-            </select>
-          </div>
-          <div class="col-md-2 col-6">
-            <input type="date" value="02.05.2021" class="form-control" />
-          </div>
-          <div class="col-md-2 col-6">
-            <select class="form-select">
-              <option selected>Status</option>
-              <option>Active</option>
-              <option>Disabled</option>
-              <option>Show all</option>
-            </select>
           </div>
         </div>
-      </header>
-      <!-- card-header end// -->
-      <div class="card-body">
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/1.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Seeds of Change Organic Quinoa</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$34.50</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-success">Active</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/2.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">All Natural Italian-Style Chicken</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$990.99</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-success">Active</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Gortons Beer Battered Fish Fillets</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$76.99</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-warning">Archived</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Foster Farms Takeout Crispy Classic Buffalo</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$18.00</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-success">Active</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Blue Diamond Almonds Lightly Salted</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$76.99</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-danger">Disabled</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/5.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Chobani Complete Vanilla Greek Yogurt</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$18.00</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-warning">Archived</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/6.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Canada Dry Ginger Ale 2 L Bottle</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$76.99</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-success">Active</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Gortons Beer Battered Fish Fillets</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$18.00</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-success">Active</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/3.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Gortons Beer Battered Fish Fillets</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$76.99</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-success">Active</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
-        <article class="itemlist">
-          <div class="row align-items-center">
-            <div class="col col-check flex-grow-0">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" />
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img src="nest-backend/assets/imgs/items/4.jpg" class="img-sm img-thumbnail" alt="Item" />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">Haagen-Dazs Caramel Cone Ice</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price"><span>$180.99</span></div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill alert-success">Active</span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-date">
-              <span>02.11.2021</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
-            </div>
-          </div>
-          <!-- row .// -->
-        </article>
-        <!-- itemlist  .// -->
       </div>
-      <!-- card-body end// -->
-    </div>
-    <!-- card end// -->
-    <div class="pagination-area mt-30 mb-50">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-start">
-          <li class="page-item active"><a class="page-link" href="#">01</a></li>
-          <li class="page-item"><a class="page-link" href="#">02</a></li>
-          <li class="page-item"><a class="page-link" href="#">03</a></li>
-          <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-          <li class="page-item"><a class="page-link" href="#">16</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-          </li>
-        </ul>
-      </nav>
     </div>
   </section>
-  <!-- content-main end// -->
+
 </main>
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/select2.min.js"></script>
 <script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
+<script src="nest-backend/assets/js/vendors/chart.js"></script>
 <!-- Main Script -->
-<script src="nest-backend/assets/js/main.js" type="text/javascript"></script>
+<script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
+<script src="nest-backend/assets/js/custom-chart.js" type="text/javascript"></script>
 </body>
 </html>
