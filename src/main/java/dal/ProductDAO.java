@@ -89,7 +89,7 @@ public class ProductDAO extends DBContext{
     public Integer addProduct(Product product) {
         String sql = "INSERT INTO Product (Price,DiscountID,Weight,CategoryID,ManufacturerID,OriginID,UnitID,CertificationID,StatusID,Name,Detail) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, product.getPrice());
             InsertPrepareStatement.insertInteger(product.getDiscountID(),ps,2);
             ps.setInt(3,product.getWeight());

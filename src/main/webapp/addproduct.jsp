@@ -51,19 +51,24 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="card mb-4">
-                    <form action="AddProductStaffServlet" method="post" enctype="multipart/form-data">
+                    <form action="AddProductStaffServlet" method="post" >
+<%--                        enctype="multipart/form-data"--%>
                         <div class="card-body">
                             <div>
                                 <label class="form-label">Product name</label>
-                                <input type="text" placeholder="Type here" class="form-control" name="name">
+                                <input type="text" placeholder="Type here" class="form-control" name="name" required>
                             </div>
                             <div>
                                 <label class="form-label">Price</label>
-                                <input type="number" placeholder="Type here" class="form-control" name="price" minlength="1">
+                                <input type="number" placeholder="Type here" class="form-control" name="price" minlength="1" required>
+                            </div>
+                            <div>
+                                <label class="form-label">Weight</label>
+                                <input type="number" placeholder="Type here" class="form-control" name="weight" minlength="1" required>
                             </div>
                             <div>
                                 <label class="form-label">Description</label>
-                                <textarea placeholder="Type here" class="form-control" rows="4" name="detail"></textarea>
+                                <textarea placeholder="Type here" class="form-control" rows="4" name="detail" required></textarea>
                             </div>
                             <div>
                                 <label class="form-label">Category</label>

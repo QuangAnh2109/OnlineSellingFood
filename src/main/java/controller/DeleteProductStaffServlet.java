@@ -14,7 +14,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Img;
 import model.ProductImg;
 
 @WebServlet(name = "DeleteProductStaffServlet", value = "/DeleteProductStaffServlet")
@@ -44,6 +43,6 @@ public class DeleteProductStaffServlet extends HttpServlet {
             logger.info(e.getMessage());
         }
         request.setAttribute("msg",msg);
-        request.getRequestDispatcher(request.getHeader("referer")).forward(request,response);
+        request.getRequestDispatcher("productliststaff.jsp").forward(request,response);
     }
 }

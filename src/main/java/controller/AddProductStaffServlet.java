@@ -43,6 +43,6 @@ public class AddProductStaffServlet extends HttpServlet {
             msg = "Fail to add new product";
         }
         request.setAttribute("msg",msg);
-        request.getRequestDispatcher(request.getHeader("referer")).forward(request,response);
+        request.getRequestDispatcher("addproduct.jsp").forward(request,response);
     }
 }
