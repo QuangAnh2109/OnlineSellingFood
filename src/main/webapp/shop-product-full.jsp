@@ -74,33 +74,19 @@
         window.location.href = "http://localhost:9998/OnlineSellingFood_war/register"; // URL trang đăng ký
     }
 </script>
-<%--<script>--%>
-<%--    // JavaScript kiểm tra đăng nhập và hiển thị modal--%>
-<%--    document.addEventListener('DOMContentLoaded', function () {--%>
-<%--        const reviewButton = document.querySelector('.button-contactForm');--%>
 
-<%--        reviewButton.addEventListener('click', function (event) {--%>
-<%--            event.preventDefault();--%>
+<style>
+    /* Đặt form trả lời ban đầu ẩn đi */
+    .reply-form {
+        display: none;
+    }
 
-<%--            const isLoggedIn = false; // Đặt thành true nếu người dùng đã đăng nhập--%>
+    /* Hiển thị form trả lời khi người dùng di chuột qua khu vực bình luận */
+    .comment-list:hover .reply-form {
+        display: block;
+    }
+</style>
 
-<%--            if (!isLoggedIn) {--%>
-<%--                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {});--%>
-<%--                loginModal.show();--%>
-<%--            } else {--%>
-<%--                document.getElementById('commentForm').submit();--%>
-<%--            }--%>
-<%--        });--%>
-<%--    });--%>
-
-<%--    function login() {--%>
-<%--        window.location.href = "http://localhost:9998/OnlineSellingFood_war/login"; // URL trang đăng nhập--%>
-<%--    }--%>
-
-<%--    function register() {--%>
-<%--        window.location.href = "http://localhost:9998/OnlineSellingFood_war/register"; // URL trang đăng ký--%>
-<%--    }--%>
-<%--</script>--%>
 <body class="single-product">
 <%
     String accountName = "";
@@ -403,23 +389,22 @@
                                         <div class="row">
                                             <div class="col-lg-8">
                                                 <h4 class="mb-30">Customer questions & answers</h4>
+                                                <!-- Loop through main comments -->
+                                                <!-- Loop through main comments -->
                                                 <c:forEach var="l" items="${list}">
                                                     <div class="comment-list">
                                                         <div class="single-comment justify-content-between d-flex mb-30">
                                                             <div class="user justify-content-between d-flex">
                                                                 <div class="thumb text-center">
-                                                                    <img src="nest-frontend/assets/imgs/blog/author-2.png"
-                                                                         alt=""/>
+                                                                    <img src="nest-frontend/assets/imgs/blog/author-2.png" alt=""/>
                                                                     <div class="user-name">
-                                                                        <a href="#"
-                                                                           class="font-heading text-brand">${l.customerName}</a>
+                                                                        <a href="#" class="font-heading text-brand">${l.customerName}</a>
                                                                     </div>
                                                                 </div>
                                                                 <div class="desc">
                                                                     <div class="d-flex justify-content-between mb-10 align-items-center">
                                                                         <div class="product-rate-custom">
-                                                                            <div class="rate"
-                                                                                 style="width: ${l.star * 20}%">
+                                                                            <div class="rate" style="width: ${l.star * 20}%">
                                                                                 <c:forEach var="i" begin="1" end="5">
                                                                                     <span class="star">
                                                                                         <c:choose>
@@ -436,60 +421,52 @@
                                                                         </div>
                                                                         <span class="comment-time">${l.time}</span>
                                                                     </div>
-                                                                    <p class="mb-10">${l.feedback}
-                                                                    </p>
+                                                                    <p class="mb-10">${l.feedback}</p>
+
+                                                                    <!-- Hiển thị nút "Reply" nếu comment không phải của tài khoản hiện tại -->
+
+                                                                    <c:if test="${l.customerID != currentID}">
+                                                                        <div class="reply-form">
+                                                                            <form action="replyComment" method="post" class="mt-2">
+                                                                                <input type="hidden" name="productID" value="${productID}" />
+                                                                                <input type="hidden" name="replyID" value="${l.feedbackID}" />
+
+                                                                                <textarea name="replyContent" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
+                                                                                <button type="submit" class="btn btn-sm btn-primary mt-2 reply-button">Submit Reply</button>
+
+
+                                                                                <div class="comment-replies">
+                                                                                    <c:forEach var="reply" items="${l.replies}">
+                                                                                        <div class="single-reply d-flex mb-10" style="margin-left: 40px;">
+                                                                                            <div class="thumb text-center">
+                                                                                                <img src="nest-frontend/assets/imgs/blog/author-2.png" alt=""/>
+                                                                                            </div>
+                                                                                            <div class="reply-desc">
+                                                                                                <div class="user-name">
+                                                                                                    <a href="#" class="font-heading text-brand">${reply.customerName}</a>
+                                                                                                </div>
+                                                                                                <span class="comment-time">${reply.time}</span>
+                                                                                                <p>${reply.feedback}</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </c:forEach>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </c:if>
+
+
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div   >
                                                 </c:forEach>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <h4 class="mb-30">Customer reviews</h4>
-                                                <div class="d-flex mb-30">
-                                                    <div class="product-rate d-inline-block mr-15">
-                                                        <div class="product-rating" style="width: 90%"></div>
-                                                    </div>
-                                                    <h6>4.8 out of 5</h6>
-                                                </div>
-                                                <div class="progress">
-                                                    <span>5 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 50%"
-                                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <span>4 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 25%"
-                                                         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <span>3 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 45%"
-                                                         aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <span>2 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 65%"
-                                                         aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%
-                                                    </div>
-                                                </div>
-                                                <div class="progress mb-30">
-                                                    <span>1 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 85%"
-                                                         aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="font-xs text-muted">How are ratings calculated?</a>
                                             </div>
                                         </div>
                                     </div>
+
                                     <!--comment form-->
                                     <div class="comment-form">
-
                                         <h4 class="mb-15">Add a review</h4>
                                         <form class="form-contact comment_form" action="ProductDetail" method="post"
                                               id="commentForm">
