@@ -16,7 +16,7 @@
     <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn" data-wow-delay=".1s">
         <div class="product-img-action-wrap">
             <div class="product-img product-img-zoom">
-                <a href="ProductDetail?productID=<%=productID%>"> <!-- Updated Link -->
+                <a href="ProductDetail?productID=<%=productID%>">
                     <img class="default-img" src="<%=imageUrl%>" alt="<%=name%>" />
                     <img class="hover-img" src="<%=hoverImageUrl%>" alt="<%=name%> (Hover)" />
                 </a>
@@ -26,7 +26,7 @@
             <div class="product-category">
                 <a href="shop-grid-left.jsp?category=<%=category%>"><%=category%></a>
             </div>
-            <h2><a href="ProductDetail?productID=<%=productID%>"><%=name%></a></h2> <!-- Updated Link -->
+            <h2><a href="ProductDetail?productID=<%=productID%>"><%=name%></a></h2>
             <div class="product-rate-cover">
                 <div class="product-rate d-inline-block">
                     <div class="product-rating" style="width: <%=star * 20%>%"></div>

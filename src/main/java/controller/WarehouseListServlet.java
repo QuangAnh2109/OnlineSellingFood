@@ -17,7 +17,6 @@ public class WarehouseListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("search");
         if (search == null) {search = "";}
-        // Initialize DAO objects
         ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
         WarehouseStatusDAO statusDAO = new WarehouseStatusDAO();
         WarehouseDAO warehouseDAO = new WarehouseDAO();

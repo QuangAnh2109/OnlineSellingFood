@@ -26,7 +26,7 @@
     List<Category> allCategories = categoryDAO.getAllCategories();
 
     // Phân trang cho danh mục
-    int pageSize1 = 5; // Số danh mục trên mỗi trang
+    int pageSize1 = 5;
     int totalCategories = allCategories.size();
     int totalPages1 = (int) Math.ceil((double) totalCategories / pageSize1);
     int currentPage = 1;
@@ -64,7 +64,7 @@
     }
 
     // Lấy categoryID từ tham số yêu cầu
-    int categoryID = 0; // 0 có nghĩa là tất cả các danh mục
+    int categoryID = 0;
     if (request.getParameter("categoryID") != null) {
         categoryID = Integer.parseInt(request.getParameter("categoryID"));
     }
@@ -72,7 +72,7 @@
     // Lấy tùy chọn sắp xếp từ tham số yêu cầu
     String sortOption = request.getParameter("sort");
     if (sortOption == null || (!sortOption.equals("Price") && !sortOption.equals("Name"))) {
-        sortOption = "Name"; // Thiết lập tùy chọn sắp xếp mặc định
+        sortOption = "Name";
     }
 
     // Lấy tham số tìm kiếm từ yêu cầu
@@ -82,7 +82,7 @@
     ProductDAO productDAO = new ProductDAO();
     int totalProducts = productDAO.countProductsByCategoryAndSearch(categoryID, searchTerm);
     int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
-    boolean ascending = true; // Thiết lập chế độ sắp xếp mặc định là tăng dần
+    boolean ascending = true;
     List<Product> products = productDAO.getProductsByPageAndSort(categoryID, page1, pageSize, sortOption, ascending, searchTerm);
 %>
 
