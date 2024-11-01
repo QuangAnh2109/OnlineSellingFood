@@ -36,6 +36,11 @@
                 <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
             </div>
         </div>
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger" role="alert">
+                    ${error}
+            </div>
+        </c:if>
         <div class="card mb-4">
             <header class="card-header">
                 <div class="row gx-3">
@@ -112,7 +117,8 @@
                                         <td class="text-end">
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
                                                 <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-                                                <a href="#" onclick="confirmDelete(${mn.manufacturerID}); return false;" class="btn btn-sm font-sm btn-light rounded">
+                                                <a href="#" onclick="confirmDelete(${mn.manufacturerID}, ${mn.productCount}); return false;"
+                                                   class="btn btn-sm font-sm btn-light rounded">
                                                     <i class="material-icons md-delete_forever"></i> Delete
                                                 </a>
                                                 <form id="deleteForm${mn.manufacturerID}" action="manulist" method="POST" style="display:none;">
@@ -157,6 +163,18 @@
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
 <script type="text/javascript">
     function confirmDelete(manufacturerID) {
+        var confirmed = confirm("Are you sure you want to delete this manufacturer?");
+        if (confirmed) {
+            document.getElementById('deleteForm' + manufacturerID).submit();
+        }
+    }
+</script>
+<script type="text/javascript">
+    function confirmDelete(manufacturerID, productCount) {
+        if (productCount >= 1) {
+            alert("Cannot delete this manufacturer because it has associated products.");
+            return false;
+        }
         var confirmed = confirm("Are you sure you want to delete this manufacturer?");
         if (confirmed) {
             document.getElementById('deleteForm' + manufacturerID).submit();
