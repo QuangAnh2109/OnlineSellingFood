@@ -37,7 +37,7 @@ public class ReplyCommentServlet extends HttpServlet {
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
             request.setAttribute("errorMessage", "You need to login first to write feedback!.");
-            request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
+            loadProductDetails(request, response, productID);
             return;
         }
 
@@ -52,5 +52,22 @@ public class ReplyCommentServlet extends HttpServlet {
         Integer rating=null;
         feedbackProductDAO.addFeedbackProduct(productID, c.getCustomerID(), rating, comment, currentTime, replyID);
         response.sendRedirect("ProductDetail?productID=" + productID);
+    }
+
+    private void loadProductDetails(HttpServletRequest request, HttpServletResponse response, int productID) throws ServletException, IOException {
+        ProductDAO productDAO = new ProductDAO();
+        Product product = productDAO.getProductById(productID);
+        if (product != null) {
+            request.setAttribute("product", product);
+        } else {
+            request.setAttribute("errorMessage", "Product not found.");
+        }
+
+        FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
+        List<FeedbackResponse> feedbackList = feedbackProductDAO.getAllFeedbackProduct(productID);
+        request.setAttribute("list", feedbackList);
+        request.setAttribute("productID", productID);
+
+        request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
     }
 }

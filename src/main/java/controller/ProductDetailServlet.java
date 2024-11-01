@@ -24,6 +24,9 @@ public class ProductDetailServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        loadProductDetails(request, response);
+    }
+    private void loadProductDetails(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int productID = Integer.parseInt(request.getParameter("productID"));
 
 
@@ -70,7 +73,9 @@ public class ProductDetailServlet extends HttpServlet {
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
             request.setAttribute("errorMessage", "You need to login first to write feedback!.");
-            request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
+            loadProductDetails(request, response);
+//            response.sendRedirect("login");
+
             return;
         }
 
@@ -80,7 +85,8 @@ public class ProductDetailServlet extends HttpServlet {
         FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
         if (!feedbackProductDAO.existOrderProduct(productID, c.getCustomerID())) {
             request.setAttribute("errorMessage", "You need to order " + product.getName() + " before you can write feedback!. ");
-            request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
+            loadProductDetails(request, response);
+            //request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
         } else {
             String comment = request.getParameter("comment");
             int rating = Integer.parseInt(request.getParameter("rating"));
@@ -88,7 +94,7 @@ public class ProductDetailServlet extends HttpServlet {
 //          feedbackProductDAO.updateFeedbackProduct(productID, c.getCustomerID(), rating, comment,currentTime);
             Integer replyID = null;
             feedbackProductDAO.addFeedbackProduct(productID, c.getCustomerID(), rating, comment, currentTime, replyID);
-            doGet(request, response);
+            response.sendRedirect("ProductDetail?productID=" + productID);
 
         }
 
