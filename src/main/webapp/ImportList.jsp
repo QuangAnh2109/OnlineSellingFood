@@ -127,7 +127,7 @@
                 <tbody>
                 <c:forEach var="imp" items="${importList}">
                   <tr>
-                    
+
                     <td>${imp.getAccountName()}</td>
                     <td>${imp.getWarehouseName()}</td>
                     <td>${imp.getSupplierName()}</td>
