@@ -84,4 +84,24 @@ public class UnitDAO extends DBContext{
         }
         return null;
     }
+
+    public String getUnitNameByID(int unitID) {
+        String unitName = null;
+        String sql = "SELECT Name FROM Unit WHERE UnitID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, unitID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    unitName = rs.getString("Name");
+                }
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+
+        return unitName;
+    }
+
+
 }

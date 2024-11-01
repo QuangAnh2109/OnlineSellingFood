@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="dal.ProductDAO" %>
 <%@ page import="dal.CategoryDAO" %>
+<%@ page import="dal.UnitDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -24,6 +25,7 @@
 
 <body class="single-product">
 <%
+    UnitDAO unitDAO = new UnitDAO();
     ManufacterDAO manufacterDAO = new ManufacterDAO();
     String accountName = "";
     try {
@@ -94,12 +96,11 @@
                                 <div class="attr-detail attr-size mb-30">
                                     <strong class="mr-10">Unit: </strong>
                                     <ul class="list-filter size-filter font-small">
-                                        <li><a href="#">piece</a></li>
+                                        <p class="font-lg"><%= (product != null) ? unitDAO.getUnitNameByID(product.getUnitID()): "Product units not available." %></p>
                                     </ul>
                                 </div>
                                 <div class="product-extra-link2">
                                     <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
-
                                 </div>
 
                             </div>
@@ -140,7 +141,7 @@
                         <div class="row product-grid-4">
                             <%
                                 ProductDAO productDAO = new ProductDAO();
-                                List<Product> products = productDAO.get5ProductByDiscount();
+                                List<Product> products = productDAO.get5RelatedProductsByManufacturer(product.getManufacturerID());
                                 CategoryDAO categoryDAO = new CategoryDAO();
                             %>
                             <% for (Product product1 : products) {
