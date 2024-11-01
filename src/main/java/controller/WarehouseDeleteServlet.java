@@ -17,13 +17,4 @@ public class WarehouseDeleteServlet extends HttpServlet {
 
     }
 
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String warehouseID = request.getParameter("warehouseID");
-//        if (warehouseID != null) {
-//            int warehouseID1 = Integer.parseInt(warehouseID);
-//            WarehouseDAO warehouseDAO1 = new WarehouseDAO();
-//            warehouseDAO1.deleteWarehouse(warehouseID1);
-//        }
-//        response.sendRedirect("warehouseList");
-//    }
 }

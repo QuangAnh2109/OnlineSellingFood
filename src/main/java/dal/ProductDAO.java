@@ -168,7 +168,7 @@ public class ProductDAO extends DBContext{
                 ps.setInt(paramIndex++, categoryID);
             }
             if (searchTerm != null && !searchTerm.isEmpty()) {
-                ps.setString(paramIndex++, "%" + searchTerm + "%"); // Tìm kiếm với wildcard
+                ps.setString(paramIndex++, "%" + searchTerm + "%");
             }
             ps.setInt(paramIndex++, (page - 1) * pageSize);
             ps.setInt(paramIndex++, pageSize);

@@ -131,15 +131,15 @@
         return false; // Ngăn gửi form nếu trường chi tiết để trống
       }
 
-      return true; // Cho phép gửi form nếu tất cả các kiểm tra đều hợp lệ
+      return true;
     }
 
     function resetForm() {
       document.getElementById("issuer_name").value = "";
       document.getElementById("issuer_detail").value = "";
       document.getElementById("certificate_issuer_id").value = "";
-      document.getElementById("submit_button").innerText = "Create certificate issuer"; // Đặt lại nhãn nút về trạng thái ban đầu
-      document.getElementById("cancel_button").style.display = "none"; // Ẩn nút Cancel
+      document.getElementById("submit_button").innerText = "Create certificate issuer";
+      document.getElementById("cancel_button").style.display = "none";
     }
   </script>
 

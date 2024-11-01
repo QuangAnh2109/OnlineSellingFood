@@ -37,7 +37,6 @@ public class RegisterStaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> errorMessages = new ArrayList<>();
 
-        // Get form parameters
         String roleID = request.getParameter("roleID");
         String warehouseID = request.getParameter("WarehouseID");
         String name = request.getParameter("name");
@@ -73,9 +72,8 @@ public class RegisterStaffServlet extends HttpServlet {
 
         ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
         AccountDAO accountDAO = new AccountDAO();
-        StaffDAO staffDAO = new StaffDAO();  // Add StaffDAO to manage staff data
+        StaffDAO staffDAO = new StaffDAO();
 
-        // Find contact information in the database
         ContactInformation contact = contactInfoDAO.getContactInformationByAddressAndPhone(address, phoneNumber);
         //if contact don't have in database, add new contact to database
         if (contact == null) {
@@ -85,12 +83,9 @@ public class RegisterStaffServlet extends HttpServlet {
 
         try {
             if(errorMessages.isEmpty()) {
-                // Create the new Account
                 Account newAccount = new Account(Integer.valueOf(roleID),email,name,genderID, "123456789", birth,LocalDateTime.now(),3);
-                // Add account to the database
                 Integer accountID = accountDAO.addAccount(newAccount);
                 if (accountID != null) {
-                    // Insert Staff record with default salary and warehouseID set to 0
                     Staff newStaff = new Staff(accountID, 1000, Integer.parseInt(warehouseID));
                     AccountContact accountContact = new AccountContact(accountID,contact.getContactInformationID(),1);
                     new AccountContactDAO().addAccountContact(accountContact);
@@ -98,14 +93,12 @@ public class RegisterStaffServlet extends HttpServlet {
                     request.getSession().setAttribute("msg", "Successfully added staff.");
                     response.sendRedirect("registerstaff");
                 } else {
-                    // Rollback the contact information in case of failure
                     contactInfoDAO.deleteContact(contact.getContactInformationID());
                     request.getSession().setAttribute("msg", "Don't Successfully added staff.");
                     response.sendRedirect("registerstaff");
                 }
             }
         } catch (Exception e) {
-            // Handle exception and display error
             request.getSession().setAttribute("msg", "Don't Successfully added staff.");
             response.sendRedirect("registerstaff");
         }

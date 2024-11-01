@@ -63,10 +63,7 @@ public class CertificateDAO extends DBContext {
         dao.deleteCertification(18);
     }
 
-//    public static void main(String[] args) {
-//        CertificateDAO ca = new CertificateDAO();
-//        System.out.println(ca.deleteCertification(12));
-//    }
+
     public boolean updateCertification(int certificationID, String name, String detail, int certificateIssuerID, int imgID) {
         String sql = "UPDATE Certification SET Name = ?, Detail = ?, CertificateIssuerID = ?, ImgID = ? WHERE CertificationID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

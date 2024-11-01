@@ -114,16 +114,16 @@
             const nameField = document.getElementById("product_name");
             if (nameField.value.trim() === "") {
                 alert("Please enter a category name.");
-                return false; // Ngăn gửi form nếu trường tên để trống
+                return false;
             }
-            return true; // Cho phép gửi form nếu tất cả các kiểm tra đều hợp lệ
+            return true;
         }
 
         function resetForm() {
             document.getElementById("product_name").value = "";
             document.getElementById("category_id").value = "";
-            document.getElementById("submit_button").innerText = "Create category"; // Đặt lại nhãn nút về trạng thái ban đầu
-            document.getElementById("cancel_button").style.display = "none"; // Ẩn nút Cancel
+            document.getElementById("submit_button").innerText = "Create category";
+            document.getElementById("cancel_button").style.display = "none";
         }
     </script>
 
