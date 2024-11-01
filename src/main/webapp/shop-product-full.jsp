@@ -1,6 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.Account" %>
 <%@ page import="model.Product" %>
+<%@ page import="dal.ManufacterDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="dal.ProductDAO" %>
+<%@ page import="dal.CategoryDAO" %>
+<%@ page import="dal.UnitDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -89,6 +94,8 @@
 
 <body class="single-product">
 <%
+    UnitDAO unitDAO = new UnitDAO();
+    ManufacterDAO manufacterDAO = new ManufacterDAO();
     String accountName = "";
     try {
         Account account = (Account) session.getAttribute("account");
@@ -100,7 +107,7 @@
     }
 
     Product product = (Product) request.getAttribute("product");
-    String productImageUrl = "C:/Users/admin/OneDrive/Documents/GitHub/OnlineSellingFood/src/main/webapp/Img/dep1.png"; // Default image
+    String productImageUrl = "C:\\Users\\admin\\OneDrive\\Documents\\GitHub\\OnlineSellingFood\\src\\main\\webapp\\Img\\dep1.png"; // Default image
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%= accountName %>"/>
@@ -163,10 +170,13 @@
                                 <div class="attr-detail attr-size mb-30">
                                     <strong class="mr-10">Unit: </strong>
                                     <ul class="list-filter size-filter font-small">
-                                        <!-- Display a fixed unit, e.g., "piece" -->
-                                        <li><a href="#">piece</a></li>
+                                        <p class="font-lg"><%= (product != null) ? unitDAO.getUnitNameByID(product.getUnitID()): "Product units not available." %></p>
                                     </ul>
                                 </div>
+                                <div class="product-extra-link2">
+                                    <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -182,7 +192,7 @@
                                        href="#Additional-info">Additional info</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Vendor</a>
+                                    <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Manufactor</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews
@@ -691,7 +701,49 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-content shop_info_tab entry-main-content">
+                            <div class="tab-pane fade show active" id="Description">
+                                <div class="">
+                                    <p class="font-lg"><%= (product != null) ? product.getDetail() : "Product details not available." %></p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade show active" id="Vendor-info">
+                                <div class="">
+                                    <p class="font-lg"><%= (product != null) ? manufacterDAO.getManufacturerName(product.getManufacturerID()) : "Product Manufactor not available." %></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="row mt-60">
+                        <div class="col-12">
+                            <h2 class="section-title style-1 mb-30">Related products</h2>
+                        </div>
+                        <div class="row product-grid-4">
+                            <%
+                                ProductDAO productDAO = new ProductDAO();
+                                List<Product> products = productDAO.get5RelatedProductsByManufacturer(product.getManufacturerID());
+                                CategoryDAO categoryDAO = new CategoryDAO();
+                            %>
+                            <% for (Product product1 : products) {
+                                List<String> images = productDAO.getProductImages(product1.getProductID());
+                                String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
+                                String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
+                            %>
+                            <jsp:include page="product-box.jsp">
+                                <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product1.getCategoryID())%>" />
+                                <jsp:param name="name" value="<%= product1.getName() %>" />
+                                <jsp:param name="manufacturer" value="<%= manufacterDAO.getManufacturerName(product1.getManufacturerID()) %>" />
+                                <jsp:param name="star" value="4" />
+                                <jsp:param name="discount" value="<%= product1.getDiscountID() != null ? product1.getDiscountID().toString() : '0' %>" />
+                                <jsp:param name="price" value="<%= product1.getPrice().toString() %>" />
+                                <jsp:param name="productID" value="<%= product1.getProductID().toString() %>" />
+                                <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
+                                <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
+                            </jsp:include>
+                            <% } %>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -1,4 +1,13 @@
 <%@ page import="model.Account" %>
+<%@ page import="dal.CategoryDAO" %>
+<%@ page import="dal.ProductDAO" %>
+<%@ page import="model.Category" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Product" %>
+<%@ page import="dal.ManufacterDAO" %>
+<%@ page import="model.Discount" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="dal.DiscountDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -107,16 +116,23 @@ try{
       </div>
       <div class="carausel-10-columns-cover position-relative">
         <div class="carausel-10-columns" id="carausel-10-columns">
+          <%
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProductDAO productDAO = new ProductDAO();
+            List<Category> categories = categoryDAO.getAllCategories();
+
+            for (Category category : categories) {
+              int categoryID = category.getCategoryID();
+              int productCount = productDAO.countProductsByCategory(categoryID);
+          %>
           <jsp:include page="category-box.jsp">
-            <jsp:param name="name" value="category name 1"/>
-            <jsp:param name="quantity" value="12"/>
+            <jsp:param name="name" value="<%= category.getName() %>"/>
+            <jsp:param name="quantity" value="<%= productCount %>"/>
             <jsp:param name="color" value="2"/>
           </jsp:include>
-          <jsp:include page="category-box.jsp">
-            <jsp:param name="name" value="category name 2"/>
-            <jsp:param name="quantity" value="78"/>
-            <jsp:param name="color" value="11"/>
-          </jsp:include>
+          <%
+            }
+          %>
         </div>
       </div>
     </div>
@@ -172,24 +188,27 @@ try{
         <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
           <!--product list-->
           <div class="row product-grid-4">
+            <%
+              List<Product> products = productDAO.get5ProductByDiscount();
+              ManufacterDAO manufacterDAO = new ManufacterDAO();
+            %>
+            <% for (Product product : products) {
+              List<String> images = productDAO.getProductImages(product.getProductID());
+              String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
+              String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
+            %>
             <jsp:include page="product-box.jsp">
-              <jsp:param name="category" value="category name 1"/>
-              <jsp:param name="name" value="product name 1"/>
-              <jsp:param name="manufacturer" value="manufacturer name 1"/>
-              <jsp:param name="star" value="4"/>
-              <jsp:param name="discount" value="0"/>
-              <jsp:param name="price" value="100000"/>
-              <jsp:param name="productID" value="1"/>
+              <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
+              <jsp:param name="name" value="<%= product.getName() %>" />
+              <jsp:param name="manufacturer" value="<%= manufacterDAO.getManufacturerName(product.getManufacturerID()) %>" />
+              <jsp:param name="star" value="4" />
+              <jsp:param name="discount" value="<%= product.getDiscountID() != null ? product.getDiscountID().toString() : '0' %>" />
+              <jsp:param name="price" value="<%= product.getPrice().toString() %>" />
+              <jsp:param name="productID" value="<%= product.getProductID().toString() %>" />
+              <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
+              <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
             </jsp:include>
-            <jsp:include page="product-box.jsp">
-              <jsp:param name="category" value="category name 2"/>
-              <jsp:param name="name" value="product name 2"/>
-              <jsp:param name="manufacturer" value="manufacturer name 2"/>
-              <jsp:param name="star" value="5"/>
-              <jsp:param name="discount" value="0"/>
-              <jsp:param name="price" value="20000"/>
-              <jsp:param name="productID" value="2"/>
-            </jsp:include>
+            <% } %>
           </div>
           <!--End product-grid-4-->
         </div>
@@ -205,24 +224,29 @@ try{
       </div>
       <!-- product deals -->
       <div class="row">
+        <%
+
+          DiscountDAO discountDAO = new DiscountDAO();
+          List<Product> products1 = productDAO.get4ProductByDiscount();
+
+
+          for (Product product : products1) {
+            Discount discount = discountDAO.getDiscountByProductId(product.getProductID());
+            String manufacturerName = manufacterDAO.getManufacturerName(product.getManufacturerID());
+            int discountPercentage = (discount != null) ? discount.getDiscountPercent() : 0;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            String datetime = (discount != null) ? sdf.format(discount.getEndTime()) : "";
+        %>
         <jsp:include page="deal-box.jsp">
-          <jsp:param name="datetime" value="2025/03/25 00:00:00"/>
-          <jsp:param name="name" value="product name 1"/>
-          <jsp:param name="manufacturer" value="manufacturer name 1"/>
+          <jsp:param name="datetime" value="<%= datetime %>"/>
+          <jsp:param name="name" value="<%= product.getName() %>"/>
+          <jsp:param name="manufacturer" value="<%= manufacturerName %>"/>
           <jsp:param name="star" value="4"/>
-          <jsp:param name="discount" value="30"/>
-          <jsp:param name="price" value="100000"/>
-          <jsp:param name="productID" value="1"/>
+          <jsp:param name="discount" value="<%= discountPercentage %>"/>
+          <jsp:param name="price" value="<%= product.getPrice() %>"/>
+          <jsp:param name="productID" value="<%= product.getProductID() %>"/>
         </jsp:include>
-        <jsp:include page="deal-box.jsp">
-          <jsp:param name="datetime" value="2026/03/25 00:00:00"/>
-          <jsp:param name="name" value="product name 2"/>
-          <jsp:param name="manufacturer" value="manufacturer name 2"/>
-          <jsp:param name="star" value="2"/>
-          <jsp:param name="discount" value="60"/>
-          <jsp:param name="price" value="20000"/>
-          <jsp:param name="productID" value="2"/>
-        </jsp:include>
+        <% } %>
       </div>
     </div>
   </section>

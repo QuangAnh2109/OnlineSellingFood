@@ -6,60 +6,106 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
-    <!-- Template CSS -->
     <link rel="stylesheet" href="nest-frontend/assets/css/plugins/slider-range.css" />
     <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
 </head>
 
+
 <body>
+<%@ page import="java.util.List" %>
+<%@ page import="dal.ProductDAO" %>
+<%@ page import="model.Product" %>
+<%@ page import="model.Account" %>
+<%@ page import="dal.CategoryDAO" %>
+<%@ page import="model.Category" %>
+<%@ page import="java.util.ArrayList" %>
 <%
-    String accountName;
-    try{
-        accountName =  ((Account)session.getAttribute("account")).getName();
-    }catch(NullPointerException e){
-        accountName="";
+    // Khởi tạo DAO và lấy danh sách tất cả các danh mục
+    CategoryDAO categoryDAO = new CategoryDAO();
+    List<Category> allCategories = categoryDAO.getAllCategories();
+
+    // Phân trang cho danh mục
+    int pageSize1 = 5; // Số danh mục trên mỗi trang
+    int totalCategories = allCategories.size();
+    int totalPages1 = (int) Math.ceil((double) totalCategories / pageSize1);
+    int currentPage = 1;
+
+    // Lấy trang hiện tại từ tham số yêu cầu
+    if (request.getParameter("categoryPage") != null) {
+        currentPage = Integer.parseInt(request.getParameter("categoryPage"));
     }
+
+    // Tính chỉ số bắt đầu và lấy danh sách danh mục để hiển thị
+    int startIndex = (currentPage - 1) * pageSize1;
+    List<Category> categoriesToShow = new ArrayList<>();
+    if (startIndex < totalCategories) {
+        for (int i = startIndex; i < Math.min(startIndex + pageSize1, totalCategories); i++) {
+            categoriesToShow.add(allCategories.get(i));
+        }
+    }
+
+    // Lấy tên tài khoản từ session
+    String accountName = "";
+    try {
+        accountName = ((Account) session.getAttribute("account")).getName();
+    } catch (NullPointerException e) {
+        accountName = "";
+    }
+
+    // Khởi tạo các biến cho phân trang sản phẩm
+    int page1 = 1;
+    int pageSize = 50;
+    if (request.getParameter("page") != null) {
+        page1 = Integer.parseInt(request.getParameter("page"));
+    }
+    if (request.getParameter("pageSize") != null) {
+        pageSize = Integer.parseInt(request.getParameter("pageSize"));
+    }
+
+    // Lấy categoryID từ tham số yêu cầu
+    int categoryID = 0; // 0 có nghĩa là tất cả các danh mục
+    if (request.getParameter("categoryID") != null) {
+        categoryID = Integer.parseInt(request.getParameter("categoryID"));
+    }
+
+    // Lấy tùy chọn sắp xếp từ tham số yêu cầu
+    String sortOption = request.getParameter("sort");
+    if (sortOption == null || (!sortOption.equals("Price") && !sortOption.equals("Name"))) {
+        sortOption = "Name"; // Thiết lập tùy chọn sắp xếp mặc định
+    }
+
+    // Lấy tham số tìm kiếm từ yêu cầu
+    String searchTerm = request.getParameter("searchTerm");
+
+    // Khởi tạo DAO cho sản phẩm và lấy danh sách sản phẩm
+    ProductDAO productDAO = new ProductDAO();
+    int totalProducts = productDAO.countProductsByCategoryAndSearch(categoryID, searchTerm);
+    int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+    boolean ascending = true; // Thiết lập chế độ sắp xếp mặc định là tăng dần
+    List<Product> products = productDAO.getProductsByPageAndSort(categoryID, page1, pageSize, sortOption, ascending, searchTerm);
 %>
+
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
 </jsp:include>
 
-<div class="mobile-header-active mobile-header-wrapper-style">
-    <div class="mobile-header-wrapper-inner">
-        <div class="mobile-header-top">
-            <div class="mobile-header-logo">
-                <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
-            </div>
-            <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
-                <button class="close-style search-close">
-                    <i class="icon-top"></i>
-                    <i class="icon-bottom"></i>
-                </button>
-            </div>
-        </div>
-        <div class="mobile-header-content-area">
-            <div class="mobile-search search-style-3 mobile-header-border">
-                <form action="#">
-                    <input type="text" placeholder="Search for items…" />
-                    <button type="submit"><i class="fi-rs-search"></i></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!--End header-->
+
 <div class="container mb-30">
     <div class="row flex-row-reverse">
         <div class="col-lg-4-5">
             <div class="shop-product-fillter">
                 <div class="totall-product">
-                    <p>We found <strong class="text-brand">29</strong> items for you!</p>
+                    <p>We found <strong class="text-brand"><%= totalProducts %></strong> items for you!</p>
+                </div>
+                <div class="mobile-search search-style-3 mobile-header-border">
+                    <form action="" method="get">
+                        <input type="text" name="searchTerm" placeholder="Search for items" />
+                        <input type="hidden" name="categoryID" value="<%= categoryID %>" />
+                        <input type="hidden" name="sort" value="<%= sortOption %>" />
+                        <input type="hidden" name="page" value="1" />
+                        <button type="submit"><i class="fi-rs-search"></i></button>
+                    </form>
                 </div>
                 <div class="sort-by-product-area">
                     <div class="sort-by-cover mr-10">
@@ -68,16 +114,16 @@
                                 <span><i class="fi-rs-apps"></i>Show:</span>
                             </div>
                             <div class="sort-by-dropdown-wrap">
-                                <span> 50 <i class="fi-rs-angle-small-down"></i></span>
+                                <span><%= pageSize %> <i class="fi-rs-angle-small-down"></i></span>
                             </div>
                         </div>
                         <div class="sort-by-dropdown">
                             <ul>
-                                <li><a class="active" href="#">50</a></li>
-                                <li><a href="#">100</a></li>
-                                <li><a href="#">150</a></li>
-                                <li><a href="#">200</a></li>
-                                <li><a href="#">All</a></li>
+                                <li><a class="<%= pageSize == 50 ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=50&page=1">50</a></li>
+                                <li><a class="<%= pageSize == 100 ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=100&page=1">100</a></li>
+                                <li><a class="<%= pageSize == 150 ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=150&page=1">150</a></li>
+                                <li><a class="<%= pageSize == 200 ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=200&page=1">200</a></li>
+                                <li><a class="<%= pageSize == totalProducts ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= totalProducts %>&page=1">All</a></li>
                             </ul>
                         </div>
                     </div>
@@ -87,34 +133,30 @@
                                 <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
                             </div>
                             <div class="sort-by-dropdown-wrap">
-                                <span> Featured <i class="fi-rs-angle-small-down"></i></span>
+                                <span><%= sortOption %> <i class="fi-rs-angle-small-down"></i></span>
                             </div>
                         </div>
                         <div class="sort-by-dropdown">
                             <ul>
-                                <li><a class="active" href="#">Featured</a></li>
-                                <li><a href="#">Price: Low to High</a></li>
-                                <li><a href="#">Price: High to Low</a></li>
-                                <li><a href="#">Release Date</a></li>
-                                <li><a href="#">Avg. Rating</a></li>
+                                <li><a class="<%= sortOption.equals("featured") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=featured&page=1">Featured</a></li>
+                                <li><a class="<%= sortOption.equals("priceLowToHigh") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=priceLowToHigh&page=1">Price: Low to High</a></li>
+                                <li><a class="<%= sortOption.equals("priceHighToLow") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=priceHighToLow&page=1">Price: High to Low</a></li>
+                                <li><a class="<%= sortOption.equals("nameAscending") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=nameAscending&page=1">Name: A to Z</a></li>
+                                <li><a class="<%= sortOption.equals("nameDescending") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=nameDescending&page=1">Name: Z to A</a></li>
                             </ul>
                         </div>
                     </div>
+
                 </div>
             </div>
-            <%@ page import="java.util.List" %>
-            <%@ page import="dal.ProductDAO" %>
-            <%@ page import="model.Product" %>
-            <%@ page import="model.Account" %>
-            <%
-                ProductDAO productDAO = new ProductDAO();
-                List<Product> products = productDAO.getAllProducts();
-            %>
+
+
             <div class="row product-grid-4">
-                <% for (Product product : products) {
-                    List<String> images = productDAO.getProductImages(product.getProductID());
-                    String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
-                    String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
+                <% if (products != null && !products.isEmpty()) {
+                    for (Product product : products) {
+                        List<String> images = productDAO.getProductImages(product.getProductID());
+                        String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
+                        String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
                 %>
                 <jsp:include page="product-box.jsp">
                     <jsp:param name="category" value="<%= product.getCategoryID().toString() %>" />
@@ -127,118 +169,89 @@
                     <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
                     <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
                 </jsp:include>
+                <%
+                    }
+                } else {
+                %>
+                <p>No products available.</p>
                 <% } %>
             </div>
 
-            <!--product grid-->
+
             <div class="pagination-area mt-20 mb-20">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fi-rs-arrow-small-left"></i></a>
+                        <li class="page-item <%= page1 == 1 ? "disabled" : "" %>">
+                            <a class="page-link" href="?page=<%= page1 - 1 %>&pageSize=<%= pageSize %>&categoryID=<%= categoryID %>&sort=<%= sortOption %>">
+                                <i class="fi-rs-arrow-small-left"></i>
+                            </a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fi-rs-arrow-small-right"></i></a>
+                        <% for (int i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= page1 == i ? "active" : "" %>">
+                            <a class="page-link" href="?page=<%= i %>&pageSize=<%= pageSize %>&categoryID=<%= categoryID %>&sort=<%= sortOption %>"><%= i %></a>
+                        </li>
+                        <% } %>
+                        <li class="page-item <%= page1 == totalPages ? "disabled" : "" %>">
+                            <a class="page-link" href="?page=<%= page1 + 1 %>&pageSize=<%= pageSize %>&categoryID=<%= categoryID %>&sort=<%= sortOption %>">
+                                <i class="fi-rs-arrow-small-right"></i>
+                            </a>
                         </li>
                     </ul>
                 </nav>
             </div>
         </div>
+
+
         <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
-            <div class="sidebar-widget widget-category-2 mb-30">
-                <h5 class="section-title style-1 mb-30">Category</h5>
-                <ul>
+            <div class="sidebar-widget">
+                <h5 class="sidebar-title">Categories</h5>
+                <ul class="categories">
+                    <% for (Category category : categoriesToShow) { %>
                     <li>
-                        <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-1.svg" alt="" />Milks & Dairies</a><span class="count">30</span>
+                        <a href="?categoryID=<%= category.getCategoryID() %>&page=1">
+                            <%= category.getName() %>
+                        </a>
+                        <span class="product-count">
+   <%
+       // Giả sử bạn có phương thức getProductCountByCategory trong DAO
+       int productCount = productDAO.countProductsByCategory(category.getCategoryID());
+   %>
+   (<%= productCount %>)
+</span>
                     </li>
-                    <li>
-                        <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-2.svg" alt="" />Clothing</a><span class="count">35</span>
-                    </li>
-                    <li>
-                        <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-3.svg" alt="" />Pet Foods </a><span class="count">42</span>
-                    </li>
-                    <li>
-                        <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-4.svg" alt="" />Baking material</a><span class="count">68</span>
-                    </li>
-                    <li>
-                        <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-5.svg" alt="" />Fresh Fruit</a><span class="count">87</span>
-                    </li>
+                    <% } %>
                 </ul>
-            </div>
-            <!-- Filter By Price -->
-            <div class="sidebar-widget price_range range mb-30">
-                <h5 class="section-title style-1 mb-30">Filter by price</h5>
-                <div class="price-filter">
-                    <div class="price-filter-inner">
-                        <div id="slider-range" class="mb-20"></div>
-                        <div class="d-flex justify-content-between">
-                            <div class="caption">From: <strong id="slider-range-value1" class="text-brand"></strong></div>
-                            <div class="caption">To: <strong id="slider-range-value2" class="text-brand"></strong></div>
-                        </div>
-                    </div>
+
+
+                <!-- Phân trang cho danh mục -->
+                <div class="pagination-area mt-20 mb-20">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item <%= currentPage == 1 ? "disabled" : "" %>">
+                                <a class="page-link" href="?categoryPage=<%= currentPage - 1 %>">
+                                    <i class="fi-rs-arrow-small-left"></i>
+                                </a>
+                            </li>
+                            <% for (int i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= currentPage == i ? "active" : "" %>">
+                                <a class="page-link" href="?categoryPage=<%= i %>"><%= i %></a>
+                            </li>
+                            <% } %>
+                            <li class="page-item <%= currentPage == totalPages ? "disabled" : "" %>">
+                                <a class="page-link" href="?categoryPage=<%= currentPage + 1 %>">
+                                    <i class="fi-rs-arrow-small-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="list-group">
-                    <div class="list-group-item mb-10 mt-10">
-                        <label class="fw-900">Color</label>
-                        <div class="custome-checkbox">
-                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="" />
-                            <label class="form-check-label" for="exampleCheckbox1"><span>Red (56)</span></label>
-                            <br />
-                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="" />
-                            <label class="form-check-label" for="exampleCheckbox2"><span>Green (78)</span></label>
-                            <br />
-                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3" value="" />
-                            <label class="form-check-label" for="exampleCheckbox3"><span>Blue (54)</span></label>
-                        </div>
-                        <label class="fw-900 mt-15">Item Condition</label>
-                        <div class="custome-checkbox">
-                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="" />
-                            <label class="form-check-label" for="exampleCheckbox11"><span>New (1506)</span></label>
-                            <br />
-                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox21" value="" />
-                            <label class="form-check-label" for="exampleCheckbox21"><span>Used (27)</span></label>
-                            <br />
-                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox31" value="" />
-                            <label class="form-check-label" for="exampleCheckbox31"><span>Collectible (23)</span></label>
-                        </div>
-                    </div>
-                </div>
-                <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i>Fillter</a>
             </div>
-            <!-- Product sidebar Widget -->
+
         </div>
     </div>
 </div>
-</body>
 
-<!-- Vendor JS-->
-<script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
-<script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-<script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
-<script src="assets/js/plugins/slick.js"></script>
-<script src="assets/js/plugins/jquery.syotimer.min.js"></script>
-<script src="assets/js/plugins/wow.js"></script>
-<script src="assets/js/plugins/slider-range.js"></script>
-<script src="assets/js/plugins/perfect-scrollbar.js"></script>
-<script src="assets/js/plugins/magnific-popup.js"></script>
-<script src="assets/js/plugins/select2.min.js"></script>
-<script src="assets/js/plugins/waypoints.js"></script>
-<script src="assets/js/plugins/counterup.js"></script>
-<script src="assets/js/plugins/jquery.countdown.min.js"></script>
-<script src="assets/js/plugins/images-loaded.js"></script>
-<script src="assets/js/plugins/isotope.js"></script>
-<script src="assets/js/plugins/scrollup.js"></script>
-<script src="assets/js/plugins/jquery.vticker-min.js"></script>
-<script src="assets/js/plugins/jquery.theia.sticky.js"></script>
-<script src="assets/js/plugins/jquery.elevatezoom.js"></script>
-<!-- Template  JS -->
-<script src="./assets/js/main.js?v=4.0"></script>
-<script src="./assets/js/shop.js?v=4.0"></script>
+
+<jsp:include page="footer.jsp" />
 </body>
 </html>
