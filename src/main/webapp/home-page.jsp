@@ -8,6 +8,7 @@
 <%@ page import="model.Discount" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="dal.DiscountDAO" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -231,14 +232,16 @@ try{
 
 
           for (Product product : products1) {
-            Discount discount = discountDAO.getDiscountByProductId(product.getProductID());
+            Discount discount = discountDAO.getDiscountByDiscountId(product.getDiscountID());
+            if(discount!=null){
             String manufacturerName = manufacterDAO.getManufacturerName(product.getManufacturerID());
             int discountPercentage = (discount != null) ? discount.getDiscountPercent() : 0;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            String datetime = (discount != null) ? sdf.format(discount.getEndTime()) : "";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+            //String datetime = (discount != null) ? sdf.format(discount.getEndTime()) : "";
+            String datetime =discount.getEndTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
         %>
         <jsp:include page="deal-box.jsp">
-          <jsp:param name="datetime" value="<%= datetime %>"/>
+          <jsp:param name="datetime" value="<%= datetime%>"/>
           <jsp:param name="name" value="<%= product.getName() %>"/>
           <jsp:param name="manufacturer" value="<%= manufacturerName %>"/>
           <jsp:param name="star" value="4"/>
@@ -246,7 +249,7 @@ try{
           <jsp:param name="price" value="<%= product.getPrice() %>"/>
           <jsp:param name="productID" value="<%= product.getProductID() %>"/>
         </jsp:include>
-        <% } %>
+        <% }} %>
       </div>
     </div>
   </section>

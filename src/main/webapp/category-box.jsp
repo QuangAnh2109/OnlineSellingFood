@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
+
     String name = request.getParameter("name");
     int quantity = Integer.parseInt(request.getParameter("quantity")), color = Integer.parseInt(request.getParameter("color"));
 %>

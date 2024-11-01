@@ -24,7 +24,7 @@
         <div class="deals-countdown" data-countdown="<%=datetime%>"></div>
       </div>
       <div class="deals-content">
-        <h2><a href="shop-product-right.html"><%=name%></a></h2>
+        <h2><a href="ProductDetail?productID"><%=name%></a></h2>
         <div class="product-rate-cover">
           <div class="product-rate d-inline-block">
             <div class="product-rating" style="width: <%=star*2%>0%"></div>
