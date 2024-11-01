@@ -148,7 +148,7 @@
                                             <!-- Set to 80% width to represent a 4-star rating -->
                                             <div class="product-rating" style="width: 80%;"></div>
                                         </div>
-                                        <span class="font-small ml-5 text-muted">(0 reviews)</span>
+                                        <span class="font-small ml-5 text-muted">(${count} reviews)</span>
                                     </div>
                                 </div>
 
@@ -196,7 +196,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews
-                                        (3)</a>
+                                        (${count})</a>
                                 </li>
                             </ul>
                             <div class="tab-content shop_info_tab entry-main-content">

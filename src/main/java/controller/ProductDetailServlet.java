@@ -57,6 +57,8 @@ public class ProductDetailServlet extends HttpServlet {
             List<FeedbackResponse> replies = feedbackProductDAO.getReplyComment(feedback.getFeedbackID());
             feedback.setReplies(replies); // set danh sách replies vào feedback
         }
+        int countFeedbackInProduct=feedbackProductDAO.countFeedbackInProduct(productID);
+        request.setAttribute("count", countFeedbackInProduct);
         request.setAttribute("list", list);
         request.setAttribute("productID", productID);
 
