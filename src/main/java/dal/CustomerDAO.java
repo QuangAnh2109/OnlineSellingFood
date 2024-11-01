@@ -55,6 +55,21 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
+    public Integer getCustomerIDByAccountID(int accountID) {
+        String sql = "SELECT CustomerID FROM Customer WHERE AccountID = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("CustomerID");
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+
 
     public Integer addCustomer(Customer customer) {
         try {

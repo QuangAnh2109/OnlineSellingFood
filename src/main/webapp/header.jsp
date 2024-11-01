@@ -1,6 +1,13 @@
 <%@ page import="model.Account" %>
+<%@ page import="model.Customer" %>
+<%@ page import="dal.CustomerDAO" %>
 <%
     Account account = (Account)session.getAttribute("account");
+    int customerID = -1;
+    if (account != null) {
+        CustomerDAO customerDAO = new CustomerDAO();
+        customerID = customerDAO.getCustomerIDByAccountID(account.getAccountID());
+    }
 %>
 <header class="header-area header-style-1 header-style-5 header-height-2">
     <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
@@ -15,24 +22,23 @@
                     <div class="header-action-right">
                         <div class="header-action-2">
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="shop-cart.html">
+                                <a class="mini-cart-icon" href="cart?customerId=<%= customerID %>">
                                     <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-cart.svg" />
                                 </a>
-                                <a href="#"><span class="lable">Cart</span></a>
+                                <a href="cart?customerId=<%= customerID %>"><span class="lable">Cart</span></a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a href="#">
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                                 </a>
                                 <%
-                                    if(account==null){
+                                    if (account == null) {
                                 %>
                                 <a href="login"><span class="lable ml-0">Login</span></a>
                                 <%
-                                    }
-                                    else{
+                                } else {
                                 %>
-                                <a><span class="lable ml-0"><%=account.getName()%></span></a>
+                                <a><span class="lable ml-0"><%= account.getName() %></span></a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
                                         <li>

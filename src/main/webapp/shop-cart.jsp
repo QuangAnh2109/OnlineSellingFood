@@ -1,0 +1,210 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="model.Account" %>
+<%@ page import="dal.CustomerDAO" %>
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Nest - Multipurpose eCommerce HTML Template</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
+  <link rel="stylesheet" href="nest-frontend/assets/css/plugins/animate.min.css" />
+  <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
+  <script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<%
+  String accountName;
+  try {
+    accountName = ((Account) session.getAttribute("account")).getName();
+  } catch (NullPointerException e) {
+    accountName = "";
+  }
+  Account account = (Account)session.getAttribute("account");
+  int customerID = -1;
+  if (account != null) {
+    CustomerDAO customerDAO = new CustomerDAO();
+    customerID = customerDAO.getCustomerIDByAccountID(account.getAccountID());
+  }
+%>
+
+<jsp:include page="header.jsp">
+  <jsp:param name="accountName" value="<%= accountName %>"/>
+</jsp:include>
+
+<main class="main">
+  <div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="homepage" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+        <span></span> Shop
+        <span></span> Cart
+      </div>
+    </div>
+  </div>
+  <div class="container mb-80 mt-50">
+    <div class="row">
+      <div class="col-lg-8 mb-40">
+        <h1 class="heading-2 mb-10">Your Cart</h1>
+        <div class="d-flex justify-content-between">
+          <h6 class="text-body">There are <span class="text-brand">${cartItems.size()}</span> products in your cart</h6>
+          <h6 class="text-body">
+            <form action="deleteCartServlet" method="post" style="display:inline;">
+              <input type="hidden" name="customerId" value="<%= customerID != -1 ? customerID : "" %>">
+              <input type="hidden" name="action" value="clearCart">
+              <button type="submit" class="text-muted" onclick="return confirm('Are you sure you want to clear your cart?');">
+                <i class="fi-rs-trash mr-5"></i>Clear Cart
+              </button>
+            </form>
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="table-responsive shopping-summery">
+          <table class="table table-wishlist">
+            <thead>
+            <tr class="main-heading">
+              <th class="custome-checkbox start pl-30">
+                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
+                <label class="form-check-label" for="exampleCheckbox11"></label>
+              </th>
+              <th scope="col">Product</th>
+              <th scope="col">Unit Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Subtotal</th>
+              <th scope="col" class="end">Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:set var="total" value="0" />
+            <c:forEach items="${cartItems}" var="cartItem">
+              <tr>
+                <td class="custome-checkbox pl-30">
+                  <input class="form-check-input" type="checkbox" name="selectedItems" id="checkbox_${cartItem.productID}" value="${cartItem.productID}">
+                  <label class="form-check-label" for="checkbox_${cartItem.productID}"></label>
+                </td>
+                <td class="product-des product-name">
+                  <h6 class="mb-5">
+                    <a class="product-name mb-10 text-heading">${productMap[cartItem.productID].name}</a>
+                  </h6>
+                </td>
+                <td class="price" data-title="Price">
+                  <h4 class="text-body">$${productMap[cartItem.productID].price}</h4>
+                </td>
+                <td class="text-center detail-info" data-title="Stock">
+                  <form action="updateCartServlet" method="post" class="quantity-form">
+                    <input type="hidden" name="customerId" value="<%= customerID %>">
+                    <input type="hidden" name="productId" value="${cartItem.productID}">
+                    <div class="detail-extralink mr-15">
+                      <div class="detail-qty border radius">
+                        <a href="#" class="qty-down" onclick="updateQuantity(${cartItem.productID}, -1); return false;"><i class="fi-rs-angle-small-down"></i></a>
+                        <span class="qty-val" id="quantity_${cartItem.productID}">${cartItem.quantity}</span>
+                        <a href="#" class="qty-up" onclick="updateQuantity(${cartItem.productID}, 1); return false;"><i class="fi-rs-angle-small-up"></i></a>
+                      </div>
+                    </div>
+                  </form>
+                </td>
+                <td class="price" data-title="Price">
+                  <h4 class="text-brand" id="subtotal_${cartItem.productID}">$${productMap[cartItem.productID].price * cartItem.quantity}</h4>
+                  <c:set var="total" value="${total + productMap[cartItem.productID].price * cartItem.quantity}" />
+                </td>
+                <td class="action text-center remove-column" data-title="Remove">
+                  <h6 class="text-body">
+                    <form action="deleteCartServlet" method="post" style="display:inline;">
+                      <input type="hidden" name="action" value="removeItem">
+                      <input type="hidden" name="customerId" value="<%= customerID %>">
+                      <input type="hidden" name="productId" value="${cartItem.productID}">
+                      <button type="submit" class="text-muted" onclick="return confirm('Are you sure you want to delete this item?');">
+                        <i class="fi-rs-trash mr-5"></i>
+                      </button>
+                    </form>
+                  </h6>
+                </td>
+              </tr>
+            </c:forEach>
+            <c:if test="${empty cartItems}">
+              <tr>
+                <td colspan="6">No products in the cart.</td>
+              </tr>
+            </c:if>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="divider-2 mb-30"></div>
+        <div class="cart-action d-flex justify-content-between">
+          <a href="home-page.jsp" class="btn"><i class="fi-rs-arrow-left mr-10"></i>Continue Shopping</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="border p-md-4 cart-totals ml-30">
+          <div class="table-responsive">
+            <table class="table no-border">
+              <tbody>
+              <tr>
+                <td class="cart_total_label">
+                  <h6 class="text-muted">Subtotal</h6>
+                </td>
+                <td class="cart_total_amount">
+                  <h4 class="text-brand text-end" id="total1">$${total}</h4>
+                </td>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+                <td class="cart_total_label">
+                  <h6 class="text-muted">Total</h6>
+                </td>
+                <td class="cart_total_amount">
+                  <h4 class="text-brand text-end" id="total">$${total}</h4>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <a href="checkout" class="btn mb-20 w-100">Proceed To CheckOut<i class="fi-rs-sign-out ml-15"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  function updateQuantity(productId, change) {
+    var quantityElement = document.getElementById("quantity_" + productId);
+    var subtotalElement = document.getElementById("subtotal_" + productId);
+    var totalElement = document.getElementById("total");
+
+    var currentQuantity = parseInt(quantityElement.innerText);
+    var newQuantity = currentQuantity + change;
+
+    if (newQuantity < 0) return;
+
+    quantityElement.innerText = newQuantity;
+
+    var unitPrice = parseFloat(subtotalElement.innerText.replace('$', '')) / currentQuantity;
+    var newSubtotal = unitPrice * newQuantity;
+    subtotalElement.innerText = '$' + newSubtotal.toFixed(2);
+
+    var cartItems = document.querySelectorAll('[id^="subtotal_"]');
+    var total = 0;
+
+    cartItems.forEach(function(item) {
+      total += parseFloat(item.innerText.replace('$', ''));
+    });
+
+    totalElement.innerText = '$' + total.toFixed(2);
+  }
+</script>
+
+<jsp:include page="footer.jsp" />
+</body>
+</html>

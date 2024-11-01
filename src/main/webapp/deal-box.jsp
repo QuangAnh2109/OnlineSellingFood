@@ -46,7 +46,7 @@
             <%}%>
           </div>
           <div class="add-cart">
-            <form action="test" method="post">
+            <form action="addtocart" method="post">
               <input type="text" hidden name="productID" value="<%=productID%>">
               <input type="submit" class="add mr-5" value="Add to cart" style="color: #3BB77E">
             </form>
