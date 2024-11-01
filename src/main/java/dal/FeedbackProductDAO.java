@@ -172,22 +172,39 @@ public class FeedbackProductDAO extends DBContext {
                 "\t AND f.Feedback IS NOT NULL \n" +
                 "    AND f.[Time] IS NOT NULL";
 
-        int count = 0;
+
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, productID);
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
-                count = rs.getInt(1);
+                return rs.getInt(1);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return count;
+        return 0;
+
 
     }
 
-
+    public int averageStarInProduct(int productID){
+        String sql="SELECT  AVG(f.Star) AS AverageStar\n" +
+                "FROM FeedbackProduct f\n" +
+                "WHERE f.ProductID = ?\n" +
+                "AND f.Star IS NOT NULL";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, productID);
+            ResultSet rs=st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 
     public static void main(String[] args) {
         FeedbackProductDAO dao = new FeedbackProductDAO();
