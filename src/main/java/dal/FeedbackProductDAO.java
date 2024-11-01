@@ -2,10 +2,7 @@ package dal;
 
 import dto.FeedbackResponse;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +30,9 @@ public class FeedbackProductDAO extends DBContext {
         return false;
     }
 
-    public void updateFeedbackProduct(int productID, int customerID, int star, String comment, LocalDateTime time) {
+    public void updateFeedbackProduct(int productID, int customerID, int star, String comment, LocalDateTime time,Integer replyID) {
         String sql = "UPDATE [dbo].[FeedbackProduct]\n" +
-                "   SET Star=?,Feedback=?,Time=?\n" +
+                "   SET Star=?,Feedback=?,Time=?,ReplyID=?\n" +
                 " WHERE ProductID=? and CustomerID=?\n";
 
         try {
@@ -45,6 +42,11 @@ public class FeedbackProductDAO extends DBContext {
             st.setTimestamp(3, Timestamp.valueOf(time));
             st.setInt(4, productID);
             st.setInt(5, customerID);
+            if (replyID != null) {
+                st.setInt(6, replyID);
+            } else {
+                st.setNull(6, Types.INTEGER);
+            }
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -68,14 +70,14 @@ public class FeedbackProductDAO extends DBContext {
             if (star != null) {
                 st.setInt(3, star);
             } else {
-                st.setNull(3, java.sql.Types.INTEGER);
+                st.setNull(3, Types.INTEGER);
             }
             st.setString(4, comment);
             st.setTimestamp(5, Timestamp.valueOf(time));
             if (replyID != null) {
                 st.setInt(6, replyID);
             } else {
-                st.setNull(6, java.sql.Types.INTEGER);
+                st.setNull(6, Types.INTEGER);
             }
             st.executeUpdate();
         } catch (SQLException e) {
@@ -165,12 +167,49 @@ public class FeedbackProductDAO extends DBContext {
         }
     }
 
+    public int countFeedbackInProduct(int productID) {
+        String sql = "Select Count(*) from [dbo].[FeedbackProduct] f where ProductID=?\n" +
+                "\t AND f.Feedback IS NOT NULL \n" +
+                "    AND f.[Time] IS NOT NULL";
 
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, productID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+
+
+    }
+
+    public int averageStarInProduct(int productID){
+        String sql="SELECT  AVG(f.Star) AS AverageStar\n" +
+                "FROM FeedbackProduct f\n" +
+                "WHERE f.ProductID = ?\n" +
+                "AND f.Star IS NOT NULL";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, productID);
+            ResultSet rs=st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 
     public static void main(String[] args) {
         FeedbackProductDAO dao = new FeedbackProductDAO();
-        List<FeedbackResponse> list=dao.getAllFeedbackProduct(2);
-        System.out.println(list);
+       int count= dao.countFeedbackInProduct(1);
+        System.out.println(count);
 
         }
     }
