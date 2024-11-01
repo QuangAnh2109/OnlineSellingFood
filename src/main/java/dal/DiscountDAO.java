@@ -156,20 +156,20 @@ public int checkExistPercent(int discountPercent, LocalDateTime startTime, Local
        DiscountDAO dd=new DiscountDAO();
        dd.deleteDiscount(12);
     }
-    public Discount getDiscountByProductId(int productId) {
+    public Discount getDiscountByDiscountId(int discountID) {
         Discount discount = null;
-        String sql = "SELECT * FROM Discount WHERE ProductID = ?";
+        String sql = "SELECT * FROM Discount WHERE DiscountID = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, productId);
+            ps.setInt(1, discountID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                LocalDateTime startDate = rs.getTimestamp("StartDate").toLocalDateTime();
-                LocalDateTime endDate = rs.getTimestamp("EndDate").toLocalDateTime();
+                LocalDateTime startDate = rs.getTimestamp("StartTime").toLocalDateTime();
+                LocalDateTime endDate = rs.getTimestamp("EndTime").toLocalDateTime();
 
                 discount = new Discount(
                         rs.getInt("DiscountID"),
-                        rs.getInt("Percentage"),
+                        rs.getInt("DiscountPercent"),
                         startDate,
                         endDate
                 );
