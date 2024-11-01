@@ -112,7 +112,7 @@
                   </form>
                 </td>
                 <td class="price" data-title="Price">
-                  <h4 class="text-brand" id="subtotal_${cartItem.productID}">$${productMap[cartItem.productID].price * cartItem.quantity}</h4>
+                  <h4 class="text-brand" id="subtotal_${cartItem.productID}">${productMap[cartItem.productID].price * cartItem.quantity}VND</h4>
                   <c:set var="total" value="${total + productMap[cartItem.productID].price * cartItem.quantity}" />
                 </td>
                 <td class="action text-center remove-column" data-title="Remove">
@@ -186,14 +186,22 @@
     var currentQuantity = parseInt(quantityElement.innerText);
     var newQuantity = currentQuantity + change;
 
-    if (newQuantity < 0) return;
+    if (newQuantity < 1) {
+      alert('Quantity cannot be less than 1');
+      return;
+    }
 
+    // Cập nhật số lượng hiển thị
     quantityElement.innerText = newQuantity;
 
+    // Lấy giá đơn vị từ subtotal hiện tại
     var unitPrice = parseFloat(subtotalElement.innerText.replace('$', '')) / currentQuantity;
+
+    // Tính toán subtotal mới
     var newSubtotal = unitPrice * newQuantity;
     subtotalElement.innerText = '$' + newSubtotal.toFixed(2);
 
+    // Cập nhật tổng số
     var cartItems = document.querySelectorAll('[id^="subtotal_"]');
     var total = 0;
 
