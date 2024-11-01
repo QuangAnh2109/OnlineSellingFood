@@ -80,7 +80,11 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-
+    <%
+        String msg = (String)request.getAttribute("msg");
+        if(msg==null) msg="";
+    %>
+                        <%=msg%>
                         <form action="ImportProduct" method="post">
 
                             <div class="mb-4">
