@@ -76,7 +76,7 @@
                                 <input type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="submit_button">Create certification</button>
+                                <button type="submit" class="btn btn-primary" >Create certification</button>
                                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
                             </div>
 
