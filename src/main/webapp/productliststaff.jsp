@@ -86,7 +86,7 @@
                     ProductImg productImg = productImgDAO.getDefaultImg(product.getProductID());
                     if(productImg!=null){
                   %>
-                  <th><img src="<%=Host.IMG_LINK+imgDAO.getImgById(productImg.getImgID()).getImglink()%>"></th>
+                  <th><img src="<%=Host.IMG_LINK+imgDAO.getImgById(productImg.getImgID()).getImglink()%>?raw=true"></th>
                   <%
                       }else{
                   %>
