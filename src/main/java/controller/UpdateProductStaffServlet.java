@@ -31,7 +31,6 @@ public class UpdateProductStaffServlet extends HttpServlet {
         if(new ProductDAO().updateProduct(new Product(productID,price,discountID,weight,categoryID,manufacturerID,originID,unitID,certificationID,statusID,name,detail))){
             msg = "Update product successful";
         }else msg = "Fail to update product";
-        request.setAttribute("msg",msg);
-        request.getRequestDispatcher(request.getHeader("referer")).forward(request,response);
+        response.sendRedirect("updateproduct.jsp?msg="+msg+"&productid="+productID);
     }
 }

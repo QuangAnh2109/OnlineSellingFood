@@ -31,18 +31,17 @@ public class AddProductStaffServlet extends HttpServlet {
         String msg = "";
         if(productID!=null){
             msg = "Add product success";
-            Integer imgID = ImgFile.importImg(request.getPart("img"),productID+"-product-");
-            ProductImgDAO productImgDAO = new ProductImgDAO();
-            if(imgID!=null && productImgDAO.addProductImg(productID,imgID)){
-                productImgDAO.setDefaultProductImg(productID,imgID);
-            }
-            else{
-                msg += " ,fail to add product img";
-            }
+//            Integer imgID = ImgFile.importImg(request.getPart("img"),productID+"-product-");
+//            ProductImgDAO productImgDAO = new ProductImgDAO();
+//            if(imgID!=null && productImgDAO.addProductImg(productID,imgID)){
+//                productImgDAO.setDefaultProductImg(productID,imgID);
+//            }
+//            else{
+//                msg += " ,fail to add product img";
+//            }
         }else{
             msg = "Fail to add new product";
         }
-        request.setAttribute("msg",msg);
-        request.getRequestDispatcher("addproduct.jsp").forward(request,response);
+        response.sendRedirect("addproduct.jsp?msg="+msg);
     }
 }

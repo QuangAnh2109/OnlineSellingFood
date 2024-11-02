@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "DeleteProductImgStaffServlet", value = "/DeleteProductImgStaffServlet")
 public class DeleteProductImgStaffServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int productID = Integer.parseInt(request.getParameter("productid"));
         int imgID = Integer.parseInt(request.getParameter("imgid"));
         ImgDAO imgDAO = new ImgDAO();
@@ -26,7 +26,6 @@ public class DeleteProductImgStaffServlet extends HttpServlet {
             }
         }
         else msg = "Fail to delete image";
-        request.setAttribute("msg",msg);
-        request.getRequestDispatcher(request.getHeader("referer")).forward(request,response);
+        response.sendRedirect("updateproduct.jsp?productid="+productID+"&msg="+msg);
     }
 }

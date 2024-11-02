@@ -72,6 +72,7 @@
                     <span class="text">Products</span>
                 </a>
                 <div class="submenu">
+                    <a href="LoadProductStaffServlet" id="productList">Product list</a>
                     <a href="certificationList" id="certification">Certificate</a>
                     <a href="certificateIssuerList" id="certificateissuer">Certificate Issuer</a>
                     <a href="categoryList" id="category">Category</a>

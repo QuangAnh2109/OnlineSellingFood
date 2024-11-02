@@ -18,9 +18,8 @@ import model.ProductImg;
 
 @WebServlet(name = "DeleteProductStaffServlet", value = "/DeleteProductStaffServlet")
 public class DeleteProductStaffServlet extends HttpServlet {
-    private final Logger logger = Logger.getLogger(getServletName());
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int productID = Integer.parseInt(request.getParameter("productid"));
         String msg = "";
         try {
@@ -40,9 +39,8 @@ public class DeleteProductStaffServlet extends HttpServlet {
             }
             DBContext.connection.setAutoCommit(true);
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
         }
-        request.setAttribute("msg",msg);
-        request.getRequestDispatcher("productliststaff.jsp").forward(request,response);
+        response.sendRedirect("LoadProductStaffServlet?msg="+msg);
     }
 }

@@ -23,8 +23,8 @@
 <body>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
-  <jsp:param name="page" value=""/>
-  <jsp:param name="menu" value="warehouse"/>
+  <jsp:param name="page" value="productList"/>
+  <jsp:param name="menu" value="product"/>
 </jsp:include>
 <main class="main-wrap">
   <jsp:include page="header-staff.jsp"></jsp:include>
@@ -33,7 +33,7 @@
       <div>
         <h2 class="content-title card-title">Product</h2>
         <%
-          String msg = (String) request.getAttribute("msg");
+          String msg = request.getParameter("msg");
             if (msg==null) {
               msg = "";
             }
@@ -41,10 +41,8 @@
         <h5 style="color:red"><%=msg%></h5>
       </div>
       <div>
-        <form action="warehouseList" method="get">
-          <input type="text" name="search" placeholder="Search Product" class="form-control bg-white" />
-          <a href="addproduct.jsp" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
-        </form>
+        <input type="text" id="search" placeholder="Search Product" class="form-control bg-white" />
+        <a href="addproduct.jsp" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
       </div>
     </div>
     <div class="card">
@@ -73,9 +71,9 @@
                 <%
                   List<Product> products = (List<Product>) request.getAttribute("products");
                   CategoryDAO categoryDAO = new CategoryDAO();
-                  //ManufacturerDAO manufacturerDAO = new ManufacturerDAO();
+                  ManufacturerDAO manufacturerDAO = new ManufacturerDAO();
                   OriginDAO originDAO = new OriginDAO();
-                  //UnitDAO unitDAO = new UnitDAO();
+                  UnitDAO unitDAO = new UnitDAO();
                   CertificateDAO certificateDAO = new CertificateDAO();
                   ProductImgDAO productImgDAO = new ProductImgDAO();
                   ProductStatusDAO productStatusDAO = new ProductStatusDAO();
@@ -84,19 +82,30 @@
                 %>
                 <tr>
                   <th><%=product.getProductID()%></th>
-                  <th><img src="http://<%=Host.getServerIPAddress(request)%>/OnlineSellingFood_war/Img/<%=imgDAO.getImgById(productImgDAO.getDefaultImg(product.getProductID()).getImgID()).getImglink()%>"></th>
+                  <%
+                    ProductImg productImg = productImgDAO.getDefaultImg(product.getProductID());
+                    if(productImg!=null){
+                  %>
+                  <th><img src="http://<%=Host.getServerIPAddress(request)%>/OnlineSellingFood_war/Img/<%=imgDAO.getImgById(productImg.getImgID()).getImglink()%>"></th>
+                  <%
+                      }else{
+                  %>
+                  <th><img src=""></th>
+                  <%
+                      }
+                  %>
                   <th><%=product.getName()%></th>
                   <th><%=product.getPrice()%></th>
                   <th><%=product.getWeight()%></th>
                   <th><%=categoryDAO.getCategoryById(product.getCategoryID()).getName()%></th>
-                  <th><%=product.getManufacturerID()%></th>
+                  <th><%=manufacturerDAO.getManufacturerByID(product.getManufacturerID()).getName()%></th>
                   <th><%=originDAO.getOriginById(product.getOriginID()).getName()%></th>
-                  <th><%=product.getUnitID()%></th>
+                  <th><%=unitDAO.getUnitByID(product.getUnitID()).getName()%></th>
                   <th><%=certificateDAO.getCertificationById(product.getCertificationID()).getName()%></th>
                   <th><%=productStatusDAO.getProductStatusById(product.getStatusID()).getDetail()%></th>
                   <th>
-                    <a href="" class="btn btn-sm btn-brand rounded font-sm mt-15">Update</a>
-                    <a href="DeleteProductStaffServlet" class="btn btn-sm btn-brand rounded font-sm mt-15">Delete</a>
+                    <a href="updateproduct.jsp?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Update</a>
+                    <a href="DeleteProductStaffServlet?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Delete</a>
                   </th>
                 </tr>
                 <%
@@ -112,6 +121,21 @@
   </section>
 
 </main>
+<script>
+  document.getElementById('search').addEventListener('input', function() {
+    var searchQuery = this.value.toLowerCase();
+    var rows = document.querySelectorAll('tbody tr');
+
+    rows.forEach(function(row) {
+      var productName = row.querySelector('th:nth-child(3)').textContent.toLowerCase();
+      if (productName.includes(searchQuery)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+</script>
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/select2.min.js"></script>

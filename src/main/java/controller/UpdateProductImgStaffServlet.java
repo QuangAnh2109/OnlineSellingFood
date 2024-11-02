@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateProductImgStaffServlet", value = "/UpdateProductImgStaffServlet")
 public class UpdateProductImgStaffServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int imgID = Integer.parseInt(request.getParameter("imgid"));
         int productID = Integer.parseInt(request.getParameter("productid"));
         if(new ProductImgDAO().setDefaultProductImg(productID,imgID)){

@@ -23,4 +23,15 @@ public class UnitDAO extends DBContext {
         }
         return Collections.emptyList();
     }
+
+    public Unit getUnitByID(int unitID) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM Unit WHERE UnitID = ?");
+            ps.setInt(1, unitID);
+            return (Unit) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return null;
+    }
 }

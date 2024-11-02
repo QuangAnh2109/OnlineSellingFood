@@ -23,4 +23,15 @@ public class ManufacturerDAO extends DBContext{
         }
         return Collections.emptyList();
     }
+
+    public Manufacturer getManufacturerByID(int manufacturerID) {
+        try{
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM Manufacturer WHERE ManufacturerID = ?");
+            ps.setInt(1,manufacturerID);
+            return (Manufacturer) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return null;
+    }
 }

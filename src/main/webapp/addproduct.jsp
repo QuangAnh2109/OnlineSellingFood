@@ -25,7 +25,7 @@
     <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
 </head>
 <%
-    String msg = (String) request.getAttribute("msg");
+    String msg = request.getParameter("msg");
     if (msg==null) {
         msg = "";
     }
@@ -38,14 +38,20 @@
 %>
 <body>
 <div class="screen-overlay"></div>
+<jsp:include page="bar-staff.jsp">
+    <jsp:param name="page" value="productList"/>
+    <jsp:param name="menu" value="product"/>
+</jsp:include>
 <main class="main-wrap">
+    <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
-        <div class="row">
-            <div class="col-6">
-                <div class="content-header">
-                    <h2 class="content-title">Add New Product</h2>
-                    <h5 style="color: red"><%=msg%></h5>
-                </div>
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Add New Product</h2>
+                <h5 style="color:red"><%=msg%></h5>
+            </div>
+            <div>
+                <a href="LoadProductStaffServlet" class="btn btn-primary">Back</a>
             </div>
         </div>
         <div class="row">
@@ -142,12 +148,12 @@
                                     %>
                                 </select>
                             </div>
-                            <div>
-                                <label class="form-label">Images</label>
-                                <input class="form-control" type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
-                            </div>
+<%--                            <div>--%>
+<%--                                <label class="form-label">Images</label>--%>
+<%--                                <input class="form-control" type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />--%>
+<%--                            </div>--%>
                         </div>
-                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Create</button>"
+                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Create</button>
                     </form>
                 </div>
             </div>

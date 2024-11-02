@@ -9,13 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public class ImgFile {
     private static final Logger logger = Logger.getLogger(ImgFile.class.getName());
     // Thư mục lưu file
-    private static final String IMG_FOLDER = "G:/Project/IdeaProjects/OnlineSellingFood/src/main/webapp/Img";
+    private static final String IMG_FOLDER = "G:/Project/SwpImgDriver/Img";
 
     private static String getFileName(Part part) {
         String contentDisposition = part.getHeader("content-disposition");
@@ -39,21 +40,37 @@ public class ImgFile {
             }
 
             String filePath = IMG_FOLDER + "/" + name+fileName;
-            try (FileOutputStream fos = new FileOutputStream(filePath)) {
-                fos.write(imageBytes);
-                logger.info("New file saved at: " + filePath);
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path)) {
+                try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                    fos.write(imageBytes);
+                    logger.info("New file saved at: " + filePath);
+                    autoCommit();
+                    return new ImgDAO().addImg(new Img(name+fileName));
+                }
             }
-            return new ImgDAO().addImg(new Img(name+fileName));
         }
-        else return null;
+        return null;
     }
 
     public static boolean deleteImg(String filePath){
         try {
             Files.delete(Paths.get(filePath));
+            autoCommit();
             return true;
         } catch (IOException e) {
             logger.info("Can not delete file at path: " + filePath);
+            return false;
+        }
+    }
+
+    public static boolean autoCommit(){
+        try{
+            Process p = Runtime.getRuntime().exec("G:/commit-push.bat");
+            p.waitFor();
+            return true;
+        }catch( IOException | InterruptedException ex){
+            logger.info(ex.getClass()+": "+ex.getMessage());
             return false;
         }
     }

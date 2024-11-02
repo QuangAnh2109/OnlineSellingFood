@@ -65,20 +65,19 @@ public class ProductDAO extends DBContext{
     }
 
     public boolean updateProduct(Product product) {
-        String sql = "UPDATE Product SET Price = ?, DiscountID =?, Weight =?, CategoryID =?, ManufacturerID =?, OriginID =?, UnitID =?, CertificationID =?, StatusID =?, Name =?, Detail =? WHERE ProductID = ?";
+        String sql = "UPDATE Product SET Price = ?, Weight =?, CategoryID =?, ManufacturerID =?, OriginID =?, UnitID =?, CertificationID =?, StatusID =?, Name =?, Detail =? WHERE ProductID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, product.getPrice());
-            InsertPrepareStatement.insertInteger(product.getDiscountID(),ps,2);
-            ps.setInt(3,product.getWeight());
-            ps.setInt(4,product.getCategoryID());
-            ps.setInt(5,product.getManufacturerID());
-            ps.setInt(6,product.getOriginID());
-            ps.setInt(7,product.getUnitID());
-            ps.setInt(8,product.getCertificationID());
-            ps.setInt(9,product.getStatusID());
-            ps.setNString(10,product.getName());
-            ps.setNString(11,product.getDetail());
-            ps.setInt(12,product.getProductID());
+            ps.setInt(1,product.getPrice());
+            ps.setInt(2,product.getWeight());
+            ps.setInt(3,product.getCategoryID());
+            ps.setInt(4,product.getManufacturerID());
+            ps.setInt(5,product.getOriginID());
+            ps.setInt(6,product.getUnitID());
+            ps.setInt(7,product.getCertificationID());
+            ps.setInt(8,product.getStatusID());
+            ps.setNString(9,product.getName());
+            ps.setNString(10,product.getDetail());
+            ps.setInt(11,product.getProductID());
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             logger.info(ex.getMessage());
