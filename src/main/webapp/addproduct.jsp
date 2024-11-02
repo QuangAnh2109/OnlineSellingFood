@@ -57,8 +57,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="card mb-4">
-                    <form action="AddProductStaffServlet" method="post" >
-<%--                        enctype="multipart/form-data"--%>
+                    <form action="AddProductStaffServlet" method="post" enctype="multipart/form-data">
                         <div class="card-body">
                             <div>
                                 <label class="form-label">Product name</label>
@@ -148,10 +147,10 @@
                                     %>
                                 </select>
                             </div>
-<%--                            <div>--%>
-<%--                                <label class="form-label">Images</label>--%>
-<%--                                <input class="form-control" type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />--%>
-<%--                            </div>--%>
+                            <div>
+                                <label class="form-label">Images</label>
+                                <input class="form-control" type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
+                            </div>
                         </div>
                         <button class="btn btn-md rounded font-sm hover-up" type="submit">Create</button>
                     </form>

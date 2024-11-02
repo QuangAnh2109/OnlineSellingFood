@@ -16,10 +16,11 @@ public class UpdateProductImgStaffServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int imgID = Integer.parseInt(request.getParameter("imgid"));
         int productID = Integer.parseInt(request.getParameter("productid"));
+        String msg;
         if(new ProductImgDAO().setDefaultProductImg(productID,imgID)){
-            request.setAttribute("msg","Update default image successful");
+            msg = "Update default image successful";
         }
-        else request.setAttribute("msg","Fail to update default image");
-        request.getRequestDispatcher(request.getHeader("referer")).forward(request,response);
+        else msg = "Fail to update default image";
+        response.sendRedirect("updateproduct.jsp?productid="+productID+"&msg="+msg);
     }
 }

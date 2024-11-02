@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import common.ImgFile;
 import dal.ProductImgDAO;
