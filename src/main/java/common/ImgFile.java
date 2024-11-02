@@ -66,7 +66,7 @@ public class ImgFile {
 
     public static boolean autoCommit(){
         try{
-            Process p = Runtime.getRuntime().exec("G:/commit-push.bat");
+            Process p = Runtime.getRuntime().exec("G:/Project/New folder/commit-push.bat");
             p.waitFor();
             return true;
         }catch( IOException | InterruptedException ex){
