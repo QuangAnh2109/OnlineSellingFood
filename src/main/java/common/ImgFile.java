@@ -75,7 +75,7 @@ public class ImgFile {
 //        }
         Runtime runtime = Runtime.getRuntime();
         try {
-            Process p1 = runtime.exec("cmd /c start "+IMG_FOLDER+"/commit-push.bat");
+            Process p1 = runtime.exec("cmd /c start "+IMG_FOLDER+"/commit-push.bat \n exit");
             InputStream is = p1.getInputStream();
             int i = 0;
             while( (i = is.read() ) != -1) {
