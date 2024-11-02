@@ -65,13 +65,26 @@ public class ImgFile {
     }
 
     public static boolean autoCommit(){
-        try{
-            Process p = Runtime.getRuntime().exec(IMG_FOLDER+"/commit-push.bat");
-            p.waitFor();
-            return true;
-        }catch( IOException | InterruptedException ex){
-            logger.info(ex.getClass()+": "+ex.getMessage());
-            return false;
+//        try{
+//            Process p = Runtime.getRuntime().exec(IMG_FOLDER+"/commit-push.bat");
+//            p.waitFor();
+//            return true;
+//        }catch( IOException | InterruptedException ex){
+//            logger.info(ex.getClass()+": "+ex.getMessage());
+//            return false;
+//        }
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process p1 = runtime.exec("cmd /c start "+IMG_FOLDER+"/commit-push.bat");
+            InputStream is = p1.getInputStream();
+            int i = 0;
+            while( (i = is.read() ) != -1) {
+                System.out.print((char)i);
+            }
+        } catch(IOException ioException) {
+            System.out.println(ioException.getMessage() );
         }
+        return true;
     }
+
 }
