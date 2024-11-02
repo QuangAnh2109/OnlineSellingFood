@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class ImgFile {
     private static final Logger logger = Logger.getLogger(ImgFile.class.getName());
     // Thư mục lưu file
-    private static final String IMG_FOLDER = "G:/Project/SwpImgDriver/Img";
+    private static final String IMG_FOLDER = "G:/Project/SwpImgDriver";
 
     private static String getFileName(Part part) {
         String contentDisposition = part.getHeader("content-disposition");
@@ -66,7 +66,7 @@ public class ImgFile {
 
     public static boolean autoCommit(){
         try{
-            Process p = Runtime.getRuntime().exec("G:/Project/New folder/commit-push.bat");
+            Process p = Runtime.getRuntime().exec(IMG_FOLDER+"/commit-push.bat");
             p.waitFor();
             return true;
         }catch( IOException | InterruptedException ex){
