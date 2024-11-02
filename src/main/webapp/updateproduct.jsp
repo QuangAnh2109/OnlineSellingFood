@@ -188,7 +188,7 @@
             %>
             <tr>
               <th><%=productImg.getImgID()%></th>
-              <th><img src="http://<%=Host.getServerIPAddress(request)%>/OnlineSellingFood_war/Img/<%=imgDAO.getImgById(productImg.getImgID()).getImglink()%>" style="max-height: 400px;"></th>
+              <th><img src="<%=Host.IMG_LINK+imgDAO.getImgById(productImg.getImgID()).getImglink()%>" style="max-height: 400px;"></th>
               <th><%=productImg.getIsDefault()==1 ? "Is default" : "Not default"%></th>
               <th>
                 <a href="UpdateProductImgStaffServlet?imgid=<%=productImg.getImgID()%>&productid=<%=productID%>" class="btn btn-primary">Set Default</a>
