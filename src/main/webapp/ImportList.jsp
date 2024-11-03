@@ -146,6 +146,14 @@
 
                 </tbody>
               </table>
+
+<%--              <div class="pagination">--%>
+<%--                <c:forEach begin="1" end="${endPage}" var="i">--%>
+<%--                  <a href="Import?indexPage=${i}" class="${i == index ? 'active' : ''}">${i}</a>--%>
+<%--                </c:forEach>--%>
+<%--              </div>--%>
+
+
             </div>
           </div>
         </div>

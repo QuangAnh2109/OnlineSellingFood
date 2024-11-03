@@ -22,40 +22,26 @@ public class ImportDAO extends DBContext {
     }
 
 
-    public List<ImportRespone> getImportList(int index,String searchName) {
+    public List<ImportRespone> getImportList(int index) {
         List<ImportRespone> importList = new Vector<ImportRespone>();
         String sql;
-        if(searchName != null && !searchName.isEmpty()) {
-            sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
-                    "s.Name AS SupplierName, i.Time " +
-                    "FROM Import i " +
-                    "JOIN Staff st ON i.StaffID = st.StaffID " +
-                    "JOIN Account a ON st.AccountID = a.AccountID " +
-                    "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
-                    "JOIN Supplier s ON i.SupplierID = s.SupplierID and"+
-                    " a.Name like ? or w.Name like ? or s.Name like ? " +
-                    " order by i.ImportID offset ? ROWS FETCH NEXT 5 ROWS ONLY";
-        } else {
-            sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
-                    "s.Name AS SupplierName, i.Time " +
-                    "FROM Import i " +
-                    "JOIN Staff st ON i.StaffID = st.StaffID " +
-                    "JOIN Account a ON st.AccountID = a.AccountID " +
-                    "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
-                    "JOIN Supplier s ON i.SupplierID = s.SupplierID " +
-                    " order by i.ImportID offset ? ROWS FETCH NEXT 5 ROWS ONLY";
-        }
 
+            sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
+                    "s.Name AS SupplierName, i.Time " +
+                    "FROM Import i " +
+                    "JOIN Staff st ON i.StaffID = st.StaffID " +
+                    "JOIN Account a ON st.AccountID = a.AccountID " +
+                    "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
+                    "JOIN Supplier s ON i.SupplierID = s.SupplierID "+
+                    "ORDER BY i.ImportID " +
+                    "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY";;
 
         try (
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-            if(searchName != null && !searchName.isEmpty()) {
-                stmt.setString(1,"%"+ searchName +"%");
-                stmt.setInt(2, (index-1)*5);
-            } else{
-                stmt.setInt(1, (index-1)*5);
-            }
+
+            stmt.setInt(1, (index - 1) * 5);
+
 
             while (rs.next()) {
                 importList.add(new ImportRespone(rs.getInt(1)
@@ -134,6 +120,26 @@ public class ImportDAO extends DBContext {
                 e.printStackTrace();
             }
         }
+    }
+    public int getTotalImport() {
+        String sql = "SELECT COUNT(*) " +
+                "FROM Import i " +
+                "JOIN Staff st ON i.StaffID = st.StaffID " +
+                "JOIN Account a ON st.AccountID = a.AccountID " +
+                "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
+                "JOIN Supplier s ON i.SupplierID = s.SupplierID " ;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // Trả về tổng số bản ghi
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Trả về 0 nếu có lỗi
     }
 
 }

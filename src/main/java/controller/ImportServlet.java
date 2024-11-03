@@ -27,14 +27,24 @@ public class ImportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
- String searchName = request.getParameter("search");
- if(searchName != null) { searchName = "";}
- String indexPage = request.getParameter("indexPage");
- if(indexPage != null) { indexPage = "1";}
-int index = Integer.parseInt(indexPage);
+//        String indexPage = request.getParameter("indexPage");
+//        if (indexPage == null) {
+//            indexPage = "1";
+//        }
+//        int index = Integer.parseInt(indexPage);
+
         ImportDAO dao = new ImportDAO();
-        List<ImportRespone> importList = dao.getImportList(index,searchName);
+        List<ImportRespone> importList = dao.getImportList(1);
         request.setAttribute("importList", importList);
+        int totalRecords = dao.getTotalImport();
+        int endPage = totalRecords / 5;
+        if (totalRecords % 5 != 0) {
+            endPage++;
+        }
+        request.setAttribute("endPage", endPage);
+
+        request.setAttribute("index", "1");
+
 
         WarehouseDAO warehouseDAO = new WarehouseDAO();
         List<Warehouse> warehouses = warehouseDAO.getAllWarehouseActivity();
