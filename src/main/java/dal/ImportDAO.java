@@ -22,19 +22,40 @@ public class ImportDAO extends DBContext {
     }
 
 
-    public List<ImportRespone> getImportList() {
+    public List<ImportRespone> getImportList(int index,String searchName) {
         List<ImportRespone> importList = new Vector<ImportRespone>();
-        String sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
-                "s.Name AS SupplierName, i.Time " +
-                "FROM Import i " +
-                "JOIN Staff st ON i.StaffID = st.StaffID " +
-                "JOIN Account a ON st.AccountID = a.AccountID " +
-                "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
-                "JOIN Supplier s ON i.SupplierID = s.SupplierID";
+        String sql;
+        if(searchName != null && !searchName.isEmpty()) {
+            sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
+                    "s.Name AS SupplierName, i.Time " +
+                    "FROM Import i " +
+                    "JOIN Staff st ON i.StaffID = st.StaffID " +
+                    "JOIN Account a ON st.AccountID = a.AccountID " +
+                    "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
+                    "JOIN Supplier s ON i.SupplierID = s.SupplierID and"+
+                    " a.Name like ? or w.Name like ? or s.Name like ? " +
+                    " order by i.ImportID offset ? ROWS FETCH NEXT 5 ROWS ONLY";
+        } else {
+            sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
+                    "s.Name AS SupplierName, i.Time " +
+                    "FROM Import i " +
+                    "JOIN Staff st ON i.StaffID = st.StaffID " +
+                    "JOIN Account a ON st.AccountID = a.AccountID " +
+                    "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
+                    "JOIN Supplier s ON i.SupplierID = s.SupplierID " +
+                    " order by i.ImportID offset ? ROWS FETCH NEXT 5 ROWS ONLY";
+        }
+
 
         try (
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
+            if(searchName != null && !searchName.isEmpty()) {
+                stmt.setString(1,"%"+ searchName +"%");
+                stmt.setInt(2, (index-1)*5);
+            } else{
+                stmt.setInt(1, (index-1)*5);
+            }
 
             while (rs.next()) {
                 importList.add(new ImportRespone(rs.getInt(1)
