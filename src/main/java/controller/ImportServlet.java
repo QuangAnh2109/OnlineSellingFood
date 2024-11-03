@@ -32,9 +32,12 @@ public class ImportServlet extends HttpServlet {
 //            indexPage = "1";
 //        }
 //        int index = Integer.parseInt(indexPage);
-
+        int index = 0;
+        if (request.getParameter("index") != null) {
+            index = Integer.parseInt(request.getParameter("index"));
+        }
         ImportDAO dao = new ImportDAO();
-        List<ImportRespone> importList = dao.getImportList(1);
+        List<ImportRespone> importList = dao.getImportList(index);
         request.setAttribute("importList", importList);
         int totalRecords = dao.getTotalImport();
         int endPage = totalRecords / 5;
@@ -43,7 +46,7 @@ public class ImportServlet extends HttpServlet {
         }
         request.setAttribute("endPage", endPage);
 
-        request.setAttribute("index", "1");
+
 
 
         WarehouseDAO warehouseDAO = new WarehouseDAO();

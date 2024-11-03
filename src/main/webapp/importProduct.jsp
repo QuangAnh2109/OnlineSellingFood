@@ -51,40 +51,47 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard - Imports</title>
+    <title>Nest Dashboard</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
+    <!-- Template CSS -->
     <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
-    <jsp:param name="page" value="import" />
+    <jsp:param name="page" value="discount"/>
+    <jsp:param name="menu" value="product"/>
 </jsp:include>
-
 <main class="main-wrap">
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title card-title">ImportProdcts</h2>
-            <p></p>
+            <div>
+                <h2 class="content-title card-title">Import Products</h2>
+                <p>Add, edit or delete a Imports</p>
+            </div>
             <div class="mt-3">
                 <a href="Import" class="btn btn-secondary">Back to Imports</a>
             </div>
+            <div>
+
+
+            </div>
         </div>
-
         <div class="card">
-
             <div class="card-body">
+
                 <div class="row">
                     <div class="col-md-3">
-    <%
-        String msg = (String)request.getAttribute("msg");
-        if(msg==null) msg="";
-    %>
-                        <%=msg%>
                         <form action="ImportProduct" method="post">
 
                             <div class="mb-4">
@@ -149,7 +156,6 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="col-md-9">
                         <div class="table-responsive">
 
@@ -189,28 +195,40 @@
 
                                 </tbody>
                             </table>
+
+
+
                         </div>
                     </div>
+                    <!-- .col// -->
                 </div>
+                <!-- .row // -->
+            </div>
+            <!-- card body .// -->
+        </div>
+        <!-- card .// -->
+    </section>
+    <!-- content-main end// -->
+    <footer class="main-footer font-xs">
+        <div class="row pb-30 pt-15">
+            <div class="col-sm-6">
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                &copy; Nest - HTML Ecommerce Template .
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end">All rights reserved</div>
             </div>
         </div>
-    </section>
+    </footer>
 </main>
-
-<footer class="main-footer font-xs">
-    <div class="row pb-30 pt-15">
-        <div class="col-sm-6">
-            <script>document.write(new Date().getFullYear());</script>
-            &copy; Nest - HTML Ecommerce Template.
-        </div>
-        <div class="col-sm-6">
-            <div class="text-sm-end">All rights reserved</div>
-        </div>
-    </div>
-</footer>
-
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
+<script src="nest-backend/assets/js/vendors/select2.min.js"></script>
+<script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
+<script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
+<!-- Main Script -->
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 </body>
 </html>

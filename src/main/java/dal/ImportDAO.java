@@ -24,31 +24,28 @@ public class ImportDAO extends DBContext {
 
     public List<ImportRespone> getImportList(int index) {
         List<ImportRespone> importList = new Vector<ImportRespone>();
-        String sql;
-
-            sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
-                    "s.Name AS SupplierName, i.Time " +
-                    "FROM Import i " +
-                    "JOIN Staff st ON i.StaffID = st.StaffID " +
-                    "JOIN Account a ON st.AccountID = a.AccountID " +
-                    "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
-                    "JOIN Supplier s ON i.SupplierID = s.SupplierID "+
-                    "ORDER BY i.ImportID " +
-                    "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY";;
+        if (index ==1 ){index = 0;}
+        if(index != 0){
+            index = (index-1)*5;}
+        String sql = "SELECT i.ImportID, a.Name AS AccountName, w.Name AS WarehouseName, " +
+                "s.Name AS SupplierName, i.Time " +
+                "FROM Import i " +
+                "JOIN Staff st ON i.StaffID = st.StaffID " +
+                "JOIN Account a ON st.AccountID = a.AccountID " +
+                "JOIN Warehouse w ON i.WarehouseID = w.WarehouseID " +
+                "JOIN Supplier s ON i.SupplierID = s.SupplierID "+
+                "order by i.ImportID offset " + index +" rows fetch next 5 rows only";
 
         try (
-             PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            stmt.setInt(1, (index - 1) * 5);
-
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 importList.add(new ImportRespone(rs.getInt(1)
-                ,rs.getString(2)
-                ,rs.getString(3)
-                ,rs.getString(4)
-                , rs.getTimestamp(5).toLocalDateTime()));
+                        ,rs.getString(2)
+                        ,rs.getString(3)
+                        ,rs.getString(4)
+                        , rs.getTimestamp(5).toLocalDateTime()));
             }
             return importList;
         } catch (SQLException e) {
