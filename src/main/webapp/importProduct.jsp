@@ -32,7 +32,7 @@
 
         form.addEventListener("submit", function(event) {
             if (!validateForm()) {
-                event.preventDefault(); // Ngăn không cho gửi form
+                event.preventDefault();
             }
         });
     });
