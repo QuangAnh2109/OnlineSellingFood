@@ -13,26 +13,42 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet(name = "ViewFeedbackServlet", urlPatterns = {"/viewfeedback"})
-public class ViewFeedbackServlet extends HttpServlet {
+@WebServlet(name = "ProductFeedbackServlet", urlPatterns = {"/productFeedback"})
+public class ProductFeedbackServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse respone) throws ServletException, IOException {
-        int productID = Integer.parseInt(request.getParameter("productID"));
+        String searchName=request.getParameter("searchName");
+        if(searchName==null)searchName="";
+
+        String indexPage=request.getParameter("index");
+        if(indexPage==null){
+            indexPage="1";
+        }
+        int index=Integer.parseInt(indexPage);
+        int productID = Integer.parseInt(request.getParameter("productid"));
+        request.getSession().setAttribute("productID", productID);
         FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
-        List<FeedbackResponse> list = feedbackProductDAO.getAllFeedbackProduct(productID);
+        List<FeedbackResponse> list = feedbackProductDAO.getAllFeedbackProductForManage(productID,searchName,index);
+
+        int count=feedbackProductDAO.getTotalCustomerFeedback(productID,searchName);
+        int endPage=count/5;
+        if(count%5!=0){
+            endPage++;
+        }
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("index", index);
+        request.setAttribute("searchName", searchName);
         request.setAttribute("list", list);
         request.getRequestDispatcher("view-feedback.jsp").forward(request, respone);
 
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int productID = Integer.parseInt(request.getParameter("productID"));
         int customerID = Integer.parseInt(request.getParameter("customerID"));
         FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
         feedbackProductDAO.deleteFeedbackProduct(productID, customerID);
-        doGet(request, response);
-
+        response.sendRedirect("productFeedback?productid=" + productID);
     }
 
 }

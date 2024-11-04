@@ -85,21 +85,43 @@ public class FeedbackProductDAO extends DBContext {
         }
     }
 
-    public List<FeedbackResponse> getAllFeedbackProduct(int productID) {
+    public List<FeedbackResponse> getAllFeedbackProductForManage(int productID,String searchName,int index) {
         List<FeedbackResponse> list = new ArrayList<>();
-        String sql = "SELECT f.CustomerID,a.[Name], f.Star, f.Feedback, FORMAT(f.[Time], 'yyyy-MM-dd HH:mm') AS FormattedTime, f.ReplyID, f.FeedbackID \n" +
-                "                 FROM FeedbackProduct f \n" +
-                "                 JOIN Customer c ON f.CustomerID = c.CustomerID\n" +
-                "                 JOIN Account a ON c.AccountID = a.AccountID\n" +
-                "                 WHERE f.ProductID = ?\n" +
-                "                 AND f.Star IS NOT NULL \n" +
-                "                 AND f.Feedback IS NOT NULL \n" +
-                "                 AND f.[Time] IS NOT NULL \n" +
-                "                 ORDER BY f.ReplyID, f.FeedbackID";
+        String sql;
+        if (searchName != null && !searchName.isEmpty()) {
+            sql = "SELECT f.CustomerID,a.[Name], f.Star, f.Feedback, FORMAT(f.[Time], 'yyyy-MM-dd HH:mm') AS FormattedTime, f.ReplyID, f.FeedbackID \n" +
+                    "                 FROM FeedbackProduct f \n" +
+                    "                 JOIN Customer c ON f.CustomerID = c.CustomerID\n" +
+                    "                 JOIN Account a ON c.AccountID = a.AccountID\n" +
+                    "                 WHERE f.ProductID = ?\n" +
+                    "                 AND f.Star IS NOT NULL \n" +
+                    "                 AND f.Feedback IS NOT NULL \n" +
+                    "                 AND f.[Time] IS NOT NULL AND a.[Name] like ?\n" +
+                    "                 ORDER BY f.ReplyID, f.FeedbackID \n"+
+                    "             offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
+            ;
+        }else{
+            sql = "SELECT f.CustomerID,a.[Name], f.Star, f.Feedback, FORMAT(f.[Time], 'yyyy-MM-dd HH:mm') AS FormattedTime, f.ReplyID, f.FeedbackID \n" +
+                    "                 FROM FeedbackProduct f \n" +
+                    "                 JOIN Customer c ON f.CustomerID = c.CustomerID\n" +
+                    "                 JOIN Account a ON c.AccountID = a.AccountID\n" +
+                    "                 WHERE f.ProductID = ?\n" +
+                    "                 AND f.Star IS NOT NULL \n" +
+                    "                 AND f.Feedback IS NOT NULL \n" +
+                    "                 AND f.[Time] IS NOT NULL \n" +
+                    "                 ORDER BY f.ReplyID, f.FeedbackID \n"+
+                    "             offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
+        }
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, productID);
+            if (searchName != null && !searchName.isEmpty()) {
+                st.setString(2, "%" + searchName + "%");
+                st.setInt(3, (index - 1) * 5);
+            } else {
+                st.setInt(2, (index - 1) * 5);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 FeedbackResponse r = new FeedbackResponse();
@@ -117,6 +139,38 @@ public class FeedbackProductDAO extends DBContext {
             throw new RuntimeException(e);
         }
 
+        return list;
+    }
+
+    public List<FeedbackResponse> getAllFeedbackProduct(int productID){
+        List<FeedbackResponse> list = new ArrayList<>();
+        String sql=" SELECT f.CustomerID,a.[Name], f.Star, f.Feedback, FORMAT(f.[Time], 'yyyy-MM-dd HH:mm') AS FormattedTime, f.ReplyID, f.FeedbackID \n" +
+                "                                    FROM FeedbackProduct f \n" +
+                "                                    JOIN Customer c ON f.CustomerID = c.CustomerID\n" +
+                "                                     JOIN Account a ON c.AccountID = a.AccountID\n" +
+                "                                     WHERE f.ProductID = ?\n" +
+                "                                    AND f.Star IS NOT NULL \n" +
+                "                                    AND f.Feedback IS NOT NULL \n" +
+                "                                     AND f.[Time] IS NOT NULL \n" +
+                "                                     ORDER BY f.ReplyID, f.FeedbackID ";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, productID);
+            ResultSet rs=st.executeQuery();
+            while (rs.next()) {
+                FeedbackResponse r = new FeedbackResponse();
+                r.setCustomerID(rs.getInt("CustomerID"));
+                r.setCustomerName(rs.getString("Name"));
+                r.setStar(rs.getInt("Star"));
+                r.setFeedback(rs.getString("Feedback"));
+                r.setTime(rs.getString("FormattedTime"));
+                r.setReplyID(rs.getInt("replyID"));
+                r.setFeedbackID(rs.getInt("feedbackID"));
+                list.add(r);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return list;
     }
 
@@ -167,9 +221,25 @@ public class FeedbackProductDAO extends DBContext {
         }
     }
 
+
+
+    public void deleteReplyComment(int replyID) {
+        String sql = "UPDATE [dbo].[FeedbackProduct]\n" +
+                "   SET Star=NULL,Feedback=NULL,Time=NULL\n" +
+                " WHERE ReplyID=? \n";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, replyID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public int countFeedbackInProduct(int productID) {
         String sql = "Select Count(*) from [dbo].[FeedbackProduct] f where ProductID=?\n" +
                 "\t AND f.Feedback IS NOT NULL \n" +
+                "    AND f.[Star] IS NOT NULL\n"+
                 "    AND f.[Time] IS NOT NULL";
 
 
@@ -206,10 +276,27 @@ public class FeedbackProductDAO extends DBContext {
         return 0;
     }
 
+    public int getTotalCustomerFeedback(int customerID,String searchName){
+        String sql="select count(*) from FeedbackProduct fp join Customer c on fp.CustomerID=c.CustomerID\n" +
+                "  join Account a on c.AccountID=a.AccountID\n" +
+                "  where ProductID=? and Star is Not Null and Feedback is Not Null and fp.[Time] is Not Null \n" +
+                "  and a.[Name] like ?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, customerID);
+            st.setNString(2, "%" + searchName + "%");
+            ResultSet rs=st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
-        FeedbackProductDAO dao = new FeedbackProductDAO();
-       int count= dao.countFeedbackInProduct(1);
-        System.out.println(count);
+
 
         }
     }
