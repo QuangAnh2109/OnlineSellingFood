@@ -32,6 +32,20 @@ public class Product {
         this.detail = detail;
     }
 
+    public Product(Integer price, Integer discountID, Integer weight, Integer categoryID, Integer manufacturerID, Integer originID, Integer unitID, Integer certificationID, Integer statusID, String name, String detail) {
+        this.price = price;
+        this.discountID = discountID;
+        this.weight = weight;
+        this.categoryID = categoryID;
+        this.manufacturerID = manufacturerID;
+        this.originID = originID;
+        this.unitID = unitID;
+        this.certificationID = certificationID;
+        this.statusID = statusID;
+        this.name = name;
+        this.detail = detail;
+    }
+
     public Integer getProductID() {
         return productID;
     }

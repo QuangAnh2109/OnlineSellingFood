@@ -7,17 +7,19 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public abstract class DBContext {
-    protected Connection connection;
+    public static Connection connection;
     protected Logger logger = Logger.getLogger(getClass().getName());
 
     protected DBContext() {
-        // Edit URL , username, password to authenticate with your MS SQL Server
-        String username = "sa", password = "123", port="1433", dataBaseName="SalesManagement", url = "jdbc:sqlserver://localhost:"+port+";databaseName="+dataBaseName;
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (SQLException | ClassNotFoundException ex) {
-            logger.info(ex.getMessage());
+        if(connection==null){
+            // Edit URL , username, password to authenticate with your MS SQL Server
+            String username = "sa", password = "123", port="1433", dataBaseName="SalesManagement", url = "jdbc:sqlserver://localhost:"+port+";databaseName="+dataBaseName;
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                connection = DriverManager.getConnection(url, username, password);
+            } catch (SQLException | ClassNotFoundException ex) {
+                logger.info(ex.getMessage());
+            }
         }
     }
 

@@ -46,10 +46,7 @@ public class ImgDAO extends DBContext{
         String sql = "SELECT ImgID, Imglink FROM Img WHERE ImgID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, imgID);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Img(rs.getInt("ImgID"), rs.getString("Imglink"));
-            }
+            return (Img) getObject(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,20 +67,18 @@ public class ImgDAO extends DBContext{
         return false;
     }
 
-    public static void main(String[] args) {
-        ImgDAO dao = new ImgDAO();
-        System.out.println(dao.deleteImg(35));
-    }
-
-    public void addImg(Img img) {
+    public Integer addImg(Img img) {
         String sql = "INSERT INTO Img (Imglink) VALUES (?)";
-        try (
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, img.getImglink());
-            stmt.executeUpdate();
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, img.getImglink());
+            ResultSet rs = executeUpdate(ps);
+            if(rs!=null && rs.next()){
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(getClass().getName() + " " + e.getMessage());
         }
+        return null;
     }
 
     public int addImg1(Img img) {
