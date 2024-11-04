@@ -96,7 +96,7 @@ public class StaffDAO extends DBContext{
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 StaffListResponse slr = new StaffListResponse();
-                slr.setAcoountID(rs.getInt("AccountID"));
+                slr.setAccountID(rs.getInt("AccountID"));
                 slr.setName(rs.getString("Name"));
                 slr.setEmail(rs.getString("Email"));
                 slr.setDetail(rs.getString("Detail"));
@@ -137,7 +137,7 @@ public class StaffDAO extends DBContext{
             ResultSet rs=st.executeQuery();
             while(rs.next()){
                 StaffListResponse slr=new StaffListResponse();
-                slr.setAcoountID(rs.getInt("AccountID"));
+                slr.setAccountID(rs.getInt("AccountID"));
                 slr.setName(rs.getString("Name"));
                 slr.setEmail(rs.getString("Email"));
                 slr.setDetail(rs.getString("Detail"));
@@ -202,17 +202,5 @@ public class StaffDAO extends DBContext{
             throw new RuntimeException(e);
         }
         return 0;
-    }
-
-    public void getStaffByName(String name) {
-
-    }
-
-    public static void main(String[] args) {
-        StaffDAO dao = new StaffDAO();
-        List<StaffListResponse> staffList = dao.getAllStaff(1, "");
-        for (StaffListResponse staff : staffList) {
-            System.out.println(staff);
-        }
     }
 }
