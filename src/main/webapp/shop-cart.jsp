@@ -94,7 +94,7 @@
                   <form action="updateCartServlet" method="post" class="quantity-form">
                     <input type="hidden" name="customerId" value="<%= customerID %>">
                     <input type="hidden" name="productId" value="${cartItem.productID}">
-                    <input type="number" name="quantity" value="${cartItem.quantity}" min="1" style="width: 60px; margin-right: 20px"
+                    <input type="number" name="quantity" value="${cartItem.quantity}" min="1" max="15" style="width: 60px; margin-right: 20px"
                            onchange="this.form.submit()" class="quantity-input">
                   </form>
                 </td>
