@@ -43,7 +43,6 @@ public class CartDeleteServlet extends HttpServlet {
             }
         }
 
-        // Chuyển hướng trở lại trang trước đó hoặc trang mặc định
         String referer = request.getHeader("referer");
         if (referer != null && !referer.isEmpty()) {
             response.sendRedirect(referer);

@@ -57,8 +57,8 @@
             <form action="deleteCartServlet" method="post" style="display:inline;">
               <input type="hidden" name="customerId" value="<%= customerID != -1 ? customerID : "" %>">
               <input type="hidden" name="action" value="clearCart">
-              <button type="submit" class="text-muted" onclick="return confirm('Are you sure you want to clear your cart?');">
-                <i class="fi-rs-trash mr-5"></i>Clear Cart
+              <button type="submit" class="text-muted" onclick="return confirm('Are you sure you want to clear your cart?');" style="color: white;">
+                <i class="fi-rs-trash mr-5" style="color: white;"></i>Clear Cart
               </button>
             </form>
           </h6>
@@ -71,10 +71,6 @@
           <table class="table table-wishlist">
             <thead>
             <tr class="main-heading">
-              <th class="custome-checkbox start pl-30">
-                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
-                <label class="form-check-label" for="exampleCheckbox11"></label>
-              </th>
               <th scope="col">Product</th>
               <th scope="col">Unit Price</th>
               <th scope="col">Quantity</th>
@@ -86,10 +82,6 @@
             <c:set var="total" value="0" />
             <c:forEach items="${cartItems}" var="cartItem">
               <tr>
-                <td class="custome-checkbox pl-30">
-                  <input class="form-check-input" type="checkbox" name="selectedItems" id="checkbox_${cartItem.productID}" value="${cartItem.productID}">
-                  <label class="form-check-label" for="checkbox_${cartItem.productID}"></label>
-                </td>
                 <td class="product-des product-name">
                   <h6 class="mb-5">
                     <a class="product-name mb-10 text-heading">${productMap[cartItem.productID].name}</a>
@@ -102,30 +94,23 @@
                   <form action="updateCartServlet" method="post" class="quantity-form">
                     <input type="hidden" name="customerId" value="<%= customerID %>">
                     <input type="hidden" name="productId" value="${cartItem.productID}">
-                    <div class="detail-extralink mr-15">
-                      <div class="detail-qty border radius">
-                        <a href="#" class="qty-down" onclick="updateQuantity(${cartItem.productID}, -1); return false;"><i class="fi-rs-angle-small-down"></i></a>
-                        <span class="qty-val" id="quantity_${cartItem.productID}">${cartItem.quantity}</span>
-                        <a href="#" class="qty-up" onclick="updateQuantity(${cartItem.productID}, 1); return false;"><i class="fi-rs-angle-small-up"></i></a>
-                      </div>
-                    </div>
+                    <input type="number" name="quantity" value="${cartItem.quantity}" min="1" max="15" style="width: 60px; margin-right: 20px"
+                           onchange="this.form.submit()" class="quantity-input">
                   </form>
                 </td>
-                <td class="price" data-title="Price">
-                  <h4 class="text-brand" id="subtotal_${cartItem.productID}">${productMap[cartItem.productID].price * cartItem.quantity}VND</h4>
-                  <c:set var="total" value="${total + productMap[cartItem.productID].price * cartItem.quantity}" />
+                <td class="price" data-title="Subtotal">
+                  <h4 class="text-brand">${productMap[cartItem.productID].price * cartItem.quantity} VND</h4>
                 </td>
+                <c:set var="total" value="${total + productMap[cartItem.productID].price * cartItem.quantity}" />
                 <td class="action text-center remove-column" data-title="Remove">
-                  <h6 class="text-body">
-                    <form action="deleteCartServlet" method="post" style="display:inline;">
-                      <input type="hidden" name="action" value="removeItem">
-                      <input type="hidden" name="customerId" value="<%= customerID %>">
-                      <input type="hidden" name="productId" value="${cartItem.productID}">
-                      <button type="submit" class="text-muted" onclick="return confirm('Are you sure you want to delete this item?');">
-                        <i class="fi-rs-trash mr-5"></i>
-                      </button>
-                    </form>
-                  </h6>
+                  <form action="deleteCartServlet" method="post" style="display:inline;">
+                    <input type="hidden" name="action" value="removeItem">
+                    <input type="hidden" name="customerId" value="<%= customerID %>">
+                    <input type="hidden" name="productId" value="${cartItem.productID}">
+                    <button type="submit" class="text-muted" onclick="return confirm('Are you sure you want to delete this item?');">
+                      <i class="fi-rs-trash mr-5"></i>
+                    </button>
+                  </form>
                 </td>
               </tr>
             </c:forEach>
@@ -158,8 +143,6 @@
                 </td>
               </tr>
               <tr>
-              </tr>
-              <tr>
                 <td class="cart_total_label">
                   <h6 class="text-muted">Total</h6>
                 </td>
@@ -176,42 +159,6 @@
     </div>
   </div>
 </main>
-
-<script>
-  function updateQuantity(productId, change) {
-    var quantityElement = document.getElementById("quantity_" + productId);
-    var subtotalElement = document.getElementById("subtotal_" + productId);
-    var totalElement = document.getElementById("total");
-
-    var currentQuantity = parseInt(quantityElement.innerText);
-    var newQuantity = currentQuantity + change;
-
-    if (newQuantity < 1) {
-      alert('Quantity cannot be less than 1');
-      return;
-    }
-
-    // Cập nhật số lượng hiển thị
-    quantityElement.innerText = newQuantity;
-
-    // Lấy giá đơn vị từ subtotal hiện tại
-    var unitPrice = parseFloat(subtotalElement.innerText.replace('$', '')) / currentQuantity;
-
-    // Tính toán subtotal mới
-    var newSubtotal = unitPrice * newQuantity;
-    subtotalElement.innerText = '$' + newSubtotal.toFixed(2);
-
-    // Cập nhật tổng số
-    var cartItems = document.querySelectorAll('[id^="subtotal_"]');
-    var total = 0;
-
-    cartItems.forEach(function(item) {
-      total += parseFloat(item.innerText.replace('$', ''));
-    });
-
-    totalElement.innerText = '$' + total.toFixed(2);
-  }
-</script>
 
 <jsp:include page="footer.jsp" />
 </body>

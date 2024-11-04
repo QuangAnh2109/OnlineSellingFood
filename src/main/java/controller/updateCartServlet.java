@@ -6,7 +6,6 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Cart;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(name = "updateCartServlet", value = "/updateCartServlet")
 public class updateCartServlet extends HttpServlet {
@@ -20,6 +19,7 @@ public class updateCartServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
     }
 
     @Override
@@ -31,30 +31,22 @@ public class updateCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lấy thông tin từ request
+        processRequest(request, response);
         int customerId = Integer.parseInt(request.getParameter("customerId"));
         int productId = Integer.parseInt(request.getParameter("productId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-        // Tạo một đối tượng Cart với thông tin vừa lấy
-        Cart cart = new Cart();
-        cart.setCustomerID(customerId);
-        cart.setProductID(productId);
-        cart.setQuantity(quantity);
-
-        // Cập nhật số lượng sản phẩm trong giỏ hàng
-        int affectedRows = cartDAO.update(cart);
-
-        // Thiết lập kiểu dữ liệu trả về là JSON
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-
-        // Kiểm tra kết quả cập nhật và trả về phản hồi
-        if (affectedRows > 0) {
-            out.print("{\"status\": \"success\"}");
-        } else {
-            out.print("{\"status\": \"error\"}");
+        Cart cart = cartDAO.getCartByCustomerIdAndProductId(customerId, productId);
+        if (cart != null) {
+            cart.setQuantity(quantity);
+            cartDAO.updateCartQuantity(customerId, productId, quantity);
         }
-        out.flush();
+
+        String referer = request.getHeader("referer");
+        if (referer != null && !referer.isEmpty()) {
+            response.sendRedirect(referer);
+        } else {
+            response.sendRedirect("home-page.jsp");
+        }
     }
 }
