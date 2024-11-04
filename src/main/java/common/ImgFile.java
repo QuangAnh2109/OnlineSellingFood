@@ -50,15 +50,9 @@ public class ImgFile {
                     try (FileOutputStream fos = new FileOutputStream(filePath)) {
                         fos.write(imageBytes);
                         logger.info("New file saved at: " + filePath);
-
-                        try{
-                            Thread.sleep(1000);
-                        }catch(InterruptedException e){
-
-                        }
-                        autoCommit(5000);
-                        return new ImgDAO().addImg(new Img(fileNameLast));
                     }
+                    autoCommit(5000);
+                    return new ImgDAO().addImg(new Img(fileNameLast));
                 }
             } catch (NoSuchAlgorithmException e) {
                 logger.info(e.getMessage());
@@ -70,7 +64,7 @@ public class ImgFile {
     public static boolean deleteImg(String filePath){
         try {
             Files.delete(Paths.get(IMG_FOLDER+filePath));
-            autoCommit(0);
+            autoCommit(100);
             return true;
         } catch (IOException e) {
             logger.info("Can not delete file at path: " + filePath);

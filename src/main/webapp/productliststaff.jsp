@@ -104,6 +104,7 @@
                   <th><%=certificateDAO.getCertificationById(product.getCertificationID()).getName()%></th>
                   <th><%=productStatusDAO.getProductStatusById(product.getStatusID()).getDetail()%></th>
                   <th>
+                    <a href="productFeedback?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">View Feedback</a>
                     <a href="updateproduct.jsp?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Update</a>
                     <a href="DeleteProductStaffServlet?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Delete</a>
                   </th>
