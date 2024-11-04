@@ -39,4 +39,29 @@ public class ProductDAO extends DBContext{
         }
         return Collections.emptyList();
     }
+    public int getTotalProducts() {
+        int totalProducts = 0;
+        try {
+            // Establish connection
+
+
+            // SQL query to count the total number of products
+            String query = "SELECT COUNT(*) AS total FROM dbo.Product";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            // Retrieve total product count
+            if (resultSet.next()) {
+                totalProducts = resultSet.getInt("total");
+            }
+
+            // Close resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProducts;
+    }
 }

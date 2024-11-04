@@ -17,12 +17,25 @@
     </div>
     <nav>
         <ul class="menu-aside">
+            <%if(role == 5){%>
+            <li class="menu-item" id="dashboard">
+                <a class="menu-link" href="Dashboard">
+                    <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <%
+
+                }
+                else{
+            %>
             <li class="menu-item" id="homepage">
                 <a class="menu-link" href="home-page-staff.jsp">
                     <i class="icon material-icons md-home"></i>
                     <span class="text">Dashboard</span>
                 </a>
             </li>
+            <%}%>
             <li class="menu-item" id="changepass">
                 <a class="menu-link" href="account-changepass-staff.jsp">
                     <i class="icon material-icons md-person"></i>
@@ -91,6 +104,7 @@
                 </div>
             </li>
             <%
+
                 }
             %>
         </ul>
