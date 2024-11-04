@@ -16,6 +16,9 @@ public class Manufacturer {
         this.productCount=productCount;
     }
 
+    public Manufacturer(int anInt, String string, String string1) {
+    }
+
     public Integer getManufacturerID() {
         return manufacturerID;
     }

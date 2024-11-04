@@ -84,7 +84,7 @@
               <tr>
                 <td class="product-des product-name">
                   <h6 class="mb-5">
-                    <a class="product-name mb-10 text-heading">${productMap[cartItem.productID].name}</a>
+                    <a href="ProductDetail?productID=${cartItem.productID}" class="product-name mb-10 text-heading">${productMap[cartItem.productID].name}</a>
                   </h6>
                 </td>
                 <td class="price" data-title="Price">
