@@ -58,7 +58,7 @@ public class CartDAO extends DBContext {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, customerId);
             ResultSet rs = pre.executeQuery();
-            if (rs.next()) { // Kiểm tra xem có dữ liệu trong ResultSet hay không
+            if (rs.next()) {
                 cartId = rs.getInt(1);
             }
         } catch (SQLException ex) {
@@ -145,6 +145,21 @@ public class CartDAO extends DBContext {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, customerId);
             pre.setInt(2, productId);
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return affectedRows;
+    }
+
+    public int updateCartQuantity(int customerId, int productId, int quantity) {
+        int affectedRows = 0;
+        try {
+            String sql = "UPDATE Cart SET Quantity = ? WHERE CustomerID = ? AND ProductID = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, quantity);
+            pre.setInt(2, customerId);
+            pre.setInt(3, productId);
             affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
