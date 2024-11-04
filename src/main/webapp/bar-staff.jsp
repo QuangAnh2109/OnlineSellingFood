@@ -58,11 +58,12 @@
             <li class="menu-item has-submenu" id="manufacter">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-store"></i>
-                    <span class="text">Manufacter</span>
+                    <span class="text">Manufacturer</span>
                 </a>
                 <div class="submenu">
-                    <a href="manulist" id="manulist">Manufacter list</a>
-                    <a href="registerManu" id="addmanu">Add New Manufacter</a>
+                    <a href="manulist" id="manulist">Manufacturer list</a>
+                    <a href="registerManu" id="addmanu">Add New Manufacturer</a>
+                    <a href="manufacturer-detail" id="manufacturer-detail">Product By Manufacturer</a>
                 </div>
             </li>
             <%

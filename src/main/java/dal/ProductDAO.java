@@ -329,4 +329,30 @@ public class ProductDAO extends DBContext{
     }
 
 
+        public List<Product> getProductsByManufacturer(int manufacturerId) {
+            List<Product> products = new ArrayList<>();
+            try {
+                String query = "SELECT p.*, i.ImgLink as DefaultImage " +
+                        "FROM Product p " +
+                        "LEFT JOIN ProductImg pi ON p.ProductID = pi.ProductID " +
+                        "LEFT JOIN Img i ON pi.ImgID = i.ImgID " +
+                        "WHERE p.ManufacturerID = ? AND pi.IsDefault = 1";
+
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setInt(1, manufacturerId);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    Product product = new Product();
+                    product.setProductID(rs.getInt("ProductID"));
+                    product.setName(rs.getString("Name"));
+                    product.setPrice(rs.getInt("Price"));
+                    products.add(product);
+                }
+            } catch (SQLException e) {
+                logger.info(getClass().getName() + ": " + e.getMessage());
+            }
+            return products;
+        }
+
 }
