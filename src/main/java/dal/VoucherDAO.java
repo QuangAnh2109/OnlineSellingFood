@@ -142,6 +142,10 @@ public class VoucherDAO extends DBContext {
         return null;
     }
 
+    public void updateInventoryInVoucher(int voucherID) {
+
+    }
+
 
     public static void main(String[] args) {
         VoucherDAO dao = new VoucherDAO();
