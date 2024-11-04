@@ -24,7 +24,7 @@ public class CustomerListServlet extends HttpServlet {
         }
         int index=Integer.parseInt(indexPage);
         CustomerDAO cdao = new CustomerDAO();
-        List<StaffListResponse> sls= cdao.getAllCustomer(index);
+        List<StaffListResponse> sls= cdao.getAllCustomer(index,searchName);
 
         int count=cdao.getTotalAccountCustomer(searchName);
         int endPage=count/5;
@@ -37,6 +37,7 @@ public class CustomerListServlet extends HttpServlet {
         request.setAttribute("customerList", sls);
         request.setAttribute("index", index);
         request.setAttribute("endPage", endPage);
+        request.setAttribute("searchName", searchName);
         request.getRequestDispatcher("customer-list.jsp").forward(request, response);
     }
 
