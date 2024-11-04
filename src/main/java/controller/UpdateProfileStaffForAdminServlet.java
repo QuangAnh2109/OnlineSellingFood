@@ -65,15 +65,18 @@ public class UpdateProfileStaffForAdminServlet extends HttpServlet {
 
         new AccountDAO().updateAccountInformation(account);
         ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
+
+        //lây contact
         ContactInformation contact = contactInfoDAO.getContactInformationByAddressAndPhone(address, phone);
         //if contact don't have in database, add new contact to database
         if (contact == null) {
             contact = new ContactInformation(address, phone);
             contact.setContactInformationID(contactInfoDAO.addContact(contact));
-            AccountContactDAO accountContactDAO = new AccountContactDAO();
-            int contactID = accountContactDAO.getAccountContact(accountID).getContactInformationID();
-            if(contactID!=contact.getContactInformationID()) accountContactDAO.updateAccountContact(contact.getContactInformationID(), contactID,accountID);
         }
+        AccountContactDAO accountContactDAO = new AccountContactDAO();
+        int contactID = accountContactDAO.getAccountContact(accountID).getContactInformationID();
+        if(contactID!=contact.getContactInformationID()) accountContactDAO.updateAccountContact(contact.getContactInformationID(), contactID,accountID);
+
         staffDAO.updateStaffInformation(staff);
         doGet(request, response);
     }

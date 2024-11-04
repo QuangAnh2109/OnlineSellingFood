@@ -143,7 +143,7 @@ public class ProductDAO extends DBContext{
             // Close resources
             resultSet.close();
             statement.close();
-            connection.close();
+//            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
