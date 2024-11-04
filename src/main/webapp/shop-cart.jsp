@@ -71,10 +71,7 @@
           <table class="table table-wishlist">
             <thead>
             <tr class="main-heading">
-              <th class="custome-checkbox start pl-30">
-                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
-                <label class="form-check-label" for="exampleCheckbox11"></label>
-              </th>
+
               <th scope="col">Product</th>
               <th scope="col">Unit Price</th>
               <th scope="col">Quantity</th>
@@ -86,10 +83,7 @@
             <c:set var="total" value="0" />
             <c:forEach items="${cartItems}" var="cartItem">
               <tr>
-                <td class="custome-checkbox pl-30">
-                  <input class="form-check-input" type="checkbox" name="selectedItems" id="checkbox_${cartItem.productID}" value="${cartItem.productID}">
-                  <label class="form-check-label" for="checkbox_${cartItem.productID}"></label>
-                </td>
+
                 <td class="product-des product-name">
                   <h6 class="mb-5">
                     <a class="product-name mb-10 text-heading">${productMap[cartItem.productID].name}</a>
@@ -183,6 +177,8 @@
     var subtotalElement = document.getElementById("subtotal_" + productId);
     var totalElement = document.getElementById("total");
 
+    var initialQuantity = parseInt(quantityElement.getAttribute("data-initial-quantity"));
+
     var currentQuantity = parseInt(quantityElement.innerText);
     var newQuantity = currentQuantity + change;
 
@@ -195,23 +191,24 @@
     quantityElement.innerText = newQuantity;
 
     // Lấy giá đơn vị từ subtotal hiện tại
-    var unitPrice = parseFloat(subtotalElement.innerText.replace('$', '')) / currentQuantity;
+    var unitPrice = parseFloat(subtotalElement.innerText.replace('VND', '')) / (currentQuantity || 1);
 
     // Tính toán subtotal mới
     var newSubtotal = unitPrice * newQuantity;
-    subtotalElement.innerText = '$' + newSubtotal.toFixed(2);
+    subtotalElement.innerText = newSubtotal.toFixed(2) + 'VND';
 
     // Cập nhật tổng số
     var cartItems = document.querySelectorAll('[id^="subtotal_"]');
     var total = 0;
 
     cartItems.forEach(function(item) {
-      total += parseFloat(item.innerText.replace('$', ''));
+      total += parseFloat(item.innerText.replace('VND', ''));
     });
 
-    totalElement.innerText = '$' + total.toFixed(2);
+    totalElement.innerText = total.toFixed(2) + 'VND';
   }
 </script>
+
 
 <jsp:include page="footer.jsp" />
 </body>
