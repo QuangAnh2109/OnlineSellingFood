@@ -17,12 +17,25 @@
     </div>
     <nav>
         <ul class="menu-aside">
+            <%if(role == 5){%>
+            <li class="menu-item" id="dashboard">
+                <a class="menu-link" href="Dashboard">
+                    <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <%
+
+                }
+                else{
+            %>
             <li class="menu-item" id="homepage">
                 <a class="menu-link" href="home-page-staff.jsp">
                     <i class="icon material-icons md-home"></i>
                     <span class="text">Dashboard</span>
                 </a>
             </li>
+            <%}%>
             <li class="menu-item" id="changepass">
                 <a class="menu-link" href="account-changepass-staff.jsp">
                     <i class="icon material-icons md-person"></i>
@@ -69,10 +82,21 @@
                 }
                 else if(role==2){
             %>
+
             <%
                 }
                 else if(role==3){
             %>
+            <li class="menu-item has-submenu" id="product">
+                <a class="menu-link" href="#">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Import</span>
+                </a>
+                <div class="submenu">
+                    <a href="Import" id="Import">Import</a>
+
+                </div>
+            </li>
             <%
                 }
                 else if(role==4){
@@ -98,6 +122,7 @@
                 </div>
             </li>
             <%
+
                 }
             %>
         </ul>

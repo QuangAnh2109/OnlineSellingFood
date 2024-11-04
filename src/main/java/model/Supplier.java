@@ -16,6 +16,8 @@ public class Supplier {
         this.note = note;
     }
 
+
+
     public Integer getSupplierID() {
         return supplierID;
     }

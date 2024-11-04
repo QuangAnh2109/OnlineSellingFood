@@ -1,8 +1,10 @@
 package model;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Import {
+
     private Integer importID;
     private Integer staffID;
     private Integer warehouseID;
@@ -59,4 +61,7 @@ public class Import {
     public void setTime(LocalDateTime time) {
         this.time = time;
     }
+
+
+
 }

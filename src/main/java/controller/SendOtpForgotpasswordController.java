@@ -38,16 +38,16 @@ public class SendOtpForgotpasswordController extends HttpServlet {
             return;
         }
         else{
-            // Tạo otp
+
             String newOtp = RandomPasswordGenerator.generateRandomString();
 
             Otp otp =  new Otp(account.getAccountID(), newOtp, LocalDateTime.now().plusMinutes(5));
-            // Kiểm tra OTP trong DB và lưu hoặc cập nhật OTP
+
             if (daoOtp.addOtp(otp)==null) {
                 daoOtp.updateOtp(otp);
             }
 
-            // Gửi email
+
             boolean emailSent = Mail.sendEmail(email, newOtp);
             if (emailSent) {
                 request.setAttribute(msg, completeMsg);

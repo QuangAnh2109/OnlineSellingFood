@@ -9,6 +9,10 @@ public class Staff {
     public Staff() {
     }
 
+    public Staff(Integer staffID) {
+        this.staffID = staffID;
+    }
+
     public Staff(Integer staffID, Integer accountID, Integer salary, Integer warehouseID) {
         this.staffID = staffID;
         this.accountID = accountID;

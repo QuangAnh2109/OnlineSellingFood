@@ -1,11 +1,14 @@
 package dal;
 
+import model.Product;
+import model.Supplier;
 import model.Unit;
 
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
 

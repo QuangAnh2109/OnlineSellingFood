@@ -12,58 +12,58 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDAO extends DBContext {
+public class StaffDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Staff(rs.getInt("StaffID"), rs.getInt("AccountID"), rs.getInt("Salary"), rs.getInt("WarehouseID"));
+        return new Staff(rs.getInt("StaffID"),rs.getInt("AccountID"),rs.getInt("Salary"),rs.getInt("WarehouseID"));
     }
 
-    public Staff getStaffByCustomerID(int staffID) {
-        try {
+    public Staff getStaffByCustomerID(int staffID){
+        try{
             PreparedStatement ps = connection.prepareStatement("select StaffID,AccountID,Salary,WarehouseID from Staff where StaffID=?");
             ps.setInt(1, staffID);
-            return (Staff) getObject(ps);
-        } catch (SQLException e) {
-            logger.info(getClass().getName() + ": " + e.getMessage());
+            return (Staff)getObject(ps);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
 
-    public Staff getStaffByAccountID(int accountID) {
-        try {
+    public Staff getStaffByAccountID(int accountID){
+        try{
             PreparedStatement ps = connection.prepareStatement("select StaffID,AccountID,Salary,WarehouseID from Staff where AccountID=?");
             ps.setInt(1, accountID);
-            return (Staff) getObject(ps);
-        } catch (SQLException e) {
-            logger.info(getClass().getName() + ": " + e.getMessage());
+            return (Staff)getObject(ps);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
 
-    public boolean updateStaffInformation(Staff staff) {
-        try {
+    public boolean updateStaffInformation(Staff staff){
+        try{
             PreparedStatement ps = connection.prepareStatement("update Staff set Salary=?, WarehouseID=? where StaffID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, staff.getSalary());
             ps.setInt(2, staff.getWarehouseID());
             ps.setInt(3, staff.getStaffID());
             ResultSet rs = executeUpdate(ps);
-            if (rs != null) return rs.next();
-        } catch (SQLException e) {
-            logger.info(getClass().getName() + ": " + e.getMessage());
+            if(rs!=null)return rs.next();
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return false;
     }
 
-    public Integer addStaff(Staff staff) {
-        try {
+    public Integer addStaff(Staff staff){
+        try{
             PreparedStatement ps = connection.prepareStatement("insert into Staff(AccountID,Salary,WarehouseID) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, staff.getAccountID());
             ps.setInt(2, staff.getSalary());
             ps.setInt(3, staff.getWarehouseID());
             ResultSet rs = executeUpdate(ps);
-            if (rs != null && rs.next()) return rs.getInt(1);
-        } catch (SQLException e) {
-            logger.info(getClass().getName() + ": " + e.getMessage());
+            if(rs!=null&&rs.next()) return rs.getInt(1);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
         }
         return null;
     }
@@ -109,7 +109,48 @@ public class StaffDAO extends DBContext {
         }
     }
 
-    public StaffDetailRespone getStaffDetail(int accountID) {
+    public int getStaffIDbyAccountID(int accountID){
+        String sql="Select StaffID  from Staff where AccountID = ?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, accountID);
+            ResultSet rs=st.executeQuery();
+            Staff staff =new Staff();
+
+            while(rs.next()){
+                staff.setStaffID(rs.getInt("StaffID"));
+
+            }
+
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return accountID;
+    }
+    public List<StaffListResponse> getAllStaff(){
+        List<StaffListResponse> listStaff = new ArrayList<StaffListResponse>();
+        String sql = "\tselect a.AccountID,a.Name,a.Email,ast.Detail,a.[Time]\n" +
+                "\tfrom Account a join AccountStatus ast on a.StatusID = ast.StatusID\n" +
+                "\twhere a.RoleID != 6 and a.RoleID != 1";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            ResultSet rs=st.executeQuery();
+            while(rs.next()){
+                StaffListResponse slr=new StaffListResponse();
+                slr.setAcoountID(rs.getInt("AccountID"));
+                slr.setName(rs.getString("Name"));
+                slr.setEmail(rs.getString("Email"));
+                slr.setDetail(rs.getString("Detail"));
+                slr.setTime(rs.getDate("Time"));
+                listStaff.add(slr);
+            }
+            return listStaff;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public StaffDetailRespone getStaffDetail(int accountID){
         String sql = "select r.[RoleID],[as].StatusID,a.Name,a.Email,ci.PhoneNumber,ci.[Address],a.Birth,s.Salary,w.[WarehouseID]\n" +
                 "from Account a join Staff s on a.AccountID = s.AccountID\n" +
                 "join [Role] r on r.RoleID = a.RoleID\n" +
@@ -120,12 +161,12 @@ public class StaffDAO extends DBContext {
                 "where (a.RoleID != 6 and a.RoleID != 1 and a.AccountID=?)";
 
         try {
-            PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st=connection.prepareStatement(sql);
             st.setInt(1, accountID);
-            ResultSet rs = st.executeQuery();
-            StaffDetailRespone sdr = new StaffDetailRespone();
+            ResultSet rs=st.executeQuery();
+            StaffDetailRespone sdr=new StaffDetailRespone();
 
-            while (rs.next()) {
+            while(rs.next()){
                 sdr.setRoleID(rs.getInt("RoleID"));
                 sdr.setStatusID(rs.getInt("StatusID"));
                 sdr.setName(rs.getString("Name"));
@@ -138,7 +179,7 @@ public class StaffDAO extends DBContext {
 
             }
             return sdr;
-        } catch (SQLException ex) {
+        }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
         return null;

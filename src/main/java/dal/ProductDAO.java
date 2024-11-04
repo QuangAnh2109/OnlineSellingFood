@@ -2,10 +2,13 @@ package dal;
 
 import common.InsertPrepareStatement;
 import model.Product;
+import model.Warehouse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
@@ -14,18 +17,7 @@ import java.util.ArrayList;
 public class ProductDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Product(rs.getInt("ProductID")
-                ,rs.getInt("Price")
-                ,rs.getObject("DiscountID",Integer.class)
-                ,rs.getInt("Weight")
-                ,rs.getInt("CategoryID")
-                ,rs.getInt("ManufacturerID")
-                ,rs.getInt("OriginID")
-                ,rs.getInt("UnitID")
-                ,rs.getInt("CertificationID")
-                ,rs.getInt("StatusID")
-                ,rs.getString("Name")
-                ,rs.getString("Detail"));
+        return new Product(rs.getInt("productID"),rs.getInt("price"),rs.getInt("discountID"),rs.getInt("weight"),rs.getInt("categoryID"),rs.getInt("manufacturerID"),rs.getInt("originID"),rs.getInt("unitID"),rs.getInt("certificationID"),rs.getInt("statusID"),rs.getString("name"),rs.getString("detail"));
     }
 
     public Product getProductByID(int productID){
@@ -122,6 +114,40 @@ public class ProductDAO extends DBContext{
             throw new RuntimeException(e);
         }
 
+    }
+    public List<Product> getAllProductActivity(){
+        try{
+            PreparedStatement ps = connection.prepareStatement("select * from Product ");
+            return (List<Product>) (Object) getListObject(ps);
+        }catch (SQLException e){
+            logger.info(getClass().getName()+": "+e.getMessage());
+        }
+        return Collections.emptyList();
+    }
+    public int getTotalProducts() {
+        int totalProducts = 0;
+        try {
+            // Establish connection
+
+
+            // SQL query to count the total number of products
+            String query = "SELECT COUNT(*) AS total FROM dbo.Product";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            // Retrieve total product count
+            if (resultSet.next()) {
+                totalProducts = resultSet.getInt("total");
+            }
+
+            // Close resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProducts;
     }
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
