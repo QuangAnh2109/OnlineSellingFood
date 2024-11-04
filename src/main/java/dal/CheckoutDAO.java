@@ -1,5 +1,6 @@
 package dal;
 
+import dto.ApplyVoucherToCheckoutResponse;
 import dto.CheckoutContactDetailResponse;
 import dto.ProductCheckoutResponse;
 
@@ -97,10 +98,45 @@ public class CheckoutDAO extends DBContext{
 
     }
 
+    public List<ApplyVoucherToCheckoutResponse> getApplyVoucherToCheckout(int customerID){
+        List<ApplyVoucherToCheckoutResponse> list=new ArrayList<>();
+        String sql="SELECT \n" +
+                "    cv.VoucherID,\n" +
+                "    d.DiscountPercent,\n" +
+                "    v.Inventory,\n" +
+                "    d.StartTime,\n" +
+                "    d.EndTime,\n" +
+                "    DATEDIFF(DAY, d.StartTime, d.EndTime) AS RemainingDay\n" +
+                "FROM CustomerVoucher cv  \n" +
+                "JOIN  Voucher v ON cv.VoucherID = v.VoucherID \n" +
+                "JOIN Discount d ON v.DiscountID = d.DiscountID\n" +
+                "where cv.CustomerID=?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, customerID);
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                ApplyVoucherToCheckoutResponse avt=new ApplyVoucherToCheckoutResponse();
+                avt.setVoucherID(rs.getInt("VoucherID"));
+                avt.setDiscountPercent(rs.getInt("DiscountPercent"));
+                avt.setInventory(rs.getInt("Inventory"));
+                avt.setStartDate(rs.getString("StartTime"));
+                avt.setEndDate(rs.getString("EndTime"));
+                avt.setRemainingDay(rs.getInt("RemainingDay"));
+                list.add(avt);
+
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
     public static void main(String[] args) {
         CheckoutDAO checkoutDAO=new CheckoutDAO();
-        List<ProductCheckoutResponse> list=checkoutDAO.getProductCheckout(1);
+        List<ApplyVoucherToCheckoutResponse> list=checkoutDAO.getApplyVoucherToCheckout(1);
         System.out.println(list);
     }
 }
