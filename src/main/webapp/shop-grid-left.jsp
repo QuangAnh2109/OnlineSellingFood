@@ -9,18 +9,40 @@
     <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
     <link rel="stylesheet" href="nest-frontend/assets/css/plugins/slider-range.css" />
     <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
+    <style>
+    .filter-form {
+    margin-bottom: 20px;
+    }
+
+    .filter-dropdowns {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    }
+
+    .filter-item {
+    margin-right: 15px;
+    flex: 1;
+    }
+
+    .filter-item select,
+    .filter-item input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    }
+    </style>
 </head>
 
 
 <body>
 <%@ page import="java.util.List" %>
-<%@ page import="dal.ProductDAO" %>
-<%@ page import="model.Product" %>
-<%@ page import="model.Account" %>
-<%@ page import="dal.CategoryDAO" %>
-<%@ page import="model.Category" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="model.*" %>
+<%@ page import="dal.*" %>
 <%
+
     CategoryDAO categoryDAO = new CategoryDAO();
     List<Category> allCategories = categoryDAO.getAllCategories();
 
@@ -79,6 +101,64 @@
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
 </jsp:include>
+<!-- Giao diện lọc sản phẩm -->
+<div class="container mb-30">
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="" method="get" class="filter-form">
+                <div class="filter-dropdowns d-flex justify-content-between">
+                    <!-- Dropdown cho Danh Mục -->
+                    <div class="filter-item">
+                        <select name="categoryID" onchange="this.form.submit()">
+                            <option value="">All Categories</option>
+                            <% for (Category category : allCategories) { %>
+                            <option value="<%= category.getCategoryID() %>" <%= categoryID == category.getCategoryID() ? "selected" : "" %>>
+                                <%= category.getName() %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <!-- Dropdown cho Nhà Sản Xuất -->
+                    <div class="filter-item">
+                        <select name="manufacturerID" onchange="this.form.submit()">
+                            <option value="">All Manufacturers</option>
+                            <% ManufacterDAO manufacterDAO = new ManufacterDAO();%>
+                            <% List<Manufacturer> allManufacturers = manufacterDAO.getAllManufacturers(); %>
+                            <% for (Manufacturer manufacturer : allManufacturers) { %>
+                            <option value="<%= manufacturer.getManufacturerID() %>" <%= request.getParameter("manufacturerID") != null && request.getParameter("manufacturerID").equals(String.valueOf(manufacturer.getManufacturerID())) ? "selected" : "" %>>
+                                <%= manufacturer.getName() %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <!-- Dropdown cho Xuất Xứ -->
+                    <div class="filter-item">
+                        <select name="origin" onchange="this.form.submit()">
+                            <option value="">All Origins</option>
+                            <% OriginDAO originDAO = new OriginDAO();%>
+                            <% List<Origin> allOrigins = originDAO.getAllOrigins(); %>
+                            <% for (Origin origin : allOrigins) { %>
+                            <option value="<%= origin %>" <%= request.getParameter("origin") != null && request.getParameter("origin").equals(origin) ? "selected" : "" %>>
+                                <%= origin %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+
+
+                    <!-- Thanh chọn theo giá -->
+                    <div class="filter-item">
+                        <input type="text" name="minPrice" placeholder="Min Price" value="<%= request.getParameter("minPrice") != null ? request.getParameter("minPrice") : "" %>"/>
+                        <input type="text" name="maxPrice" placeholder="Max Price" value="<%= request.getParameter("maxPrice") != null ? request.getParameter("maxPrice") : "" %>"/>
+                        <button type="submit">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <div class="container mb-30">
