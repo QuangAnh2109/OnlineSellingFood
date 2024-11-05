@@ -9,39 +9,31 @@ import model.Product;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ManufacturerDetailProductServlet", value = "/manufacturer-detail")
+@WebServlet(name = "ManufacturerDetailProductServlet", value = "/manuDetail")
 public class ManufacturerDetailProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ManufacterDAO md = new ManufacterDAO();
+        ProductDAO pd = new ProductDAO();
+        String ManufacturerID_raw = request.getParameter("ManufacturerID");
         try {
-            int manufacturerId = Integer.parseInt(request.getParameter("id"));
+            int ManufacturerID = Integer.parseInt(ManufacturerID_raw);
+            Manufacturer m = md.getManufacturerByID(ManufacturerID);
+            List<Manufacturer> manufacturers = md.getAllManufacturers();
+            List<Product> products = pd.getProductsByManufacturerID(ManufacturerID);
 
-            ManufacterDAO manufacturerDAO = new ManufacterDAO();
-            ProductDAO productDAO = new ProductDAO();
-
-            // Get manufacturer details
-            Manufacturer manufacturer = manufacturerDAO.getManufacturerByID(manufacturerId);
-            if (manufacturer == null) {
-                response.sendRedirect("404.jsp"); // Or your error page
-                return;
+            if (m != null) {
+                request.setAttribute("manuDetail", m);
+                request.setAttribute("products", products);
+                request.setAttribute("ManufacturerID", ManufacturerID);
+                request.getRequestDispatcher("page-manu-detail.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("errorPage.jsp");
             }
-
-            // Get all products by this manufacturer
-            List<Product> products = productDAO.getProductsByManufacturer(manufacturerId);
-
-            // Set attributes for JSP
-            request.setAttribute("manufacturer", manufacturer);
-            request.setAttribute("products", products);
-            request.setAttribute("totalProducts", products.size());
-
-            // Forward to JSP page
-            request.getRequestDispatcher("page-manu-detail.jsp").forward(request, response);
-
         } catch (NumberFormatException e) {
-            response.sendRedirect("404.jsp"); // Or your error page
+            response.sendRedirect("errorPage.jsp");
         }
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);

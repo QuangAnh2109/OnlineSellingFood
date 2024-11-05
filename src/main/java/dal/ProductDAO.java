@@ -12,18 +12,18 @@ import java.util.List;
 public class ProductDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Product(rs.getInt(1)
-                ,rs.getInt(2)
-                ,rs.getInt(3)
-                ,rs.getInt(4)
-                ,rs.getInt(5)
-                ,rs.getInt(6)
-                ,rs.getInt(7)
-                ,rs.getInt(8)
-                ,rs.getInt(9)
-                ,rs.getInt(9)
-                ,rs.getString(10)
-                ,rs.getString(11));
+        return new Product( rs.getInt("ProductID"),
+                rs.getInt("Price"),
+                rs.getInt("DiscountID"),
+                rs.getInt("Weight"),
+                rs.getInt("CategoryID"),
+                rs.getInt("ManufacturerID"),
+                rs.getInt("OriginID"),
+                rs.getInt("UnitID"),
+                rs.getInt("CertificationID"),
+                rs.getInt("StatusID"),
+                rs.getString("Name"),
+                rs.getString("Detail"));
     }
     public void deleteDiscount(int productID){
         String sql="UPDATE [dbo].[Product]\n" +
@@ -327,32 +327,21 @@ public class ProductDAO extends DBContext{
 
         return products;
     }
-
-
-        public List<Product> getProductsByManufacturer(int manufacturerId) {
-            List<Product> products = new ArrayList<>();
-            try {
-                String query = "SELECT p.*, i.ImgLink as DefaultImage " +
-                        "FROM Product p " +
-                        "LEFT JOIN ProductImg pi ON p.ProductID = pi.ProductID " +
-                        "LEFT JOIN Img i ON pi.ImgID = i.ImgID " +
-                        "WHERE p.ManufacturerID = ? AND pi.IsDefault = 1";
-
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1, manufacturerId);
-                ResultSet rs = ps.executeQuery();
-
-                while (rs.next()) {
-                    Product product = new Product();
-                    product.setProductID(rs.getInt("ProductID"));
-                    product.setName(rs.getString("Name"));
-                    product.setPrice(rs.getInt("Price"));
-                    products.add(product);
-                }
-            } catch (SQLException e) {
-                logger.info(getClass().getName() + ": " + e.getMessage());
+    public List<Product> getProductsByManufacturerID(int manufacturerID) {
+        List<Product> products = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT * FROM Product WHERE ManufacturerID = ?"
+            );
+            ps.setInt(1, manufacturerID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                products.add((Product) getObjectByRs(rs));
             }
-            return products;
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
+        return products;
+    }
 
 }

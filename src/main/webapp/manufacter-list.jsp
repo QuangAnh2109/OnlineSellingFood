@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>Nest Dashboard - Manufacturer Detail</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -51,19 +51,19 @@
                         </form>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Disabled</option>
-                            <option>Show all</option>
-                        </select>
+<%--                        <select class="form-select">--%>
+<%--                            <option>Status</option>--%>
+<%--                            <option>Active</option>--%>
+<%--                            <option>Disabled</option>--%>
+<%--                            <option>Show all</option>--%>
+<%--                        </select>--%>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Show 20</option>
-                            <option>Show 30</option>
-                            <option>Show 40</option>
-                        </select>
+<%--                        <select class="form-select">--%>
+<%--                            <option>Show 20</option>--%>
+<%--                            <option>Show 30</option>--%>
+<%--                            <option>Show 40</option>--%>
+<%--                        </select>--%>
                     </div>
                 </div>
             </header>
@@ -92,12 +92,12 @@
                                 <c:forEach items="${manuList}" var="mn">
                                     <tr>
                                         <td width="40%">
-                                            <a href="#" class="itemside">
+                                            <a  class="itemside">
 <%--                                                <div class="left">--%>
 <%--                                                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />--%>
 <%--                                                </div>--%>
                                                 <div class="info pl-3">
-                                                    <h6 class="mb-0 title">${mn.name}</h6>
+                                                    <h6  class="mb-0 title">${mn.name}</h6>
                                                 </div>
                                             </a>
                                         </td>
@@ -117,6 +117,7 @@
                                         <td class="text-end">
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
                                                 <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                                <a href="manuDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-launch"></i> View </a>
                                                 <a href="#" onclick="confirmDelete(${mn.manufacturerID}, ${mn.productCount}); return false;"
                                                    class="btn btn-sm font-sm btn-light rounded">
                                                     <i class="material-icons md-delete_forever"></i> Delete

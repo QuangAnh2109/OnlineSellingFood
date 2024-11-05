@@ -63,7 +63,6 @@
                 <div class="submenu">
                     <a href="manulist" id="manulist">Manufacturer list</a>
                     <a href="registerManu" id="addmanu">Add New Manufacturer</a>
-                    <a href="manufacturer-detail" id="manufacturer-detail">Product By Manufacturer</a>
                 </div>
             </li>
             <%

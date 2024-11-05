@@ -20,6 +20,10 @@
 </head>
 
 <body>
+<jsp:include page="bar-staff.jsp">
+    <jsp:param name="page" value="manulist"/>
+    <jsp:param name="menu" value="manufacter"/>
+</jsp:include>
 <main class="main-wrap">
     <section class="content-main">
         <div class="content-header">
@@ -35,17 +39,7 @@
                         </div>
                     </div>
                     <div class="col-xl col-lg">
-                        <h3>${manufacturer.name}</h3>
-                        <p>${manufacturer.introduce}</p>
-                    </div>
-                    <div class="col-xl-4 text-md-end">
-                        <select class="form-select w-auto d-inline-block">
-                            <option>Actions</option>
-                            <option>Disable shop</option>
-                            <option>Analyze</option>
-                            <option>Something</option>
-                        </select>
-                        <a href="#" class="btn btn-primary"> View live <i class="material-icons md-launch"></i> </a>
+                        <h3>${manuDetail.name}</h3>
                     </div>
                 </div>
                 <hr class="my-4" />
@@ -53,7 +47,7 @@
                     <div class="col-md-12 col-lg-4 col-xl-2">
                         <article class="box">
                             <p class="mb-0 text-muted">Total Products:</p>
-                            <h5 class="text-success">${totalProducts}</h5>
+                            <h5 class="text-success">${manuDetail.productCount}</h5>
                         </article>
                     </div>
                 </div>
@@ -62,13 +56,13 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <h3 class="card-title">Products by ${manufacturer.name}</h3>
+                <h3 class="card-title">Products by ${manuDetail.name}</h3>
                 <div class="row">
                     <c:forEach items="${products}" var="product">
                         <div class="col-xl-2 col-lg-3 col-md-6">
                             <div class="card card-product-grid">
                                 <a href="product-detail?id=${product.productID}" class="img-wrap">
-                                    <img src="${product.defaultImage}" alt="${product.name}" />
+<%--                                    <img src="${product.img}" alt="${product.name}" />--%>
                                 </a>
                                 <div class="info-wrap">
                                     <a href="product-detail?id=${product.productID}" class="title">${product.name}</a>
@@ -97,20 +91,6 @@
             </nav>
         </div>
     </section>
-
-    <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
-            <div class="col-sm-6">
-                <script>
-                    document.write(new Date().getFullYear());
-                </script>
-                &copy; Nest - HTML Ecommerce Template .
-            </div>
-            <div class="col-sm-6">
-                <div class="text-sm-end">All rights reserved</div>
-            </div>
-        </div>
-    </footer>
 </main>
 
 <!-- Scripts -->
