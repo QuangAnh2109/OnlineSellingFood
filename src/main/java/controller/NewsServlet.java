@@ -17,8 +17,16 @@ public class NewsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Retrieve the list of news from the DAO
-        List<News> newsList = newsDAO.getAll();
+        String searchQuery = request.getParameter("search"); // lay tu request
+
+        List<News> newsList;
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            // If there's a search query, search by title
+            newsList = newsDAO.searchByTitle(searchQuery);
+        } else {
+            // Otherwise, get all news
+            newsList = newsDAO.getAll();
+        }
 
         // Set the news list as a request attribute
         request.setAttribute("list", newsList);

@@ -20,7 +20,7 @@ public class NewsDAO extends DBContext {
         );
     }
 
-    // Create new news
+    // insert
     public boolean insert(News news) {
         String sql = "INSERT INTO News (StaffID, ImgID, Title, Content) VALUES (?, ?, ?, ?)";
         try {
@@ -37,7 +37,7 @@ public class NewsDAO extends DBContext {
         }
     }
 
-    // Get all news
+    // get all new
     public List<News> getAll() {
         List<News> list = new ArrayList<>();
         String sql = "SELECT * FROM News";
@@ -53,7 +53,6 @@ public class NewsDAO extends DBContext {
         return list;
     }
 
-    // Get news by ID
     public News getById(int newsID) {
         String sql = "SELECT * FROM News WHERE NewsID = ?";
         try {
@@ -69,7 +68,7 @@ public class NewsDAO extends DBContext {
         return null;
     }
 
-    // Update existing news
+    // update news
     public boolean update(News news) {
         String sql = "UPDATE News SET StaffID=?, ImgID=?, Title=?, Content=? WHERE NewsID=?";
         try {
@@ -87,7 +86,7 @@ public class NewsDAO extends DBContext {
         }
     }
 
-    // Delete news
+    // delete news
     public boolean delete(int newsID) {
         String sql = "DELETE FROM News WHERE NewsID=?";
         try {
@@ -101,7 +100,7 @@ public class NewsDAO extends DBContext {
         }
     }
 
-    // Get news by staff ID
+    // get new by staff ID
     public List<News> getByStaffId(int staffID) {
         List<News> list = new ArrayList<>();
         String sql = "SELECT * FROM News WHERE StaffID = ?";
@@ -117,4 +116,21 @@ public class NewsDAO extends DBContext {
         }
         return list;
     }
+    // search by title
+    public List<News> searchByTitle(String title) {
+        List<News> list = new ArrayList<>();
+        String sql = "SELECT * FROM News WHERE Title LIKE ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + title + "%"); // Use '%' for partial matches
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add((News) getObjectByRs(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error searching news by title: " + e.getMessage());
+        }
+        return list;
+    }
+
 }
