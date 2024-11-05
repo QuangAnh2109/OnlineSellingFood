@@ -3,11 +3,9 @@ package common;
 import dal.ImgDAO;
 import jakarta.servlet.http.Part;
 import model.Img;
+import model.Product;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,7 +49,7 @@ public class ImgFile {
                         fos.write(imageBytes);
                         logger.info("New file saved at: " + filePath);
                     }
-                    autoCommit(5000);
+                    autoCommit();
                     return new ImgDAO().addImg(new Img(fileNameLast));
                 }
             } catch (NoSuchAlgorithmException e) {
@@ -64,7 +62,7 @@ public class ImgFile {
     public static boolean deleteImg(String filePath){
         try {
             Files.delete(Paths.get(IMG_FOLDER+filePath));
-            autoCommit(100);
+            autoCommit();
             return true;
         } catch (IOException e) {
             logger.info("Can not delete file at path: " + filePath);
@@ -72,11 +70,22 @@ public class ImgFile {
         }
     }
 
-    public static boolean autoCommit(int waitTime){
-        Runtime runtime = Runtime.getRuntime();
+    public static boolean autoCommit(){
         try {
-            runtime.exec("cmd /c start "+FOLDER+"commit-push.bat");
-            Thread.sleep(waitTime);
+            ProcessBuilder builder = new ProcessBuilder(
+                    "cmd.exe", "/c", "cd /d "+FOLDER+" && git add -A && git commit -m \"Your Message\" && git push");
+            builder.redirectErrorStream(true);
+            Process p = builder.start();
+            p.waitFor();
+            /*
+            BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while (true) {
+                line = r.readLine();
+                if (line == null) { break; }
+                System.out.println(line);
+            }
+            */
             return true;
         } catch(IOException | InterruptedException e) {
             logger.info(e.getMessage());
