@@ -21,22 +21,18 @@
 <%@ page import="model.Category" %>
 <%@ page import="java.util.ArrayList" %>
 <%
-    // Khởi tạo DAO và lấy danh sách tất cả các danh mục
     CategoryDAO categoryDAO = new CategoryDAO();
     List<Category> allCategories = categoryDAO.getAllCategories();
 
-    // Phân trang cho danh mục
     int pageSize1 = 5;
     int totalCategories = allCategories.size();
     int totalPages1 = (int) Math.ceil((double) totalCategories / pageSize1);
     int currentPage = 1;
 
-    // Lấy trang hiện tại từ tham số yêu cầu
     if (request.getParameter("categoryPage") != null) {
         currentPage = Integer.parseInt(request.getParameter("categoryPage"));
     }
 
-    // Tính chỉ số bắt đầu và lấy danh sách danh mục để hiển thị
     int startIndex = (currentPage - 1) * pageSize1;
     List<Category> categoriesToShow = new ArrayList<>();
     if (startIndex < totalCategories) {
@@ -45,7 +41,6 @@
         }
     }
 
-    // Lấy tên tài khoản từ session
     String accountName = "";
     try {
         accountName = ((Account) session.getAttribute("account")).getName();
@@ -53,7 +48,6 @@
         accountName = "";
     }
 
-    // Khởi tạo các biến cho phân trang sản phẩm
     int page1 = 1;
     int pageSize = 50;
     if (request.getParameter("page") != null) {
@@ -63,22 +57,18 @@
         pageSize = Integer.parseInt(request.getParameter("pageSize"));
     }
 
-    // Lấy categoryID từ tham số yêu cầu
     int categoryID = 0;
     if (request.getParameter("categoryID") != null) {
         categoryID = Integer.parseInt(request.getParameter("categoryID"));
     }
 
-    // Lấy tùy chọn sắp xếp từ tham số yêu cầu
     String sortOption = request.getParameter("sort");
     if (sortOption == null || (!sortOption.equals("Price") && !sortOption.equals("Name"))) {
         sortOption = "Name";
     }
 
-    // Lấy tham số tìm kiếm từ yêu cầu
     String searchTerm = request.getParameter("searchTerm");
 
-    // Khởi tạo DAO cho sản phẩm và lấy danh sách sản phẩm
     ProductDAO productDAO = new ProductDAO();
     int totalProducts = productDAO.countProductsByCategoryAndSearch(categoryID, searchTerm);
     int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
@@ -213,7 +203,6 @@
                         </a>
                         <span class="product-count">
    <%
-       // Giả sử bạn có phương thức getProductCountByCategory trong DAO
        int productCount = productDAO.countProductsByCategory(category.getCategoryID());
    %>
    (<%= productCount %>)
@@ -222,8 +211,6 @@
                     <% } %>
                 </ul>
 
-
-                <!-- Phân trang cho danh mục -->
                 <div class="pagination-area mt-20 mb-20">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">

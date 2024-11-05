@@ -3,6 +3,8 @@
 <%@ page import="model.Certification" %>
 <%@ page import="model.CertificateIssuer" %>
 <%@ page import="dal.ImgDAO" %>
+<%@ page import="dal.CertificateIssuerDAO" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +24,11 @@
 </head>
 
 <body>
+<%
+    String msg = (String)session.getAttribute("msg");
+    if(msg==null) msg="";
+    session.removeAttribute("msg");
+%>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
     <jsp:param name="page" value="certification"/>
@@ -75,6 +82,7 @@
                                 <label for="imagefile" class="form-label">Upload Image</label>
                                 <input type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                             </div>
+                            <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary" >Create certification</button>
                                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
@@ -108,7 +116,11 @@
                                     <td onclick="populateForm('<%= certification.getCertificationID() %>', '<%= certification.getName() %>', '<%= certification.getDetail() %>', '<%= certification.getImgID() %>', '<%= certification.getCertificateIssuerID() %>')">
                                         <b><%= certification.getName() %></b></td>
                                     <td><%= certification.getDetail() %></td>
-                                    <td><%= certification.getCertificateIssuerID() %></td>
+                                    <%
+                                        CertificateIssuerDAO certificateIssuerDAO = new CertificateIssuerDAO();
+                                        CertificateIssuer issuer = certificateIssuerDAO.getCertificateIssuerById(certification.getCertificateIssuerID());
+                                    %>
+                                    <td><%=  issuer.getName() %></td>
 <%--                                 <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>--%>
                                     <td><img src="Img/<%= imgdao.getImgLinkByID(certification.getImgID()) %>" alt="Image" style="width: 100px; height: auto;"></td>
                                     <td class="text-end">

@@ -78,6 +78,20 @@ public class CertificateDAO extends DBContext {
             return false;
         }
     }
+    public boolean isCertificationUsed(int certificationID) {
+        String sql = "SELECT COUNT(*) FROM Product WHERE CertificationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, certificationID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+        }
+        return false;
+    }
+
 
     public void addCertification(Certification certification) {
         String sql = "INSERT INTO Certification (Name, Detail, CertificateIssuerID, ImgID) VALUES (?, ?, ?, ?)";

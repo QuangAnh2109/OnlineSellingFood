@@ -45,61 +45,60 @@ public class RegisterStaffServlet extends HttpServlet {
         String address = request.getParameter("address");
         Integer genderID;
         LocalDateTime birth;
-        try{
+        try {
             birth = LocalDate.parse(request.getParameter("birth"), DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
-        }catch(DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             birth = null;
         }
-        try{
+        try {
             genderID = Integer.valueOf(request.getParameter("gender"));
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             genderID = null;
         }
 
-        // Validate input lengths
         if (address.length() < 5 || address.length() > 200) {
             errorMessages.add("Address must be between 5 and 200 characters.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
         }
         if (phoneNumber.length() < 6 || phoneNumber.length() > 11) {
             errorMessages.add("Phone number must be between 6 and 11 characters.");
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            return;
         }
 
         ContactInformationDAO contactInfoDAO = new ContactInformationDAO();
         AccountDAO accountDAO = new AccountDAO();
         StaffDAO staffDAO = new StaffDAO();
 
+        if (accountDAO.isEmailExist(email)) {
+            errorMessages.add("Email already exists. Please use a different email.");
+        }
+
+        if (!errorMessages.isEmpty()) {
+            request.getSession().setAttribute("msg", String.join("<br>", errorMessages));
+            response.sendRedirect("registerstaff");
+            return;
+        }
+
         ContactInformation contact = contactInfoDAO.getContactInformationByAddressAndPhone(address, phoneNumber);
-        //if contact don't have in database, add new contact to database
         if (contact == null) {
             contact = new ContactInformation(address, phoneNumber);
             contact.setContactInformationID(contactInfoDAO.addContact(contact));
         }
 
         try {
-            if(errorMessages.isEmpty()) {
-                Account newAccount = new Account(Integer.valueOf(roleID),email,name,genderID, "123456789", birth,LocalDateTime.now(),3);
-                Integer accountID = accountDAO.addAccount(newAccount);
-                if (accountID != null) {
-                    Staff newStaff = new Staff(accountID, 1000, Integer.parseInt(warehouseID));
-                    AccountContact accountContact = new AccountContact(accountID,contact.getContactInformationID(),1);
-                    new AccountContactDAO().addAccountContact(accountContact);
-                    staffDAO.addStaff(newStaff);
-                    request.getSession().setAttribute("msg", "Successfully added staff.");
-                    response.sendRedirect("registerstaff");
-                } else {
-                    contactInfoDAO.deleteContact(contact.getContactInformationID());
-                    request.getSession().setAttribute("msg", "Don't Successfully added staff.");
-                    response.sendRedirect("registerstaff");
-                }
+            Account newAccount = new Account(Integer.valueOf(roleID), email, name, genderID, "123456789", birth, LocalDateTime.now(), 3);
+            Integer accountID = accountDAO.addAccount(newAccount);
+            if (accountID != null) {
+                Staff newStaff = new Staff(accountID, 1000, Integer.parseInt(warehouseID));
+                AccountContact accountContact = new AccountContact(accountID, contact.getContactInformationID(), 1);
+                new AccountContactDAO().addAccountContact(accountContact);
+                staffDAO.addStaff(newStaff);
+                request.getSession().setAttribute("msg", "Successfully added staff.");
+            } else {
+                contactInfoDAO.deleteContact(contact.getContactInformationID());
+                request.getSession().setAttribute("msg", "Failed to add staff.");
             }
+            response.sendRedirect("registerstaff");
         } catch (Exception e) {
-            request.getSession().setAttribute("msg", "Don't Successfully added staff.");
+            request.getSession().setAttribute("msg", "An error occurred while adding staff.");
             response.sendRedirect("registerstaff");
         }
     }

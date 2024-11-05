@@ -46,7 +46,7 @@
               <option value="4">Warehouse Management</option>
               <option value="5">Sales Management</option>
             </select>
-          </div><!-- form-group// -->
+          </div>
 
           <div class="mb-3">
             <label class="form-label">Warehouse</label>
@@ -60,12 +60,10 @@
               %>
             </select>
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Name</label>
             <input class="form-control" name="name" maxlength="100" placeholder="Your name" type="text" required />
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Gender</label>
             <select class="form-control" name="gender" required>
@@ -73,12 +71,10 @@
               <option value="2">Female</option>
             </select>
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Email</label>
             <input class="form-control" name="email" placeholder="Your email" type="email" required />
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Phone Number</label>
 
@@ -88,16 +84,13 @@
             <label class="form-label">Address</label>
             <input class="form-control" name="address" maxlength="200" placeholder="Adress" type="text" required />
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Birth</label>
             <input class="form-control" name="birth" type="date" required id="datePicker"/>
           </div>
-          <!-- form-group  .// -->
           <div class="mb-4">
             <button type="submit" class="btn btn-primary w-100">Submit</button>
           </div>
-          <!-- form-group// -->
         </form>
       </div>
     </div>

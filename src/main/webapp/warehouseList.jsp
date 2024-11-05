@@ -10,17 +10,30 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:title" content="" />
-  <meta property="og:type" content="" />
-  <meta property="og:url" content="" />
-  <meta property="og:image" content="" />
-  <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
-  <!-- Template CSS -->
   <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+  <style>
+    .pagination a.active {
+      background-color: forestgreen;
+      color: white;
+      text-decoration: underline;
+    }
+    .pagination a {
+      margin-right: 10px;
+      color: #000;
+    }
+    .pagination span {
+      margin-right: 10px;
+    }
+  </style>
 </head>
 
 <body>
+<%
+  String msg = (String)session.getAttribute("msg");
+  if(msg==null) msg="";
+  session.removeAttribute("msg");
+%>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
   <jsp:param name="page" value=""/>
@@ -78,6 +91,8 @@
                 </select>
               </div>
 
+              <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
+
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary" id="submit_button">Create Warehouse</button>
                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
@@ -94,7 +109,6 @@
                   <th>Address</th>
                   <th>Phone Number</th>
                   <th>Status</th>
-<%--                  <th class="text-end">Action</th>--%>
                 </tr>
                 </thead>
                 <tbody>
@@ -108,15 +122,10 @@
                 <tr>
                   <td onclick="populateForm('<%= warehouse.getWarehouseID() %>', '<%= warehouse.getName() %>', '<%= contactInfo.getAddress() %>', '<%= contactInfo.getPhoneNumber() %>', '<%= status.getStatusID() %>','<%= contactInfo.getContactInformationID() %>')">
                     <%= warehouse.getWarehouseID() %></td>
-                    <td><%= warehouse.getName() %></td>
+                  <td><%= warehouse.getName() %></td>
                   <td><%= contactInfo.getAddress() %></td>
                   <td><%= contactInfo.getPhoneNumber() %></td>
                   <td><%= status.getDetail() %></td>
-<%--                  <td class="text-end">--%>
-<%--                    <button class="btn btn-light rounded btn-sm font-sm">--%>
-<%--                      <a href="warehouseDelete?warehouseID=<%= warehouse.getWarehouseID() %>"><i class="material-icons md-delete"></i>Delete</a>--%>
-<%--                    </button>--%>
-<%--                  </td>--%>
                 </tr>
                 <%
                   }
@@ -130,6 +139,48 @@
                 %>
                 </tbody>
               </table>
+              <div class="pagination">
+                <%
+                  int currentPage = (Integer) request.getAttribute("currentPage");
+                  int totalPages = (Integer) request.getAttribute("totalPages");
+                  int visiblePages = 5;
+
+                  if (totalPages > 1) {
+                    if (currentPage >= 1) {
+                %>
+                <a href="warehouseList?page=1" class="<%= (currentPage == 1) ? "active" : "" %>">1</a>
+                <%
+                  }
+
+                  if (currentPage > visiblePages) {
+                %>
+                <span>...</span>
+                <%
+                  }
+
+                  int startPage = Math.max(2, currentPage - 2);
+                  int endPage = Math.min(totalPages - 1, currentPage + 2);
+
+                  for (int i = startPage; i <= endPage; i++) {
+                %>
+                <a href="warehouseList?page=<%= i %>" class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a>
+                <%
+                  }
+
+                  if (currentPage < totalPages - visiblePages + 1) {
+                %>
+                <span>...</span>
+                <%
+                  }
+
+                  if (currentPage < totalPages) {
+                %>
+                <a href="warehouseList?page=<%= totalPages %>" class="<%= (currentPage == totalPages) ? "active" : "" %>"><%= totalPages %></a>
+                <%
+                    }
+                  }
+                %>
+              </div>
             </div>
           </div>
         </div>
@@ -137,9 +188,8 @@
     </div>
   </section>
 
-  <!-- Script to populate the form -->
   <script>
-    function populateForm(warehouseID, warehouseName, address, phone, statusID,contactID) {
+    function populateForm(warehouseID, warehouseName, address, phone, statusID, contactID) {
       document.getElementById("warehouse_name").value = warehouseName;
       document.getElementById("address").value = address;
       document.getElementById("phone").value = phone;
@@ -171,14 +221,13 @@
     }
   </script>
 
-  <!-- content-main end// -->
   <footer class="main-footer font-xs">
     <div class="row pb-30 pt-15">
       <div class="col-sm-6">
         <script>
           document.write(new Date().getFullYear());
         </script>
-        &copy; Nest - HTML Ecommerce Template .
+        &copy; Nest - HTML Ecommerce Template.
       </div>
       <div class="col-sm-6">
         <div class="text-sm-end">All rights reserved</div>
@@ -192,7 +241,6 @@
 <script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
 <script src="nest-backend/assets/js/vendors/chart.js"></script>
-<!-- Main Script -->
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 <script src="nest-backend/assets/js/custom-chart.js" type="text/javascript"></script>
 </body>

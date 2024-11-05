@@ -1,5 +1,6 @@
 <%@ page import="model.Category" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,18 +63,24 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <td> Product (s) </td>
                                     <th class="text-end">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
                                     List<Category> categoryList = (List<Category>) request.getAttribute("categoryList");
+                                    Map<Integer, Integer> productCountByCategory = (Map<Integer, Integer>) request.getAttribute("productCountByCategory");
+
                                     if (categoryList != null && !categoryList.isEmpty()) {
                                         for (Category category : categoryList) {
                                 %>
-                                <tr >
+                                <tr>
                                     <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><%= category.getCategoryID() %></td>
                                     <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><b><%= category.getName() %></b></td>
+                                    <td>
+                                        <%= productCountByCategory.getOrDefault(category.getCategoryID(), 0) %>
+                                    </td>
                                     <td class="text-end">
                                         <button class="btn btn-light rounded btn-sm font-sm">
                                             <a href="categoryDelete?categoryID=<%=category.getCategoryID()%>"><i class="material-icons md-delete"></i>Delete</a>
