@@ -111,7 +111,7 @@
                                 <div class="post-thumb" ></div>
                                 <div class="entry-content-2 pl-50">
                                     <h3 class="post-title mb-20">
-                                        <a href="blog-post-right.html">${n.title}</a>
+                                        <a href="new-detail?newsId=${n.newsID}">${n.title}</a>
                                     </h3>
                                     <p class="post-exerpt mb-40">
                                         <c:choose>
@@ -124,7 +124,7 @@
                                         </c:choose>
                                     </p>
                                     <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
-                                        <a href="blog-post-right.html" class="text-brand font-heading font-weight-bold">
+                                        <a href="new-detail?newsId=${n.newsID}" class="text-brand font-heading font-weight-bold">
                                             Read more <i class="fi-rs-arrow-right"></i>
                                         </a>
                                     </div>
