@@ -82,7 +82,7 @@
                                     <a href="shop-grid-left.jsp">Product</a>
                                 </li>
                                 <li>
-                                    <a href="#">News</a>
+                                    <a href="news.jsp">News</a>
                                 </li>
                                 <li>
                                     <a href="#">About Us</a>
