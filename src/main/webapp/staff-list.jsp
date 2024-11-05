@@ -15,8 +15,8 @@
   <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
   <!-- Template CSS -->
   <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
-</head>
 
+</head>
 <body>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">

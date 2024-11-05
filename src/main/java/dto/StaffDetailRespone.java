@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class StaffDetailRespone {
     private int roleID;
-    private int statusID;
+    private int statusID,gender;
     private String name;
     private String email;
     private String phoneNumber;
@@ -12,12 +12,14 @@ public class StaffDetailRespone {
     private LocalDateTime birth;
     private int salary;
     private int warehouseID;
+    private String nameWarehouse;
 
     public StaffDetailRespone() {}
 
-    public StaffDetailRespone(int roleID,int statusID, String name, String email, String phoneNumber, String address, LocalDateTime birth, int salary, int warehouseID) {
+    public StaffDetailRespone(int roleID, int statusID, int gender, String name, String email, String phoneNumber, String address, LocalDateTime birth, int salary, int warehouseID, String nameWarehouse) {
         this.roleID = roleID;
         this.statusID = statusID;
+        this.gender = gender;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -25,9 +27,10 @@ public class StaffDetailRespone {
         this.birth = birth;
         this.salary = salary;
         this.warehouseID = warehouseID;
+        this.nameWarehouse = nameWarehouse;
     }
 
-   public int getRoleID() {
+    public int getRoleID() {
         return roleID;
    }
    public void setRoleID(int roleID) {
@@ -94,4 +97,20 @@ public class StaffDetailRespone {
    public void setWarehouseID(int warehouseID) {
         this.warehouseID = warehouseID;
    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getNameWarehouse() {
+        return nameWarehouse;
+    }
+
+    public void setNameWarehouse(String nameWarehouse) {
+        this.nameWarehouse = nameWarehouse;
+    }
 }

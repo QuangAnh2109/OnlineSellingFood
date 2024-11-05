@@ -51,14 +51,9 @@
 
                     <div class="mb-3">
                         <label class="form-label">Gender</label>
-                        <%
-                            StaffDetailRespone sdr = (StaffDetailRespone)request.getAttribute("staffListDetail");
-                            int accountID = (int)request.getAttribute("accountID");
-                            int genderID = new AccountDAO().getAccountByAccountID(accountID).getGenderID();
-                        %>
                         <select class="form-control" name="gender" required>
-                            <option <%if(genderID==1){out.print("selected");}%> value="1">Male</option>
-                            <option <%if(genderID==2){out.print("selected");}%> value="2">Female</option>
+                            <option value="1" ${staffListDetail.gender == '1' ? 'selected' : ''}>Male</option>
+                            <option value="2" ${staffListDetail.gender == '2' ? 'selected' : ''}>Female</option>
                         </select>
                     </div>
 
@@ -80,13 +75,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Birth</label>
-                        <%
-                            String birth = "";
-                            if(sdr.getBirth()!=null){
-                                birth = sdr.getBirth().format(DateTimeFormatter.ISO_LOCAL_DATE);
-                            }
-                        %>
-                        <input class="form-control" name="birth" value="<%=birth%>" type="date"/>
+                        <input class="form-control" name="birth" value="${formattedBirth}" type="date"/>
                     </div>
 
                     <div class="mb-3">
@@ -98,26 +87,19 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Warehouse Name</label>
-                        <%
-                            List<Warehouse> warehouses = (List<Warehouse>)request.getAttribute("warehouses");
-                        %>
-                        selected
-                        <select class="form-control" name="warehouseID" required>
-                            <%
-                                for(Warehouse warehouse:warehouses){
-                                    int warehouseID = warehouse.getWarehouseID();
-                            %>
-                            <option <%if(sdr.getWarehouseID()==warehouseID){out.print("selected");}%> value="<%=warehouseID%>" ><%=warehouse.getName()%></option>
-                            <%
-                                }
-                            %>
-                        </select>
+
+                            <select class="form-control" name="warehouseID" required>
+                                <c:forEach items="${warehouses}" var="wh">
+                                <option value="${wh.warehouseID}" ${staffListDetail.warehouseID == wh.warehouseID ? 'selected' : ''}> ${wh.name}</option>
+                                </c:forEach>
+                            </select>
+
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Status Account</label>
                         <select class="form-control" name="statusID" required>
                             <option value="1" ${staffListDetail.statusID == 1 ? 'selected' : ''}>Activity</option>
-<%--                            <option value="2" ${staffListDetail.statusID == 2 ? 'selected' : ''}>No Authenticate</option>--%>
                             <option value="3" ${staffListDetail.statusID == 3 ? 'selected' : ''}>Password change request</option>
                             <option value="4" ${staffListDetail.statusID == 4? 'selected' : ''}>Lock</option>
 

@@ -40,18 +40,17 @@ public class StaffDAO extends DBContext{
         return null;
     }
 
-    public boolean updateStaffInformation(Staff staff){
-        try{
-            PreparedStatement ps = connection.prepareStatement("update Staff set Salary=?, WarehouseID=? where StaffID=?", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, staff.getSalary());
-            ps.setInt(2, staff.getWarehouseID());
-            ps.setInt(3, staff.getStaffID());
-            ResultSet rs = executeUpdate(ps);
-            if(rs!=null)return rs.next();
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+    public void updateStaffInformation(Staff staff){
+        String sql="update Staff set Salary=?, WarehouseID=? where StaffID=?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setDouble(1, staff.getSalary());
+            st.setInt(2, staff.getWarehouseID());
+            st.setInt(3, staff.getStaffID());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
     public Integer addStaff(Staff staff){
@@ -115,17 +114,14 @@ public class StaffDAO extends DBContext{
             PreparedStatement st=connection.prepareStatement(sql);
             st.setInt(1, accountID);
             ResultSet rs=st.executeQuery();
-            Staff staff =new Staff();
-
-            while(rs.next()){
-                staff.setStaffID(rs.getInt("StaffID"));
-
+            if(rs.next()){
+                return rs.getInt("StaffID");
             }
 
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return accountID;
+        return -1;
     }
     public List<StaffListResponse> getAllStaff(){
         List<StaffListResponse> listStaff = new ArrayList<StaffListResponse>();
@@ -151,7 +147,7 @@ public class StaffDAO extends DBContext{
     }
 
     public StaffDetailRespone getStaffDetail(int accountID){
-        String sql = "select r.[RoleID],[as].StatusID,a.Name,a.Email,ci.PhoneNumber,ci.[Address],a.Birth,s.Salary,w.[WarehouseID]\n" +
+        String sql = "select r.[RoleID],[as].StatusID,a.Name,a.Email,ci.PhoneNumber,ci.[Address],a.Birth,a.GenderID,s.Salary,w.[WarehouseID],w.[Name]as NameWarehouse\n" +
                 "from Account a join Staff s on a.AccountID = s.AccountID\n" +
                 "join [Role] r on r.RoleID = a.RoleID\n" +
                 "join Warehouse w on w.WarehouseID = s.WarehouseID\n" +
@@ -169,6 +165,7 @@ public class StaffDAO extends DBContext{
             while(rs.next()){
                 sdr.setRoleID(rs.getInt("RoleID"));
                 sdr.setStatusID(rs.getInt("StatusID"));
+                sdr.setGender(rs.getInt("GenderID"));
                 sdr.setName(rs.getString("Name"));
                 sdr.setEmail(rs.getString("Email"));
                 sdr.setPhoneNumber(rs.getString("PhoneNumber"));
@@ -176,6 +173,7 @@ public class StaffDAO extends DBContext{
                 sdr.setBirth(rs.getObject("Birth", LocalDateTime.class));
                 sdr.setSalary(rs.getInt("Salary"));
                 sdr.setWarehouseID(rs.getInt("WarehouseID"));
+                sdr.setNameWarehouse(rs.getString("NameWarehouse"));
 
             }
             return sdr;
@@ -203,4 +201,8 @@ public class StaffDAO extends DBContext{
         }
         return 0;
     }
+
+
+
 }
+

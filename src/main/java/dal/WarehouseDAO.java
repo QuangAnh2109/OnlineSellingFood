@@ -10,79 +10,79 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class WarehouseDAO extends DBContext{
+public class WarehouseDAO extends DBContext {
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new Warehouse(rs.getInt("WarehouseID"), rs.getInt("ContactInformationID"), rs.getInt("StatusID"), rs.getString("Name"));
     }
 
-    public Warehouse getWarehouse(int warehouseID){
-        try{
+    public Warehouse getWarehouse(int warehouseID) {
+        try {
             PreparedStatement ps = connection.prepareStatement("select * from Warehouse where WarehouseID=?");
             ps.setInt(1, warehouseID);
-            return (Warehouse)getObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            return (Warehouse) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
 
-    public List<Warehouse> getAllWarehouse(){
-        try{
+    public List<Warehouse> getAllWarehouse() {
+        try {
             PreparedStatement ps = connection.prepareStatement("select * from Warehouse");
             return (List<Warehouse>) (Object) getListObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return Collections.emptyList();
     }
 
-    public List<Warehouse> getAllWarehouseActivity(){
-        try{
+    public List<Warehouse> getAllWarehouseActivity() {
+        try {
             PreparedStatement ps = connection.prepareStatement("select * from Warehouse where StatusID=1");
             return (List<Warehouse>) (Object) getListObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return Collections.emptyList();
     }
 
-    public List<Warehouse> getAllWarehouseClose(){
-        try{
+    public List<Warehouse> getAllWarehouseClose() {
+        try {
             PreparedStatement ps = connection.prepareStatement("select * from Warehouse where StatusID=2");
             return (List<Warehouse>) (Object) getListObject(ps);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return Collections.emptyList();
     }
 
-    public boolean updateWarehouse(Warehouse warehouse){
-        try{
+    public boolean updateWarehouse(Warehouse warehouse) {
+        try {
             PreparedStatement ps = connection.prepareStatement("update Warehouse set ContactInformationID=?, StatusID=?, Name=? where WarehouseID=?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, warehouse.getContactInformationID());
             ps.setInt(2, warehouse.getStatusID());
             ps.setNString(3, warehouse.getName());
             ps.setInt(4, warehouse.getWarehouseID());
             ResultSet rs = executeUpdate(ps);
-            if(rs!=null)
+            if (rs != null)
                 return rs.next();
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return false;
     }
 
-    public Integer addWarehouse(Warehouse warehouse){
-        try{
+    public Integer addWarehouse(Warehouse warehouse) {
+        try {
             PreparedStatement ps = connection.prepareStatement("insert Warehouse (ContactInformationID,StatusID,Name) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, warehouse.getContactInformationID());
             ps.setInt(2, warehouse.getStatusID());
             ps.setNString(3, warehouse.getName());
             ResultSet rs = executeUpdate(ps);
-            if(rs!=null&&rs.next()) return rs.getInt(1);
-        }catch (SQLException e){
-            logger.info(getClass().getName()+": "+e.getMessage());
+            if (rs != null && rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
@@ -108,13 +108,14 @@ public class WarehouseDAO extends DBContext{
         }
         return warehouses;
     }
+
     public List<Warehouse> getAllWarehouses() throws SQLException {
         List<Warehouse> warehouses = new ArrayList<>();
         String sql = "SELECT * FROM Warehouse"; // Thay đổi tên bảng nếu cần
 
         try (
-             PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Warehouse warehouse = new Warehouse();
@@ -127,4 +128,27 @@ public class WarehouseDAO extends DBContext{
         }
         return warehouses;
     }
+
+    public List<Warehouse> getAllWareHouseActive() {
+        List<Warehouse> warehouses = new ArrayList<>();
+        String sql = "SELECT * FROM Warehouse WHERE StatusID=1";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Warehouse warehouse = new Warehouse();
+                warehouse.setWarehouseID(rs.getInt("WarehouseID"));
+                warehouse.setName(rs.getString("Name"));
+                warehouse.setContactInformationID(rs.getInt("ContactInformationID"));
+                warehouse.setStatusID(rs.getInt("StatusID"));
+                warehouses.add(warehouse);
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return warehouses;
+    }
+
 }
+

@@ -41,6 +41,40 @@ public class ContactInformationDAO extends DBContext{
         return false;
     }
 
+    public ContactInformation getContactInformationByAccountID(int accountID){
+        ContactInformation ci = new ContactInformation();
+        String sql="SELECT ci.ContactInformationID, ci.Address, ci.PhoneNumber\n" +
+                "FROM ContactInformation ci \n" +
+                "JOIN AccountContact ac ON ci.ContactInformationID = ac.ContactInformationID\n" +
+                "WHERE ac.AccountID = ?";
+        try {
+         PreparedStatement st=connection.prepareStatement(sql);
+         st.setInt(1, accountID);
+         ResultSet rs = st.executeQuery();
+         if(rs!=null&&rs.next()){
+             ci.setContactInformationID(rs.getInt("ContactInformationID"));
+             ci.setAddress(rs.getString("Address"));
+             ci.setPhoneNumber(rs.getString("PhoneNumber"));
+
+         }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ci;
+    }
+
+    public void update(ContactInformation contactInformation){
+        String sql="UPDATE ContactInformation SET Address = ?, PhoneNumber = ? WHERE ContactInformationID = ?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setString(1, contactInformation.getAddress());
+            st.setString(2, contactInformation.getPhoneNumber());
+            st.setInt(3, contactInformation.getContactInformationID());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public ContactInformation getContactInformationByContactID(Integer contactInformationID){
         try{
             PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where ContactInformationID=?");
@@ -51,6 +85,8 @@ public class ContactInformationDAO extends DBContext{
         }
         return null;
     }
+
+
     public ContactInformation getContactInformationByAddressAndPhone(String Adress, String phoneNumber){
         try{
             PreparedStatement ps = connection.prepareStatement("select * from ContactInformation where PhoneNumber=? and Address=?");
@@ -83,4 +119,5 @@ public class ContactInformationDAO extends DBContext{
         }
         return contact.getContactInformationID();
     }
+
 }
