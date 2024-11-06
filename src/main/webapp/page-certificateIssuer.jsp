@@ -1,6 +1,7 @@
 <%@ page import="model.Category" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.CertificateIssuer" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,13 +31,13 @@
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Certificate Issuers</h2>
-        <p>Add, edit or delete a certificate issuer</p>
+        <h2 class="content-title card-title">Nhà phát hành chứng chỉ</h2>
+        <p>Thêm, sửa, xóa nhà phát hành chứng chỉ</p>
       </div>
       <div>
         <form action="certificateIssuerSearch" method="post">
           <input type="text" name="searchKeyword" placeholder="Search Certificate Issuers" class="form-control bg-white" />
-          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>
       </div>
     </div>
@@ -46,16 +47,16 @@
           <div class="col-md-3">
             <form action="certificateIssuerCU" method="post" onsubmit="return validateForm()">
               <div class="mb-4">
-                <label for="certificate_name" class="form-label">Name</label>
+                <label for="certificate_name" class="form-label">Tên</label>
                 <input type="text" placeholder="Type here" class="form-control" id="certificate_name" name="name" required />
                 <input type="hidden" id="certificate_issuer_id" name="certificateIssuerID" />
               </div>
               <div class="mb-4">
-                <label for="certificate_detail" class="form-label">Detail</label>
+                <label for="certificate_detail" class="form-label">Chi tiết</label>
                 <textarea placeholder="Details here" class="form-control" id="certificate_detail" name="detail" required></textarea>
               </div>
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="submit_button">Create certificate issuer</button>
+                <button type="submit" class="btn btn-primary" id="submit_button">Tạo 1 nhà phát hành mới</button>
                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
               </div>
             </form>
@@ -65,10 +66,10 @@
               <table class="table table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Detail</th>
-                  <th class="text-end">Action</th>
+                  <th>Mã</th>
+                  <th>Tên</th>
+                  <th>Chi tiết</th>
+                  <th class="text-end">Xóa</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -83,7 +84,7 @@
                   <td><%= issuer.getDetail() %></td>
                   <td class="text-end">
                     <button class="btn btn-light rounded btn-sm font-sm">
-                      <a href="certificateIssuerDelete?certificateIssuerID=<%=issuer.getCertificateIssuerID()%>"><i class="material-icons md-delete"></i>Delete</a>
+                      <a href="certificateIssuerDelete?certificateIssuerID=<%=issuer.getCertificateIssuerID()%>"><i class="material-icons md-delete"></i>Xóa</a>
                     </button>
                   </td>
                 </tr>
@@ -92,7 +93,7 @@
                 } else {
                 %>
                 <tr>
-                  <td colspan="4" class="text-center">No certificate issuers found.</td>
+                  <td colspan="4" class="text-center">Không tìm thấy nhà phát hành nào</td>
                 </tr>
                 <%
                   }
@@ -110,9 +111,8 @@
         document.getElementById("certificate_name").value = certificateIssuerName;
         document.getElementById("certificate_detail").value = certificateIssuerDetail;
         document.getElementById("certificate_issuer_id").value = certificateIssuerID;
-        document.getElementById("submit_button").innerText = "Update certificate issuer"; // Đổi nhãn nút thành "Update"
+        document.getElementById("submit_button").innerText = "Cập nhật nhà phát hành";
 
-        // Hiển thị nút Cancel
         document.getElementById("cancel_button").style.display = "block";
       }
 
@@ -123,12 +123,12 @@
 
       if (nameField.value.trim() === "") {
         alert("Please enter a certificate issuer name.");
-        return false; // Ngăn gửi form nếu trường tên để trống
+        return false;
       }
 
       if (detailField.value.trim() === "") {
         alert("Please enter certificate issuer detail.");
-        return false; // Ngăn gửi form nếu trường chi tiết để trống
+        return false;
       }
 
       return true;

@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Origin" %>
 <%@ page import="java.util.Map" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,13 +47,13 @@
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Origins</h2>
-        <p>List of product origins</p>
+        <h2 class="content-title card-title">Nguồn gốc sản phẩm</h2>
+        <p>Danh sách nguồn gốc sản phẩm</p>
       </div>
       <div>
         <form action="originSearch" method="post">
-          <input type="text" name="searchKeyword" placeholder="Search Origins" class="form-control bg-white" />
-          <button type="submit" class="btn btn-primary">Search</button>
+          <input type="text" name="searchKeyword" placeholder="Tìm kiếm nguồn gôốc" class="form-control bg-white" />
+          <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>
       </div>
     </div>
@@ -62,9 +63,9 @@
           <table class="table table-hover">
             <thead>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th id="sort-products" style="cursor: pointer;">Product(s)</th>
+              <th>Mã</th>
+              <th>Tên</th>
+              <th id="sort-products" style="cursor: pointer;">Số sản phẩm</th>
             </tr>
             </thead>
             <tbody>
@@ -85,7 +86,7 @@
             } else {
             %>
             <tr>
-              <td colspan="3" class="text-center">No origins found.</td>
+              <td colspan="3" class="text-center">Không tìm thấy nguồn gốc sản phẩm nào</td>
             </tr>
             <%
               }

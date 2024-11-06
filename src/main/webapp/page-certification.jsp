@@ -4,7 +4,7 @@
 <%@ page import="model.CertificateIssuer" %>
 <%@ page import="dal.ImgDAO" %>
 <%@ page import="dal.CertificateIssuerDAO" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,13 +39,13 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Certifications</h2>
-                <p>Add, edit or delete a certification</p>
+                <h2 class="content-title card-title">Chứng chỉ</h2>
+                <p>Tạo, sửa, xóa chứng chỉ sản phẩm</p>
             </div>
             <div>
                 <form action="certificationSearch" method="post">
                     <input type="text" name="searchKeyword" placeholder="Search Certifications" class="form-control bg-white" />
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>
             </div>
         </div>
@@ -55,16 +55,16 @@
                     <div class="col-md-3">
                         <form action="certificationCU" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                             <div class="mb-4">
-                                <label for="certificate_name" class="form-label">Name</label>
+                                <label for="certificate_name" class="form-label">Tên</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="certificate_name" name="name" required />
                                 <input type="hidden" id="certification_id" name="certificationID" value="" />
                             </div>
                             <div class="mb-4">
-                                <label for="certificate_detail" class="form-label">Detail</label>
+                                <label for="certificate_detail" class="form-label">Chi tiết</label>
                                 <input type="text" placeholder="Enter details" class="form-control" id="certificate_detail" name="detail" required />
                             </div>
                             <div class="mb-4">
-                                <label for="certificate_issuer" class="form-label">Certificate Issuer</label>
+                                <label for="certificate_issuer" class="form-label">Nhà phát hành chứng chỉ</label>
                                 <select class="form-control" id="certificate_issuer" name="certificateIssuerID" required>
                                     <%
                                         List<CertificateIssuer> issuerList = (List<CertificateIssuer>) request.getAttribute("issuerList");
@@ -79,13 +79,13 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label for="imagefile" class="form-label">Upload Image</label>
+                                <label for="imagefile" class="form-label">Tải ảnh lên</label>
                                 <input type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                             </div>
                             <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" >Create certification</button>
-                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
+                                <button type="submit" class="btn btn-primary" >Tạo chứng chỉ mới</button>
+                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Hủy</button>
                             </div>
 
                         </form>
@@ -96,12 +96,12 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Detail</th>
-                                    <th>Issuer</th>
-                                    <th>Image</th>
-                                    <th class="text-end">Action</th>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Chi tiết</th>
+                                    <th>Nhà phát hành</th>
+                                    <th>Ảnh</th>
+                                    <th class="text-end">Xóa</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -125,7 +125,7 @@
                                     <td><img src="Img/<%= imgdao.getImgLinkByID(certification.getImgID()) %>" alt="Image" style="width: 100px; height: auto;"></td>
                                     <td class="text-end">
                                         <button class="btn btn-light rounded btn-sm font-sm">
-                                            <a href="certificationDelete?certificationID=<%= certification.getCertificationID() %>"><i class="material-icons md-delete"></i>Delete</a>
+                                            <a href="certificationDelete?certificationID=<%= certification.getCertificationID() %>"><i class="material-icons md-delete"></i>Xóa</a>
                                         </button>
                                     </td>
                                 </tr>
@@ -134,7 +134,7 @@
                                 } else {
                                 %>
                                 <tr>
-                                    <td colspan="6" class="text-center">No certifications found.</td>
+                                    <td colspan="6" class="text-center">Không tìm thấy chứng chỉ</td>
                                 </tr>
                                 <%
                                     }
@@ -160,7 +160,7 @@
             const imgTag = document.getElementById("imagefile");
             imgTag.src = imgID;
 
-            document.getElementById("submit_button").innerText = "Update certification";
+            document.getElementById("submit_button").innerText = "Cập nhật chứng chỉ";
             document.getElementById("cancel_button").style.display = "block";
         }
 
@@ -168,7 +168,7 @@
             const nameField = document.getElementById("certificate_name");
             const detailField = document.getElementById("certificate_detail");
             if (nameField.value.trim() === "" || detailField.value.trim() === "") {
-                alert("Please fill in all required fields.");
+                alert("Hãy điền toàn bộ thông tin vào phần input");
                 return false;
             }
             return true;

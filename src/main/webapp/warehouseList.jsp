@@ -2,6 +2,7 @@
 <%@ page import="model.ContactInformation" %>
 <%@ page import="model.WarehouseStatus" %>
 <%@ page import="model.Warehouse" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,13 +45,13 @@
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Warehouses</h2>
-        <p>Add, edit or delete a warehouse</p>
+        <h2 class="content-title card-title">Kho hàng</h2>
+        <p>Sửa, thêm, tìm kiếm kho hàng</p>
       </div>
       <div>
         <form action="warehouseList" method="get">
-          <input type="text" name="search" placeholder="Search Warehouses" class="form-control bg-white" />
-          <button type="submit" class="btn btn-primary">Search</button>
+          <input type="text" name="search" placeholder="Tìm kiếm kho" class="form-control bg-white" />
+          <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>
       </div>
     </div>
@@ -60,24 +61,24 @@
           <div class="col-md-3">
             <form action="warehouseCU" method="post" onsubmit="return validateForm()">
               <div class="mb-4">
-                <label for="warehouse_name" class="form-label">Name</label>
+                <label for="warehouse_name" class="form-label">Tên</label>
                 <input type="text" placeholder="Type here" class="form-control" id="warehouse_name" name="name" required />
                 <input type="hidden" id="warehouse_id" name="warehouseID" />
               </div>
               <div class="mb-4">
-                <label for="address" class="form-label">Address</label>
+                <label for="address" class="form-label">Địa chỉ</label>
                 <input type="text" placeholder="Type here" class="form-control" id="address" name="address" required />
               </div>
               <div class="mb-4">
-                <label for="phone" class="form-label">Phone Number</label>
+                <label for="phone" class="form-label">Số điện thoại</label>
                 <input type="text" placeholder="Type here" class="form-control" id="phone" name="phone" required />
               </div>
 
               <input type="text" hidden class="form-control" id="contactID" name="contactID"/>
               <div class="mb-4">
-                <label for="status" class="form-label">Status</label>
+                <label for="status" class="form-label">Trạng thái</label>
                 <select class="form-control" id="status" name="statusID" required>
-                  <option value="" disabled selected>Select Status</option>
+                  <option value="" disabled selected>Chọn trạng thái</option>
                   <%
                     List<WarehouseStatus> statusList = (List<WarehouseStatus>) request.getAttribute("statusList");
                     if (statusList != null) {
@@ -94,8 +95,8 @@
               <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
 
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="submit_button">Create Warehouse</button>
-                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="submit_button">Tạo kho hàng</button>
+                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Hủy</button>
               </div>
             </form>
           </div>
@@ -104,11 +105,11 @@
               <table class="table table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Phone Number</th>
-                  <th>Status</th>
+                  <th>Mã</th>
+                  <th>Tên</th>
+                  <th>Địa chỉ</th>
+                  <th>Số điện thoại</th>
+                  <th>Trạng thái</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -132,7 +133,7 @@
                 } else {
                 %>
                 <tr>
-                  <td colspan="6" class="text-center">No warehouses found.</td>
+                  <td colspan="6" class="text-center">Không tìm thấy kho nào</td>
                 </tr>
                 <%
                   }
@@ -196,7 +197,7 @@
       document.getElementById("status").value = statusID;
       document.getElementById("contactID").value = contactID;
       document.getElementById("warehouse_id").value = warehouseID;
-      document.getElementById("submit_button").innerText = "Update Warehouse";
+      document.getElementById("submit_button").innerText = "Sửa kho";
 
       document.getElementById("cancel_button").style.display = "block";
     }
