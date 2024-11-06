@@ -9,9 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class ManufacturerDAO extends DBContext{
-    @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Manufacturer(rs.getInt(1),rs.getString(3),rs.getString(2));
+        return new Manufacturer(rs.getInt("ManufacturerID"),rs.getString("Introduce"),rs.getString("Name"),rs.getInt("productCount"));
     }
 
     public List<Manufacturer> getAllManufacturer() {

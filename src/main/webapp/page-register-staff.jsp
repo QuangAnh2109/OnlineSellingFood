@@ -1,11 +1,12 @@
 <%@ page import="model.Account" %>
 <%@ page import="model.Warehouse" %>
 <%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Nest Dashboard</title>
+  <title>Thương mại điện tử</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,21 +36,21 @@
   <section class="content-main mt-80 mb-80">
     <div class="card mx-auto card-login">
       <div class="card-body">
-        <h4 class="card-title mb-4">Create an Account</h4>
+        <h4 class="card-title mb-4">Tạo tài khoản mới</h4>
         <h5 style="color: red"><%=msg%></h5>
         <form action="registerstaff" method="post">
           <div class="mb-3">
-            <label class="form-label">Role ID</label>
+            <label class="form-label">Mã Vai trò</label>
             <select class="form-control" name="roleID" required>
-              <option value="2" selected>Delivery Staff</option>
-              <option value="3">Import Staff</option>
-              <option value="4">Warehouse Management</option>
-              <option value="5">Sales Management</option>
+              <option value="2" selected>Nhân viên giao hàng</option>
+              <option value="3">Nhân viên nhập hàng</option>
+              <option value="4">Quản lí kho</option>
+              <option value="5">Quản lý bán hàng</option>
             </select>
-          </div><!-- form-group// -->
+          </div>
 
           <div class="mb-3">
-            <label class="form-label">Warehouse</label>
+            <label class="form-label">Kho</label>
             <select class="form-control" name="WarehouseID" required>
               <%
                 for(Warehouse wh:(List<Warehouse>)request.getAttribute("warehouses")){
@@ -60,44 +61,37 @@
               %>
             </select>
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input class="form-control" name="name" maxlength="100" placeholder="Your name" type="text" required />
+            <label class="form-label">Tên</label>
+            <input class="form-control" name="name" maxlength="100" placeholder="Tên của bạn" type="text" required />
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Gender</label>
+            <label class="form-label">Giới tính</label>
             <select class="form-control" name="gender" required>
               <option value="1">Male</option>
               <option value="2">Female</option>
             </select>
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" name="email" placeholder="Your email" type="email" required />
+            <input class="form-control" name="email" placeholder="Email của bạn" type="email" required />
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Phone Number</label>
+            <label class="form-label">Số điện thoại</label>
 
-            <input class="form-control" name="phone" minlength="10" maxlength="10" placeholder="Phone Number" type="text" required />
+            <input class="form-control" name="phone" minlength="10" maxlength="10" placeholder="Số điện thoại của bạn" type="text" required />
           </div>
           <div class="mb-3">
-            <label class="form-label">Address</label>
-            <input class="form-control" name="address" maxlength="200" placeholder="Adress" type="text" required />
+            <label class="form-label">Địa chỉ</label>
+            <input class="form-control" name="address" maxlength="200" placeholder="Địa chỉ của bạn" type="text" required />
           </div>
-          <!-- form-group// -->
           <div class="mb-3">
-            <label class="form-label">Birth</label>
+            <label class="form-label">Ngày sinh</label>
             <input class="form-control" name="birth" type="date" required id="datePicker"/>
           </div>
-          <!-- form-group  .// -->
           <div class="mb-4">
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <button style="text-align: center" type="submit" class="btn btn-primary w-100">Thêm nhân viên</button>
           </div>
-          <!-- form-group// -->
         </form>
       </div>
     </div>

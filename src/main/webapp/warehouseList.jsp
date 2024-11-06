@@ -2,25 +2,39 @@
 <%@ page import="model.ContactInformation" %>
 <%@ page import="model.WarehouseStatus" %>
 <%@ page import="model.Warehouse" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Nest Dashboard</title>
+  <title>Thương mại điện tử</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:title" content="" />
-  <meta property="og:type" content="" />
-  <meta property="og:url" content="" />
-  <meta property="og:image" content="" />
-  <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
-  <!-- Template CSS -->
   <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+  <style>
+    .pagination a.active {
+      background-color: forestgreen;
+      color: white;
+      text-decoration: underline;
+    }
+    .pagination a {
+      margin-right: 10px;
+      color: #000;
+    }
+    .pagination span {
+      margin-right: 10px;
+    }
+  </style>
 </head>
 
 <body>
+<%
+  String msg = (String)session.getAttribute("msg");
+  if(msg==null) msg="";
+  session.removeAttribute("msg");
+%>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
   <jsp:param name="page" value=""/>
@@ -31,13 +45,13 @@
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Warehouses</h2>
-        <p>Add, edit or delete a warehouse</p>
+        <h2 class="content-title card-title">Kho hàng</h2>
+        <p>Sửa, thêm, tìm kiếm kho hàng</p>
       </div>
       <div>
         <form action="warehouseList" method="get">
-          <input type="text" name="search" placeholder="Search Warehouses" class="form-control bg-white" />
-          <button type="submit" class="btn btn-primary">Search</button>
+          <input type="text" name="search" placeholder="Tìm kiếm kho" class="form-control bg-white" />
+          <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>
       </div>
     </div>
@@ -47,24 +61,24 @@
           <div class="col-md-3">
             <form action="warehouseCU" method="post" onsubmit="return validateForm()">
               <div class="mb-4">
-                <label for="warehouse_name" class="form-label">Name</label>
-                <input type="text" placeholder="Type here" class="form-control" id="warehouse_name" name="name" required />
+                <label for="warehouse_name" class="form-label">Tên</label>
+                <input type="text" placeholder="Tên kho" class="form-control" id="warehouse_name" name="name" required />
                 <input type="hidden" id="warehouse_id" name="warehouseID" />
               </div>
               <div class="mb-4">
-                <label for="address" class="form-label">Address</label>
-                <input type="text" placeholder="Type here" class="form-control" id="address" name="address" required />
+                <label for="address" class="form-label">Địa chỉ</label>
+                <input type="text" placeholder="Địa chỉ kho" class="form-control" id="address" name="address" required />
               </div>
               <div class="mb-4">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" placeholder="Type here" class="form-control" id="phone" name="phone" required />
+                <label for="phone" class="form-label">Số điện thoại</label>
+                <input type="text" placeholder="Số điện thoại liên lạc" class="form-control" id="phone" name="phone" required />
               </div>
 
               <input type="text" hidden class="form-control" id="contactID" name="contactID"/>
               <div class="mb-4">
-                <label for="status" class="form-label">Status</label>
+                <label for="status" class="form-label">Trạng thái</label>
                 <select class="form-control" id="status" name="statusID" required>
-                  <option value="" disabled selected>Select Status</option>
+                  <option value="" disabled selected>Chọn trạng thái</option>
                   <%
                     List<WarehouseStatus> statusList = (List<WarehouseStatus>) request.getAttribute("statusList");
                     if (statusList != null) {
@@ -78,9 +92,11 @@
                 </select>
               </div>
 
+              <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
+
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="submit_button">Create Warehouse</button>
-                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="submit_button">Tạo kho hàng</button>
+                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Hủy</button>
               </div>
             </form>
           </div>
@@ -89,12 +105,11 @@
               <table class="table table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Phone Number</th>
-                  <th>Status</th>
-<%--                  <th class="text-end">Action</th>--%>
+                  <th>Mã</th>
+                  <th>Tên</th>
+                  <th>Địa chỉ</th>
+                  <th>Số điện thoại</th>
+                  <th>Trạng thái</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -108,28 +123,65 @@
                 <tr>
                   <td onclick="populateForm('<%= warehouse.getWarehouseID() %>', '<%= warehouse.getName() %>', '<%= contactInfo.getAddress() %>', '<%= contactInfo.getPhoneNumber() %>', '<%= status.getStatusID() %>','<%= contactInfo.getContactInformationID() %>')">
                     <%= warehouse.getWarehouseID() %></td>
-                    <td><%= warehouse.getName() %></td>
+                  <td><%= warehouse.getName() %></td>
                   <td><%= contactInfo.getAddress() %></td>
                   <td><%= contactInfo.getPhoneNumber() %></td>
                   <td><%= status.getDetail() %></td>
-<%--                  <td class="text-end">--%>
-<%--                    <button class="btn btn-light rounded btn-sm font-sm">--%>
-<%--                      <a href="warehouseDelete?warehouseID=<%= warehouse.getWarehouseID() %>"><i class="material-icons md-delete"></i>Delete</a>--%>
-<%--                    </button>--%>
-<%--                  </td>--%>
                 </tr>
                 <%
                   }
                 } else {
                 %>
                 <tr>
-                  <td colspan="6" class="text-center">No warehouses found.</td>
+                  <td colspan="6" class="text-center">Không tìm thấy kho nào</td>
                 </tr>
                 <%
                   }
                 %>
                 </tbody>
               </table>
+              <div class="pagination">
+                <%
+                  int currentPage = (Integer) request.getAttribute("currentPage");
+                  int totalPages = (Integer) request.getAttribute("totalPages");
+                  int visiblePages = 5;
+
+                  if (totalPages > 1) {
+                    if (currentPage >= 1) {
+                %>
+                <a href="warehouseList?page=1" class="<%= (currentPage == 1) ? "active" : "" %>">1</a>
+                <%
+                  }
+
+                  if (currentPage > visiblePages) {
+                %>
+                <span>...</span>
+                <%
+                  }
+
+                  int startPage = Math.max(2, currentPage - 2);
+                  int endPage = Math.min(totalPages - 1, currentPage + 2);
+
+                  for (int i = startPage; i <= endPage; i++) {
+                %>
+                <a href="warehouseList?page=<%= i %>" class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a>
+                <%
+                  }
+
+                  if (currentPage < totalPages - visiblePages + 1) {
+                %>
+                <span>...</span>
+                <%
+                  }
+
+                  if (currentPage < totalPages) {
+                %>
+                <a href="warehouseList?page=<%= totalPages %>" class="<%= (currentPage == totalPages) ? "active" : "" %>"><%= totalPages %></a>
+                <%
+                    }
+                  }
+                %>
+              </div>
             </div>
           </div>
         </div>
@@ -137,16 +189,15 @@
     </div>
   </section>
 
-  <!-- Script to populate the form -->
   <script>
-    function populateForm(warehouseID, warehouseName, address, phone, statusID,contactID) {
+    function populateForm(warehouseID, warehouseName, address, phone, statusID, contactID) {
       document.getElementById("warehouse_name").value = warehouseName;
       document.getElementById("address").value = address;
       document.getElementById("phone").value = phone;
       document.getElementById("status").value = statusID;
       document.getElementById("contactID").value = contactID;
       document.getElementById("warehouse_id").value = warehouseID;
-      document.getElementById("submit_button").innerText = "Update Warehouse";
+      document.getElementById("submit_button").innerText = "Sửa kho";
 
       document.getElementById("cancel_button").style.display = "block";
     }
@@ -171,14 +222,13 @@
     }
   </script>
 
-  <!-- content-main end// -->
   <footer class="main-footer font-xs">
     <div class="row pb-30 pt-15">
       <div class="col-sm-6">
         <script>
           document.write(new Date().getFullYear());
         </script>
-        &copy; Nest - HTML Ecommerce Template .
+        &copy; Nest - HTML Ecommerce Template.
       </div>
       <div class="col-sm-6">
         <div class="text-sm-end">All rights reserved</div>
@@ -192,7 +242,6 @@
 <script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
 <script src="nest-backend/assets/js/vendors/chart.js"></script>
-<!-- Main Script -->
 <script src="nest-backend/assets/js/main.js?v=1.1" type="text/javascript"></script>
 <script src="nest-backend/assets/js/custom-chart.js" type="text/javascript"></script>
 </body>

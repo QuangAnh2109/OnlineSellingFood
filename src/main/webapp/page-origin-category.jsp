@@ -1,10 +1,12 @@
 <%@ page import="model.Category" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,13 +31,13 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Categories</h2>
-                <p>Add, edit or delete a category</p>
+                <h2 class="content-title card-title">Loại sản phẩm</h2>
+                <p>Thêm, sửa, xóa loại sản phẩm</p>
             </div>
             <div>
                 <form action="categorySearch" method="post">
-                    <input type="text" name="searchKeyword" placeholder="Search Categories" class="form-control bg-white" />
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <input type="text" name="searchKeyword" placeholder="Tìm kiếm loại sản phẩm" class="form-control bg-white" />
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>
             </div>
         </div>
@@ -45,13 +47,13 @@
                     <div class="col-md-3">
                         <form action="categoryCU" method="post" onsubmit="return validateForm()">
                             <div class="mb-4">
-                                <label for="product_name" class="form-label">Name</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_name" name="name" required />
+                                <label for="product_name" class="form-label">Tên</label>
+                                <input type="text" placeholder="Tên loại" class="form-control" id="product_name" name="name" required />
                                 <input type="hidden" id="category_id" name="categoryID" />
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="submit_button">Create category</button>
-                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
+                                <button type="submit" class="btn btn-primary" id="submit_button">Tạo loại sản phẩm</button>
+                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Hủy</button>
                             </div>
                         </form>
                     </div>
@@ -60,23 +62,29 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th class="text-end">Action</th>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <td>Số sản phẩm</td>
+                                    <th class="text-end">Xóa</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
                                     List<Category> categoryList = (List<Category>) request.getAttribute("categoryList");
+                                    Map<Integer, Integer> productCountByCategory = (Map<Integer, Integer>) request.getAttribute("productCountByCategory");
+
                                     if (categoryList != null && !categoryList.isEmpty()) {
                                         for (Category category : categoryList) {
                                 %>
-                                <tr >
+                                <tr>
                                     <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><%= category.getCategoryID() %></td>
                                     <td onclick="populateForm('<%= category.getCategoryID() %>', '<%= category.getName() %>')"><b><%= category.getName() %></b></td>
+                                    <td>
+                                        <%= productCountByCategory.getOrDefault(category.getCategoryID(), 0) %>
+                                    </td>
                                     <td class="text-end">
                                         <button class="btn btn-light rounded btn-sm font-sm">
-                                            <a href="categoryDelete?categoryID=<%=category.getCategoryID()%>"><i class="material-icons md-delete"></i>Delete</a>
+                                            <a href="categoryDelete?categoryID=<%=category.getCategoryID()%>"><i class="material-icons md-delete"></i>Xóa</a>
                                         </button>
                                     </td>
                                 </tr>
@@ -85,7 +93,7 @@
                                 } else {
                                 %>
                                 <tr>
-                                    <td colspan="4" class="text-center">No categories found.</td>
+                                    <td colspan="4" class="text-center">Không tìm thấy loại sản phẩm nào</td>
                                 </tr>
                                 <%
                                     }
@@ -104,9 +112,8 @@
         function populateForm(categoryID, categoryName) {
             document.getElementById("product_name").value = categoryName;
             document.getElementById("category_id").value = categoryID;
-            document.getElementById("submit_button").innerText = "Update category"; // Đổi nhãn nút thành "Update category"
+            document.getElementById("submit_button").innerText = "Cập nhật loại sản phẩm";
 
-            // Hiển thị nút Cancel
             document.getElementById("cancel_button").style.display = "block";
         }
 

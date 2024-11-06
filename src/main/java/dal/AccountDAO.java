@@ -33,6 +33,19 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+    public boolean isEmailExist(String email) {
+        String query = "SELECT COUNT(*) FROM Account WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public Account getAccountByEmail(String email) {
         try {

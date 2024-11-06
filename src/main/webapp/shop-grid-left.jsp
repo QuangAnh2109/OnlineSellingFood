@@ -1,42 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
     <link rel="stylesheet" href="nest-frontend/assets/css/plugins/slider-range.css" />
     <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
+    <style>
+    .filter-form {
+    margin-bottom: 20px;
+    }
+
+    .filter-dropdowns {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    }
+
+    .filter-item {
+    margin-right: 15px;
+    flex: 1;
+    }
+
+    .filter-item select,
+    .filter-item input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    }
+    </style>
 </head>
 
 
 <body>
 <%@ page import="java.util.List" %>
-<%@ page import="dal.ProductDAO" %>
-<%@ page import="model.Product" %>
-<%@ page import="model.Account" %>
-<%@ page import="dal.CategoryDAO" %>
-<%@ page import="model.Category" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="model.*" %>
+<%@ page import="dal.*" %>
 <%
-    // Khởi tạo DAO và lấy danh sách tất cả các danh mục
+
     CategoryDAO categoryDAO = new CategoryDAO();
     List<Category> allCategories = categoryDAO.getAllCategories();
 
-    // Phân trang cho danh mục
     int pageSize1 = 5;
     int totalCategories = allCategories.size();
     int totalPages1 = (int) Math.ceil((double) totalCategories / pageSize1);
     int currentPage = 1;
 
-    // Lấy trang hiện tại từ tham số yêu cầu
     if (request.getParameter("categoryPage") != null) {
         currentPage = Integer.parseInt(request.getParameter("categoryPage"));
     }
 
-    // Tính chỉ số bắt đầu và lấy danh sách danh mục để hiển thị
     int startIndex = (currentPage - 1) * pageSize1;
     List<Category> categoriesToShow = new ArrayList<>();
     if (startIndex < totalCategories) {
@@ -45,7 +64,6 @@
         }
     }
 
-    // Lấy tên tài khoản từ session
     String accountName = "";
     try {
         accountName = ((Account) session.getAttribute("account")).getName();
@@ -53,7 +71,6 @@
         accountName = "";
     }
 
-    // Khởi tạo các biến cho phân trang sản phẩm
     int page1 = 1;
     int pageSize = 50;
     if (request.getParameter("page") != null) {
@@ -63,22 +80,18 @@
         pageSize = Integer.parseInt(request.getParameter("pageSize"));
     }
 
-    // Lấy categoryID từ tham số yêu cầu
     int categoryID = 0;
     if (request.getParameter("categoryID") != null) {
         categoryID = Integer.parseInt(request.getParameter("categoryID"));
     }
 
-    // Lấy tùy chọn sắp xếp từ tham số yêu cầu
     String sortOption = request.getParameter("sort");
     if (sortOption == null || (!sortOption.equals("Price") && !sortOption.equals("Name"))) {
         sortOption = "Name";
     }
 
-    // Lấy tham số tìm kiếm từ yêu cầu
     String searchTerm = request.getParameter("searchTerm");
 
-    // Khởi tạo DAO cho sản phẩm và lấy danh sách sản phẩm
     ProductDAO productDAO = new ProductDAO();
     int totalProducts = productDAO.countProductsByCategoryAndSearch(categoryID, searchTerm);
     int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
@@ -89,6 +102,64 @@
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
 </jsp:include>
+<!-- Giao diện lọc sản phẩm -->
+<div class="container mb-30">
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="" method="get" class="filter-form">
+                <div class="filter-dropdowns d-flex justify-content-between">
+                    <!-- Dropdown cho Danh Mục -->
+                    <div class="filter-item">
+                        <select name="categoryID" onchange="this.form.submit()">
+                            <option value="">Các danh mục sản phẩm</option>
+                            <% for (Category category : allCategories) { %>
+                            <option value="<%= category.getCategoryID() %>" <%= categoryID == category.getCategoryID() ? "selected" : "" %>>
+                                <%= category.getName() %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <!-- Dropdown cho Nhà Sản Xuất -->
+                    <div class="filter-item">
+                        <select name="manufacturerID" onchange="this.form.submit()">
+                            <option value="">Các nhà cung cấp</option>
+                            <% ManufacterDAO manufacterDAO = new ManufacterDAO();%>
+                            <% List<Manufacturer> allManufacturers = manufacterDAO.getAllManufacturers(); %>
+                            <% for (Manufacturer manufacturer : allManufacturers) { %>
+                            <option value="<%= manufacturer.getManufacturerID() %>" <%= request.getParameter("manufacturerID") != null && request.getParameter("manufacturerID").equals(String.valueOf(manufacturer.getManufacturerID())) ? "selected" : "" %>>
+                                <%= manufacturer.getName() %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <!-- Dropdown cho Xuất Xứ -->
+                    <div class="filter-item">
+                        <select name="origin" onchange="this.form.submit()">
+                            <option value="">Các xuất xứ</option>
+                            <% OriginDAO originDAO = new OriginDAO();%>
+                            <% List<Origin> allOrigins = originDAO.getAllOrigins(); %>
+                            <% for (Origin origin : allOrigins) { %>
+                            <option value="<%= origin %>" <%= request.getParameter("origin") != null && request.getParameter("origin").equals(origin) ? "selected" : "" %>>
+                                <%= origin %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+
+
+                    <!-- Thanh chọn theo giá -->
+                    <div class="filter-item">
+                        <input type="text" name="minPrice" placeholder="Min Price" value="<%= request.getParameter("minPrice") != null ? request.getParameter("minPrice") : "" %>"/>
+                        <input type="text" name="maxPrice" placeholder="Max Price" value="<%= request.getParameter("maxPrice") != null ? request.getParameter("maxPrice") : "" %>"/>
+                        <button type="submit">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <div class="container mb-30">
@@ -96,11 +167,11 @@
         <div class="col-lg-4-5">
             <div class="shop-product-fillter">
                 <div class="totall-product">
-                    <p>We found <strong class="text-brand"><%= totalProducts %></strong> items for you!</p>
+                    <p>Chúng tôi tìm thấy <strong class="text-brand"><%= totalProducts %></strong> sản phẩm cho bạn!</p>
                 </div>
                 <div class="mobile-search search-style-3 mobile-header-border">
                     <form action="" method="get">
-                        <input type="text" name="searchTerm" placeholder="Search for items" />
+                        <input type="text" name="searchTerm" placeholder="Tìm kiếm sản phẩm" />
                         <input type="hidden" name="categoryID" value="<%= categoryID %>" />
                         <input type="hidden" name="sort" value="<%= sortOption %>" />
                         <input type="hidden" name="page" value="1" />
@@ -111,7 +182,7 @@
                     <div class="sort-by-cover mr-10">
                         <div class="sort-by-product-wrap">
                             <div class="sort-by">
-                                <span><i class="fi-rs-apps"></i>Show:</span>
+                                <span><i class="fi-rs-apps"></i>Hiển thị:</span>
                             </div>
                             <div class="sort-by-dropdown-wrap">
                                 <span><%= pageSize %> <i class="fi-rs-angle-small-down"></i></span>
@@ -130,7 +201,7 @@
                     <div class="sort-by-cover">
                         <div class="sort-by-product-wrap">
                             <div class="sort-by">
-                                <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                <span><i class="fi-rs-apps-sort"></i>Sắp xếp theo:</span>
                             </div>
                             <div class="sort-by-dropdown-wrap">
                                 <span><%= sortOption %> <i class="fi-rs-angle-small-down"></i></span>
@@ -173,7 +244,7 @@
                     }
                 } else {
                 %>
-                <p>No products available.</p>
+                <p>Không có sản phẩm phù hợp</p>
                 <% } %>
             </div>
 
@@ -204,7 +275,7 @@
 
         <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
             <div class="sidebar-widget">
-                <h5 class="sidebar-title">Categories</h5>
+                <h5 class="sidebar-title">Danh mục</h5>
                 <ul class="categories">
                     <% for (Category category : categoriesToShow) { %>
                     <li>
@@ -213,7 +284,6 @@
                         </a>
                         <span class="product-count">
    <%
-       // Giả sử bạn có phương thức getProductCountByCategory trong DAO
        int productCount = productDAO.countProductsByCategory(category.getCategoryID());
    %>
    (<%= productCount %>)
@@ -222,8 +292,6 @@
                     <% } %>
                 </ul>
 
-
-                <!-- Phân trang cho danh mục -->
                 <div class="pagination-area mt-20 mb-20">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">

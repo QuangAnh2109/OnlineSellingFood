@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import javax.mail.Address;
 import java.io.IOException;
 import java.util.List;
 
@@ -53,7 +52,6 @@ public class WarehouseCreateUpdateServlet extends HttpServlet {
         String contactID = request.getParameter("contactID");
 
         if (warehouseID != null && !warehouseID.isEmpty()) {
-
             Warehouse warehouse = new Warehouse(Integer.parseInt(warehouseID), contactInformationDAO.updateContact(address, phoneNumber), Integer.parseInt(statusID), name);
 
             boolean isUpdated = warehouseDAO.updateWarehouse(warehouse);
@@ -62,10 +60,16 @@ public class WarehouseCreateUpdateServlet extends HttpServlet {
                 contactInformationDAO.deleteContact(Integer.parseInt(contactID));
                 response.sendRedirect("warehouseList");
             } else {
-                // Nếu cập nhật warehouse thất bại
-                System.out.println("update warehouse failed");
+                request.getSession().setAttribute("msg", "Cập nhật warehouse không thành công. Có thể tên warehouse đã tồn tại.");
+                response.sendRedirect("warehouseList");
             }
         } else {
+            if (warehouseDAO.isWarehouseExists(name)) {
+                request.getSession().setAttribute("msg", "Warehouse với tên này đã tồn tại.");
+                response.sendRedirect("warehouseList");
+                return;
+            }
+
             ContactInformation contactInfo = new ContactInformation(address, phoneNumber);
             Integer newContactID = contactInformationDAO.addContact(contactInfo);
 
@@ -76,12 +80,12 @@ public class WarehouseCreateUpdateServlet extends HttpServlet {
                 if (newWarehouseID != null) {
                     response.sendRedirect("warehouseList");
                 } else {
-                    // Nếu thêm Warehouse thất bại
-                    System.out.println("create warehouse failed");
+                    request.getSession().setAttribute("msg", "Tạo warehouse không thành công. Có thể tên warehouse đã tồn tại.");
+                    response.sendRedirect("warehouseList");
                 }
             } else {
-                // Nếu thêm ContactInformation thất bại
-                System.out.println("create contactinformation failed");
+                request.getSession().setAttribute("msg", "Tạo thông tin liên hệ không thành công.");
+                response.sendRedirect("warehouseList");
             }
         }
     }

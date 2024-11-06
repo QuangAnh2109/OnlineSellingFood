@@ -6,12 +6,12 @@
 <%@ page import="dal.ProductDAO" %>
 <%@ page import="dal.CategoryDAO" %>
 <%@ page import="dal.UnitDAO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <meta charset="utf-8"/>
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -72,21 +72,19 @@
     });
 
     function login() {
-        window.location.href = "http://localhost:9998/OnlineSellingFood_war/login"; // URL trang đăng nhập
+        window.location.href = "http://localhost:9998/OnlineSellingFood_war/login";
     }
 
     function register() {
-        window.location.href = "http://localhost:9998/OnlineSellingFood_war/register"; // URL trang đăng ký
+        window.location.href = "http://localhost:9998/OnlineSellingFood_war/register";
     }
 </script>
 
 <style>
-    /* Đặt form trả lời ban đầu ẩn đi */
     .reply-form {
         display: none;
     }
 
-    /* Hiển thị form trả lời khi người dùng di chuột qua khu vực bình luận */
     .comment-list:hover .reply-form {
         display: block;
     }
@@ -136,7 +134,6 @@
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="detail-info pr-30 pl-30">
-                                <!-- Stock Status and Product Name -->
                                 <span class="stock-status out-stock">Sale Off</span>
                                 <h2 class="title-detail"><%= (product != null) ? product.getName() : "Product name not available." %>
                                 </h2>
@@ -168,13 +165,13 @@
 
                                 <!-- Static Unit Display -->
                                 <div class="attr-detail attr-size mb-30">
-                                    <strong class="mr-10">Unit: </strong>
+                                    <strong class="mr-10">Đơn vị: </strong>
                                     <ul class="list-filter size-filter font-small">
                                         <p class="font-lg"><%= (product != null) ? unitDAO.getUnitNameByID(product.getUnitID()): "Product units not available." %></p>
                                     </ul>
                                 </div>
                                 <div class="product-extra-link2">
-                                    <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                    <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Thêm vào giỏ hàng</button>
                                 </div>
 
                             </div>
@@ -185,14 +182,10 @@
                             <ul class="nav nav-tabs text-uppercase">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="Description-tab" data-bs-toggle="tab"
-                                       href="#Description">Description</a>
+                                       href="#Description">Mô tả sản phẩm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="Additional-info-tab" data-bs-toggle="tab"
-                                       href="#Additional-info">Additional info</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Manufactor</a>
+                                    <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Nhà cung cấp</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Đánh giá
@@ -200,199 +193,7 @@
                                 </li>
                             </ul>
                             <div class="tab-content shop_info_tab entry-main-content">
-                                <div class="tab-pane fade show active" id="Description">
-                                    <div class="">
-                                        <p>Uninhibited carnally hired played in whimpered dear gorilla koala depending
-                                            and much yikes off far quetzal goodness and from for grimaced goodness
-                                            unaccountably and meadowlark near unblushingly crucial scallop tightly
-                                            neurotic hungrily some and dear furiously this apart.</p>
-                                        <p>Spluttered narrowly yikes left moth in yikes bowed this that grizzly much
-                                            hello on spoon-fed that alas rethought much decently richly and wow against
-                                            the frequent fluidly at formidable acceptably flapped besides and much circa
-                                            far over the bucolically hey precarious goldfinch mastodon goodness gnashed
-                                            a jellyfish and one however because.</p>
-                                        <ul class="product-more-infor mt-30">
-                                            <li><span>Type Of Packing</span> Bottle</li>
-                                            <li><span>Color</span> Green, Pink, Powder Blue, Purple</li>
-                                            <li><span>Quantity Per Case</span> 100ml</li>
-                                            <li><span>Ethyl Alcohol</span> 70%</li>
-                                            <li><span>Piece In One</span> Carton</li>
-                                        </ul>
-                                        <hr class="wp-block-separator is-style-dots"/>
-                                        <p>Laconic overheard dear woodchuck wow this outrageously taut beaver hey hello
-                                            far meadowlark imitatively egregiously hugged that yikes minimally unanimous
-                                            pouted flirtatiously as beaver beheld above forward energetic across this
-                                            jeepers beneficently cockily less a the raucously that magic upheld far so
-                                            the this where crud then below after jeez enchanting drunkenly more much wow
-                                            callously irrespective limpet.</p>
-                                        <h4 class="mt-30">Packaging & Delivery</h4>
-                                        <hr class="wp-block-separator is-style-wide"/>
-                                        <p>Less lion goodness that euphemistically robin expeditiously bluebird smugly
-                                            scratched far while thus cackled sheepishly rigid after due one assenting
-                                            regarding censorious while occasional or this more crane went more as this
-                                            less much amid overhung anathematic because much held one exuberantly sheep
-                                            goodness so where rat wry well concomitantly.</p>
-                                        <p>Scallop or far crud plain remarkably far by thus far iguana lewd precociously
-                                            and and less rattlesnake contrary caustic wow this near alas and next and
-                                            pled the yikes articulate about as less cackled dalmatian in much less well
-                                            jeering for the thanks blindly sentimental whimpered less across objectively
-                                            fanciful grimaced wildly some wow and rose jeepers outgrew lugubrious
-                                            luridly irrationally attractively dachshund.</p>
-                                        <h4 class="mt-30">Suggested Use</h4>
-                                        <ul class="product-more-infor mt-30">
-                                            <li>Refrigeration not necessary.</li>
-                                            <li>Stir before serving</li>
-                                        </ul>
-                                        <h4 class="mt-30">Other Ingredients</h4>
-                                        <ul class="product-more-infor mt-30">
-                                            <li>Organic raw pecans, organic raw cashews.</li>
-                                            <li>This butter was produced using a LTG (Low Temperature Grinding)
-                                                process
-                                            </li>
-                                            <li>Made in machinery that processes tree nuts but does not process peanuts,
-                                                gluten, dairy or soy
-                                            </li>
-                                        </ul>
-                                        <h4 class="mt-30">Warnings</h4>
-                                        <ul class="product-more-infor mt-30">
-                                            <li>Oil separation occurs naturally. May contain pieces of shell.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="Additional-info">
-                                    <table class="font-md">
-                                        <tbody>
-                                        <tr class="stand-up">
-                                            <th>Stand Up</th>
-                                            <td>
-                                                <p>35″L x 24″W x 37-45″H(front to back wheel)</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="folded-wo-wheels">
-                                            <th>Folded (w/o wheels)</th>
-                                            <td>
-                                                <p>32.5″L x 18.5″W x 16.5″H</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="folded-w-wheels">
-                                            <th>Folded (w/ wheels)</th>
-                                            <td>
-                                                <p>32.5″L x 24″W x 18.5″H</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="door-pass-through">
-                                            <th>Door Pass Through</th>
-                                            <td>
-                                                <p>24</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="frame">
-                                            <th>Frame</th>
-                                            <td>
-                                                <p>Aluminum</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="weight-wo-wheels">
-                                            <th>Weight (w/o wheels)</th>
-                                            <td>
-                                                <p>20 LBS</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="weight-capacity">
-                                            <th>Weight Capacity</th>
-                                            <td>
-                                                <p>60 LBS</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="width">
-                                            <th>Width</th>
-                                            <td>
-                                                <p>24″</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="handle-height-ground-to-handle">
-                                            <th>Handle height (ground to handle)</th>
-                                            <td>
-                                                <p>37-45″</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="wheels">
-                                            <th>Wheels</th>
-                                            <td>
-                                                <p>12″ air / wide track slick tread</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="seat-back-height">
-                                            <th>Seat back height</th>
-                                            <td>
-                                                <p>21.5″</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="head-room-inside-canopy">
-                                            <th>Head room (inside canopy)</th>
-                                            <td>
-                                                <p>25″</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="pa_color">
-                                            <th>Color</th>
-                                            <td>
-                                                <p>Black, Blue, Red, White</p>
-                                            </td>
-                                        </tr>
-                                        <tr class="pa_size">
-                                            <th>Size</th>
-                                            <td>
-                                                <p>M, S</p>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="tab-pane fade" id="Vendor-info">
-                                    <div class="vendor-logo d-flex mb-30">
-                                        <img src="nest-frontend/assets/imgs/vendor/vendor-18.svg" alt=""/>
-                                        <div class="vendor-name ml-15">
-                                            <h6>
-                                                <a href="vendor-details-2.html">Noodles Co.</a>
-                                            </h6>
-                                            <div class="product-rate-cover text-end">
-                                                <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width: 90%"></div>
-                                                </div>
-                                                <span class="font-small ml-5 text-muted"> (32 reviews)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul class="contact-infor mb-50">
-                                        <li><img src="nest-frontend/assets/imgs/theme/icons/icon-location.svg"
-                                                 alt=""/><strong>Address: </strong> <span>5171 W Campbell Ave undefined Kent, Utah 53127 United States</span>
-                                        </li>
-                                        <li><img src="nest-frontend/assets/imgs/theme/icons/icon-contact.svg"
-                                                 alt=""/><strong>Contact
-                                            Seller:</strong><span>(+91) - 540-025-553</span></li>
-                                    </ul>
-                                    <div class="d-flex mb-55">
-                                        <div class="mr-30">
-                                            <p class="text-brand font-xs">Rating</p>
-                                            <h4 class="mb-0">92%</h4>
-                                        </div>
-                                        <div class="mr-30">
-                                            <p class="text-brand font-xs">Ship on time</p>
-                                            <h4 class="mb-0">100%</h4>
-                                        </div>
-                                        <div>
-                                            <p class="text-brand font-xs">Chat response</p>
-                                            <h4 class="mb-0">89%</h4>
-                                        </div>
-                                    </div>
-                                    <p>Noodles & Company is an American fast-casual restaurant that offers international
-                                        and American noodle dishes and pasta in addition to soups and salads. Noodles &
-                                        Company was founded in 1995 by Aaron Kennedy and is headquartered in Broomfield,
-                                        Colorado. The company went public in 2013 and recorded a $457 million revenue in
-                                        2017.In late 2018, there were 460 Noodles & Company locations across 29 states
-                                        and Washington, D.C.</p>
-                                </div>
+
                                 <div class="tab-pane fade" id="Reviews">
                                     <!--Comments-->
                                     <div class="comments-area">
@@ -528,179 +329,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-60">
-                            <div class="col-12">
-                                <h2 class="section-title style-1 mb-30">Related products</h2>
-                            </div>
-                            <div class="col-12">
-                                <div class="row related-products">
-                                    <div class="col-lg-3 col-md-4 col-12 col-sm-6">
-                                        <div class="product-cart-wrap hover-up">
-                                            <div class="product-img-action-wrap">
-                                                <div class="product-img product-img-zoom">
-                                                    <a href="shop-product-right.html" tabindex="0">
-                                                        <img class="default-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-2-1.jpg"
-                                                             alt=""/>
-                                                        <img class="hover-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-2-2.jpg"
-                                                             alt=""/>
-                                                    </a>
-                                                </div>
-                                                <div class="product-action-1">
-                                                    <a aria-label="Quick view" class="action-btn small hover-up"
-                                                       data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                                                            class="fi-rs-search"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up"
-                                                       href="shop-wishlist.html" tabindex="0"><i
-                                                            class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn small hover-up"
-                                                       href="shop-compare.html" tabindex="0"><i
-                                                            class="fi-rs-shuffle"></i></a>
-                                                </div>
-                                                <div class="product-badges product-badges-position product-badges-mrg">
-                                                    <span class="hot">Hot</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-content-wrap">
-                                                <h2><a href="shop-product-right.html" tabindex="0">Ulstra Bass
-                                                    Headphone</a></h2>
-                                                <div class="rating-result" title="90%">
-                                                    <span> </span>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>$238.85 </span>
-                                                    <span class="old-price">$245.8</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-12 col-sm-6">
-                                        <div class="product-cart-wrap hover-up">
-                                            <div class="product-img-action-wrap">
-                                                <div class="product-img product-img-zoom">
-                                                    <a href="shop-product-right.html" tabindex="0">
-                                                        <img class="default-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-3-1.jpg"
-                                                             alt=""/>
-                                                        <img class="hover-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-4-2.jpg"
-                                                             alt=""/>
-                                                    </a>
-                                                </div>
-                                                <div class="product-action-1">
-                                                    <a aria-label="Quick view" class="action-btn small hover-up"
-                                                       data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                                                            class="fi-rs-search"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up"
-                                                       href="shop-wishlist.html" tabindex="0"><i
-                                                            class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn small hover-up"
-                                                       href="shop-compare.html" tabindex="0"><i
-                                                            class="fi-rs-shuffle"></i></a>
-                                                </div>
-                                                <div class="product-badges product-badges-position product-badges-mrg">
-                                                    <span class="sale">-12%</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-content-wrap">
-                                                <h2><a href="shop-product-right.html" tabindex="0">Smart Bluetooth
-                                                    Speaker</a></h2>
-                                                <div class="rating-result" title="90%">
-                                                    <span> </span>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>$138.85 </span>
-                                                    <span class="old-price">$145.8</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-12 col-sm-6">
-                                        <div class="product-cart-wrap hover-up">
-                                            <div class="product-img-action-wrap">
-                                                <div class="product-img product-img-zoom">
-                                                    <a href="shop-product-right.html" tabindex="0">
-                                                        <img class="default-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-4-1.jpg"
-                                                             alt=""/>
-                                                        <img class="hover-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-4-2.jpg"
-                                                             alt=""/>
-                                                    </a>
-                                                </div>
-                                                <div class="product-action-1">
-                                                    <a aria-label="Quick view" class="action-btn small hover-up"
-                                                       data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                                                            class="fi-rs-search"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up"
-                                                       href="shop-wishlist.html" tabindex="0"><i
-                                                            class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn small hover-up"
-                                                       href="shop-compare.html" tabindex="0"><i
-                                                            class="fi-rs-shuffle"></i></a>
-                                                </div>
-                                                <div class="product-badges product-badges-position product-badges-mrg">
-                                                    <span class="new">New</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-content-wrap">
-                                                <h2><a href="shop-product-right.html" tabindex="0">HomeSpeak 12UEA
-                                                    Goole</a></h2>
-                                                <div class="rating-result" title="90%">
-                                                    <span> </span>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>$738.85 </span>
-                                                    <span class="old-price">$1245.8</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-12 col-sm-6 d-lg-block d-none">
-                                        <div class="product-cart-wrap hover-up mb-0">
-                                            <div class="product-img-action-wrap">
-                                                <div class="product-img product-img-zoom">
-                                                    <a href="shop-product-right.html" tabindex="0">
-                                                        <img class="default-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-5-1.jpg"
-                                                             alt=""/>
-                                                        <img class="hover-img"
-                                                             src="nest-frontend/assets/imgs/shop/product-3-2.jpg"
-                                                             alt=""/>
-                                                    </a>
-                                                </div>
-                                                <div class="product-action-1">
-                                                    <a aria-label="Quick view" class="action-btn small hover-up"
-                                                       data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                                                            class="fi-rs-search"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up"
-                                                       href="shop-wishlist.html" tabindex="0"><i
-                                                            class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn small hover-up"
-                                                       href="shop-compare.html" tabindex="0"><i
-                                                            class="fi-rs-shuffle"></i></a>
-                                                </div>
-                                                <div class="product-badges product-badges-position product-badges-mrg">
-                                                    <span class="hot">Hot</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-content-wrap">
-                                                <h2><a href="shop-product-right.html" tabindex="0">Dadua Camera 4K
-                                                    2021EF</a></h2>
-                                                <div class="rating-result" title="90%">
-                                                    <span> </span>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>$89.8 </span>
-                                                    <span class="old-price">$98.8</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="tab-content shop_info_tab entry-main-content">
                             <div class="tab-pane fade show active" id="Description">
                                 <div class="">
@@ -716,7 +345,7 @@
                     </div>
                     <div class="row mt-60">
                         <div class="col-12">
-                            <h2 class="section-title style-1 mb-30">Related products</h2>
+                            <h2 class="section-title style-1 mb-30">Sản phẩm liên quan</h2>
                         </div>
                         <div class="row product-grid-4">
                             <%
