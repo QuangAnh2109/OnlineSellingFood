@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <script type="text/javascript">
     function doDelete(customerID) {
-        if (confirm("Are you sure to delete feedback with customerID=" + customerID)) {
+        if (confirm("Bạn có muốn xóa Feedback này của sản phẩm này không?")) {
             window.location = "productFeedback?customerID=" + customerID;
         }
     }
@@ -35,7 +36,7 @@
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">View Feedback</h2>
+            <h2 class="content-title">Xem đánh giá của sản phẩm</h2>
             <%--            <div>--%>
             <%--                <a href="registerstaff" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>--%>
             <%--            </div>--%>
@@ -45,26 +46,11 @@
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
                         <form action="productFeedback" method="GET" style="display: flex;">
-                            <input type="text" name="searchName" placeholder="Search by name..." class="form-control"
+                            <input type="text" name="searchName" placeholder="Tìm kiếm theo tên..." class="form-control"
                                    value="${searchName}" style="flex: 1;"/>
                             <input type="hidden" name="productid" value="${productID}"/>
-                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Tìm kiếm</button>
                         </form>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Disabled</option>
-                            <option>Show all</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Show 20</option>
-                            <option>Show 30</option>
-                            <option>Show 40</option>
-                        </select>
                     </div>
                 </div>
             </header>
@@ -75,11 +61,11 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Star</th>
-                            <th>Feedback</th>
-                            <th>Time</th>
-                            <th class="text-end">Action</th>
+                            <th>Tên</th>
+                            <th>Sao</th>
+                            <th>Đánh giá</th>
+                            <th>Thời gian</th>
+                            <th class="text-end">Hoạt động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -119,7 +105,7 @@
                                 <td><span class="badge rounded-pill alert-success">${l.feedback}</span></td>
                                 <td>${l.time}</td>
                                 <td class="text-end">
-                                    <button type="submit" onclick="doDelete(${l.customerID})" class="btn btn-sm btn-brand rounded font-sm mt-15">Delete</button>
+                                    <button type="submit" onclick="doDelete(${l.customerID})" class="btn btn-sm btn-brand rounded font-sm mt-15">Xóa</button>
                                 </td>
                                 <input type="hidden" value="${l.customerID}" name="customerID">
                                 <input type="hidden" value="${productID}" name="productID">

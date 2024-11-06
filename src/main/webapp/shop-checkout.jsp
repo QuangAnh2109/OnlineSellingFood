@@ -29,15 +29,15 @@
         <div class="container">
             <div class="breadcrumb">
                 <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                <span></span> Shop
-                <span></span> Checkout
+                <span></span> Sản phẩm
+                <span></span> Đặt hàng
             </div>
         </div>
     </div>
     <div class="container mb-80 mt-50">
         <div class="row">
             <div class="col-lg-8 mb-40">
-                <h1 class="heading-2 mb-10">Checkout</h1>
+                <h1 class="heading-2 mb-10">Đặt hàng</h1>
 
             </div>
         </div>
@@ -45,54 +45,26 @@
             <div class="col-lg-7">
                 <div class="row mb-50">
                     <div class="col-lg-6 mb-sm-15 mb-lg-0 mb-md-3">
-                        <div class="panel-collapse collapse login_form" id="loginform">
-                            <div class="panel-body">
-                                <p class="mb-30 font-sm">If you have shopped with us before, please enter your details
-                                    below. If you are a new customer, please proceed to the Billing &amp; Shipping
-                                    section.</p>
-                                <form method="post">
-                                    <div class="form-group">
-                                        <input type="text" name="email" placeholder="Username Or Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" name="password" placeholder="Password">
-                                    </div>
-                                    <div class="login_footer form-group">
-                                        <div class="chek-form">
-                                            <div class="custome-checkbox">
-                                                <input class="form-check-input" type="checkbox" name="checkbox"
-                                                       id="remember" value="">
-                                                <label class="form-check-label" for="remember"><span>Remember me</span></label>
-                                            </div>
-                                        </div>
-                                        <a href="#">Forgot password?</a>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-md" name="login">Log in</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-lg-6">
                         <form action="checkout" method="post" class="apply-coupon">
                             <select name="voucherData" class="coupon-input">
-                                <option value="" disabled selected>Select Voucher...</option>
+                                <option value="" disabled selected>Chọn phiếu giảm giá...</option>
                                 <c:forEach items="${listVoucher}" var="lv">
                                     <option value="${lv.discountPercent}">
-                                        Discount ${lv.discountPercent}% (expires in ${lv.remainingDay} day${lv.remainingDay > 1 ? 's' : ''}!)
+                                        Giảm giá ${lv.discountPercent}% hết hạn trong ${lv.remainingDay} ngày!)
                                     </option>
                                 </c:forEach>
                             </select>
                             <input type="hidden" name="subTotalPrice" value="${subTotalPrice}">
 
 
-                            <button class="btn btn-md" type="submit" name="apply">Apply </button>
+                            <button class="btn btn-md" type="submit" name="apply">Áp dụng </button>
                         </form>
                     </div>
                 </div>
                 <div class="row">
-                    <h4 class="mb-30">Billing Details</h4>
+                    <h4 class="mb-30"> Địa chỉ nhận hàng</h4>
                     <form method="post">
                         <div class="row">
                             <div class="form-group col-lg-6">
@@ -118,8 +90,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-lg-6">
-                                <a href="AccountContact" style="color: #3BB77E; font-size:20px ">Do you want to change
-                                    address?</a>
+                                <a href="AccountContact" style="color: #3BB77E; font-size:20px ">Bạn có muốn thay đổi địa chỉ nhận hàng?</a>
                             </div>
 
                         </div>
@@ -130,12 +101,12 @@
             <div class="col-lg-5">
                 <div class="border p-40 cart-totals ml-30 mb-50">
                     <div class="d-flex align-items-end justify-content-between mb-30">
-                        <h4>Your Order</h4>
+                        <h4>Đơn hàng của bạn</h4>
                         <div>
-                       <h6 class="text-muted" style="color: #3BB77E;font-size: 20px">Subtotal:${subTotalPrice} VND</h6>
+                       <h6 class="text-muted" style="color: #3BB77E;font-size: 20px">Tổng tiền:${subTotalPrice} VND</h6>
                         <c:if test="${not empty discountedSubtotal}">
                             <h6 class="text-muted" style="color: #3BB77E; font-size: 20px">
-                                Discounted Subtotal: ${discountedSubtotal} VND
+                                Tổng tiền sau khi áp phiếu giảm giá: ${discountedSubtotal} VND
                             </h6>
                         </c:if>
                         </div>
@@ -186,26 +157,15 @@
                     </div>
                 </div>
                 <div class="payment ml-30">
-                    <h4 class="mb-30">Payment</h4>
+                    <h4 class="mb-30">Phương thức thanh toán</h4>
                     <div class="payment_option">
                         <div class="custome-radio">
                             <input class="form-check-input" required="" type="radio" name="payment_option"
                                    id="exampleRadios3" checked="">
                             <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse"
-                                   data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
+                                   data-target="#bankTranfer" aria-controls="bankTranfer">Thanh toán bằng ngân hàng</label>
                         </div>
-                        <div class="custome-radio">
-                            <input class="form-check-input" required="" type="radio" name="payment_option"
-                                   id="exampleRadios4" checked="">
-                            <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse"
-                                   data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
-                        </div>
-                        <div class="custome-radio">
-                            <input class="form-check-input" required="" type="radio" name="payment_option"
-                                   id="exampleRadios5" checked="">
-                            <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse"
-                                   data-target="#paypal" aria-controls="paypal">Online Getway</label>
-                        </div>
+
                     </div>
                     <div class="payment-logo d-flex">
                         <img class="mr-15" src="nest-frontend/assets/imgs/theme/icons/payment-paypal.svg" alt="">
@@ -213,7 +173,7 @@
                         <img class="mr-15" src="nest-frontend/assets/imgs/theme/icons/payment-master.svg" alt="">
                         <img src="nest-frontend/assets/imgs/theme/icons/payment-zapper.svg" alt="">
                     </div>
-                    <a href="#" class="btn btn-fill-out btn-block mt-30">Place an Order<i
+                    <a href="#" class="btn btn-fill-out btn-block mt-30">Đặt hàng<i
                             class="fi-rs-sign-out ml-15"></i></a>
                 </div>
             </div>

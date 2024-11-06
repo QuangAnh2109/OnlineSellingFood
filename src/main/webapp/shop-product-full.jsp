@@ -148,7 +148,7 @@
                                             <!-- Set to 80% width to represent a 4-star rating -->
                                             <div class="product-rating" style="width: 80%;"></div>
                                         </div>
-                                        <span class="font-small ml-5 text-muted">(${count} reviews)</span>
+                                        <span class="font-small ml-5 text-muted">(${count} Đánh giá)</span>
                                     </div>
                                 </div>
 
@@ -195,7 +195,7 @@
                                     <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Manufactor</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews
+                                    <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Đánh giá
                                         (${count})</a>
                                 </li>
                             </ul>
@@ -398,7 +398,7 @@
                                     <div class="comments-area">
                                         <div class="row">
                                             <div class="col-lg-8">
-                                                <h4 class="mb-30">Customer questions & answers</h4>
+                                                <h4 class="mb-30">Câu hỏi của khách hàng và trả lời</h4>
                                                 <!-- Loop through main comments -->
                                                 <!-- Loop through main comments -->
                                                 <c:forEach var="l" items="${list}">
@@ -441,8 +441,8 @@
                                                                                 <input type="hidden" name="productID" value="${productID}" />
                                                                                 <input type="hidden" name="replyID" value="${l.feedbackID}" />
 
-                                                                                <textarea name="replyContent" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
-                                                                                <button type="submit" class="btn btn-sm btn-primary mt-2 reply-button">Submit Reply</button>
+                                                                                <textarea name="replyContent" class="form-control" rows="1" placeholder="Vết phản hồi..."></textarea>
+                                                                                <button type="submit" class="btn btn-sm btn-primary mt-2 reply-button">Gửi phản hồi</button>
 
 
                                                                                 <div class="comment-replies">
@@ -477,7 +477,7 @@
 
                                     <!--comment form-->
                                     <div class="comment-form">
-                                        <h4 class="mb-15">Add a review</h4>
+                                        <h4 class="mb-15">Thêm đánh giá</h4>
                                         <form class="form-contact comment_form" action="ProductDetail" method="post"
                                               id="commentForm">
                                             <input type="hidden" name="productID"
@@ -509,14 +509,14 @@
                                                                 <div class="form-group">
                                                                     <textarea class="form-control w-100" name="comment"
                                                                               id="comment" cols="30" rows="9"
-                                                                              placeholder="Write Comment"></textarea>
+                                                                              placeholder="Viết đánh giá"></textarea>
                                                                 </div>
                                                             </div>
 
                                                         </div>
                                                         <div class="form-group">
                                                             <button type="submit" class="button button-contactForm">
-                                                                Submit Review
+                                                                Gửi đánh giá
                                                             </button>
                                                         </div>
 
