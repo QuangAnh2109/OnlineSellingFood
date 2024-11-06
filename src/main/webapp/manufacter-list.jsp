@@ -2,7 +2,7 @@
 <%@ page import="dal.ManufacterDAO.TextTruncator" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,9 +31,9 @@
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">Manufacter</h2>
+            <h2 class="content-title">Nhà sản xuấtr</h2>
             <div>
-                <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+                <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i>Tạo mới</a>
             </div>
         </div>
         <div class="card mb-4">
@@ -68,10 +68,10 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                                          <th>Introduce</th>
+                            <th>Tên</th>
+                                          <th>Mô tả</th>
                             <th></th>
-                            <th>Number of products</th>
+                            <th>Số sản phẩm</th>
                                           <th></th>
                             <th class="text-end">Action</th>
                         </tr>
@@ -113,7 +113,7 @@
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
                                                 <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
                                                 <a href="#" onclick="confirmDelete(${mn.manufacturerID}); return false;" class="btn btn-sm font-sm btn-light rounded">
-                                                    <i class="material-icons md-delete_forever"></i> Delete
+                                                    <i class="material-icons md-delete_forever"></i> Xóa
                                                 </a>
                                                 <form id="deleteForm${mn.manufacturerID}" action="manulist" method="POST" style="display:none;">
                                                     <input type="hidden" name="action" value="delete" />

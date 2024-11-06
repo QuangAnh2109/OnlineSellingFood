@@ -5,7 +5,7 @@
   Time: 12:13 AM
   To change this template use File | Settings | File Templates.
 --%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,12 +54,12 @@
 
                 <form action="registerManu" method="post">
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
+                        <label class="form-label">Tên</label>
                         <input class="form-control" name="name" placeholder="Name" type="text" required />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Introduce</label>
+                        <label class="form-label">Mô tả</label>
 
                         <textarea class="form-control" name="introduce" placeholder="Introduce" ></textarea>
                     </div>
