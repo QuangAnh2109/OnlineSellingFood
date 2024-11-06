@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Nest Dashboard</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,11 +47,11 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Add New Product</h2>
+                <h2 class="content-title card-title">Thêm sản phẩm mới</h2>
                 <h5 style="color:red"><%=msg%></h5>
             </div>
             <div>
-                <a href="LoadProductStaffServlet" class="btn btn-primary">Back</a>
+                <a href="LoadProductStaffServlet" class="btn btn-primary">Quay lại</a>
             </div>
         </div>
         <div class="row">
@@ -60,23 +60,23 @@
                     <form action="AddProductStaffServlet" method="post" enctype="multipart/form-data">
                         <div class="card-body">
                             <div>
-                                <label class="form-label">Product name</label>
+                                <label class="form-label">Tên sản phẩm</label>
                                 <input type="text" placeholder="Type here" class="form-control" name="name" required>
                             </div>
                             <div>
-                                <label class="form-label">Price</label>
+                                <label class="form-label">Giá</label>
                                 <input type="number" placeholder="Type here" class="form-control" name="price" minlength="1" required>
                             </div>
                             <div>
-                                <label class="form-label">Weight</label>
+                                <label class="form-label">Trọng lượng</label>
                                 <input type="number" placeholder="Type here" class="form-control" name="weight" minlength="1" required>
                             </div>
                             <div>
-                                <label class="form-label">Description</label>
+                                <label class="form-label">Mô tả</label>
                                 <textarea placeholder="Type here" class="form-control" rows="4" name="detail" required></textarea>
                             </div>
                             <div>
-                                <label class="form-label">Category</label>
+                                <label class="form-label">Phân loại</label>
                                 <select class="form-select" name="categoryid">
                                     <%
                                         for(Category category: categories) {
@@ -88,7 +88,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="form-label">Manufacturer</label>
+                                <label class="form-label">Nhà sản xuất</label>
                                 <select class="form-select" name="manufacturerid">
                                     <%
                                         for(Manufacturer manufacturer: manufacturers) {
@@ -100,7 +100,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="form-label">Origin</label>
+                                <label class="form-label">Nguồn gốc</label>
                                 <select class="form-select" name="originid">
                                     <%
                                         for(Origin origin: origins) {
@@ -112,7 +112,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="form-label">Unit</label>
+                                <label class="form-label">Đơn vị</label>
                                 <select class="form-select" name="unitid">
                                     <%
                                         for(Unit unit: units) {
@@ -124,7 +124,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="form-label">Certification</label>
+                                <label class="form-label">Chứng chỉ</label>
                                 <select class="form-select" name="certificationid">
                                     <%
                                         for(Certification certification: certifications) {
@@ -136,7 +136,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="form-label">Status</label>
+                                <label class="form-label">Trạng thái</label>
                                 <select class="form-select" name="statusid">
                                     <%
                                         for(ProductStatus status: statuses) {
@@ -148,11 +148,11 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="form-label">Images</label>
+                                <label class="form-label">Ảnh</label>
                                 <input class="form-control" type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                             </div>
                         </div>
-                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Create</button>
+                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Tạo mới</button>
                     </form>
                 </div>
             </div>
