@@ -187,5 +187,39 @@ public class CertificateDAO extends DBContext {
         }
         return false;
     }
+    public List<Certification> getCertificationsByPage(int page, int pageSize) {
+        List<Certification> certifications = new ArrayList<>();
+        int offset = (page - 1) * pageSize;
+        String query = "SELECT CertificationID, CertificateIssuerID, Name, Detail, ImgID FROM Certification ORDER BY CertificationID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, offset);
+            ps.setInt(2, pageSize);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Certification certification = (Certification) getObjectByRs(rs);
+                certifications.add(certification);
+            }
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+
+        return certifications;
+    }
+
+    public int getTotalCertificationCount() {
+        String query = "SELECT COUNT(*) FROM Certification";
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
+    }
+
 
 }

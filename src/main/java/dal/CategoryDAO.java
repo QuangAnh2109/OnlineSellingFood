@@ -46,6 +46,34 @@ public class CategoryDAO extends DBContext{
         }
         return null;
     }
+    public boolean isCategoryNameExist(String name) {
+        String sql = "SELECT COUNT(*) FROM Category WHERE Name = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+        }
+        return false;
+    }
+    public boolean isCategoryInUse(int categoryID) {
+        String sql = "SELECT COUNT(*) FROM Product WHERE CategoryID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, categoryID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+        }
+        return false;
+    }
+
+
 
 
     public void deleteCategory(int categoryID) {

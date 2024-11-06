@@ -65,9 +65,7 @@ try{
                     Rau củ tươi<br />
                     Giảm giá lớn
                   </h1>
-                  <form class="form-subcriber d-flex">
-                    <button class="btn" type="submit">Đăng ký ngay</button>
-                  </form>
+                    <a href="register" class="btn btn-xs mb-50">Đăng ký ngay<i class="fi-rs-arrow-small-right"></i></a>
                 </div>
               </div>
             </div>
@@ -84,7 +82,7 @@ try{
                     Tươi mỗi ngày &amp;<br />Sạch sẽ với các<br />
                     sản phẩm của chúng tôi
                   </h4>
-                  <a href="shop-grid-right.html" class="btn btn-xs mb-50">Mua ngay<i class="fi-rs-arrow-small-right"></i></a>
+                  <a href="shop-grid-left.jsp" class="btn btn-xs mb-50">Mua ngay<i class="fi-rs-arrow-small-right"></i></a>
                 </div>
               </div>
             </div>
@@ -96,7 +94,7 @@ try{
                     Sản phẩm hữu cơ<br />
                     Tốt nhất
                   </h5>
-                  <a href="shop-grid-right.html" class="btn btn-xs">Mua ngay<i class="fi-rs-arrow-small-right"></i></a>
+                  <a href="shop-grid-left.jsp" class="btn btn-xs">Mua ngay<i class="fi-rs-arrow-small-right"></i></a>
                 </div>
               </div>
             </div>
@@ -149,7 +147,7 @@ try{
                 Tươi mới mỗi ngày & <br />Sạch sẽ với<br />
                 sản phẩm của chúng tôi
               </h4>
-              <a href="shop-grid-right.html" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
+              <a href="shop-grid-left.jsp" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
             </div>
           </div>
         </div>
@@ -161,7 +159,7 @@ try{
                 Bữa sáng của bạn<br />
                 lành mạnh và dễ dàng
               </h4>
-              <a href="shop-grid-right.html" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
+              <a href="shop-grid-left.jsp" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
             </div>
           </div>
         </div>
@@ -170,7 +168,7 @@ try{
             <img src="nest-frontend/assets/imgs/banner/banner-3.png" alt="" />
             <div class="banner-text">
               <h4>Sản phẩm hữu cơ <br />tốt nhất </h4>
-              <a href="shop-grid-right.html" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
+              <a href="shop-grid-left.jsp" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
             </div>
           </div>
         </div>

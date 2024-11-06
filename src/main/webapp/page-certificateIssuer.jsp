@@ -21,6 +21,11 @@
 </head>
 
 <body>
+<%
+  String msg = (String)session.getAttribute("msg");
+  if(msg==null) msg="";
+  session.removeAttribute("msg");
+%>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
   <jsp:param name="page" value="certificateissuer"/>
@@ -55,6 +60,7 @@
                 <label for="certificate_detail" class="form-label">Chi tiết</label>
                 <textarea placeholder="Mô tả nhà phát hành" class="form-control" id="certificate_detail" name="detail" required></textarea>
               </div>
+              <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary" id="submit_button">Tạo 1 nhà phát hành mới</button>
                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Cancel</button>
@@ -101,6 +107,8 @@
                 </tbody>
               </table>
             </div>
+
+
           </div>
         </div>
       </div>
