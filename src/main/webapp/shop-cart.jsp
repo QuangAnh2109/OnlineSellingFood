@@ -7,7 +7,7 @@
 <html class="no-js" lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Chợ Nét</title>
+  <title>Giỏ hàng </title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,7 +50,7 @@
   <div class="container mb-80 mt-50">
     <div class="row">
       <div class="col-lg-8 mb-40">
-        <h1 class="heading-2 mb-10">Your Cart</h1>
+        <h1 class="heading-2 mb-10">Giỏ hàng của bạn</h1>
         <div class="d-flex justify-content-between">
           <h6 class="text-body">Có <span class="text-brand">${cartItems.size()}</span> sản phẩm trong giỏ hàng </h6>
           <h6 class="text-body">
