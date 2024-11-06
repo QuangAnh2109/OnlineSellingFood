@@ -6,12 +6,12 @@
 <%@ page import="dal.ProductDAO" %>
 <%@ page import="dal.CategoryDAO" %>
 <%@ page import="dal.UnitDAO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <meta charset="utf-8"/>
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -72,21 +72,19 @@
     });
 
     function login() {
-        window.location.href = "http://localhost:9998/OnlineSellingFood_war/login"; // URL trang đăng nhập
+        window.location.href = "http://localhost:9998/OnlineSellingFood_war/login";
     }
 
     function register() {
-        window.location.href = "http://localhost:9998/OnlineSellingFood_war/register"; // URL trang đăng ký
+        window.location.href = "http://localhost:9998/OnlineSellingFood_war/register";
     }
 </script>
 
 <style>
-    /* Đặt form trả lời ban đầu ẩn đi */
     .reply-form {
         display: none;
     }
 
-    /* Hiển thị form trả lời khi người dùng di chuột qua khu vực bình luận */
     .comment-list:hover .reply-form {
         display: block;
     }
@@ -136,7 +134,6 @@
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="detail-info pr-30 pl-30">
-                                <!-- Stock Status and Product Name -->
                                 <span class="stock-status out-stock">Sale Off</span>
                                 <h2 class="title-detail"><%= (product != null) ? product.getName() : "Product name not available." %>
                                 </h2>
@@ -168,13 +165,13 @@
 
                                 <!-- Static Unit Display -->
                                 <div class="attr-detail attr-size mb-30">
-                                    <strong class="mr-10">Unit: </strong>
+                                    <strong class="mr-10">Đơn vị: </strong>
                                     <ul class="list-filter size-filter font-small">
                                         <p class="font-lg"><%= (product != null) ? unitDAO.getUnitNameByID(product.getUnitID()): "Product units not available." %></p>
                                     </ul>
                                 </div>
                                 <div class="product-extra-link2">
-                                    <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                    <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Thêm vào giỏ hàng</button>
                                 </div>
 
                             </div>
@@ -185,13 +182,13 @@
                             <ul class="nav nav-tabs text-uppercase">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="Description-tab" data-bs-toggle="tab"
-                                       href="#Description">Description</a>
+                                       href="#Description">Mô tả sản phẩm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Manufactor</a>
+                                    <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Nhà cung cấp</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews
+                                    <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Đánh giá
                                         (${count})</a>
                                 </li>
                             </ul>
@@ -348,7 +345,7 @@
                     </div>
                     <div class="row mt-60">
                         <div class="col-12">
-                            <h2 class="section-title style-1 mb-30">Related products</h2>
+                            <h2 class="section-title style-1 mb-30">Sản phẩm liên quan</h2>
                         </div>
                         <div class="row product-grid-4">
                             <%

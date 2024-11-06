@@ -5,6 +5,7 @@
   Time: 12:55 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
   String datetime = request.getParameter("datetime"), name = request.getParameter("name"), manufacturer = request.getParameter("manufacturer");
   int star = Integer.parseInt(request.getParameter("star")), discount = Integer.parseInt(request.getParameter("discount")), price = Integer.parseInt(request.getParameter("price")), productID = Integer.parseInt(request.getParameter("productID"));
@@ -24,7 +25,7 @@
         <div class="deals-countdown" data-countdown="<%=datetime%>"></div>
       </div>
       <div class="deals-content">
-        <h2><a href="ProductDetail?productID"><%=name%></a></h2>
+        <h2><a href="ProductDetail?productID=<%=productID%>"><%=name%></a></h2>
         <div class="product-rate-cover">
           <div class="product-rate d-inline-block">
             <div class="product-rating" style="width: <%=star*2%>0%"></div>
@@ -48,7 +49,7 @@
           <div class="add-cart">
             <form action="addtocart" method="post">
               <input type="text" hidden name="productID" value="<%=productID%>">
-              <input type="submit" class="add mr-5" value="Add to cart" style="color: #3BB77E">
+              <input type="submit" class="add mr-5" value="Thêm vào giỏ hàng" style="color: #3BB77E">
             </form>
           </div>
         </div>

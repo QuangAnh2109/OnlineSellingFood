@@ -9,11 +9,12 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="dal.DiscountDAO" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Nest - Multipurpose eCommerce HTML Template</title>
+  <title>Thương mại điện tử</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -52,22 +53,20 @@ try{
               <div class="single-hero-slider single-animation-wrap" style="background-image: url(nest-frontend/assets/imgs/slider/slider-7.png)">
                 <div class="slider-content">
                   <h1 class="display-2 mb-40">
-                    Do not miss amazing<br />
-                    grocery deals
+                    Đừng bỏ lỡ những<br />
+                    ưu đãi tuyệt vời
                   </h1>
-                  <p class="mb-65">Sign up for the daily newsletter</p>
+                  <p class="mb-65">Đăng ký nhận bản tin hàng ngày</p>
                 </div>
               </div>
               <div class="single-hero-slider single-animation-wrap" style="background-image: url(nest-frontend/assets/imgs/slider/slider-8.png)">
                 <div class="slider-content">
                   <h1 class="display-2 mb-40">
-                    Fresh Vegetables<br />
-                    Big discount
+                    Rau củ tươi<br />
+                    Giảm giá lớn
                   </h1>
-                  <p class="mb-65">Save up to 50% off on your first order</p>
                   <form class="form-subcriber d-flex">
-                    <input type="email" placeholder="Your emaill address" />
-                    <button class="btn" type="submit">Subscribe</button>
+                    <button class="btn" type="submit">Đăng ký ngay</button>
                   </form>
                 </div>
               </div>
@@ -82,10 +81,10 @@ try{
                 <img src="nest-frontend/assets/imgs/banner/banner-14.png" alt="" />
                 <div class="banner-text">
                   <h4 class="mb-30">
-                    Everyday Fresh &amp; <br />Clean with Our<br />
-                    Products
+                    Tươi mỗi ngày &amp;<br />Sạch sẽ với các<br />
+                    sản phẩm của chúng tôi
                   </h4>
-                  <a href="shop-grid-right.html" class="btn btn-xs mb-50">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+                  <a href="shop-grid-right.html" class="btn btn-xs mb-50">Mua ngay<i class="fi-rs-arrow-small-right"></i></a>
                 </div>
               </div>
             </div>
@@ -94,10 +93,10 @@ try{
                 <img src="nest-frontend/assets/imgs/banner/banner-15.png" alt="" />
                 <div class="banner-text">
                   <h5 class="mb-20">
-                    The best Organic <br />
-                    Products Online
+                    Sản phẩm hữu cơ<br />
+                    Tốt nhất
                   </h5>
-                  <a href="shop-grid-right.html" class="btn btn-xs">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+                  <a href="shop-grid-right.html" class="btn btn-xs">Mua ngay<i class="fi-rs-arrow-small-right"></i></a>
                 </div>
               </div>
             </div>
@@ -111,7 +110,7 @@ try{
     <div class="container wow animate__animated animate__fadeIn">
       <div class="section-title">
         <div class="title">
-          <h3>Featured Categories</h3>
+          <h3>Danh mục nổi bật</h3>
         </div>
         <div class="slider-arrow slider-arrow-2 flex-right carausel-10-columns-arrow" id="carausel-10-columns-arrows"></div>
       </div>
@@ -147,10 +146,10 @@ try{
             <img src="nest-frontend/assets/imgs/banner/banner-1.png" alt="" />
             <div class="banner-text">
               <h4>
-                Everyday Fresh & <br />Clean with Our<br />
-                Products
+                Tươi mới mỗi ngày & <br />Sạch sẽ với<br />
+                sản phẩm của chúng tôi
               </h4>
-              <a href="shop-grid-right.html" class="btn btn-xs">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+              <a href="shop-grid-right.html" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
             </div>
           </div>
         </div>
@@ -159,10 +158,10 @@ try{
             <img src="nest-frontend/assets/imgs/banner/banner-2.png" alt="" />
             <div class="banner-text">
               <h4>
-                Make your Breakfast<br />
-                Healthy and Easy
+                Bữa sáng của bạn<br />
+                lành mạnh và dễ dàng
               </h4>
-              <a href="shop-grid-right.html" class="btn btn-xs">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+              <a href="shop-grid-right.html" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
             </div>
           </div>
         </div>
@@ -170,8 +169,8 @@ try{
           <div class="banner-img mb-sm-0 wow animate__animated animate__fadeInUp" data-wow-delay=".4s">
             <img src="nest-frontend/assets/imgs/banner/banner-3.png" alt="" />
             <div class="banner-text">
-              <h4>The best Organic <br />Products Online</h4>
-              <a href="shop-grid-right.html" class="btn btn-xs">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+              <h4>Sản phẩm hữu cơ <br />tốt nhất </h4>
+              <a href="shop-grid-right.html" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
             </div>
           </div>
         </div>
@@ -182,7 +181,7 @@ try{
   <section class="product-tabs section-padding position-relative">
     <div class="container">
       <div class="section-title style-2 wow animate__animated animate__fadeIn">
-        <h3>Popular Products</h3>
+        <h3>Sản phẩm bán chạy</h3>
       </div>
       <!--End nav-tabs-->
       <div class="tab-content" id="myTabContent">
@@ -221,7 +220,7 @@ try{
   <section class="section-padding pb-5">
     <div class="container">
       <div class="section-title wow animate__animated animate__fadeIn" data-wow-delay="0">
-        <h3 class="">Deals Of The Day</h3>
+        <h3 class="">Sản phẩm phổ biến</h3>
       </div>
       <!-- product deals -->
       <div class="row">

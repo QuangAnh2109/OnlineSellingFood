@@ -15,5 +15,5 @@
         <a href="shop-grid-left.jsp"><img src="nest-frontend/assets/imgs/shop/cat-15.png" alt="" /></a>
     </figure>
     <h6><a href="shop-grid-left.jsp"><%=name%></a></h6>
-    <span><%=quantity%> items</span>
+    <span><%=quantity%> sản phẩm</span>
 </div>

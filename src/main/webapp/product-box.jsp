@@ -48,7 +48,7 @@
                 <div class="add-cart">
                     <form action="addtocart" method="post">
                         <input type="hidden" name="productID" value="<%=productID%>">
-                        <input type="submit" class="add mr-5" value="Add to cart" style="color: #3BB77E">
+                        <input type="submit" class="add mr-5" value="Thêm vào giỏ hàng" style="color: #3BB77E">
                     </form>
                 </div>
             </div>

@@ -1,8 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -110,7 +111,7 @@
                     <!-- Dropdown cho Danh Mục -->
                     <div class="filter-item">
                         <select name="categoryID" onchange="this.form.submit()">
-                            <option value="">All Categories</option>
+                            <option value="">Các danh mục sản phẩm</option>
                             <% for (Category category : allCategories) { %>
                             <option value="<%= category.getCategoryID() %>" <%= categoryID == category.getCategoryID() ? "selected" : "" %>>
                                 <%= category.getName() %>
@@ -122,7 +123,7 @@
                     <!-- Dropdown cho Nhà Sản Xuất -->
                     <div class="filter-item">
                         <select name="manufacturerID" onchange="this.form.submit()">
-                            <option value="">All Manufacturers</option>
+                            <option value="">Các nhà cung cấp</option>
                             <% ManufacterDAO manufacterDAO = new ManufacterDAO();%>
                             <% List<Manufacturer> allManufacturers = manufacterDAO.getAllManufacturers(); %>
                             <% for (Manufacturer manufacturer : allManufacturers) { %>
@@ -136,7 +137,7 @@
                     <!-- Dropdown cho Xuất Xứ -->
                     <div class="filter-item">
                         <select name="origin" onchange="this.form.submit()">
-                            <option value="">All Origins</option>
+                            <option value="">Các xuất xứ</option>
                             <% OriginDAO originDAO = new OriginDAO();%>
                             <% List<Origin> allOrigins = originDAO.getAllOrigins(); %>
                             <% for (Origin origin : allOrigins) { %>
@@ -166,11 +167,11 @@
         <div class="col-lg-4-5">
             <div class="shop-product-fillter">
                 <div class="totall-product">
-                    <p>We found <strong class="text-brand"><%= totalProducts %></strong> items for you!</p>
+                    <p>Chúng tôi tìm thấy <strong class="text-brand"><%= totalProducts %></strong> sản phẩm cho bạn!</p>
                 </div>
                 <div class="mobile-search search-style-3 mobile-header-border">
                     <form action="" method="get">
-                        <input type="text" name="searchTerm" placeholder="Search for items" />
+                        <input type="text" name="searchTerm" placeholder="Tìm kiếm sản phẩm" />
                         <input type="hidden" name="categoryID" value="<%= categoryID %>" />
                         <input type="hidden" name="sort" value="<%= sortOption %>" />
                         <input type="hidden" name="page" value="1" />
@@ -181,7 +182,7 @@
                     <div class="sort-by-cover mr-10">
                         <div class="sort-by-product-wrap">
                             <div class="sort-by">
-                                <span><i class="fi-rs-apps"></i>Show:</span>
+                                <span><i class="fi-rs-apps"></i>Hiển thị:</span>
                             </div>
                             <div class="sort-by-dropdown-wrap">
                                 <span><%= pageSize %> <i class="fi-rs-angle-small-down"></i></span>
@@ -200,7 +201,7 @@
                     <div class="sort-by-cover">
                         <div class="sort-by-product-wrap">
                             <div class="sort-by">
-                                <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                <span><i class="fi-rs-apps-sort"></i>Sắp xếp theo:</span>
                             </div>
                             <div class="sort-by-dropdown-wrap">
                                 <span><%= sortOption %> <i class="fi-rs-angle-small-down"></i></span>
@@ -243,7 +244,7 @@
                     }
                 } else {
                 %>
-                <p>No products available.</p>
+                <p>Không có sản phẩm phù hợp</p>
                 <% } %>
             </div>
 
@@ -274,7 +275,7 @@
 
         <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
             <div class="sidebar-widget">
-                <h5 class="sidebar-title">Categories</h5>
+                <h5 class="sidebar-title">Danh mục</h5>
                 <ul class="categories">
                     <% for (Category category : categoriesToShow) { %>
                     <li>
