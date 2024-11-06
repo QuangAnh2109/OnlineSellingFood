@@ -73,7 +73,6 @@
             <li class="menu-item has-submenu" id="manufacter">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-store"></i>
-                    <span class="text">Manufacturer</span>
                     <span class="text">Nhà sản xuất</span>
                 </a>
                 <div class="submenu">

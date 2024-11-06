@@ -180,4 +180,22 @@ public class ManufacterDAO extends DBContext {
             return text.substring(0, truncateIndex) + "...";
         }
     }
+    public int getProductCountByManufacturerName(String name) {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM Product p " +
+                "JOIN Manufacturer m ON p.ManufacturerID = m.ManufacturerID " +
+                "WHERE m.Name = ?";
+        try (
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
 }

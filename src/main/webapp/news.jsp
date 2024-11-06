@@ -139,10 +139,10 @@
                                     <a class="page-link" href="#"><i class="fi-rs-arrow-small-left"></i></a>
                                 </li>
                                 <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                                <li class="page-item"><a class="page-link" href="#">6</a></li>
+<%--                                <li class="page-item active"><a class="page-link" href="#">2</a></li>--%>
+<%--                                <li class="page-item"><a class="page-link" href="#">3</a></li>--%>
+<%--                                <li class="page-item"><a class="page-link dot" href="#">...</a></li>--%>
+<%--                                <li class="page-item"><a class="page-link" href="#">6</a></li>--%>
                                 <li class="page-item">
                                     <a class="page-link" href="#"><i class="fi-rs-arrow-small-right"></i></a>
                                 </li>
@@ -161,7 +161,7 @@
                             </div>
                         </div>
                         <div class="sidebar-widget widget-category-2 mb-50">
-                            <h5 class="section-title style-1 mb-30">Category</h5>
+                            <h5 class="section-title style-1 mb-30">Danh mục sản phẩm</h5>
 <%--                            <ul>--%>
 <%--                                <li>--%>
 <%--                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-1.svg" alt="" />Milks & Dairies</a><span class="count">30</span>--%>
@@ -182,7 +182,7 @@
                         </div>
                         <!-- Product sidebar Widget -->
                         <div class="sidebar-widget product-sidebar mb-50 p-30 bg-grey border-radius-10">
-<%--                            <h5 class="section-title style-1 mb-30">Trending Now</h5>--%>
+                            <h5 class="section-title style-1 mb-30">Sản phẩm phổ biến</h5>
 <%--                            <div class="single-post clearfix">--%>
 <%--                                <div class="image">--%>
 <%--                                    <img src="assets/imgs/shop/thumbnail-3.jpg" alt="#" />--%>

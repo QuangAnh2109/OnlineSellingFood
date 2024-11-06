@@ -78,7 +78,7 @@
                                           <th>Mô tả</th>
                             <th></th>
                             <th>Tổng số sản phẩm</th>
-                                          <th></th>
+                                          <th>Trạng thái</th>
                             <th class="text-end">Action</th>
                         </tr>
                         </thead>
@@ -114,7 +114,7 @@
                                             </c:choose>
                                         </td>
                                         <td><td>${mn.productCount}</td></td>
-                                        <td></td>
+                                        <td>${mn.active ? "Active" : "Non-Active"}</td>
                                         <td class="text-end">
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
                                                 <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Sửa </a>
