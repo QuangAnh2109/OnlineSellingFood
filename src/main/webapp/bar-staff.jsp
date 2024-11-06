@@ -23,7 +23,7 @@
             <li class="menu-item" id="dashboard">
                 <a class="menu-link" href="Dashboard">
                     <i class="icon material-icons md-home"></i>
-                    <span class="text">Dashboard</span>
+                    <span class="text">Bảng điều khiển</span>
                 </a>
             </li>
             <%
@@ -34,14 +34,14 @@
             <li class="menu-item" id="homepage">
                 <a class="menu-link" href="home-page-staff.jsp">
                     <i class="icon material-icons md-home"></i>
-                    <span class="text">Dashboard</span>
+                    <span class="text">Bảng điều khiển</span>
                 </a>
             </li>
             <%}%>
             <li class="menu-item" id="changepass">
                 <a class="menu-link" href="account-changepass-staff.jsp">
                     <i class="icon material-icons md-person"></i>
-                    <span class="text">Change Password</span>
+                    <span class="text">Thay đổi mật khẩu</span>
                 </a>
             </li>
             <%
@@ -105,10 +105,10 @@
             <li class="menu-item has-submenu" id="product">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Import</span>
+                    <span class="text">Nhập khẩu</span>
                 </a>
                 <div class="submenu">
-                    <a href="Import" id="Import">Import</a>
+                    <a href="Import" id="Import">Nhập khẩu</a>
 
                 </div>
             </li>

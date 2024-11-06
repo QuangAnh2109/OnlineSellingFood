@@ -24,7 +24,7 @@ public class ChangePassForgotServlet extends HttpServlet {
             response.sendRedirect(changePass);
         }
         else{
-            request.setAttribute("msg","OTP không hợp lệ");
+            request.setAttribute("msg","OTP is not correct");
             request.getRequestDispatcher("forgotpassword.jsp?email="+email).forward(request, response);
         }
     }

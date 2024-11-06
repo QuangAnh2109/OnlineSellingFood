@@ -6,7 +6,7 @@
 <%@ page import="model.Unit" %>
 <%@ page import="dal.UnitDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script>
 
     function validateForm() {
@@ -14,15 +14,15 @@
         const expDate = new Date(document.getElementById("exp").value);
 
         if (expDate < mfgDate) {
-            alert("Expiration date cannot be before Manufacturing date.");
-            return false; // Ngăn không cho gửi form
+            alert("Ngày hết hạn không được trước ngày sản xuất.");
+            return false;
         }
-        return true; // Cho phép gửi form nếu hợp lệ
+        return true;
     }
 
     function doDelete(importID) {
 
-        if (confirm("Are you sure you want to delete Product ?")) {
+        if (confirm("Bạn có muốn xóa sản phẩm ?")) {
             window.location = "importProductDelete?importID=" + importID ;
         }
     }
@@ -76,11 +76,11 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Import Products</h2>
-                <p>Add, edit or delete a Imports</p>
+                <h2 class="content-title card-title">Nhập sản phẩm</h2>
+
             </div>
             <div class="mt-3">
-                <a href="Import" class="btn btn-secondary">Back to Imports</a>
+                <a href="Import" class="btn btn-secondary">Quay lại</a>
             </div>
             <div>
 
@@ -95,12 +95,12 @@
                         <form action="ImportProduct" method="post">
 
                             <div class="mb-4">
-                                <label for="importId" class="form-label">ImportID</label>
+                                <label for="importId" class="form-label">ID Nhập</label>
                                 <input type="number" class="form-control" id="importId" name="importId" readonly required />
 
                             </div>
                             <div class="mb-4">
-                                <label for="productID" class="form-label">Product</label>
+                                <label for="productID" class="form-label">Sản phẩm</label>
                                 <select class="form-control" id="productID" name="productID" required>
                                     <%
                                         List<Product> productList = (List<Product>) request.getAttribute("products");
@@ -115,27 +115,27 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label for="mfg" class="form-label">Manufacturing Time</label>
+                                <label for="mfg" class="form-label">Ngày sản xuất</label>
                                 <input type="date" class="form-control" id="mfg" name="mfg" required />
                             </div>
                             <div class="mb-4">
-                                <label for="exp" class="form-label">Expiration Time</label>
+                                <label for="exp" class="form-label">Ngày hết hạn</label>
                                 <input type="date" class="form-control" id="exp" name="exp" required />
                             </div>
                             <div class="mb-4">
-                                <label for="price" class="form-label">Price</label>
+                                <label for="price" class="form-label">Giá</label>
                                 <input type="number" class="form-control" id="price" name="price" min="1" required />
                             </div>
                             <div class="mb-4">
-                                <label for="quantity" class="form-label">Quantity</label>
+                                <label for="quantity" class="form-label">Số lượng trong kho</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity" min="1" required />
                             </div>
                             <div class="mb-4">
-                                <label for="inventory" class="form-label">Inventory Quantity</label>
+                                <label for="inventory" class="form-label">Số lượng hàng tồn kho</label>
                                 <input type="number" class="form-control" id="inventory" name="inventory" min="0" required />
                             </div>
                             <div class="mb-4">
-                                <label for="unitID" class="form-label">Unit</label>
+                                <label for="unitID" class="form-label">Đơn vị</label>
                                 <select class="form-control" id="unitID" name="unitID" required>
                                     <%
                                         List<Unit> unitList = (List<Unit>) request.getAttribute("units");
@@ -152,7 +152,7 @@
 
                             <div class="d-grid">
 
-                                <button type="submit" class="btn btn-primary">Import Product</button>
+                                <button type="submit" class="btn btn-primary">Nhập sản phẩm</button>
                             </div>
                         </form>
                     </div>
@@ -163,14 +163,14 @@
                                 <thead>
                                 <tr>
 
-                                    <th>Product Name</th>
-                                    <th>MFG Date</th>
-                                    <th>EXP Date</th>
-                                    <th>Price</th>
-                                    <th>Import Quantity</th>
-                                    <th>Inventory Quantity</th>
-                                    <th>Unit</th>
-                                    <th class="text-end">Action</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Ngày sản xuất</th>
+                                    <th>Ngày hết hạn</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng nhập</th>
+                                    <th>Số lượng hàng tồn kho</th>
+                                    <th>Đơn vị</th>
+                                    <th class="text-end">Hoạt động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -187,7 +187,7 @@
                                         <td class="text-end">
 
                                             <a href="#" onclick="doDelete('${imp.getImportID()}')" class="btn btn-light rounded btn-sm font-sm">
-                                                <i class="material-icons md-delete"></i> Delete
+                                                <i class="material-icons md-delete"></i> Xóa
                                             </a>
                                         </td>
                                     </tr>
