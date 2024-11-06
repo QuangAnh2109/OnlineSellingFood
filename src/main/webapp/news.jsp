@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>New</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -67,42 +67,42 @@
                         </div>
                         <div class="sort-by-product-area">
                             <div class="sort-by-cover mr-10">
-                                <div class="sort-by-product-wrap">
-                                    <div class="sort-by">
-                                        <span><i class="fi-rs-apps"></i>Show:</span>
-                                    </div>
-                                    <div class="sort-by-dropdown-wrap">
-                                        <span> 50 <i class="fi-rs-angle-small-down"></i></span>
-                                    </div>
-                                </div>
-                                <div class="sort-by-dropdown">
-                                    <ul>
-                                        <li><a class="active" href="#">50</a></li>
-                                        <li><a href="#">100</a></li>
-                                        <li><a href="#">150</a></li>
-                                        <li><a href="#">200</a></li>
-                                        <li><a href="#">All</a></li>
-                                    </ul>
-                                </div>
+<%--                                <div class="sort-by-product-wrap">--%>
+<%--                                    <div class="sort-by">--%>
+<%--                                        <span><i class="fi-rs-apps"></i>Show:</span>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="sort-by-dropdown-wrap">--%>
+<%--                                        <span> 50 <i class="fi-rs-angle-small-down"></i></span>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                                <div class="sort-by-dropdown">--%>
+<%--                                    <ul>--%>
+<%--                                        <li><a class="active" href="#">50</a></li>--%>
+<%--                                        <li><a href="#">100</a></li>--%>
+<%--                                        <li><a href="#">150</a></li>--%>
+<%--                                        <li><a href="#">200</a></li>--%>
+<%--                                        <li><a href="#">All</a></li>--%>
+<%--                                    </ul>--%>
+<%--                                </div>--%>
                             </div>
-                            <div class="sort-by-cover">
-                                <div class="sort-by-product-wrap">
-                                    <div class="sort-by">
-                                        <span><i class="fi-rs-apps-sort"></i>Sort:</span>
-                                    </div>
-                                    <div class="sort-by-dropdown-wrap">
-                                        <span>Featured <i class="fi-rs-angle-small-down"></i></span>
-                                    </div>
-                                </div>
-                                <div class="sort-by-dropdown">
-                                    <ul>
-                                        <li><a class="active" href="#">Featured</a></li>
-                                        <li><a href="#">Newest</a></li>
-                                        <li><a href="#">Most comments</a></li>
-                                        <li><a href="#">Release Date</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+<%--                            <div class="sort-by-cover">--%>
+<%--                                <div class="sort-by-product-wrap">--%>
+<%--                                    <div class="sort-by">--%>
+<%--                                        <span><i class="fi-rs-apps-sort"></i>Sort:</span>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="sort-by-dropdown-wrap">--%>
+<%--                                        <span>Featured <i class="fi-rs-angle-small-down"></i></span>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                                <div class="sort-by-dropdown">--%>
+<%--                                    <ul>--%>
+<%--                                        <li><a class="active" href="#">Featured</a></li>--%>
+<%--                                        <li><a href="#">Newest</a></li>--%>
+<%--                                        <li><a href="#">Most comments</a></li>--%>
+<%--                                        <li><a href="#">Release Date</a></li>--%>
+<%--                                    </ul>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
                         </div>
                     </div>
                     <div class="loop-grid loop-list pr-30 mb-50">
@@ -125,7 +125,7 @@
                                     </p>
                                     <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
                                         <a href="new-detail?newsId=${n.newsID}" class="text-brand font-heading font-weight-bold">
-                                            Read more <i class="fi-rs-arrow-right"></i>
+                                            Đọc <i class="fi-rs-arrow-right"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -162,135 +162,135 @@
                         </div>
                         <div class="sidebar-widget widget-category-2 mb-50">
                             <h5 class="section-title style-1 mb-30">Category</h5>
-                            <ul>
-                                <li>
-                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-1.svg" alt="" />Milks & Dairies</a><span class="count">30</span>
-                                </li>
-                                <li>
-                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-2.svg" alt="" />Clothing</a><span class="count">35</span>
-                                </li>
-                                <li>
-                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-3.svg" alt="" />Pet Foods </a><span class="count">42</span>
-                                </li>
-                                <li>
-                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-4.svg" alt="" />Baking material</a><span class="count">68</span>
-                                </li>
-                                <li>
-                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-5.svg" alt="" />Fresh Fruit</a><span class="count">87</span>
-                                </li>
-                            </ul>
+<%--                            <ul>--%>
+<%--                                <li>--%>
+<%--                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-1.svg" alt="" />Milks & Dairies</a><span class="count">30</span>--%>
+<%--                                </li>--%>
+<%--                                <li>--%>
+<%--                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-2.svg" alt="" />Clothing</a><span class="count">35</span>--%>
+<%--                                </li>--%>
+<%--                                <li>--%>
+<%--                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-3.svg" alt="" />Pet Foods </a><span class="count">42</span>--%>
+<%--                                </li>--%>
+<%--                                <li>--%>
+<%--                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-4.svg" alt="" />Baking material</a><span class="count">68</span>--%>
+<%--                                </li>--%>
+<%--                                <li>--%>
+<%--                                    <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-5.svg" alt="" />Fresh Fruit</a><span class="count">87</span>--%>
+<%--                                </li>--%>
+<%--                            </ul>--%>
                         </div>
                         <!-- Product sidebar Widget -->
                         <div class="sidebar-widget product-sidebar mb-50 p-30 bg-grey border-radius-10">
-                            <h5 class="section-title style-1 mb-30">Trending Now</h5>
-                            <div class="single-post clearfix">
-                                <div class="image">
-                                    <img src="assets/imgs/shop/thumbnail-3.jpg" alt="#" />
-                                </div>
-                                <div class="content pt-10">
-                                    <h5><a href="shop-product-detail.html">Chen Cardigan</a></h5>
-                                    <p class="price mb-0 mt-5">$99.50</p>
-                                    <div class="product-rate">
-                                        <div class="product-rating" style="width: 90%"></div>
-                                    </div>
-                                </div>
+<%--                            <h5 class="section-title style-1 mb-30">Trending Now</h5>--%>
+<%--                            <div class="single-post clearfix">--%>
+<%--                                <div class="image">--%>
+<%--                                    <img src="assets/imgs/shop/thumbnail-3.jpg" alt="#" />--%>
+<%--                                </div>--%>
+<%--                                <div class="content pt-10">--%>
+<%--                                    <h5><a href="shop-product-detail.html">Chen Cardigan</a></h5>--%>
+<%--                                    <p class="price mb-0 mt-5">$99.50</p>--%>
+<%--                                    <div class="product-rate">--%>
+<%--                                        <div class="product-rating" style="width: 90%"></div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                             </div>
                             <div class="single-post clearfix">
-                                <div class="image">
-                                    <img src="assets/imgs/shop/thumbnail-4.jpg" alt="#" />
-                                </div>
-                                <div class="content pt-10">
-                                    <h6><a href="shop-product-detail.html">Chen Sweater</a></h6>
-                                    <p class="price mb-0 mt-5">$89.50</p>
-                                    <div class="product-rate">
-                                        <div class="product-rating" style="width: 80%"></div>
-                                    </div>
-                                </div>
+<%--                                <div class="image">--%>
+<%--                                    <img src="assets/imgs/shop/thumbnail-4.jpg" alt="#" />--%>
+<%--                                </div>--%>
+<%--                                <div class="content pt-10">--%>
+<%--                                    <h6><a href="shop-product-detail.html">Chen Sweater</a></h6>--%>
+<%--                                    <p class="price mb-0 mt-5">$89.50</p>--%>
+<%--                                    <div class="product-rate">--%>
+<%--                                        <div class="product-rating" style="width: 80%"></div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                             </div>
                             <div class="single-post clearfix">
-                                <div class="image">
-                                    <img src="assets/imgs/shop/thumbnail-5.jpg" alt="#" />
-                                </div>
-                                <div class="content pt-10">
-                                    <h6><a href="shop-product-detail.html">Colorful Jacket</a></h6>
-                                    <p class="price mb-0 mt-5">$25</p>
-                                    <div class="product-rate">
-                                        <div class="product-rating" style="width: 60%"></div>
-                                    </div>
-                                </div>
+<%--                                <div class="image">--%>
+<%--                                    <img src="assets/imgs/shop/thumbnail-5.jpg" alt="#" />--%>
+<%--                                </div>--%>
+<%--                                <div class="content pt-10">--%>
+<%--                                    <h6><a href="shop-product-detail.html">Colorful Jacket</a></h6>--%>
+<%--                                    <p class="price mb-0 mt-5">$25</p>--%>
+<%--                                    <div class="product-rate">--%>
+<%--                                        <div class="product-rating" style="width: 60%"></div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                             </div>
                             <div class="single-post clearfix">
-                                <div class="image">
-                                    <img src="assets/imgs/shop/thumbnail-6.jpg" alt="#" />
-                                </div>
-                                <div class="content pt-10">
-                                    <h6><a href="shop-product-detail.html">Lorem, ipsum</a></h6>
-                                    <p class="price mb-0 mt-5">$25</p>
-                                    <div class="product-rate">
-                                        <div class="product-rating" style="width: 60%"></div>
-                                    </div>
-                                </div>
+<%--                                <div class="image">--%>
+<%--                                    <img src="assets/imgs/shop/thumbnail-6.jpg" alt="#" />--%>
+<%--                                </div>--%>
+<%--                                <div class="content pt-10">--%>
+<%--                                    <h6><a href="shop-product-detail.html">Lorem, ipsum</a></h6>--%>
+<%--                                    <p class="price mb-0 mt-5">$25</p>--%>
+<%--                                    <div class="product-rate">--%>
+<%--                                        <div class="product-rating" style="width: 60%"></div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                             </div>
                         </div>
                         <div class="sidebar-widget widget_instagram mb-50">
-                            <h5 class="section-title style-1 mb-30">Gallery</h5>
-                            <div class="instagram-gellay">
-                                <ul class="insta-feed">
-                                    <li>
-                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-1.jpg" alt="" /></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-2.jpg" alt="" /></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-3.jpg" alt="" /></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-4.jpg" alt="" /></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-5.jpg" alt="" /></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-6.jpg" alt="" /></a>
-                                    </li>
-                                </ul>
-                            </div>
+<%--                            <h5 class="section-title style-1 mb-30">Gallery</h5>--%>
+<%--                            <div class="instagram-gellay">--%>
+<%--                                <ul class="insta-feed">--%>
+<%--                                    <li>--%>
+<%--                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-1.jpg" alt="" /></a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-2.jpg" alt="" /></a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-3.jpg" alt="" /></a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-4.jpg" alt="" /></a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-5.jpg" alt="" /></a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="#"><img class="border-radius-5" src="assets/imgs/shop/thumbnail-6.jpg" alt="" /></a>--%>
+<%--                                    </li>--%>
+<%--                                </ul>--%>
+<%--                            </div>--%>
                         </div>
                         <!--Tags-->
                         <div class="sidebar-widget widget-tags mb-50 pb-10">
-                            <h5 class="section-title style-1 mb-30">Popular Tags</h5>
-                            <ul class="tags-list">
-                                <li class="hover-up">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Cabbage</a>
-                                </li>
-                                <li class="hover-up">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Broccoli</a>
-                                </li>
-                                <li class="hover-up">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Smoothie</a>
-                                </li>
-                                <li class="hover-up">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Fruit</a>
-                                </li>
-                                <li class="hover-up mr-0">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Salad</a>
-                                </li>
-                                <li class="hover-up mr-0">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Appetizer</a>
-                                </li>
-                            </ul>
+<%--                            <h5 class="section-title style-1 mb-30">Popular Tags</h5>--%>
+<%--                            <ul class="tags-list">--%>
+<%--                                <li class="hover-up">--%>
+<%--                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Cabbage</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="hover-up">--%>
+<%--                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Broccoli</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="hover-up">--%>
+<%--                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Smoothie</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="hover-up">--%>
+<%--                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Fruit</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="hover-up mr-0">--%>
+<%--                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Salad</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="hover-up mr-0">--%>
+<%--                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Appetizer</a>--%>
+<%--                                </li>--%>
+<%--                            </ul>--%>
                         </div>
                         <div class="banner-img wow fadeIn mb-50 animated d-lg-block d-none">
-                            <img src="assets/imgs/banner/banner-11.png" alt="" />
-                            <div class="banner-text">
-                                <span>Oganic</span>
-                                <h4>
-                                    Save 17% <br />
-                                    on <span class="text-brand">Oganic</span><br />
-                                    Juice
-                                </h4>
-                            </div>
+<%--                            <img src="assets/imgs/banner/banner-11.png" alt="" />--%>
+<%--                            <div class="banner-text">--%>
+<%--                                <span>Oganic</span>--%>
+<%--                                <h4>--%>
+<%--                                    Save 17% <br />--%>
+<%--                                    on <span class="text-brand">Oganic</span><br />--%>
+<%--                                    Juice--%>
+<%--                                </h4>--%>
+<%--                            </div>--%>
                         </div>
                     </div>
                 </div>
