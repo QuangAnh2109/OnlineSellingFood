@@ -1,6 +1,7 @@
 package controller;
 
 import dal.DiscountDAO;
+import dal.ProductDAO;
 import dto.ProductDiscountResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,9 +19,26 @@ public class DiscountModifyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse respone) throws ServletException, IOException {
         DiscountDAO dao = new DiscountDAO();
-        String search=request.getParameter("search");
-        if(search==null) search="";
-        List<ProductDiscountResponse> pdr=dao.getProductDiscount(search);
+        ProductDAO pdao = new ProductDAO();
+        String searchName=request.getParameter("searchName");
+        if(searchName==null)searchName="";
+
+        String indexPage=request.getParameter("index");
+        if(indexPage==null){
+            indexPage="1";
+        }
+
+        int index=Integer.parseInt(indexPage);
+        List<ProductDiscountResponse> pdr=dao.getProductDiscount(index,searchName);
+
+        int count=pdao.getTotalProduct(searchName);
+        int endPage=count/5;
+        if(count%5!=0){
+            endPage++;
+        }
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("index", index);
+        request.setAttribute("searchName", searchName);
         request.setAttribute("productDiscount", pdr);
         request.getRequestDispatcher("create-discount.jsp").forward(request, respone);
     }

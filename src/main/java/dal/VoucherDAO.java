@@ -76,14 +76,18 @@ public class VoucherDAO extends DBContext {
         }
     }
 
-    public List<VoucherResponse> getListVoucher() {
+    public List<VoucherResponse> getListVoucher(int index) {
         List<VoucherResponse> res = new Vector<VoucherResponse>();
-        String sql = "select v.VoucherID,d.DiscountID,d.[DiscountPercent],d.StartTime,d.EndTime,v.Quantity,v.Inventory\n" +
-                "from Voucher v left join Discount d on v.DiscountID = d.DiscountID";
+        String sql;
+        sql = "select v.VoucherID,d.DiscountID,d.[DiscountPercent],d.StartTime,d.EndTime,v.Quantity,v.Inventory\n" +
+                "from Voucher v left join Discount d on v.DiscountID = d.DiscountID\n" +
+                "ORDER BY VoucherID " +
+                "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
 
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, (index - 1) * 5);
+            ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Lấy các giá trị thời gian bằng Timestamp và chuyển sang LocalDateTime
                 Timestamp startTimestamp = rs.getTimestamp(4); // Lấy giá trị StartTime
@@ -142,8 +146,18 @@ public class VoucherDAO extends DBContext {
         return null;
     }
 
-    public void updateInventoryInVoucher(int voucherID) {
-
+    public int getToTalVoucher() {
+        String sql = "select count(*) from Voucher v left join Discount d on v.DiscountID = d.DiscountID";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 
 

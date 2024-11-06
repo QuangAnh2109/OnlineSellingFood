@@ -150,6 +150,19 @@
             </div>
             <!-- card body .// -->
         </div>
+        <div class="pagination-area mt-15 mb-50">
+            <nav aria-label="Page navigation example">
+
+
+                <ul class="pagination justify-content-start">
+                    <c:forEach begin="01" end="${endPage}" var="i">
+                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="voucher?index=${i}">${i}</a></li>
+                    </c:forEach>
+                </ul>
+
+
+            </nav>
+        </div>
         <!-- card .// -->
     </section>
     <!-- content-main end// -->

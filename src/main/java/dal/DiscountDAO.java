@@ -17,39 +17,60 @@ public class DiscountDAO extends DBContext{
     return null;
 
     }
-    public List<ProductDiscountResponse> getProductDiscount(String search) {
+    public List<ProductDiscountResponse> getProductDiscount(int index,String searchName) {
         List<ProductDiscountResponse> res = new Vector<ProductDiscountResponse>();
-        String sql = "select p.ProductID,d.DiscountID,p.[Name],c.[Name],p.Price,d.DiscountPercent,d.StartTime,d.EndTime\n" +
-                "from Product p left join Discount d on p.DiscountID = d.DiscountID\n" +
-                "join Category c on p.CategoryID = c.CategoryID where p.[Name] like ?";
+        String sql ;
+        if (searchName != null && !searchName.isEmpty()) {
+            sql = "SELECT p.ProductID, d.DiscountID, p.[Name], c.[Name], p.Price, d.DiscountPercent, d.StartTime, d.EndTime " +
+                    "FROM Product p LEFT JOIN Discount d ON p.DiscountID = d.DiscountID " +
+                    "JOIN Category c ON p.CategoryID = c.CategoryID " +
+                    "WHERE p.[Name] LIKE ? " +
+                    "ORDER BY ProductID " +
+                    "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
+        } else {
+            sql = "SELECT p.ProductID, d.DiscountID, p.[Name], c.[Name], p.Price, d.DiscountPercent, d.StartTime, d.EndTime " +
+                    "FROM Product p LEFT JOIN Discount d ON p.DiscountID = d.DiscountID " +
+                    "JOIN Category c ON p.CategoryID = c.CategoryID " +
+                    "ORDER BY ProductID " +
+                    "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
+        }
+
 
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, "%" +search+ "%");
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement st=connection.prepareStatement(sql);
+            if (searchName != null && !searchName.isEmpty()) {
+                st.setNString(1, "%" + searchName + "%");
+                st.setInt(2, (index - 1) * 5);
+            } else {
+                st.setInt(1, (index - 1) * 5);
+            }
+            ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 // Lấy các giá trị thời gian bằng Timestamp và chuyển sang LocalDateTime
-                Timestamp startTimestamp = rs.getTimestamp(7); // Lấy giá trị StartTime
+                Timestamp startTimestamp = rs.getTimestamp("StartTime");
                 LocalDateTime startTime = startTimestamp != null ? startTimestamp.toLocalDateTime() : null;
 
-                Timestamp endTimestamp = rs.getTimestamp(8); // Lấy giá trị EndTime
+                Timestamp endTimestamp = rs.getTimestamp("EndTime");
                 LocalDateTime endTime = endTimestamp != null ? endTimestamp.toLocalDateTime() : null;
-                res.add(new ProductDiscountResponse(rs.getInt(1)
-                        , rs.getInt(2)
-                        ,rs.getString(3)
-                        , rs.getString(4)
-                        , rs.getInt(5)
-                        , rs.getInt(6)
-                        , startTime
-                        , endTime));
+
+                res.add(new ProductDiscountResponse(
+                        rs.getInt("ProductID"),
+                        rs.getInt("DiscountID"),
+                        rs.getString("Name"),
+                        rs.getString(4),  // Category Name
+                        rs.getInt("Price"),
+                        rs.getInt("DiscountPercent"),
+                        startTime,
+                        endTime
+                ));
             }
-        return res;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        return null;
+        return res;
     }
 public int checkExistPercent(int discountPercent, LocalDateTime startTime, LocalDateTime endTime) {
     String sql = "select * from Discount where DiscountPercent=? and StartTime=? and EndTime=?";
@@ -154,7 +175,8 @@ public int checkExistPercent(int discountPercent, LocalDateTime startTime, Local
     }
     public static void main(String[] args) {
        DiscountDAO dd=new DiscountDAO();
-       dd.deleteDiscount(12);
+       List<ProductDiscountResponse> list=dd.getProductDiscount(1,"Product");
+        System.out.println(list.size());
     }
     public Discount getDiscountByDiscountId(int discountID) {
         Discount discount = null;
@@ -179,5 +201,7 @@ public int checkExistPercent(int discountPercent, LocalDateTime startTime, Local
         }
         return discount;
     }
+
+
 
     }

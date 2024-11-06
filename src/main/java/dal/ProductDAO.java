@@ -486,4 +486,21 @@ public class ProductDAO extends DBContext{
         return products;
     }
 
+    public int getTotalProduct(String searchName){
+        String sql = "select count(*) from Product where  Name like ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setNString(1, "%" + searchName + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
 }

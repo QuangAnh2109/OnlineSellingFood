@@ -20,8 +20,22 @@ public class VoucherModifyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse respone) throws ServletException, IOException {
         VoucherDAO vDao = new VoucherDAO();
-        List<VoucherResponse> voucherResponse=vDao.getListVoucher();
+
+        String indexPage=request.getParameter("index");
+        if(indexPage==null){
+            indexPage="1";
+        }
+        int index=Integer.parseInt(indexPage);
+        List<VoucherResponse> voucherResponse=vDao.getListVoucher(index);
+
+        int count=vDao.getToTalVoucher();
+        int endPage=count/5;
+        if(count%5!=0){
+            endPage++;
+        }
         request.setAttribute("voucher", voucherResponse);
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("index", index);
 
         request.getRequestDispatcher("create-voucher.jsp").forward(request, respone);
 

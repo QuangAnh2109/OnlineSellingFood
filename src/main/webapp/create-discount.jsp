@@ -59,7 +59,7 @@
 
             <div>
                 <form action="discount" method="get" >
-                    <input type="text" placeholder="Tìm kiếm theo tên" name="search" class="form-control bg-white" />
+                    <input type="text" placeholder="Tìm kiếm theo tên" name="searchName"  class="form-control bg-white"  value="${searchName}" style="flex: 1;" />
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>
 
@@ -145,6 +145,19 @@
             <!-- card body .// -->
         </div>
         <!-- card .// -->
+        <div class="pagination-area mt-15 mb-50">
+            <nav aria-label="Page navigation example">
+
+
+                <ul class="pagination justify-content-start">
+                    <c:forEach begin="01" end="${endPage}" var="i">
+                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="discount?index=${i}&searchName=${searchName}">${i}</a></li>
+                    </c:forEach>
+                </ul>
+
+
+            </nav>
+        </div>
     </section>
     <!-- content-main end// -->
     <footer class="main-footer font-xs">

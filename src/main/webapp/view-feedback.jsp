@@ -5,9 +5,7 @@
 
 <script type="text/javascript">
     function doDelete(customerID) {
-        if (confirm("Bạn có muốn xóa Feedback này của sản phẩm này không?")) {
-            window.location = "productFeedback?customerID=" + customerID;
-        }
+        return confirm("Bạn có muốn xóa Feedback này của sản phẩm này không?");
     }
 </script>
 <head>
@@ -106,7 +104,7 @@
                                 <td><span class="badge rounded-pill alert-success">${l.feedback}</span></td>
                                 <td>${l.time}</td>
                                 <td class="text-end">
-                                    <button type="submit" onclick="doDelete(${l.customerID})" class="btn btn-sm btn-brand rounded font-sm mt-15">Xóa</button>
+                                    <button type="submit" onclick="return doDelete(${l.customerID})" class="btn btn-sm btn-brand rounded font-sm mt-15">Xóa</button>
                                 </td>
                                 <input type="hidden" value="${l.customerID}" name="customerID">
                                 <input type="hidden" value="${productID}" name="productID">
