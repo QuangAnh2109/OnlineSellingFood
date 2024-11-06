@@ -17,16 +17,21 @@ public class ManufacterDAO extends DBContext{
     }
     public Manufacturer getManufacturerByID(int manufacturerID) {
         try {
-            PreparedStatement ps = connection.prepareStatement(
-                    "SELECT ManufacturerID, Introduce, Name FROM Manufacturer WHERE ManufacturerID=?"
-            );
+            String query = "SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount " +
+                    "FROM Manufacturer m " +
+                    "LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID " +
+                    "WHERE m.ManufacturerID = ? " +
+                    "GROUP BY m.ManufacturerID, m.Introduce, m.Name";
+            PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, manufacturerID);
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
                 Manufacturer manufacturer = new Manufacturer();
                 manufacturer.setManufacturerID(rs.getInt("ManufacturerID"));
                 manufacturer.setIntroduce(rs.getString("Introduce"));
                 manufacturer.setName(rs.getString("Name"));
+                manufacturer.setProductCount(rs.getInt("ProductCount")); // Set product count
                 return manufacturer;
             }
         } catch (SQLException e) {
@@ -34,6 +39,7 @@ public class ManufacterDAO extends DBContext{
         }
         return null;
     }
+
     public String getManufacturerName(int manufacturerID) {
         String sql = "SELECT Name FROM Manufacturer WHERE ManufacturerID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -146,15 +152,22 @@ public class ManufacterDAO extends DBContext{
     public List<Manufacturer> searchManufacturersByName(String name) {
         List<Manufacturer> manufacturers = new ArrayList<>();
         try {
-            String query = "SELECT ManufacturerID, Introduce, Name FROM Manufacturer WHERE Name LIKE ?";
+            String query = "SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount " +
+                    "FROM Manufacturer m " +
+                    "LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID " +
+                    "WHERE m.Name LIKE ? " +
+                    "GROUP BY m.ManufacturerID, m.Introduce, m.Name";
+
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, "%" + name.trim() + "%");
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 Manufacturer manufacturer = new Manufacturer();
                 manufacturer.setManufacturerID(rs.getInt("ManufacturerID"));
                 manufacturer.setIntroduce(rs.getString("Introduce"));
                 manufacturer.setName(rs.getString("Name"));
+                manufacturer.setProductCount(rs.getInt("ProductCount")); // Set the product count
                 manufacturers.add(manufacturer);
             }
         } catch (SQLException e) {

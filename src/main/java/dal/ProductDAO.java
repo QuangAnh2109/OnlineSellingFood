@@ -435,6 +435,21 @@ public class ProductDAO extends DBContext{
 
         return products;
     }
-
+    public List<Product> getProductsByManufacturerID(int manufacturerID) {
+        List<Product> products = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT * FROM Product WHERE ManufacturerID = ?"
+            );
+            ps.setInt(1, manufacturerID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                products.add((Product) getObjectByRs(rs));
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return products;
+    }
 
 }

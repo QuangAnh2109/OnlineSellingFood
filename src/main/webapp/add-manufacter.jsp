@@ -5,12 +5,12 @@
   Time: 12:13 AM
   To change this template use File | Settings | File Templates.
 --%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>Thêm nhà sản xuất</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,7 +35,7 @@
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">
             <div class="card-body">
-                <h4 class="card-title mb-4">Create Manufacturer</h4>
+                <h4 class="card-title mb-4">Tạo mới</h4>
 
                 <!-- Success message -->
                 <!-- Success message -->
@@ -54,18 +54,18 @@
 
                 <form action="registerManu" method="post">
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
+                        <label class="form-label">Tên</label>
                         <input class="form-control" name="name" placeholder="Name" type="text" required />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Introduce</label>
+                        <label class="form-label">Mô tả</label>
 
                         <textarea class="form-control" name="introduce" placeholder="Introduce" ></textarea>
                     </div>
 
                     <div class="mb-4">
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        <button type="submit" class="btn btn-primary w-100">Tạo</button>
                     </div>
                 </form>
             </div>

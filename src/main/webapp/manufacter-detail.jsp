@@ -1,9 +1,9 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>Chi tiết</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@
     <section class="content-main mt-80 mb-80">
         <div class="card mx-auto card-login">
             <div class="card-body">
-                <h4 class="card-title mb-4">Edit Manufacter Information</h4>
+                <h4 class="card-title mb-4">Sửa thông tin</h4>
 
                 <!-- Error message -->
                 <c:if test="${not empty errorMessage}">
@@ -36,17 +36,17 @@
                     <input type="hidden" name="ManufacturerID" value="${manuListDetail.manufacturerID}" /> <!-- Ensure this is passed -->
 
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
+                        <label class="form-label">Tên</label>
                         <input class="form-control" name="name" value="${manuListDetail.name}" placeholder="Name" type="text" required />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Introduce</label>
+                        <label class="form-label">Mô tả</label>
                         <textarea class="form-control" name="introduce" placeholder="Introduce" rows="4" required>${manuListDetail.introduce}</textarea>
                     </div>
 
                     <div class="mb-4">
-                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                        <button type="submit" class="btn btn-primary w-100">Cập nhập</button>
                     </div>
                 </form>
             </div>

@@ -26,7 +26,7 @@ public class RegisterManufacterServlet extends HttpServlet {
         // Step 2: Check if the manufacturer name already exists
         if (manufacterDAO.isManufacturerNameExists(name)) {
             // Step 3: If the name exists, show an error message and return to the form
-            request.setAttribute("errorMessage", "Manufacturer with this name already exists.");
+            request.setAttribute("errorMessage", "Nhà sản xuất đã tồn tại");
             request.getRequestDispatcher("add-manufacter.jsp").forward(request, response);
         } else {
             // Step 4: Create a new Manufacturer object and add it to the database

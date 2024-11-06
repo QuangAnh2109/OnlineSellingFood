@@ -2,12 +2,13 @@
 <%@ page import="dal.ManufacterDAO.TextTruncator" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>Danh sách nhà sản xuất</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,11 +32,16 @@
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">Manufacter</h2>
+            <h2 class="content-title">Nhà sản xuất</h2>
             <div>
-                <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+                <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i>Tạo mới</a>
             </div>
         </div>
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger" role="alert">
+                    ${error}
+            </div>
+        </c:if>
         <div class="card mb-4">
             <header class="card-header">
                 <div class="row gx-3">
@@ -46,19 +52,19 @@
                         </form>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Disabled</option>
-                            <option>Show all</option>
-                        </select>
+<%--                        <select class="form-select">--%>
+<%--                            <option>Status</option>--%>
+<%--                            <option>Active</option>--%>
+<%--                            <option>Disabled</option>--%>
+<%--                            <option>Show all</option>--%>
+<%--                        </select>--%>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Show 20</option>
-                            <option>Show 30</option>
-                            <option>Show 40</option>
-                        </select>
+<%--                        <select class="form-select">--%>
+<%--                            <option>Show 20</option>--%>
+<%--                            <option>Show 30</option>--%>
+<%--                            <option>Show 40</option>--%>
+<%--                        </select>--%>
                     </div>
                 </div>
             </header>
@@ -68,10 +74,10 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                                          <th>Introduce</th>
+                            <th>Tên</th>
+                                          <th>Mô tả</th>
                             <th></th>
-                            <th>Number of products</th>
+                            <th>Tổng số sản phẩm</th>
                                           <th></th>
                             <th class="text-end">Action</th>
                         </tr>
@@ -80,19 +86,19 @@
                         <c:choose>
                             <c:when test="${empty manuList}">
                                 <tr>
-                                    <td colspan="3">No manufacturers found.</td>
+                                    <td colspan="3">Không có nhà sản xuất</td>
                                 </tr>
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${manuList}" var="mn">
                                     <tr>
                                         <td width="40%">
-                                            <a href="#" class="itemside">
+                                            <a  class="itemside">
 <%--                                                <div class="left">--%>
 <%--                                                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />--%>
 <%--                                                </div>--%>
                                                 <div class="info pl-3">
-                                                    <h6 class="mb-0 title">${mn.name}</h6>
+                                                    <a href="manuDetail?ManufacturerID=${mn.manufacturerID}" class="mb-0 title">${mn.name}</a>
                                                 </div>
                                             </a>
                                         </td>
@@ -111,9 +117,11 @@
                                         <td></td>
                                         <td class="text-end">
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
-                                                <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-                                                <a href="#" onclick="confirmDelete(${mn.manufacturerID}); return false;" class="btn btn-sm font-sm btn-light rounded">
-                                                    <i class="material-icons md-delete_forever"></i> Delete
+                                                <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Sửa </a>
+                                                <a href="manuDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-launch"></i> View </a>
+                                                <a href="#" onclick="confirmDelete(${mn.manufacturerID}, ${mn.productCount}); return false;"
+                                                   class="btn btn-sm font-sm btn-light rounded">
+                                                    <i class="material-icons md-delete_forever"></i> Xóa
                                                 </a>
                                                 <form id="deleteForm${mn.manufacturerID}" action="manulist" method="POST" style="display:none;">
                                                     <input type="hidden" name="action" value="delete" />
@@ -157,7 +165,19 @@
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
 <script type="text/javascript">
     function confirmDelete(manufacturerID) {
-        var confirmed = confirm("Are you sure you want to delete this manufacturer?");
+        var confirmed = confirm("Bạn muốn xóa nhà sản xuất này?");
+        if (confirmed) {
+            document.getElementById('deleteForm' + manufacturerID).submit();
+        }
+    }
+</script>
+<script type="text/javascript">
+    function confirmDelete(manufacturerID, productCount) {
+        if (productCount >= 1) {
+            alert("Không thể xóa vì vẫn tồn tại sản phẩm trong kho");
+            return false;
+        }
+        var confirmed = confirm("Bạn muốn xóa nhà sản xuất này?");
         if (confirmed) {
             document.getElementById('deleteForm' + manufacturerID).submit();
         }
