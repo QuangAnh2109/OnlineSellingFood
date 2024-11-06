@@ -65,9 +65,7 @@ try{
                     Rau củ tươi<br />
                     Giảm giá lớn
                   </h1>
-                  <form class="form-subcriber d-flex">
                     <a href="register" class="btn btn-xs mb-50">Đăng ký ngay<i class="fi-rs-arrow-small-right"></i></a>
-                  </form>
                 </div>
               </div>
             </div>

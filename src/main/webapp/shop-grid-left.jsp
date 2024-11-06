@@ -150,13 +150,6 @@
                         </select>
                     </div>
 
-
-                    <!-- Thanh chọn theo giá -->
-                    <div class="filter-item">
-                        <input type="text" name="minPrice" placeholder="Min Price" value="<%= request.getParameter("minPrice") != null ? request.getParameter("minPrice") : "" %>"/>
-                        <input type="text" name="maxPrice" placeholder="Max Price" value="<%= request.getParameter("maxPrice") != null ? request.getParameter("maxPrice") : "" %>"/>
-                        <button type="submit">Filter</button>
-                    </div>
                 </div>
             </form>
         </div>
@@ -281,6 +274,7 @@
 
 
         <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
+
             <div class="sidebar-widget">
                 <h5 class="sidebar-title">Danh mục</h5>
                 <ul class="categories">
@@ -289,16 +283,15 @@
                         <a href="?categoryID=<%= category.getCategoryID() %>&page=1">
                             <%= category.getName() %>
                         </a>
-                        <span class="product-count">
-   <%
-       int productCount = productDAO.countProductsByCategory(category.getCategoryID());
-   %>
-   (<%= productCount %>)
-</span>
+                            <span class="product-count">
+                        <%
+                                int productCount = productDAO.countProductsByCategory(category.getCategoryID());
+                            %>
+                            (<%= productCount %>)
+                        </span>
                     </li>
                     <% } %>
                 </ul>
-
                 <div class="pagination-area mt-20 mb-20">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
@@ -321,8 +314,33 @@
                     </nav>
                 </div>
             </div>
-
+            <div class="sidebar-widget price_range range mb-30">
+                <h5 class="section-title style-1 mb-30">Lọc theo giá</h5>
+                <div class="price-filter">
+                    <div class="price-filter-inner">
+                        <div id="slider-range" class="mb-20"></div>
+                        <div class="d-flex justify-content-between">
+                            <div class="caption">Từ: <strong id="slider-range-value1" class="text-brand"></strong></div>
+                            <div class="caption">Đến: <strong id="slider-range-value2" class="text-brand"></strong></div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <h5 class="section-title style-1 mb-30">Lọc theo cân</h5>
+                <div class="price-filter">
+                    <div class="price-filter-inner">
+                        <div id="slider-range2" class="mb-20"></div>
+                        <div class="d-flex justify-content-between">
+                            <div class="caption">Từ: <strong id="slider-range-value3" class="text-brand"></strong></div>
+                            <div class="caption">Đến: <strong id="slider-range-value4" class="text-brand"></strong></div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</a>
+            </div>
         </div>
+
     </div>
 </div>
 
