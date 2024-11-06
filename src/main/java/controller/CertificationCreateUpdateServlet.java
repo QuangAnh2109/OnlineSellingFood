@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import common.ImgFile;
 import dal.CertificateDAO;
 import dal.ImgDAO;
 import jakarta.servlet.ServletException;
@@ -45,6 +46,7 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
         String detail = request.getParameter("detail");
         String certificateIssuerID = request.getParameter("certificateIssuerID");
 
+        /*
         int imgID = -1;
 
         Part filePart = request.getPart("img");
@@ -69,6 +71,9 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
             imgID = imgDAO.addImg1(img);
         }
 
+         */
+        int imgID = ImgFile.importImg(request.getPart("img"), "Certification");
+
         Certification existingCertification = null;
         if (certificationID != null && !certificationID.isEmpty()) {
             existingCertification = certificationDAO.getCertificationById(Integer.parseInt(certificationID));
@@ -92,16 +97,7 @@ public class CertificationCreateUpdateServlet extends HttpServlet {
                 if (oldImgID != -1) {
                     Img oldImg = imgDAO.getImgById(oldImgID);
                     if (oldImg != null) {
-                        String oldImgPath = IMG_FOLDER + "\\" + oldImg.getImglink();
-                        File oldImgFile = new File(oldImgPath);
-                        if (oldImgFile.exists()) {
-                            boolean isDeleted = oldImgFile.delete();
-                            System.out.println("Old image deleted: " + isDeleted);
-                            // Xóa bản ghi ảnh trong database
-                            if (isDeleted) {
-                                imgDAO.deleteImg(oldImgID);
-                            }
-                        }
+                        ImgFile.deleteImg(oldImg.getImglink());
                     }
                 }
             }

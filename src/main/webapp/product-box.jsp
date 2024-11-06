@@ -1,3 +1,4 @@
+<%@ page import="common.Host" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
@@ -17,7 +18,7 @@
         <div class="product-img-action-wrap">
             <div class="product-img product-img-zoom">
                 <a href="ProductDetail?productID=<%=productID%>">
-                    <img class="default-img" src="<%=imageUrl%>" alt="<%=name%>" />
+                    <img class="default-img" src="<%=Host.IMG_LINK+imageUrl+"?raw=true"%>" alt="<%=name%>" />
                     <img class="hover-img" src="<%=hoverImageUrl%>" alt="<%=name%> (Hover)" />
                 </a>
             </div>

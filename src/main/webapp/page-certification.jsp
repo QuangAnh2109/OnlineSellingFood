@@ -4,6 +4,7 @@
 <%@ page import="model.CertificateIssuer" %>
 <%@ page import="dal.ImgDAO" %>
 <%@ page import="dal.CertificateIssuerDAO" %>
+<%@ page import="common.Host" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,8 +80,8 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label for="imagefile" class="form-label">Tải ảnh lên</label>
-                                <input type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
+                                <label class="form-label">Ảnh</label>
+                                <input class="form-control" type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                             </div>
                             <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
                             <div class="d-grid">
@@ -121,8 +122,7 @@
                                         CertificateIssuer issuer = certificateIssuerDAO.getCertificateIssuerById(certification.getCertificateIssuerID());
                                     %>
                                     <td><%=  issuer.getName() %></td>
-<%--                                 <td><img src="<%= certification.getImgID() %>" alt="Image" style="width: 50px; height: auto;"></td>--%>
-                                    <td><img src="Img/<%= imgdao.getImgLinkByID(certification.getImgID()) %>" alt="Image" style="width: 100px; height: auto;"></td>
+                                    <th><img src="<%=Host.IMG_LINK+imgdao.getImgById(certification.getImgID()).getImglink()%>?raw=true" style="max-height: 200px;"></th>
                                     <td class="text-end">
                                         <button class="btn btn-light rounded btn-sm font-sm">
                                             <a href="certificationDelete?certificationID=<%= certification.getCertificationID() %>"><i class="material-icons md-delete"></i>Xóa</a>
