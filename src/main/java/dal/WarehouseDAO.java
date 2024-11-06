@@ -26,6 +26,59 @@ public class WarehouseDAO extends DBContext {
         }
         return null;
     }
+    public boolean isWarehouseExists(String name) {
+        String sql = "SELECT COUNT(*) FROM Warehouse WHERE Name = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return false;
+    }
+    public int countWarehouseBySearch(String search) {
+        String sql = "SELECT COUNT(*) FROM Warehouse WHERE Name LIKE ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + search + "%");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.info(getClass().getName() + ": " + e.getMessage());
+        }
+        return 0;
+    }
+    public List<Warehouse> searchWarehouses(String search, int start, int recordsPerPage) {
+        List<Warehouse> warehouses = new ArrayList<>();
+        String sql = "SELECT * FROM Warehouse WHERE Name LIKE ? ORDER BY WarehouseID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + search + "%");
+            ps.setInt(2, start);
+            ps.setInt(3, recordsPerPage);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int warehouseID = rs.getInt("WarehouseID");
+                int contactInformationID = rs.getInt("ContactInformationID");
+                int statusID = rs.getInt("StatusID");
+                String name = rs.getString("Name");
+
+                Warehouse warehouse = new Warehouse(warehouseID, contactInformationID, statusID, name);
+                warehouses.add(warehouse);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return warehouses;
+    }
 
     public List<Warehouse> getAllWarehouse() {
         try {

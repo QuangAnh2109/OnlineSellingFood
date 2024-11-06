@@ -21,6 +21,11 @@
 </head>
 
 <body>
+<%
+    String msg = (String)session.getAttribute("msg");
+    if(msg==null) msg="";
+    session.removeAttribute("msg");
+%>
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
     <jsp:param name="page" value="category"/>
@@ -51,6 +56,7 @@
                                 <input type="text" placeholder="Tên loại" class="form-control" id="product_name" name="name" required />
                                 <input type="hidden" id="category_id" name="categoryID" />
                             </div>
+                            <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary" id="submit_button">Tạo loại sản phẩm</button>
                                 <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Hủy</button>

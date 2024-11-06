@@ -7,12 +7,10 @@ import model.Warehouse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 
 public class ProductDAO extends DBContext{
     @Override
@@ -305,6 +303,42 @@ public class ProductDAO extends DBContext{
         }
 
         return products;
+    }
+    public Map<Integer, Integer> countProductsByOrigin() {
+        Map<Integer, Integer> originCounts = new HashMap<>();
+        String sql = "SELECT OriginID, COUNT(*) AS Count FROM Product GROUP BY OriginID";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int originID = rs.getInt("OriginID");
+                int count = rs.getInt("Count");
+                originCounts.put(originID, count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return originCounts;
+    }
+    public Map<Integer, Integer> countProductsByCategory() {
+        Map<Integer, Integer> categoryCounts = new HashMap<>();
+        String sql = "SELECT CategoryID, COUNT(*) AS Count FROM Product GROUP BY CategoryID";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int categoryID = rs.getInt("CategoryID");
+                int count = rs.getInt("Count");
+                categoryCounts.put(categoryID, count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoryCounts;
     }
 
     public int countProductsByCategoryAndSearch(int categoryID, String searchTerm) {

@@ -28,6 +28,8 @@ public class CertificationDeleteServlet extends HttpServlet {
                 request.setAttribute("certificationList", certificationList);
                 request.getRequestDispatcher("page-certification.jsp").forward(request, response);
                 return;
+            } else {
+                certificationDAO.deleteCertification(Integer.parseInt(certificationIdParam));
             }
         }
         response.sendRedirect("certificationList");
