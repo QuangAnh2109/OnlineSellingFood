@@ -10,8 +10,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
+import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,6 +42,10 @@ public class DashboardServlet extends HttpServlet {
         ProductDAO dao2 = new ProductDAO();
         int totalProducts = dao2.getTotalProducts();
         List<OrderResponse> orderList = dao1.getAllOrders();
+
+
+
+
         request.setAttribute("orderList", orderList);
         request.setAttribute("totalRevenue", totalRevenue);
         request.setAttribute("totalOrders", totalOrders);
@@ -41,4 +53,6 @@ public class DashboardServlet extends HttpServlet {
         request.getRequestDispatcher("DashboardSale.jsp").forward(request, response);
 
     }
+
+
 }

@@ -35,9 +35,13 @@
                 <h2 class="content-title card-title">Bảng điều khiển</h2>
                 <p>Toàn bộ dữ liệu về doanh nghiệp của bạn ở đây</p>
             </div>
-            <div>
-                <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Tạo báo cáo</a>
-            </div>
+
+            <form action="ExportSale" method="get">
+
+                <button type="submit" class="btn btn-primary">
+                    <i  class="text-muted material-icons md-post_add"></i> Tạo báo cáo
+                </button>
+            </form>
         </div>
         <div class="row">
             <div class="col-lg-3">
@@ -114,9 +118,7 @@
                         <table class="table align-middle table-nowrap mb-0">
                             <thead class="table-light">
                             <tr>
-                                <th scope="col" class="text-center">
 
-                                </th>
                                 <th class="align-middle" scope="col">Mã đơn hàng</th>
                                 <th class="align-middle" scope="col">Tên khách hàng</th>
                                 <th class="align-middle" scope="col">Ngày đặt hàng</th>
@@ -133,7 +135,7 @@
                                     <td>${order.getOrderID()}</td>
                                     <td>${order.getCustomerName()}</td>
                                     <td>${order.getOrderDate()}</td>
-                                    <td>${order.getPrice()}</td>
+                                    <td>${order.getPrice()} VND</td>
                                     <td>${order.getOrderStatusName()}</td>
                                     <td>${order.getOrderPaymentName()}</td>
 
