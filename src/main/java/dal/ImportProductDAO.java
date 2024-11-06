@@ -43,6 +43,89 @@ public class ImportProductDAO extends DBContext {
         }
         return importProducts;
     }
+    public List<ImportProductResponse> getAllImportProducts() {
+        List<ImportProductResponse> importProducts = new ArrayList<>();
+        String query = "SELECT ip.ImportID, p.Name, ip.Mfg, ip.Exp, ip.Price, ip.ImportQuantity, "
+                + "ip.InventoryQuantity, u.Name as UnitName "
+                + "FROM ImportProduct ip "
+                + "JOIN Product p ON ip.ProductID = p.ProductID "
+                + "JOIN Unit u ON ip.UnitID = u.UnitID ";
+
+        try (
+                PreparedStatement stmt = connection.prepareStatement(query);
+
+                ResultSet rs = stmt.executeQuery()) {
+            // stmt.setInt(1, importID);
+            while (rs.next()) {
+                importProducts.add(new ImportProductResponse(rs.getInt(1)
+                        , rs.getString(2)
+                        , rs.getTimestamp(3).toLocalDateTime()
+                        , rs.getTimestamp(4).toLocalDateTime()
+                        , rs.getInt(5)
+                        , rs.getInt(6)
+                        , rs.getInt(7)
+                        , rs.getString(7)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return importProducts;
+    }
+
+    public List<ImportProductResponse> getAllImportProductsd(int index) {
+        List<ImportProductResponse> importProducts = new ArrayList<>();
+        if (index ==1 ){index = 0;}
+        if(index != 0){
+            index = (index-1)*5;}
+        String query = "SELECT ip.ImportID, p.Name, ip.Mfg, ip.Exp, ip.Price, ip.ImportQuantity, "
+                + "ip.InventoryQuantity, u.Name as UnitName "
+                + "FROM ImportProduct ip "
+                + "JOIN Product p ON ip.ProductID = p.ProductID "
+                + "JOIN Unit u ON ip.UnitID = u.UnitID "+
+                "order by ip.ImportID offset " + index +" rows fetch next 5 rows only";
+
+        try (
+                PreparedStatement stmt = connection.prepareStatement(query);
+
+                ResultSet rs = stmt.executeQuery()) {
+            // stmt.setInt(1, importID);
+            while (rs.next()) {
+                importProducts.add(new ImportProductResponse(rs.getInt(1)
+                        , rs.getString(2)
+                        , rs.getTimestamp(3).toLocalDateTime()
+                        , rs.getTimestamp(4).toLocalDateTime()
+                        , rs.getInt(5)
+                        , rs.getInt(6)
+                        , rs.getInt(7)
+                        , rs.getString(7)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return importProducts;
+    }
+
+    public int getTotalImports() {
+        int totalImports = 0;
+        String query = "SELECT COUNT(*) AS TotalImports FROM ImportProduct ip "
+                + "JOIN Product p ON ip.ProductID = p.ProductID "
+                + "JOIN Unit u ON ip.UnitID = u.UnitID";
+
+        try {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalImports = resultSet.getInt("TotalImports");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalImports;
+    }
 
     public boolean isProductImported(int importID, int productID) {
         String sql = "SELECT COUNT(*) FROM ImportProduct WHERE ImportID = ? AND ProductID = ?";

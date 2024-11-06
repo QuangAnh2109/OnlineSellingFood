@@ -27,11 +27,7 @@ public class ImportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//        String indexPage = request.getParameter("indexPage");
-//        if (indexPage == null) {
-//            indexPage = "1";
-//        }
-//        int index = Integer.parseInt(indexPage);
+
         int index = 0;
         if (request.getParameter("index") != null) {
             index = Integer.parseInt(request.getParameter("index"));

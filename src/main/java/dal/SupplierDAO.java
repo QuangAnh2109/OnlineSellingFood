@@ -80,4 +80,26 @@ public class SupplierDAO extends DBContext{
         }
         return Collections.emptyList();
     }
+
+    public int getTotalSuppliers() {
+        int totalSuppliers = 0;
+        String query = "SELECT COUNT(*) AS totalSuppliers FROM Supplier";
+
+        try {
+
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalSuppliers = resultSet.getInt("totalSuppliers");
+            }
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalSuppliers;
+    }
 }

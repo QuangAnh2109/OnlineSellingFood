@@ -82,7 +82,7 @@
                                     <a href="news">Tin tức</a>
                                 </li>
                                 <li>
-                                    <a href="#">Giới thiệu</a>
+                                    <a href="AboutPage"> Giới thiệu </a>
                                 </li>
                             </ul>
                         </nav>

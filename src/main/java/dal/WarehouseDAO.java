@@ -203,4 +203,24 @@ public class WarehouseDAO extends DBContext {
         return warehouses;
     }
 
+    public int getTotalWarehouses() {
+        int totalWarehouses = 0;
+        String query = "SELECT COUNT(*) AS totalWarehouses FROM Warehouse";
+
+        try {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalWarehouses = resultSet.getInt("totalWarehouses");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalWarehouses;
+    }
+
 }
