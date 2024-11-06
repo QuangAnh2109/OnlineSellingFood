@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%--
   Created by IntelliJ IDEA.
   User: ADMIN
@@ -17,7 +18,7 @@
 </script>
 <script type="text/javascript">
     function doDelete(productID,discountID) {
-        if (confirm("Are you sure to delete discount with productID=" + productID)) {
+        if (confirm("Bạn có muốn xóa mã giảm giá của sản phẩm này không?")) {
             window.location = "deleteDiscount?productID=" + productID + "&discountID=" +discountID;
         }
     }
@@ -51,14 +52,14 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Discount Products</h2>
-                <p>Add, edit or delete a discount</p>
+                <h2 class="content-title card-title">Giảm giá sản phẩm</h2>
+                <p>Thêm,sửa và xóa giảm giá</p>
             </div>
 
             <div>
                 <form action="discount" method="get">
-                    <input type="text" placeholder="Search Categories" name="search" class="form-control bg-white" />
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <input type="text" placeholder="Tìm kiếm theo tên" name="search" class="form-control bg-white" />
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>
 
             </div>
@@ -73,25 +74,25 @@
 <%--                                <input type="text" placeholder="Type here" class="form-control" id="product_name" />--%>
 <%--                            </div>--%>
                             <div class="mb-4">
-                                <label for="product_discount" class="form-label">Discount(Percent)</label>
+                                <label for="product_discount" class="form-label">Phần trăm giảm giá(%)</label>
                                 <input type="number"  class="form-control" id="product_discount" name="discountPercent" min="1" max="100"/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Start Date</label>
+                                <label class="form-label">Ngày bắt đầu</label>
                                 <input type="datetime-local"  class="form-control" id="product_start_date" name="startDate" />
                             </div>
                             <div class="mb-4">
-                                <label class="form-label">End Date</label>
+                                <label class="form-label">Ngày kết thúc</label>
                                 <input type="datetime-local"  class="form-control" id="product_end_date" name="endDate"/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Product ID</label>
+                                <label class="form-label">ID sản phẩm</label>
                                 <input type="number"  class="form-control" id="product_id" name="productID" readonly=""/>
                             </div>
                             <div class="d-grid">
-                                <button class="btn btn-primary" type="submit">Create Discount</button>
+                                <button class="btn btn-primary" type="submit">Tạo giảm giá</button>
                             </div>
                         </form>
                     </div>
@@ -102,14 +103,14 @@
                                 <tr>
 
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Category Name</th>
-                                    <th>Price</th>
-                                    <th>Discount</th>
-                                    <th>Price After Discount</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Action</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th> Phân loại</th>
+                                    <th>Giá</th>
+                                    <th>Giảm giá</th>
+                                    <th>Giá sau khi giảm</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Hoạt động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -127,7 +128,7 @@
                                     <td>${d.endTime}</td>
                                     <td>
                                     <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-                                        <a href="#" on onclick="doDelete('${d.productID}','${d.discountID}')" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                        <a href="#" on onclick="doDelete('${d.productID}','${d.discountID}')" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Xóa </a>
                                     </div>
                                     </td>
                                 </tr>
@@ -151,10 +152,9 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                &copy; Nest - HTML Ecommerce Template .
             </div>
             <div class="col-sm-6">
-                <div class="text-sm-end">All rights reserved</div>
+
             </div>
         </div>
     </footer>

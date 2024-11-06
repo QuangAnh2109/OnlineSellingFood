@@ -1,5 +1,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%--
   Created by IntelliJ IDEA.
   User: ADMIN
@@ -20,7 +21,7 @@
 </script>
 <script type="text/javascript">
     function doDelete(productID, discountID) {
-        if (confirm("Are you sure to delete discount with productID=" + productID)) {
+        if (confirm("Bạn có muốn xóa phiếu giảm giá với sản phẩm này không ?")) {
             window.location = "deleteDiscount?productID=" + productID + "&discountID=" + discountID;
         }
     }
@@ -54,8 +55,8 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Voucher Products</h2>
-                <p>Add, edit or delete a voucher</p>
+                <h2 class="content-title card-title">Phiếu giảm giá sản phẩm</h2>
+                <p>Thêm,sửa và thêm mã giảm giá cho khách hàng</p>
             </div>
 
 
@@ -72,28 +73,28 @@
 
 
                             <div class="mb-4">
-                                <label for="discount_percent" class="form-label">Discount(Percent)</label>
+                                <label for="discount_percent" class="form-label">Phần trăm giảm giá(%)</label>
                                 <input type="number" class="form-control" id="discount_percent" name="discountPercent"
                                        min="1" max="100"/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Start Date</label>
+                                <label class="form-label">Ngày bắt đầu</label>
                                 <input type="datetime-local" class="form-control" id="voucher_start_date"
                                        name="startDate"/>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label">End Date</label>
+                                <label class="form-label">Ngày kết thúc</label>
                                 <input type="datetime-local" class="form-control" id="voucher_end_date" name="endDate"/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Quantity</label>
+                                <label class="form-label">Số lượng</label>
                                 <input type="number" class="form-control" id="voucher_quantity" name="quantity"/>
                             </div>
 
                             <div class="d-grid">
-                                <button class="btn btn-primary" type="submit">Create Voucher</button>
+                                <button class="btn btn-primary" type="submit">Tạo phiếu giảm giá</button>
                             </div>
                         </form>
                     </div>
@@ -102,14 +103,14 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>VoucherID</th>
-                                    <th>DiscountID</th>
-                                    <th>Discount Percent</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Quantity</th>
-                                    <th>Inventory</th>
-                                    <th  style="text-align: center;">Action</th>
+                                    <th>ID mã giảm giá</th>
+                                    <th>ID Phần trăm giảm giá</th>
+                                    <th>Phần trăm giảm giá</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Số lượng</th>
+                                    <th>Còn lại</th>
+                                    <th  style="text-align: center;">Hoạt động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -128,12 +129,12 @@
                                             <div class="d-flex justify-content-center">
                                                 <!-- Button Edit -->
                                                 <a href="editvoucher?id=${v.voucherID}" class="btn btn-sm font-sm btn-light rounded mx-2">
-                                                    <i class="material-icons md-edit_forever"></i> Edit
+                                                    <i class="material-icons md-edit_forever"></i> Chỉnh sửa
                                                 </a>
 
                                                 <!-- Button Add Customer -->
                                                 <a href="customervoucher?id=${v.voucherID}" class="btn btn-sm font-sm btn-light rounded mx-2">
-                                                    <i class="material-icons md-add_circle"></i> Add Customer
+                                                    <i class="material-icons md-add_circle"></i> Thêm khách hàng
                                                 </a>
                                             </div>
                                         </td>
@@ -158,10 +159,8 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                &copy; Nest - HTML Ecommerce Template .
             </div>
             <div class="col-sm-6">
-                <div class="text-sm-end">All rights reserved</div>
             </div>
         </div>
     </footer>

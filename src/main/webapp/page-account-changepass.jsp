@@ -5,27 +5,29 @@
   Time: 4:19 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+
+<html class="no-js">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Nest - Multipurpose eCommerce HTML Template</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta property="og:title" content=""/>
+    <meta property="og:type" content=""/>
+    <meta property="og:url" content=""/>
+    <meta property="og:image" content=""/>
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
+    <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg"/>
     <!-- Template CSS -->
-    <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
+    <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0"/>
 </head>
 
 <body>
 <%
-    String accountName =  ((Account)session.getAttribute("account")).getName();
+    String accountName = ((Account) session.getAttribute("account")).getName();
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
@@ -35,8 +37,8 @@
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
-                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                <span></span> Pages <span></span> My Account
+                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Trang chủ</a>
+                <span></span> Trang <span></span> Tài khoản của tôi
             </div>
         </div>
     </div>
@@ -52,34 +54,43 @@
                         </div>
                         <div class="col-md-9">
                             <div class="tab-content account dashboard-content pl-50">
-                                <div class="tab-pane fade active show" id="change-password" role="tabpanel" aria-labelledby="change-password-tab">
+                                <div class="tab-pane fade active show" id="change-password" role="tabpanel"
+                                     aria-labelledby="change-password-tab">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>Change Password</h5>
+                                            <h5>Thay đổi mật khẩu</h5>
                                         </div>
                                         <div class="card-body">
                                             <%
-                                                String msg = (String)request.getAttribute("msg");
-                                                if(msg==null) msg="";
+                                                String msg = (String) request.getAttribute("msg");
+                                                if (msg == null) msg = "";
                                             %>
-                                            <h6 style="color: red"><%=msg%></h6>
-                                            <form  action="changepass" name="enq">
-                                                <input type="text" hidden value="page-account-changepass.jsp" name="PageChangePass"/>
+                                            <h6 style="color: red"><%=msg%>
+                                            </h6>
+                                            <form action="changepass" name="enq">
+                                                <input type="text" hidden value="page-account-changepass.jsp"
+                                                       name="PageChangePass"/>
                                                 <div class="form-group col-md-12">
-                                                    <label>Old Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="oldPassword" type="password" minlength="8"/>
+                                                    <label>Mật khẩu cũ <span class="required">*</span></label>
+                                                    <input required="" class="form-control" name="oldPassword"
+                                                           type="password" minlength="8"/>
                                                 </div>
                                                 <div class="form-group col-md-12">
-                                                    <label>New Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="newPassword" type="password" minlength="8"/>
+                                                    <label>Mật khẩu mới <span class="required">*</span></label>
+                                                    <input required="" class="form-control" name="newPassword"
+                                                           type="password" minlength="8"/>
                                                 </div>
                                                 <div class="form-group col-md-12">
-                                                    <label>Confirm Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="confirmPassword" type="password" minlength="8"/>
+                                                    <label>Xác nhận mật khẩu <span class="required">*</span></label>
+                                                    <input required="" class="form-control" name="confirmPassword"
+                                                           type="password" minlength="8"/>
                                                 </div>
 
                                                 <div class="col-md-12">
-                                                    <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
+                                                    <button type="submit"
+                                                            class="btn btn-fill-out submit font-weight-bold"
+                                                            name="submit" value="Submit">Lưu thay đổi
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>

@@ -51,11 +51,11 @@ public class ChangePassStaffServlet extends HttpServlet {
 
 
         if (!np.equals(cp)) {
-            request.setAttribute("msg", "Confirm password does not match!");
+            request.setAttribute("msg", "Mật khẩu mới và xác nhận mật khẩu không trùng nhau!");
             request.getRequestDispatcher(changePass).forward(request, response);
         } else {
             if (dao.getAccountByEmailPassword(account.getEmail(), np)!=null) {
-                request.setAttribute("msg", "New password duplicate old password!");
+                request.setAttribute("msg", "Mật khẩu mới bị trùng với mật khẩu hiện tại!");
                 request.getRequestDispatcher(changePass).forward(request, response);
             } else {
                 dao.updateAccountPassword(account.getAccountID(), np);

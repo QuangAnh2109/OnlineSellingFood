@@ -30,16 +30,16 @@ public class ChangePassServlet extends HttpServlet {
         Account a = null;
         a = dao.getAccountByEmailPassword(account.getEmail(), op);
         if (a == null) {
-            request.setAttribute("msg", "Old password is incorect!!");
+            request.setAttribute("msg", "Mật khẩu không đúng !");
             request.getRequestDispatcher(pageChangePass).forward(request, response);
         } else {
             if (!np.equals(cp)) {
-                request.setAttribute("msg", "New password must equal confirm password!");
+                request.setAttribute("msg", "Mật khẩu mới phải trùng với mật khẩu xác nhận!");
                 request.getRequestDispatcher(pageChangePass).forward(request, response);
             } else {
                 try {
                     if (Encrypt.toHexString(Encrypt.getSHA(op)).equals(Encrypt.toHexString(Encrypt.getSHA(np)))) {
-                        request.setAttribute("msg", "New password duplicate old password!");
+                        request.setAttribute("msg", "Mật khẩu mới bị trùng với mật khẩu hiện tại !");
                         request.getRequestDispatcher(pageChangePass).forward(request, response);
                     } else {
                         dao.updateAccountPassword(account.getAccountID(), np);

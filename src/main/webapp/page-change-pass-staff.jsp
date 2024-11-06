@@ -12,6 +12,7 @@
   Time: 7:54 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,16 +46,16 @@
                 <h4 class="card-title mb-4">Change Password</h4>
                 <form action="changepassstaff" method="post" >
                     <div class="mb-3">
-                        <input class="form-control" placeholder="New Password" minlength="8" name="newPassword" type="password" />
+                        <input class="form-control" placeholder="Mật khẩu mới" minlength="8" name="newPassword" type="password" />
                     </div>
                     <!-- form-group// -->
                     <div class="mb-3">
-                        <input class="form-control" placeholder="Confirm Password" minlength="8" name="confirmPassword" type="password" />
+                        <input class="form-control" placeholder="Xác nhận lại mật khẩu" minlength="8" name="confirmPassword" type="password" />
                     </div>
                     <label style="color: red"><%=msg%></label>
                     <!-- form-group form-check .// -->
                     <div class="mb-4">
-                        <button type="submit" class="btn btn-primary w-100">Change Password</button>
+                        <button type="submit" class="btn btn-primary w-100">Thay đổi mật khẩu</button>
                     </div>
                     <!-- form-group// -->
                 </form>

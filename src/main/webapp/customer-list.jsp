@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,33 +28,19 @@
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">Customer List</h2>
+            <h2 class="content-title">Danh sách khách hàng</h2>
         </div>
         <div class="card mb-4">
             <header class="card-header">
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
                         <form action="customerList" method="GET" style="display: flex;">
-                            <input type="text" name="searchName" placeholder="Search by name..." class="form-control"
+                            <input type="text" name="searchName" placeholder="Tìm kiếm theo tên..." class="form-control"
                                    value="${searchName}" style="flex: 1;" />
-                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Tìm kiếm</button>
                         </form>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Disabled</option>
-                            <option>Show all</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Show 20</option>
-                            <option>Show 30</option>
-                            <option>Show 40</option>
-                        </select>
-                    </div>
+
                 </div>
             </header>
             <!-- card-header end// -->
@@ -62,11 +49,11 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>Seller</th>
+                            <th>Khách hàng</th>
                             <th>Email</th>
-                            <th>Status</th>
-                            <th>Registered</th>
-                            <th class="text-end">Action</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đăng ký</th>
+                            <th class="text-end">Hoạt động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -86,7 +73,7 @@
                                 <td><span class="badge rounded-pill alert-success">${cl.detail}</span></td>
                                 <td>${cl.time}</td>
                                 <td class="text-end">
-                                    <a href="customerListDetail?accountID=${cl.accountID}" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                    <a href="customerListDetail?accountID=${cl.accountID}" class="btn btn-sm btn-brand rounded font-sm mt-15">Xem chi tiết</a>
                                 </td>
                             </tr>
                         </c:forEach>
