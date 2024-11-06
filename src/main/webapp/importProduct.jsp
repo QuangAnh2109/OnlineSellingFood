@@ -127,7 +127,7 @@
                                 <input type="number" class="form-control" id="price" name="price" min="1" required />
                             </div>
                             <div class="mb-4">
-                                <label for="quantity" class="form-label">Số lượng trong kho</label>
+                                <label for="quantity" class="form-label">Số lượng nhập</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity" min="1" required />
                             </div>
                             <div class="mb-4">

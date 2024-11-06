@@ -2,30 +2,9 @@
 <%@ page import="dto.OrderResponse" %>
 <%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        .status-waiting {
-            color: #FFA500;
-        }
-        .status-confirmed {
-            color: #28A745;
-        }
-        .status-delivering {
-            color: #17A2B8;
-        }
-        .status-completed {
-            color: #007BFF;
-        }
-        .status-canceled {
-            color: #DC3545;
-        }
-        .status-failed {
-            color: #6C757D;
-        }
-    </style>
     <meta charset="utf-8" />
     <title>Nest Dashboard</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -57,7 +36,7 @@
                 <p>Toàn bộ dữ liệu về doanh nghiệp của bạn ở đây</p>
             </div>
 
-            <form action="ExportSale" method="get">
+            <form action="ExportImport" method="get">
 
                 <button type="submit" class="btn btn-primary">
                     <i  class="text-muted material-icons md-post_add"></i> Tạo báo cáo
@@ -65,25 +44,14 @@
             </form>
         </div>
         <div class="row">
-            <div class="col-lg-3">
-                <div class="card card-body mb-4">
-                    <article class="icontext">
-                        <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
-                        <div class="text">
-                            <h6 class="mb-1 card-title">Doanh thu</h6>
-                            <span>${totalRevenue} VND</span>
 
-                        </div>
-                    </article>
-                </div>
-            </div>
             <div class="col-lg-3">
                 <div class="card card-body mb-4">
                     <article class="icontext">
                         <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Đơn hàng</h6>
-                            <span>${totalOrders}</span>
+                            <h6 class="mb-1 card-title">Số lượng nhà cung cấp</h6>
+                            <span>${totalSupplier}</span>
 
                         </div>
                     </article>
@@ -94,8 +62,8 @@
                     <article class="icontext">
                         <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Sản phẩm</h6>
-                            <span>${totalProducts}</span>
+                            <h6 class="mb-1 card-title">Số lượng kho</h6>
+                            <span>${totalWarehouse}</span>
 
                         </div>
                     </article>
@@ -140,35 +108,28 @@
                             <thead class="table-light">
                             <tr>
 
-                                <th class="align-middle" scope="col">Mã đơn hàng</th>
-                                <th class="align-middle" scope="col">Tên khách hàng</th>
-                                <th class="align-middle" scope="col">Ngày đặt hàng</th>
+                                <th class="align-middle" scope="col">Mã nhập</th>
+                                <th class="align-middle" scope="col">Tên sản phẩm</th>
+                                <th class="align-middle" scope="col">Ngày sản xuất</th>
+                                <th class="align-middle" scope="col">Ngày hết hạn</th>
                                 <th class="align-middle" scope="col">Giá</th>
-                                <th class="align-middle" scope="col">Trạng thái đơn hàng</th>
-                                <th class="align-middle" scope="col">Phương thức thanh toán</th>
+                                <th class="align-middle" scope="col">Số lượng nhập</th>
+                                <th class="align-middle" scope="col">Số lượng hàng tồn kho</th>
+                                <th class="align-middle" scope="col">Đơn vị</th>
 
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="ord" items="${orderList}">
+                            <c:forEach var="imp" items="${importList}">
                                 <tr>
-
-                                    <td>${ord.getOrderID()}</td>
-                                    <td>${ord.getCustomerName()}</td>
-                                    <td>${ord.getOrderDate()}</td>
-                                    <td>${ord.getPrice()} VND</td>
-                                    <td class="<c:choose>
-                                                <c:when test='${ord.getOrderStatusName() == "Wait for confirmation"}'>status-waiting</c:when>
-                                                <c:when test='${ord.getOrderStatusName() == "Confirmation"}'>status-confirmed</c:when>
-                                                <c:when test='${ord.getOrderStatusName() == "Being delivered"}'>status-delivering</c:when>
-                                                <c:when test='${ord.getOrderStatusName() == "Completed"}'>status-completed</c:when>
-                                                <c:when test='${ord.getOrderStatusName() == "Canceled"}'>status-canceled</c:when>
-                                                <c:when test='${ord.getOrderStatusName() == "Failed"}'>status-failed</c:when>
-                                                <c:otherwise></c:otherwise>
-                                            </c:choose>">
-                                            ${ord.getOrderStatusName()}
-                                    </td>
-                                    <td>${ord.getOrderPaymentName()}</td>
+                                    <td>${imp.getImportID()}t</td>
+                                    <td>${imp.getProductName()}</td>
+                                    <td>${imp.getManufactureDate()}</td>
+                                    <td>${imp.getExpireDate()}</td>
+                                    <td>${imp.getPrice()}</td>
+                                    <td>${imp.getImportQuantity()}</td>
+                                    <td>${imp.getInventoryQuantity()}</td>
+                                    <td>${imp.getUnitName()}</td>
 
                                 </tr>
                             </c:forEach>
@@ -180,7 +141,7 @@
                                 <ul class="pagination justify-content-center">
                                     <c:forEach begin="0" end="${endPage}" var="i">
                                         <li class="page-item ${i == 0 ? 'active' : ''}">
-                                            <a class="page-link" href="Dashboard?index=${i}">${i == 0 ? "Page" : i}</a>
+                                            <a class="page-link" href="DashboardI?index=${i}">${i == 0 ? "Page" : i}</a>
                                         </li>
                                     </c:forEach>
                                 </ul>
