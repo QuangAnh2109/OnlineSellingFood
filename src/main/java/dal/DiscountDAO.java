@@ -13,10 +13,21 @@ public class DiscountDAO extends DBContext{
 
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-//        return new Discount(rs.getObject("DiscountID",Integer.class),rs.getObject("DiscountPercent",Integer.class),rs.getObject("St"))
-    return null;
-
+        return new Discount(rs.getInt("DiscountID"), rs.getInt("DiscountPercent"),rs.getTimestamp("StartTime").toLocalDateTime(), rs.getTimestamp("EndTime").toLocalDateTime());
     }
+
+    public Discount getDiscountById(int discountID){
+        String sql = "SELECT * FROM Discount WHERE DiscountID = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, discountID);
+            return (Discount) getObject(ps);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return null;
+    }
+
     public List<ProductDiscountResponse> getProductDiscount(int index,String searchName) {
         List<ProductDiscountResponse> res = new Vector<ProductDiscountResponse>();
         String sql ;

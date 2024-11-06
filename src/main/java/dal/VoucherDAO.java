@@ -14,8 +14,7 @@ import java.util.Vector;
 public class VoucherDAO extends DBContext {
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-//        return new Discount(rs.getObject("DiscountID",Integer.class),rs.getObject("DiscountPercent",Integer.class),rs.getObject("St"))
-        return null;
+        return new Voucher(rs.getInt("VoucherID"), rs.getInt("DiscountID"), rs.getInt("Quantity"), rs.getInt("Inventory"));
     }
 
     public int checkExistPercent(int discountPercent, LocalDateTime startTime, LocalDateTime endTime) {
@@ -160,11 +159,15 @@ public class VoucherDAO extends DBContext {
         return 0;
     }
 
-
-    public static void main(String[] args) {
-        VoucherDAO dao = new VoucherDAO();
-        VoucherResponse voucher = dao.getVoucher(1);
-        System.out.println(voucher);
-
+    public Voucher getVoucherById(int voucherID) {
+        String sql = "select * from Voucher where VoucherID=?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, voucherID);
+            return (Voucher)getObject(ps);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return null;
     }
 }

@@ -1,4 +1,6 @@
-<%@ page import="model.Account" %><%--
+<%@ page import="model.Account" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%--
   Created by IntelliJ IDEA.
   User: anh21
   Date: 9/30/2024
@@ -15,7 +17,7 @@
         <%
             if(account==null){
         %>
-        <a href="loginstaff">Login</a>
+        <a href="loginstaff">Đăng nhập</a>
         <%
             }
             else{
@@ -27,7 +29,7 @@
                         <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="nest-backend/assets/imgs/people/avatar-2.png" alt="User" /></a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            <a class="dropdown-item text-danger" href="logout"><i class="material-icons md-exit_to_app"></i>Đăng xuất</a>
                         </div>
                     </li>
                 </ul>

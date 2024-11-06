@@ -2,11 +2,12 @@
 <%@ page import="model.*" %>
 <%@ page import="dal.*" %>
 <%@ page import="common.Host" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Nest Dashboard</title>
+  <title>Thương mại điện tử</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,7 +32,7 @@
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Product</h2>
+        <h2 class="content-title card-title">Sản phẩm</h2>
         <%
           String msg = request.getParameter("msg");
             if (msg==null) {
@@ -42,7 +43,7 @@
       </div>
       <div>
         <input type="text" id="search" placeholder="Search Product" class="form-control bg-white" />
-        <a href="addproduct.jsp" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+        <a href="addproduct.jsp" class="btn btn-primary"><i class="material-icons md-plus"></i>Tạo mới</a>
       </div>
     </div>
     <div class="card">
@@ -54,16 +55,16 @@
                 <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Weight</th>
-                  <th>Category</th>
-                  <th>Manufacturer</th>
-                  <th>Origin</th>
-                  <th>Unit</th>
-                  <th>Certification</th>
-                  <th>Status</th>
+                  <th>Ảnh</th>
+                  <th>Tên</th>
+                  <th>Giá</th>
+                  <th>Trọng lượng</th>
+                  <th>Phân loại</th>
+                  <th>Nhà sản xuất</th>
+                  <th>Nguồn gốc</th>
+                  <th>Đơn vị</th>
+                  <th>Chứng chỉ</th>
+                  <th>Trạng thái</th>
                   <th></th>
                 </tr>
                 </thead>
@@ -104,9 +105,9 @@
                   <th><%=certificateDAO.getCertificationById(product.getCertificationID()).getName()%></th>
                   <th><%=productStatusDAO.getProductStatusById(product.getStatusID()).getDetail()%></th>
                   <th>
-                    <a href="productFeedback?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">View Feedback</a>
-                    <a href="updateproduct.jsp?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Update</a>
-                    <a href="DeleteProductStaffServlet?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Delete</a>
+                    <a href="productFeedback?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Xem đánh giá</a>
+                    <a href="updateproduct.jsp?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Cập nhật</a>
+                    <a href="DeleteProductStaffServlet?productid=<%=product.getProductID()%>" class="btn btn-sm btn-brand rounded font-sm mt-15">Xóa</a>
                   </th>
                 </tr>
                 <%

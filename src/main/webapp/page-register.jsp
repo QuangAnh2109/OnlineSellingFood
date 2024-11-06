@@ -1,8 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Nest - Multipurpose eCommerce HTML Template</title>
+  <title>Thương mại điện tử</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,8 +24,8 @@
   <div class="page-header breadcrumb-wrap">
     <div class="container">
       <div class="breadcrumb">
-        <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-        <span></span> Pages <span></span> My Account
+        <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Trang chủ</a>
+        <span></span> Trang <span></span> Tài khoản
       </div>
     </div>
   </div>
@@ -37,13 +38,13 @@
               <div class="login_wrap widget-taber-content background-white">
                 <div class="padding_eight_all bg-white">
                   <div class="heading_s1">
-                    <h1 class="mb-5">Create an Account</h1>
-                    <p class="mb-30">Already have an account? <a href="page-login.html">Login</a></p>
+                    <h1 class="mb-5">Đăng ký tài khoản</h1>
+                    <p class="mb-30">Đã có tài khoản? <a href="page-login.html">Đăng nhập</a></p>
                   </div>
                   <form action="register" method="post">
                     <!-- Name -->
                     <div class="form-group">
-                      <input type="text" required="" name="name" minlength="2" maxlength="100" placeholder="Name" />
+                      <input type="text" required="" name="name" minlength="2" maxlength="100" placeholder="Tên" />
                     </div>
 
                     <!-- Email -->
@@ -53,54 +54,54 @@
 
                     <!-- Birth -->
                     <div class="form-group">
-                        Birth<input type="date" id="datePicker" name="birth" required/>
+                      Ngày tháng năm sinh<input type="date" id="datePicker" name="birth" required/>
                     </div>
 
                     <!-- Gender -->
                     <select class="form-group" name="gender">
-                      <option value="1">Male</option>
-                      <option value="2">Female</option>
+                      <option value="1">Nam</option>
+                      <option value="2">Nữ</option>
                     </select>
 
                     <!-- Contact Information -->
                     <div class="form-group">
-                      <input type="text" required="" name="phone" placeholder="PhoneNumber" minlength="10" maxlength="10"/>
+                      <input type="text" required="" name="phone" placeholder="Số điện thoại" minlength="10" maxlength="10"/>
 
                     </div>
                     <div class="form-group">
-                      <input type="text" required="" name="address"  minlength="5" maxlength="200" placeholder="Address" />
+                      <input type="text" required="" name="address"  minlength="5" maxlength="200" placeholder="Địa chỉ" />
 
                     </div>
                     <!-- Password -->
                     <div class="form-group">
-                      <input required="" type="password" name="password" minlength="8" maxlength="64" placeholder="Password" />
+                      <input required="" type="password" name="password" minlength="8" maxlength="64" placeholder="Mật khẩu" />
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="form-group">
-                      <input required="" type="password" name="confirmPassword" minlength="8" maxlength="64" placeholder="Confirm Password" />
+                      <input required="" type="password" name="confirmPassword" minlength="8" maxlength="64" placeholder="Xác nhận mật khẩu" />
                     </div>
 
                     <!-- Agree to Terms -->
                     <div class="login_footer form-group mb-50">
                       <div class="chek-form">
                         <div class="custome-checkbox">
-                          <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12" value="" />
+                          <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12" value="" required/>
                           <label class="form-check-label" for="exampleCheckbox12">
-                            <span>I agree to terms &amp; Policy.</span>
+                            <span>Tôi đồng ý với chính sách</span>
                           </label>
                         </div>
                       </div>
-                      <a href="page-privacy-policy.html"><i class="fi-rs-book-alt mr-5 text-muted"></i>Learn more</a>
+                      <a href="page-privacy-policy.html"><i class="fi-rs-book-alt mr-5 text-muted"></i>Thông tin thêm</a>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="form-group mb-30">
-                      <button type="submit" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="register">Submit & Register</button>
+                      <button type="submit" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="register">Đăng ký</button>
                     </div>
 
                     <p class="font-xs text-muted">
-                      <strong>Note:</strong> Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.
+                      <strong>Ghi chú:</strong> Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm của bạn trên toàn trang web này, để quản lý quyền truy cập vào tài khoản của bạn và cho các mục đích khác được mô tả trong chính sách bảo mật của chúng tôi.
                     </p>
                   </form>
                 </div>

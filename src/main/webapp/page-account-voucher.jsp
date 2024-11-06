@@ -1,10 +1,7 @@
-<%@ page import="model.Account" %>
-<%@ page import="model.AccountContact" %>
 <%@ page import="java.util.List" %>
-<%@ page import="dal.ContactInformationDAO" %>
-<%@ page import="model.ContactInformation" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%--
+<%@ page import="dto.VoucherResponse" %>
+<%@ page import="model.Account" %><%--
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 9/19/2024
@@ -15,7 +12,7 @@
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,6 +29,8 @@
 <body>
 <%
     String accountName =  ((Account)session.getAttribute("account")).getName();
+    String msg = (String)request.getSession().getAttribute("msg");
+    if(msg==null) msg="";
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
@@ -43,7 +42,6 @@
             <div class="breadcrumb">
                 <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Trang chủ</a>
                 <span></span> Trang <span></span> Tài khoản
-            </div>
         </div>
     </div>
     <div class="page-content pt-150 pb-150">
@@ -53,7 +51,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <jsp:include page="account-menu.jsp">
-                                <jsp:param name="page" value="contact-tab"/>
+                                <jsp:param name="page" value="voucher-tab"/>
                             </jsp:include>
                         </div>
                         <div class="col-md-9">
@@ -61,46 +59,40 @@
                                 <div class="tab-pane fade active show" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="mb-0">Thông tin liên hệ</h3>
-                                            <button><a href="page-account-update-contact.jsp">Thêm thông tin liên hệ mới</a></button>
+                                            <h3 class="mb-0">Mã giảm giá</h3>
+                                            <h5 style="color: red"><%=msg%></h5>
+                                            <form action="LoadVoucher" method="post">
+                                                <input required class="form-control" name="voucherID" type="number" placeholder="Thêm mã giảm giá mới" min="1"/>
+                                                <button type="submit" class="btn btn-fill-out submit font-weight-bold">Thêm</button>
+                                            </form>
+
                                         </div>
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Giảm</th>
+                                                        <th>Bắt đầu</th>
+                                                        <th>Hết hạn</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
                                                     <%
-                                                        List<AccountContact> accountContacts = (List<AccountContact>)request.getAttribute("contacts");
-                                                        ContactInformationDAO contactInformationDAO = new ContactInformationDAO();
-                                                        ContactInformation contactInformation;
-                                                        for(AccountContact ac:accountContacts){
-                                                            contactInformation = contactInformationDAO.getContactInformationByContactID(ac.getContactInformationID());
+                                                        List<VoucherResponse> vouchers = (List<VoucherResponse>)request.getAttribute("vouchers");
+                                                        for(VoucherResponse voucher : vouchers){
                                                     %>
                                                     <tr>
-                                                        <td>
-                                                            <p><%=contactInformation.getPhoneNumber()%></p>
-                                                            <p><%=contactInformation.getAddress()%></p>
-                                                            <%
-                                                                if(ac.getIsDefault()==1){
-                                                            %>
-                                                                <p style="color: red">Mặc định</p>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </td>
-                                                        <td>
-                                                            <a href="page-account-update-contact.jsp?contactID=<%=ac.getContactInformationID()%>&address=<%=contactInformation.getAddress()%>&phone=<%=contactInformation.getPhoneNumber()%>">Cập nhật</a><br>
-                                                            <%
-                                                                if(ac.getIsDefault()!=1){
-                                                            %>
-                                                                <a href="DeleteContactServlet?contactID=<%=ac.getContactInformationID()%>">Xóa</a><br>
-                                                                <a href="UpdateContactServlet?contactID=<%=ac.getContactInformationID()%>&isdefault=1">Đặt làm mặc định</a><br>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </td>
+                                                        <th><%=voucher.getVoucherID()%>></th>
+                                                        <th><%=voucher.getDiscountPercent()+"%"%>></th>
+                                                        <th><%=voucher.getStartTime()%>></th>
+                                                        <th><%=voucher.getEndTime()%>></th>
                                                     </tr>
                                                     <%
                                                         }
                                                     %>
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>

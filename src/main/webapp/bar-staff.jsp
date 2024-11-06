@@ -50,35 +50,32 @@
             <li class="menu-item has-submenu" id="account">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-person"></i>
-                    <span class="text">Account</span>
+                    <span class="text">Tài khoản</span>
                 </a>
                 <div class="submenu">
-                    <a href="staffList" id="staff">Staff list</a>
-                    <a href="customerList" id="customer">Customer list</a>
-                    <a href="registerstaff" id="registerstaff">Staff register</a>
+                    <a href="staffList" id="staff">Danh sách nhân viên</a>
+                    <a href="customerList" id="customer">Danh sách khách hàng</a>
+                    <a href="registerstaff" id="registerstaff">Đăng ký nhân viên</a>
                 </div>
             </li>
             <li class="menu-item" id="warehouse">
                 <a class="menu-link" href="warehouseList">
                     <i class="icon material-icons md-store"></i>
-                    <span class="text">Warehouse</span>
+                    <span class="text">Kho hàng</span>
                 </a>
             </li>
             <li class="menu-item" id="unit">
                 <a class="menu-link" href="unitlist">
                     <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Unit</span>
+                    <span class="text">Đơn vị</span>
                 </a>
             </li>
             <li class="menu-item has-submenu" id="manufacter">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-store"></i>
-                    <span class="text">Manufacturer</span>
                     <span class="text">Nhà sản xuất</span>
                 </a>
                 <div class="submenu">
-                    <a href="manulist" id="manulist">Manufacturer list</a>
-                    <a href="registerManu" id="addmanu">Add New Manufacturer</a>
                     <a href="manulist" id="manulist">Danh sách nhà sản xuất</a>
                     <a href="registerManu" id="addmanu">Thêm nhà sản xuất</a>
                 </div>
@@ -86,11 +83,11 @@
             <li class="menu-item has-submenu" id="news">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-add_box"></i>
-                    <span class="text">News</span>
+                    <span class="text">Tin tức</span>
                 </a>
                 <div class="submenu">
-                    <a href="" id=addNew>Tạo News</a>
-                    <a href="" id="listNew">Danh sách News</a>
+                    <a href="" id=addNew>Tạo tin tức</a>
+                    <a href="" id="listNew">Danh sách tin tức</a>
                 </div>
             </li>
             <%
@@ -105,10 +102,10 @@
             <li class="menu-item has-submenu" id="product">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Nhập khẩu</span>
+                    <span class="text">Nhập</span>
                 </a>
                 <div class="submenu">
-                    <a href="Import" id="Import">Nhập khẩu</a>
+                    <a href="Import" id="Import">Nhập</a>
 
                 </div>
             </li>
@@ -124,16 +121,16 @@
             <li class="menu-item has-submenu" id="product">
                 <a class="menu-link" href="#">
                     <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Products</span>
+                    <span class="text">Sản phẩm</span>
                 </a>
                 <div class="submenu">
-                    <a href="LoadProductStaffServlet" id="productList">Product list</a>
-                    <a href="certificationList" id="certification">Certificate</a>
-                    <a href="certificateIssuerList" id="certificateissuer">Certificate Issuer</a>
-                    <a href="categoryList" id="category">Category</a>
-                    <a href="originList" id="origin">Origin</a>
-                    <a href="discount" id="discount">Discount</a>
-                    <a href="voucher" id="voucher">Voucher</a>
+                    <a href="LoadProductStaffServlet" id="productList">Danh sách sản phẩm</a>
+                    <a href="certificationList" id="certification">Chứng nhận</a>
+                    <a href="certificateIssuerList" id="certificateissuer">Bên cấp chứng nhận</a>
+                    <a href="categoryList" id="category">Phân loại</a>
+                    <a href="originList" id="origin">Nguồn gốc</a>
+                    <a href="discount" id="discount">Giảm giá sản phẩm</a>
+                    <a href="voucher" id="voucher">Mã giảm giá</a>
                 </div>
             </li>
             <%

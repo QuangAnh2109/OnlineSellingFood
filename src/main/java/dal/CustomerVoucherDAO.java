@@ -7,23 +7,37 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomerVoucherDAO  extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-//        return new Discount(rs.getObject("DiscountID",Integer.class),rs.getObject("DiscountPercent",Integer.class),rs.getObject("St"))
-        return null;
+        return new CustomerVoucher(rs.getInt("CustomerID"), rs.getInt("VoucherID"));
     }
-    public void addCustomerVoucher(int customerID, int voucherID) {
+
+    public List<CustomerVoucher> getCustomerVoucher(int customerID) {
+        String sql = "SELECT * FROM CustomerVoucher WHERE customerID = ?";
+        try {
+            PreparedStatement ps=connection.prepareStatement(sql);
+            ps.setInt(1, customerID);
+            return (List<CustomerVoucher>) (Object) getListObject(ps);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return Collections.emptyList();
+    }
+
+    public boolean addCustomerVoucher(int customerID, int voucherID) {
         String sql = "INSERT INTO CustomerVoucher (customerID, voucherID) VALUES (?, ?)";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, customerID);
             st.setInt(2, voucherID);
-            st.executeUpdate();
+            return st.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.info(e.getMessage());
         }
+        return false;
     }
 
     public void deleteCustomerVoucher(int customerID,int voucherID) {

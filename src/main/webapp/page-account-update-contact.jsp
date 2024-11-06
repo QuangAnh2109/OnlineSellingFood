@@ -87,7 +87,8 @@
                                                     </div>
 
                                                     <div class="col-md-12">
-                                                        <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
+                                                        <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Cập nhật</button>
+                                                        <a href="AccountContact" class="btn btn-primary">Quay lại</a>
                                                     </div>
                                                 </div>
                                             </form>

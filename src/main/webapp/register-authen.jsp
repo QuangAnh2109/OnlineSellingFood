@@ -3,7 +3,7 @@
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,13 +47,13 @@
                                     </div>
                                     <form  method="post" action="CheckAuthenRegister">
                                         <div class="form-group">
-                                            <input name="otp" type="text" required=""  placeholder="Enter OTP  *" />
+                                            <input name="otp" type="text" required=""  placeholder="Nhập OTP  *" />
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="button is-primary" >Submit</button>
+                                            <button type="submit" class="button is-primary" >Gửi</button>
                                         </div>
                                     </form>
-                                    <a href="SendAuthenOtpServlet">Resend OTP</a>
+                                    <a href="SendAuthenOtpServlet">Gửi lại OTP</a>
                                 </div>
                             </div>
                         </div>

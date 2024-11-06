@@ -1,5 +1,6 @@
 <%@ page import="model.Account" %>
 <%@ page import="dal.CustomerDAO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     Account account = (Account)session.getAttribute("account");
     int customerID = -1;
@@ -21,7 +22,7 @@
                                 <a class="mini-cart-icon" href="cart?customerId=<%= customerID %>">
                                     <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-cart.svg" />
                                 </a>
-                                <a href="cart?customerId=<%= customerID %>"><span class="lable">Cart</span></a>
+                                <a href="cart?customerId=<%= customerID %>"><span class="lable">Giỏ hàng</span></a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a href="#">
@@ -30,7 +31,7 @@
                                 <%
                                     if (account == null) {
                                 %>
-                                <a href="login"><span class="lable ml-0">Login</span></a>
+                                <a href="login"><span class="lable ml-0">Đăng nhập</span></a>
                                 <%
                                 } else {
                                 %>
@@ -38,16 +39,16 @@
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
                                         <li>
-                                            <a href="page-account-information.jsp"><i class="fi fi-rs-user mr-10"></i>My Account</a>
+                                            <a href="page-account-information.jsp"><i class="fi fi-rs-user mr-10"></i>Tài khoản</a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fi fi-rs-location-alt mr-10"></i>Order</a>
+                                            <a href="#"><i class="fi fi-rs-location-alt mr-10"></i>Đơn hàng</a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>
+                                            <a href="LoadVoucher"><i class="fi fi-rs-label mr-10"></i>Mã giảm giá</a>
                                         </li>
                                         <li>
-                                            <a href="logout"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
+                                            <a href="logout"><i class="fi fi-rs-sign-out mr-10"></i>Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,16 +73,16 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a href="#">Home</a>
+                                    <a href="home-page.jsp">Trang chủ</a>
                                 </li>
                                 <li>
-                                    <a href="shop-grid-left.jsp">Product</a>
+                                    <a href="shop-grid-left.jsp">Sản phẩm</a>
                                 </li>
                                 <li>
-                                    <a href="news">News</a>
+                                    <a href="news">Tin tức</a>
                                 </li>
                                 <li>
-                                    <a href="#">About Us</a>
+                                    <a href="#">Giới thiệu</a>
                                 </li>
                             </ul>
                         </nav>
@@ -128,16 +129,16 @@
                 <nav>
                     <ul class="mobile-menu font-heading">
                         <li class="menu-item-has-children">
-                            <a href="#">Home</a>
+                            <a href="home-page.jsp">Trang chủ</a>
                         </li>
                         <li class="menu-item-has-children">
-                            <a href="#">Product</a>
+                            <a href="shop-grid-left.jsp">Sản phẩm</a>
                         </li>
                         <li class="menu-item-has-children">
-                            <a href="#">News</a>
+                            <a href="news">Tin tức</a>
                         </li>
                         <li class="menu-item-has-children">
-                            <a href="#">About Us</a>
+                            <a href="#">Giới thiệu</a>
                         </li>
                     </ul>
                 </nav>
