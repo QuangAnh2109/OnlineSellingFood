@@ -141,17 +141,9 @@
             <!-- card-body end// -->
         </div>
         <!-- card end// -->
-        <div class="pagination-area mt-15 mb-50">
+        <div id="pagination-container" class="pagination-area mt-15 mb-50">
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-start">
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                    </li>
+                <ul id="pagination" class="pagination justify-content-start">
                 </ul>
             </nav>
         </div>
@@ -163,6 +155,53 @@
 <script src="nest-backend/assets/js/vendors/select2.min.js"></script>
 <script src="nest-backend/assets/js/vendors/perfect-scrollbar.js"></script>
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
+<script>
+    const itemsPerPage = 10; // Số mục trên mỗi trang
+    let currentPage = 1;
+    const items = document.querySelectorAll('tbody tr');
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+
+    function showPage(page) {
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        items.forEach((item, index) => {
+            if (index >= startIndex && index < endIndex) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function setupPagination() {
+        const paginationElement = document.getElementById('pagination');
+        paginationElement.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li');
+            li.classList.add('page-item');
+            if (i === currentPage) {
+                li.classList.add('active');
+            }
+            const a = document.createElement('a');
+            a.classList.add('page-link');
+            a.href = '#';
+            a.innerText = i;
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentPage = i;
+                showPage(currentPage);
+                setupPagination();
+            });
+            li.appendChild(a);
+            paginationElement.appendChild(li);
+        }
+    }
+
+    showPage(currentPage);
+    setupPagination();
+</script>
 <script type="text/javascript">
     function confirmDelete(manufacturerID) {
         var confirmed = confirm("Bạn muốn xóa nhà sản xuất này?");
