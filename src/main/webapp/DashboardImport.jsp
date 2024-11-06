@@ -126,7 +126,7 @@
                                     <td>${imp.getProductName()}</td>
                                     <td>${imp.getManufactureDate()}</td>
                                     <td>${imp.getExpireDate()}</td>
-                                    <td>${imp.getPrice()}</td>
+                                    <td>${imp.getPrice()} VND</td>
                                     <td>${imp.getImportQuantity()}</td>
                                     <td>${imp.getInventoryQuantity()}</td>
                                     <td>${imp.getUnitName()}</td>
