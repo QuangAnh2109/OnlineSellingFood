@@ -49,17 +49,20 @@
                     <div class="col-lg-6">
                         <form action="checkout" method="post" class="apply-coupon">
                             <select name="voucherData" class="coupon-input">
-                                <option value="" disabled selected>Chọn phiếu giảm giá...</option>
+                                <!-- Default option for no selection -->
+                                <option value="" ${selectedVoucherID == null ? 'selected' : ''}>Không chọn phiếu giảm
+                                    giá
+                                </option>
+
                                 <c:forEach items="${listVoucher}" var="lv">
-                                    <option value="${lv.discountPercent}">
-                                        Giảm giá ${lv.discountPercent}% hết hạn trong ${lv.remainingDay} ngày!)
+                                    <option value="${lv.voucherID}" ${lv.voucherID == selectedVoucherID ? 'selected' : ''}>
+                                        Giảm giá ${lv.discountPercent}% hết hạn trong ${lv.remainingDay} ngày!
                                     </option>
                                 </c:forEach>
                             </select>
                             <input type="hidden" name="subTotalPrice" value="${subTotalPrice}">
 
-
-                            <button class="btn btn-md" type="submit" name="apply">Áp dụng </button>
+                            <button class="btn btn-md" type="submit" name="apply">Áp dụng</button>
                         </form>
                     </div>
                 </div>
@@ -90,7 +93,8 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-lg-6">
-                                <a href="AccountContact" style="color: #3BB77E; font-size:20px ">Bạn có muốn thay đổi địa chỉ nhận hàng?</a>
+                                <a href="AccountContact" style="color: #3BB77E; font-size:20px ">Bạn có muốn thay đổi
+                                    địa chỉ nhận hàng?</a>
                             </div>
 
                         </div>
@@ -103,12 +107,13 @@
                     <div class="d-flex align-items-end justify-content-between mb-30">
                         <h4>Đơn hàng của bạn</h4>
                         <div>
-                       <h6 class="text-muted" style="color: #3BB77E;font-size: 20px">Tổng tiền:${subTotalPrice} VND</h6>
-                        <c:if test="${not empty discountedSubtotal}">
-                            <h6 class="text-muted" style="color: #3BB77E; font-size: 20px">
-                                Tổng tiền sau khi áp phiếu giảm giá: ${discountedSubtotal} VND
-                            </h6>
-                        </c:if>
+                            <h6 class="text-muted" style="color: #3BB77E;font-size: 20px">Tổng tiền:${subTotalPrice}
+                                VND</h6>
+                            <c:if test="${not empty discountedSubtotal}">
+                                <h6 class="text-muted" style="color: #3BB77E; font-size: 20px">
+                                    Tổng tiền sau khi áp phiếu giảm giá: ${discountedSubtotal} VND
+                                </h6>
+                            </c:if>
                         </div>
 
 
@@ -163,7 +168,8 @@
                             <input class="form-check-input" required="" type="radio" name="payment_option"
                                    id="exampleRadios3" checked="">
                             <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse"
-                                   data-target="#bankTranfer" aria-controls="bankTranfer">Thanh toán bằng ngân hàng</label>
+                                   data-target="#bankTranfer" aria-controls="bankTranfer">Thanh toán bằng ngân
+                                hàng</label>
                         </div>
 
                     </div>
@@ -173,8 +179,15 @@
                         <img class="mr-15" src="nest-frontend/assets/imgs/theme/icons/payment-master.svg" alt="">
                         <img src="nest-frontend/assets/imgs/theme/icons/payment-zapper.svg" alt="">
                     </div>
-                    <a href="#" class="btn btn-fill-out btn-block mt-30">Đặt hàng<i
-                            class="fi-rs-sign-out ml-15"></i></a>
+
+                    <form id="orderForm" action="orderProduct" method="get">
+                        <input type="hidden" name="voucherID" value="${selectedVoucherID}">
+                        <input type="hidden" name="priceTotal" value="${discountedSubtotal}">
+
+                        <input type="hidden" name="orderTime" id="orderTime" value="">
+                        <button type="submit" class="btn btn-fill-out btn-block mt-30" >Đặt hàng<i
+                                class="fi-rs-sign-out ml-15"></i></button>
+                    </form>
                 </div>
             </div>
         </div>

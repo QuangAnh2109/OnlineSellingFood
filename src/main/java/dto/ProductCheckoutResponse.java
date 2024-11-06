@@ -1,6 +1,7 @@
 package dto;
 
 public class ProductCheckoutResponse {
+    private int productID;
     private String imgLink,name;
     private int quantity;
     private int price;
@@ -11,7 +12,8 @@ public class ProductCheckoutResponse {
     public ProductCheckoutResponse() {
     }
 
-    public ProductCheckoutResponse(String imgLink, String name, int quantity, int price, int discountPercent, int priceAfterDiscount, int averageStar, int totalFeedback) {
+    public ProductCheckoutResponse(int productID, String imgLink, String name, int quantity, int price, int discountPercent, int priceAfterDiscount, int averageStar, int totalFeedback) {
+        this.productID = productID;
         this.imgLink = imgLink;
         this.name = name;
         this.quantity = quantity;
@@ -24,6 +26,14 @@ public class ProductCheckoutResponse {
 
     public String getImgLink() {
         return imgLink;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
     public void setImgLink(String imgLink) {

@@ -41,7 +41,7 @@
                                             <a href="page-account-information.jsp"><i class="fi fi-rs-user mr-10"></i>My Account</a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fi fi-rs-location-alt mr-10"></i>Order</a>
+                                            <a href="orderHistory"><i class="fi fi-rs-location-alt mr-10"></i>Order</a>
                                         </li>
                                         <li>
                                             <a href="#"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>

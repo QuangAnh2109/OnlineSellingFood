@@ -4,6 +4,8 @@ package dal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import dto.CartItem;
 import model.Cart;
 
 
@@ -165,6 +167,28 @@ public class CartDAO extends DBContext {
             ex.printStackTrace();
         }
         return affectedRows;
+    }
+
+    public List<CartItem> getCartItemsByCustomerID(int customerID) {
+        List<CartItem> cartItems = new ArrayList<>();
+        String sql="select p.ProductID,  p.Price * (1 - COALESCE(d.DiscountPercent, 0)) AS Price,c.Quantity,p.UnitID from Cart c  join Product p on c.ProductID=p.ProductID \n" +
+                "left join Discount d on p.DiscountID=d.DiscountID where CustomerID=?\n";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, customerID);
+            ResultSet rs=st.executeQuery();
+            while (rs.next()) {
+                CartItem cartItem=new CartItem();
+                cartItem.setProductID(rs.getInt("ProductID"));
+                cartItem.setPrice(rs.getInt("Price"));
+                cartItem.setQuantity(rs.getInt("Quantity"));
+                cartItem.setUnitID(rs.getInt("UnitID"));
+                cartItems.add(cartItem);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return cartItems;
     }
 
 

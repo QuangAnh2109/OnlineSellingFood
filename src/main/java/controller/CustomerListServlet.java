@@ -17,8 +17,10 @@ public class CustomerListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String indexPage=request.getParameter("index");
         String searchName=request.getParameter("searchName");
+        if(searchName==null)searchName="";
+
+        String indexPage=request.getParameter("index");
         if(indexPage==null){
             indexPage="1";
         }

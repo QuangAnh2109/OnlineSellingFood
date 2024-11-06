@@ -20,6 +20,14 @@ public class OrderProduct {
         this.unitID = unitID;
     }
 
+    public OrderProduct(Integer orderID, Integer productID, Integer price, Integer quantity, Integer unitID) {
+        this.orderID = orderID;
+        this.productID = productID;
+        this.price = price;
+        this.quantity = quantity;
+        this.unitID = unitID;
+    }
+
     public Integer getOrderID() {
         return orderID;
     }
