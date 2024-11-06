@@ -1,5 +1,6 @@
 <%@ page import="model.Account" %>
 <%@ page import="dal.CustomerDAO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     Account account = (Account)session.getAttribute("account");
     int customerID = -1;
@@ -24,7 +25,7 @@
                                 <a href="cart?customerId=<%= customerID %>"><span class="lable">Cart</span></a>
                             </div>
                             <div class="header-action-icon-2">
-                                <a href="#">
+                                <a href="login">
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                                 </a>
                                 <%
@@ -72,7 +73,7 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a href="#">Home</a>
+                                    <a href="home-page.jsp">Home</a>
                                 </li>
                                 <li>
                                     <a href="shop-grid-left.jsp">Product</a>
@@ -81,7 +82,7 @@
                                     <a href="news">News</a>
                                 </li>
                                 <li>
-                                    <a href="#">About Us</a>
+                                    <a href="AboutPage"> Giới thiệu </a>
                                 </li>
                             </ul>
                         </nav>
