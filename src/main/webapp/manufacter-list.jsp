@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard - Manufacturer Detail</title>
+    <title>Danh sách nhà sản xuất</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,9 +31,9 @@
     <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">Manufacter</h2>
+            <h2 class="content-title">Nhà sản xuất</h2>
             <div>
-                <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+                <a href="registerManu" class="btn btn-primary"><i class="material-icons md-plus"></i>Tạo mới</a>
             </div>
         </div>
         <c:if test="${not empty error}">
@@ -73,10 +73,10 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                                          <th>Introduce</th>
+                            <th>Tên</th>
+                                          <th>Mô tả</th>
                             <th></th>
-                            <th>Number of products</th>
+                            <th>Tổng số sản phẩm</th>
                                           <th></th>
                             <th class="text-end">Action</th>
                         </tr>
@@ -85,7 +85,7 @@
                         <c:choose>
                             <c:when test="${empty manuList}">
                                 <tr>
-                                    <td colspan="3">No manufacturers found.</td>
+                                    <td colspan="3">Không có nhà sản xuất</td>
                                 </tr>
                             </c:when>
                             <c:otherwise>
@@ -97,7 +97,7 @@
 <%--                                                    <img src="nest-backend/assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />--%>
 <%--                                                </div>--%>
                                                 <div class="info pl-3">
-                                                    <h6  class="mb-0 title">${mn.name}</h6>
+                                                    <a href="manuDetail?ManufacturerID=${mn.manufacturerID}" class="mb-0 title">${mn.name}</a>
                                                 </div>
                                             </a>
                                         </td>
@@ -116,11 +116,11 @@
                                         <td></td>
                                         <td class="text-end">
                                             <div class="col-action" style="display: flex; justify-content: flex-end; width: 100%; gap: 10px;">
-                                                <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                                <a href="manuListDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Sửa </a>
                                                 <a href="manuDetail?ManufacturerID=${mn.manufacturerID}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-launch"></i> View </a>
                                                 <a href="#" onclick="confirmDelete(${mn.manufacturerID}, ${mn.productCount}); return false;"
                                                    class="btn btn-sm font-sm btn-light rounded">
-                                                    <i class="material-icons md-delete_forever"></i> Delete
+                                                    <i class="material-icons md-delete_forever"></i> Xóa
                                                 </a>
                                                 <form id="deleteForm${mn.manufacturerID}" action="manulist" method="POST" style="display:none;">
                                                     <input type="hidden" name="action" value="delete" />

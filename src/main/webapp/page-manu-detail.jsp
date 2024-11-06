@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard - Manufacturer Detail</title>
+    <title>Chi tiết</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,7 +27,7 @@
 <main class="main-wrap">
     <section class="content-main">
         <div class="content-header">
-            <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Go back </a>
+            <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Quay lại</a>
         </div>
         <div class="card mb-4">
             <div class="card-header bg-brand-2" style="height: 150px"></div>
@@ -46,7 +46,7 @@
                 <div class="row g-4">
                     <div class="col-md-12 col-lg-4 col-xl-2">
                         <article class="box">
-                            <p class="mb-0 text-muted">Total Products:</p>
+                            <p class="mb-0 text-muted">Tổng số sản phẩm:</p>
                             <h5 class="text-success">${manuDetail.productCount}</h5>
                         </article>
                     </div>
@@ -56,7 +56,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <h3 class="card-title">Products by ${manuDetail.name}</h3>
+                <h3 class="card-title">Sản phẩm của ${manuDetail.name}</h3>
                 <div class="row">
                     <c:forEach items="${products}" var="product">
                         <div class="col-xl-2 col-lg-3 col-md-6">
