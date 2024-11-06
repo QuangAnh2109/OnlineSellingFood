@@ -23,6 +23,7 @@
         }
     }
 </script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +58,7 @@
             </div>
 
             <div>
-                <form action="discount" method="get">
+                <form action="discount" method="get" >
                     <input type="text" placeholder="Tìm kiếm theo tên" name="search" class="form-control bg-white" />
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>

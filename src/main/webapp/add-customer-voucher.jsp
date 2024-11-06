@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%--
   Created by IntelliJ IDEA.
   User: ADMIN
@@ -53,8 +54,8 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Add Customer Voucher</h2>
-                <p>Add, edit or delete a voucher</p>
+                <h2 class="content-title card-title">Thêm phiếu giảm giá cho khách hàng</h2>
+                <p>Thêm mã giảm giá cho khách hàng</p>
             </div>
 
 
@@ -70,43 +71,43 @@
                         <form method="post" action="customervoucher">
 
                             <div class="mb-4">
-                                <label for="voucher_id" class="form-label">VoucherID</label>
+                                <label for="voucher_id" class="form-label">ID phiếu giảm giá</label>
                                 <input type="number" class="form-control" id="voucher_id" name="voucherID"
                                        value="${vr.voucherID}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">DiscountID</label>
+                                <label class="form-label">ID giảm giá</label>
                                 <input type="number" class="form-control" id="discount_id"
                                        name="discountID" value="${vr.discountID}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Discount(Percent)</label>
+                                <label class="form-label">Phần trăm giảm giá(%)</label>
                                 <input type="number" class="form-control" id="discount_percent"
                                        name="discountPercent" value="${vr.discountPercent}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Start Date</label>
+                                <label class="form-label">Ngày bắt đầu</label>
                                 <input type="datetime-local" class="form-control" id="voucher_start_date"
                                        name="startDate" value="${vr.startTime}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">End Date</label>
+                                <label class="form-label">Ngày kết thúc</label>
                                 <input type="datetime-local" class="form-control" id="voucher_end_date"
                                        name="endDate" value="${vr.endTime}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Quantity</label>
+                                <label class="form-label">Số lượng</label>
                                 <input type="number" class="form-control" id="voucher_quantity" name="quantity"
                                        value="${vr.quantity}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Inventory</label>
+                                <label class="form-label">Còn lại</label>
                                 <input type="number" class="form-control" id="voucher_inventory" name="inventory"
                                        value="${vr.inventory}" readonly=""/>
                             </div>
@@ -118,11 +119,11 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>CustomerID</th>
-                                    <th>CustomerName</th>
-                                    <th>Point</th>
-                                    <th>Level</th>
-                                    <th>Action</th>
+                                    <th>ID khách hàng</th>
+                                    <th>Tên</th>
+                                    <th>Điểm</th>
+                                    <th>Cấp </th>
+                                    <th>Hoạt động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -149,7 +150,7 @@
 
 
                     <div class="d-grid">
-                        <button class="btn btn-primary btn-sm" style="width: 24%;" type="submit">Update Customer Voucher</button>
+                        <button class="btn btn-primary btn-sm" style="width: 24%;" type="submit">Cập nhật</button>
                     </div>
                     </form>
 
@@ -163,10 +164,9 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                &copy; Nest - HTML Ecommerce Template .
             </div>
             <div class="col-sm-6">
-                <div class="text-sm-end">All rights reserved</div>
+
             </div>
         </div>
     </footer>

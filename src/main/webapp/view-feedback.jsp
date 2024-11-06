@@ -60,7 +60,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>ID Customer</th>
                             <th>Tên</th>
                             <th>Sao</th>
                             <th>Đánh giá</th>
@@ -74,7 +74,8 @@
                             <tr>
                                 <td>${l.customerID}</td>
                                     <%--                                <td><input type="hidden" name="customerID" value="${l.customerID}"> </td>--%>
-                                <td width="40%">
+
+                                        <td width="40%">
                                     <a href="#" class="itemside">
                                         <div class="left">
                                             <img src="nest-backend/assets/imgs/people/avatar-1.png"

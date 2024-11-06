@@ -30,14 +30,12 @@ public class ProductDetailServlet extends HttpServlet {
         int productID = Integer.parseInt(request.getParameter("productID"));
 
 
-        // Assuming you have a ProductDAO to fetch product details
         ProductDAO productDAO = new ProductDAO();
         Product product = productDAO.getProductById(productID); // Replace with your actual method to get product
 
         if (product != null) {
             request.setAttribute("product", product);
         } else {
-            // Handle the case where the product is not found (optional)
             request.setAttribute("errorMessage", "Product not found.");
         }
 
@@ -74,7 +72,7 @@ public class ProductDetailServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
-            request.setAttribute("errorMessage", "You need to login first to write feedback!.");
+            request.setAttribute("errorMessage", "Bạn cần đănh nhập trước khi muốn viết đánh giá!");
             loadProductDetails(request, response);
 //            response.sendRedirect("login");
 
@@ -86,7 +84,7 @@ public class ProductDetailServlet extends HttpServlet {
         Customer c = customerDAO.getCustomerByAccountID(account.getAccountID());
         FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
         if (!feedbackProductDAO.existOrderProduct(productID, c.getCustomerID())) {
-            request.setAttribute("errorMessage", "You need to order " + product.getName() + " before you can write feedback!. ");
+            request.setAttribute("errorMessage", "Bạn cần phải đặt hàng sản phẩm " + product.getName() + " trước khi viết đánh giá!. ");
             loadProductDetails(request, response);
             //request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
         } else {
