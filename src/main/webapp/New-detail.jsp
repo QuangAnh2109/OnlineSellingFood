@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Account" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -104,89 +106,33 @@
                         <div class="col-lg-3 primary-sidebar sticky-sidebar pt-50">
                             <div class="widget-area">
                                 <div class="sidebar-widget widget-category-2 mb-50">
-                                    <h5 class="section-title style-1 mb-30">Category</h5>
+                                    <h5 class="section-title style-1 mb-30">Danh mục sản phẩm</h5>
                                     <ul>
-                                        <li>
-                                            <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-1.svg" alt="" />Milks & Dairies</a><span class="count">30</span>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-2.svg" alt="" />Clothing</a><span class="count">35</span>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-3.svg" alt="" />Pet Foods </a><span class="count">42</span>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-4.svg" alt="" />Baking material</a><span class="count">68</span>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-5.svg" alt="" />Fresh Fruit</a><span class="count">87</span>
-                                        </li>
+                                        <c:forEach var="category" items="${categories}">
+                                            <li>
+                                                <a href="shop-grid-left.jsp?categoryID=${category.categoryID}">
+                                                    <img src="assets/imgs/theme/icons/category-5.svg" alt="" />${category.name}
+                                                </a>
+                                                <!-- Retrieve the product count from the map based on category ID -->
+                                                <span class="count">${categoryProductCounts[category.categoryID]}</span>
+                                            </li>
+                                        </c:forEach>
                                     </ul>
                                 </div>
                                 <!-- Product sidebar Widget -->
                                 <div class="sidebar-widget product-sidebar mb-50 p-30 bg-grey border-radius-10">
-                                    <h5 class="section-title style-1 mb-30">Trending Now</h5>
-                                    <div class="single-post clearfix">
-                                        <div class="image">
-                                            <img src="assets/imgs/shop/thumbnail-3.jpg" alt="#" />
-                                        </div>
-                                        <div class="content pt-10">
-                                            <h5><a href="shop-product-detail.html">Chen Cardigan</a></h5>
-                                            <p class="price mb-0 mt-5">$99.50</p>
-                                            <div class="product-rate">
-                                                <div class="product-rating" style="width: 90%"></div>
+                                    <h5 class="section-title style-1 mb-30">Sản phẩm phổ biến</h5>
+                                    <c:forEach var="product" items="${popularProducts}">
+                                        <div class="single-post clearfix">
+                                            <div class="content pt-10">
+                                                <h5><a href="ProductDetail?productID=${product.productID}">${product.name}</a></h5>
+                                                <p class="price mb-0 mt-5">${product.price} VND</p>
+                                                <div class="product-rate">
+                                                    <div class="product-rating" style="width: 90%"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="single-post clearfix">
-                                        <div class="image">
-                                            <img src="assets/imgs/shop/thumbnail-4.jpg" alt="#" />
-                                        </div>
-                                        <div class="content pt-10">
-                                            <h6><a href="shop-product-detail.html">Chen Sweater</a></h6>
-                                            <p class="price mb-0 mt-5">$89.50</p>
-                                            <div class="product-rate">
-                                                <div class="product-rating" style="width: 80%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="single-post clearfix">
-                                        <div class="image">
-                                            <img src="assets/imgs/shop/thumbnail-5.jpg" alt="#" />
-                                        </div>
-                                        <div class="content pt-10">
-                                            <h6><a href="shop-product-detail.html">Colorful Jacket</a></h6>
-                                            <p class="price mb-0 mt-5">$25</p>
-                                            <div class="product-rate">
-                                                <div class="product-rating" style="width: 60%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="single-post clearfix">
-                                        <div class="image">
-                                            <img src="assets/imgs/shop/thumbnail-6.jpg" alt="#" />
-                                        </div>
-                                        <div class="content pt-10">
-                                            <h6><a href="shop-product-detail.html">Lorem, ipsum</a></h6>
-                                            <p class="price mb-0 mt-5">$25</p>
-                                            <div class="product-rate">
-                                                <div class="product-rating" style="width: 60%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sidebar-widget widget_instagram mb-50">
-                                    <h5 class="section-title style-1 mb-30">Gallery</h5>
-                                    <div class="instagram-gellay">
-                                        <ul class="insta-feed">
-                                            <li><a href="#"><img src="assets/imgs/instagram/instagram-1.jpg" alt="" /></a></li>
-                                            <li><a href="#"><img src="assets/imgs/instagram/instagram-2.jpg" alt="" /></a></li>
-                                            <li><a href="#"><img src="assets/imgs/instagram/instagram-3.jpg" alt="" /></a></li>
-                                            <li><a href="#"><img src="assets/imgs/instagram/instagram-4.jpg" alt="" /></a></li>
-                                            <li><a href="#"><img src="assets/imgs/instagram/instagram-5.jpg" alt="" /></a></li>
-                                            <li><a href="#"><img src="assets/imgs/instagram/instagram-6.jpg" alt="" /></a></li>
-                                        </ul>
-                                    </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
