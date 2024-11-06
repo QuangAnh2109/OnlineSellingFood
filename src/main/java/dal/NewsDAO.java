@@ -4,6 +4,7 @@ import model.News;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +137,57 @@ public class NewsDAO extends DBContext {
             System.out.println("Error searching news by title: " + e.getMessage());
         }
         return list;
+    }
+    public boolean addNews(News news) {
+        String sql = "INSERT INTO News (staffID, imgID, title, content, time) VALUES (?, ?, ?, ?, ?)";
+        try (
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, news.getStaffID());
+            ps.setInt(2, news.getImgID());
+            ps.setString(3, news.getTitle());
+            ps.setString(4, news.getContent());
+            ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean isNewsUsed(int newsID) {
+        // SQL query to check if the news is used in any product (or other related entities)
+        String sql = "SELECT COUNT(*) FROM Product WHERE NewsID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, newsID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+        }
+        return false;
+    }
+    public boolean createNews1(String title, String content, String staffID, Integer imgID) {
+        // SQL query to insert a new news item
+        String sql = "INSERT INTO News (title, content, staffID, imgID) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, title);          // Set the title of the news
+            stmt.setString(2, content);        // Set the content of the news
+            stmt.setString(3, staffID);        // Set the staff ID (who created the news)
+
+            if (imgID != null) {
+                stmt.setInt(4, imgID);        // Set the imgID if present
+            } else {
+                stmt.setNull(4, java.sql.Types.INTEGER);  // Set null for imgID if not present
+            }
+
+            int rowsAffected = stmt.executeUpdate();  // Execute the query
+            return rowsAffected > 0;                  // Return true if the insert was successful
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

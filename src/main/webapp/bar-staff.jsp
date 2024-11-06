@@ -77,20 +77,8 @@
                     <span class="text">Nhà sản xuất</span>
                 </a>
                 <div class="submenu">
-                    <a href="manulist" id="manulist">Manufacturer list</a>
-                    <a href="registerManu" id="addmanu">Add New Manufacturer</a>
                     <a href="manulist" id="manulist">Danh sách nhà sản xuất</a>
                     <a href="registerManu" id="addmanu">Thêm nhà sản xuất</a>
-                </div>
-            </li>
-            <li class="menu-item has-submenu" id="news">
-                <a class="menu-link" href="#">
-                    <i class="icon material-icons md-add_box"></i>
-                    <span class="text">News</span>
-                </a>
-                <div class="submenu">
-                    <a href="" id=addNew>Tạo News</a>
-                    <a href="" id="listNew">Danh sách News</a>
                 </div>
             </li>
             <%
@@ -134,6 +122,16 @@
                     <a href="originList" id="origin">Origin</a>
                     <a href="discount" id="discount">Discount</a>
                     <a href="voucher" id="voucher">Voucher</a>
+                </div>
+            </li>
+            <li class="menu-item has-submenu" id="news">
+                <a class="menu-link" href="#">
+                    <i class="icon material-icons md-add_box"></i>
+                    <span class="text">News</span>
+                </a>
+                <div class="submenu">
+                    <a href="addNew" id=addNew>Tạo News</a>
+                    <a href="listNews" id="listNews">Danh sách News</a>
                 </div>
             </li>
             <%
