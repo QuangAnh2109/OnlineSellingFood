@@ -2,6 +2,7 @@
 <%@ page import="dal.ManufacterDAO.TextTruncator" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -164,7 +165,7 @@
 <script src="nest-backend/assets/js/vendors/jquery.fullscreen.min.js"></script>
 <script type="text/javascript">
     function confirmDelete(manufacturerID) {
-        var confirmed = confirm("Are you sure you want to delete this manufacturer?");
+        var confirmed = confirm("Bạn muốn xóa nhà sản xuất này?");
         if (confirmed) {
             document.getElementById('deleteForm' + manufacturerID).submit();
         }
@@ -173,10 +174,10 @@
 <script type="text/javascript">
     function confirmDelete(manufacturerID, productCount) {
         if (productCount >= 1) {
-            alert("Cannot delete this manufacturer because it has associated products.");
+            alert("Không thể xóa vì vẫn tồn tại sản phẩm trong kho");
             return false;
         }
-        var confirmed = confirm("Are you sure you want to delete this manufacturer?");
+        var confirmed = confirm("Bạn muốn xóa nhà sản xuất này?");
         if (confirmed) {
             document.getElementById('deleteForm' + manufacturerID).submit();
         }
