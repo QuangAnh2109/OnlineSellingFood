@@ -42,7 +42,7 @@
                                             <a href="page-account-information.jsp"><i class="fi fi-rs-user mr-10"></i>Tài khoản</a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fi fi-rs-location-alt mr-10"></i>Đơn hàng</a>
+                                            <a href="orderHistory"><i class="fi fi-rs-location-alt mr-10"></i>Đơn hàng</a>
                                         </li>
                                         <li>
                                             <a href="LoadVoucher"><i class="fi fi-rs-label mr-10"></i>Mã giảm giá</a>

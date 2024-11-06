@@ -18,7 +18,7 @@ public class CheckoutDAO extends DBContext{
     }
 
     public CheckoutContactDetailResponse getCheckoutContactDetail(int accounID){
-        String sql="select a.[Name],c.PhoneNumber,c.[Address],ac.IsDefault \n" +
+        String sql="select c.ContactInformationID,a.[Name],c.PhoneNumber,c.[Address],ac.IsDefault\n" +
                 "from Account a join AccountContact ac on a.AccountID=ac.AccountID\n" +
                 "join ContactInformation c  on ac.ContactInformationID=c.ContactInformationID\n" +
                 "where a.AccountID=? and IsDefault !=0";
@@ -29,6 +29,7 @@ public class CheckoutDAO extends DBContext{
             ResultSet rs=st.executeQuery();
             if(rs.next()){
                 CheckoutContactDetailResponse checkoutContactDetailResponse=new CheckoutContactDetailResponse();
+                checkoutContactDetailResponse.setContactInformationID(rs.getInt("ContactInformationID"));
                 checkoutContactDetailResponse.setName(rs.getString("Name"));
                 checkoutContactDetailResponse.setPhone(rs.getString("PhoneNumber"));
                 checkoutContactDetailResponse.setAddress(rs.getString("Address"));
@@ -45,7 +46,7 @@ public class CheckoutDAO extends DBContext{
 
     public List<ProductCheckoutResponse> getProductCheckout(int customerID){
         List<ProductCheckoutResponse> list=new ArrayList<>();
-        String sql="select i.Imglink,p.[Name],c.Quantity,p.Price,COALESCE(d.DiscountPercent, 0) AS DiscountPercent,\n" +
+        String sql="select p.ProductID,i.Imglink,p.[Name],c.Quantity,p.Price,COALESCE(d.DiscountPercent, 0) AS DiscountPercent,\n" +
                 " (p.Price * (1 - COALESCE(d.DiscountPercent, 0) / 100.0)) AS PriceAfterDiscount,\n" +
                 "AVG(fp.Star) AS AverageStar,COUNT(fp.Feedback) AS TotalFeedback\n" +
                 "from Cart c join Product p on c.ProductID=p.ProductID\n" +
@@ -54,13 +55,14 @@ public class CheckoutDAO extends DBContext{
                 " left join ProductImg pi on p.ProductID=pi.ProductID\n" +
                 " left join Img i on pi.ImgID=i.ImgID\n" +
                 "where  c.CustomerID=?\n" +
-                "group by i.Imglink,p.[Name],c.Quantity,p.Price,d.DiscountPercent";
+                "group by p.ProductID,i.Imglink,p.[Name],c.Quantity,p.Price,d.DiscountPercent";
         try {
             PreparedStatement st=connection.prepareStatement(sql);
             st.setInt(1, customerID);
             ResultSet rs=st.executeQuery();
             while (rs.next()){
                 ProductCheckoutResponse productCheckoutResponse=new ProductCheckoutResponse();
+                productCheckoutResponse.setProductID(rs.getInt("ProductID"));
                 productCheckoutResponse.setImgLink(rs.getString("Imglink"));
                 productCheckoutResponse.setName(rs.getString("Name"));
                 productCheckoutResponse.setQuantity(rs.getInt("Quantity"));
@@ -131,6 +133,22 @@ public class CheckoutDAO extends DBContext{
             throw new RuntimeException(e);
         }
 
+    }
+
+    public int getDiscountPercentByVoucherID(int voucherID){
+        String sql="select d.DiscountPercent from Discount d join Voucher v on d.DiscountID=v.DiscountID\n" +
+                "where v.VoucherID=?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, voucherID);
+            ResultSet rs=st.executeQuery();
+            if(rs.next()){
+                return rs.getInt("DiscountPercent");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 
 

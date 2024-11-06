@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Order {
     private Integer orderID;
@@ -12,7 +13,7 @@ public class Order {
     private LocalDateTime orderTime;
     private Integer statusID;
 
-    public Order() {
+    public Order(int customerID, int paymentStatementID, int contactInformationID, int voucherID, int price, Date date, int statusID) {
     }
 
     public Order(Integer orderID, Integer customerID, Integer paymentStatementID, Integer contactInformationID, Integer voucherID, Integer price, Integer statusID, LocalDateTime orderTime) {
@@ -24,6 +25,16 @@ public class Order {
         this.price = price;
         this.statusID = statusID;
         this.orderTime = orderTime;
+    }
+
+    public Order(Integer customerID, Integer paymentStatementID, Integer contactInformationID, Integer voucherID, Integer price, LocalDateTime orderTime, Integer statusID) {
+        this.customerID = customerID;
+        this.paymentStatementID = paymentStatementID;
+        this.contactInformationID = contactInformationID;
+        this.voucherID = voucherID;
+        this.price = price;
+        this.orderTime = orderTime;
+        this.statusID = statusID;
     }
 
     public Integer getOrderID() {
