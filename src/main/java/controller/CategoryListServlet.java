@@ -15,17 +15,17 @@ import model.Category;
 
 @WebServlet(name = "CategoryListServlet", value = "/categoryList")
 public class CategoryListServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CategoryDAO categoryDAO = new CategoryDAO();
-        ProductDAO productDAO = new ProductDAO();
-        List<Category> categoryList = categoryDAO.getAllCategories();
-        Map<Integer, Integer> productCountByCategory = productDAO.countProductsByCategory();
-
-        request.setAttribute("categoryList", categoryList);
-        request.setAttribute("productCountByCategory", productCountByCategory);
-        request.getRequestDispatcher("page-origin-category.jsp").forward(request, response);
-    }
+//    @Override
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        CategoryDAO categoryDAO = new CategoryDAO();
+//        ProductDAO productDAO = new ProductDAO();
+//        List<Category> categoryList = categoryDAO.getAllCategories();
+//        Map<Integer, Integer> productCountByCategory = productDAO.countProductsByCategory();
+//
+//        request.setAttribute("categoryList", categoryList);
+//        request.setAttribute("productCountByCategory", productCountByCategory);
+//        request.getRequestDispatcher("page-origin-category.jsp").forward(request, response);
+//    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

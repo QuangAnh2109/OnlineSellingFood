@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ManufacturerDAO extends DBContext{
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Manufacturer(rs.getInt("ManufacturerID"),rs.getString("Introduce"),rs.getString("Name"),rs.getInt("productCount"));
+        return new Manufacturer(rs.getInt("ManufacturerID"),rs.getString("Name"),rs.getString("Introduce"));
     }
 
     public List<Manufacturer> getAllManufacturer() {

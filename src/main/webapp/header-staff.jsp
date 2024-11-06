@@ -10,9 +10,6 @@
 %>
 <header class="main-header style-2 navbar">
     <div class="col-brand">
-        <a href="home-page-staff.jsp" class="brand-wrap">
-            <img src="nest-backend/assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
-        </a>
     </div>
     <div class="col-nav">
         <%
