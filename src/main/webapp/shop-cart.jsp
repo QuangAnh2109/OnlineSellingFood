@@ -7,7 +7,7 @@
 <html class="no-js" lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Nest - Multipurpose eCommerce HTML Template</title>
+  <title>Giỏ hàng </title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -43,22 +43,22 @@
       <div class="breadcrumb">
         <a href="homepage" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
         <span></span> Shop
-        <span></span> Cart
+        <span></span> Giỏ hàng
       </div>
     </div>
   </div>
   <div class="container mb-80 mt-50">
     <div class="row">
       <div class="col-lg-8 mb-40">
-        <h1 class="heading-2 mb-10">Your Cart</h1>
+        <h1 class="heading-2 mb-10">Giỏ hàng của bạn</h1>
         <div class="d-flex justify-content-between">
-          <h6 class="text-body">There are <span class="text-brand">${cartItems.size()}</span> products in your cart</h6>
+          <h6 class="text-body">Có <span class="text-brand">${cartItems.size()}</span> sản phẩm trong giỏ hàng </h6>
           <h6 class="text-body">
             <form action="deleteCartServlet" method="post" style="display:inline;">
               <input type="hidden" name="customerId" value="<%= customerID != -1 ? customerID : "" %>">
               <input type="hidden" name="action" value="clearCart">
               <button type="submit" class="text-muted" onclick="return confirm('Are you sure you want to clear your cart?');" style="color: white;">
-                <i class="fi-rs-trash mr-5" style="color: white;"></i>Clear Cart
+                <i class="fi-rs-trash mr-5" style="color: white;"></i>Xóa toàn bộ sản phẩm
               </button>
             </form>
           </h6>
@@ -71,11 +71,11 @@
           <table class="table table-wishlist">
             <thead>
             <tr class="main-heading">
-              <th scope="col">Product</th>
-              <th scope="col">Unit Price</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Subtotal</th>
-              <th scope="col" class="end">Remove</th>
+              <th scope="col">Sản phẩm</th>
+              <th scope="col">Giá</th>
+              <th scope="col">Số lượng</th>
+              <th scope="col">Thành Tiền</th>
+              <th scope="col" class="end"></th>
             </tr>
             </thead>
             <tbody>
@@ -84,7 +84,7 @@
               <tr>
                 <td class="product-des product-name">
                   <h6 class="mb-5">
-                    <a class="product-name mb-10 text-heading">${productMap[cartItem.productID].name}</a>
+                    <a href="ProductDetail?productID=${cartItem.productID}" class="product-name mb-10 text-heading">${productMap[cartItem.productID].name}</a>
                   </h6>
                 </td>
                 <td class="price" data-title="Price">
@@ -116,7 +116,7 @@
             </c:forEach>
             <c:if test="${empty cartItems}">
               <tr>
-                <td colspan="6">No products in the cart.</td>
+                <td colspan="6">Không có sản phẩm trong giỏ hàng</td>
               </tr>
             </c:if>
             </tbody>
@@ -125,7 +125,7 @@
 
         <div class="divider-2 mb-30"></div>
         <div class="cart-action d-flex justify-content-between">
-          <a href="home-page.jsp" class="btn"><i class="fi-rs-arrow-left mr-10"></i>Continue Shopping</a>
+          <a href="home-page.jsp" class="btn"><i class="fi-rs-arrow-left mr-10"></i>Tiếp tục mua sắm</a>
         </div>
       </div>
 
@@ -136,7 +136,7 @@
               <tbody>
               <tr>
                 <td class="cart_total_label">
-                  <h6 class="text-muted">Subtotal</h6>
+                  <h6 class="text-muted">Thành tiền</h6>
                 </td>
                 <td class="cart_total_amount">
                   <h4 class="text-brand text-end" id="total1">$${total}</h4>
@@ -144,7 +144,7 @@
               </tr>
               <tr>
                 <td class="cart_total_label">
-                  <h6 class="text-muted">Total</h6>
+                  <h6 class="text-muted">Tổng</h6>
                 </td>
                 <td class="cart_total_amount">
                   <h4 class="text-brand text-end" id="total">$${total}</h4>
@@ -153,7 +153,7 @@
               </tbody>
             </table>
           </div>
-          <a href="checkout" class="btn mb-20 w-100">Proceed To CheckOut<i class="fi-rs-sign-out ml-15"></i></a>
+          <a href="checkout" class="btn mb-20 w-100">Tiến hành thanh toán<i class="fi-rs-sign-out ml-15"></i></a>
         </div>
       </div>
     </div>
