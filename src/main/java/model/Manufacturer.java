@@ -5,15 +5,17 @@ public class Manufacturer {
     private String name;
     private String introduce;
     private int productCount;
+    private boolean active;
 
     public Manufacturer() {
     }
 
-    public Manufacturer(Integer manufacturerID, String name, String introduce, Integer productCount) {
+    public Manufacturer(Integer manufacturerID, String name, String introduce, int productCount, boolean active) {
         this.manufacturerID = manufacturerID;
         this.name = name;
         this.introduce = introduce;
-        this.productCount=productCount;
+        this.productCount = productCount;
+        this.active = active;
     }
 
     public Manufacturer(Integer manufacturerID, String name, String introduce) {
@@ -45,11 +47,20 @@ public class Manufacturer {
     public void setIntroduce(String introduce) {
         this.introduce = introduce;
     }
+
     public int getProductCount() {
         return productCount;
     }
 
     public void setProductCount(int productCount) {
         this.productCount = productCount;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

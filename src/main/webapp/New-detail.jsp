@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>News</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,7 +35,7 @@
         <div class="container">
             <div class="breadcrumb">
                 <a href="home-page.jsp" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                <span></span> <a href="news">News</a> <span></span> ${list.title}
+                <span></span> <a href="news">News</a> <span></span> ${news.title}
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
                                             <h2 class="mb-10">${news.title}</h2>
                                             <div class="single-header-meta">
                                                 <div class="entry-meta meta-1 font-xs mt-15 mb-15">
-                                                    <span class="post-on has-dot">Time</span>
+                                                    <span class="post-on has-dot">${news.time}</span>
                                                 </div>
                                                 <div class="social-icons single-share">
                                                     <ul class="text-grey-5 d-inline-block">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <figure class="single-thumbnail">
-                                    <%-- Display the news image --%>
+                                    <img src="" alt="" />
                                 </figure>
                                 <div class="single-content">
                                     <div class="row">
