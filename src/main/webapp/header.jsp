@@ -1,5 +1,4 @@
 <%@ page import="model.Account" %>
-<%@ page import="model.Customer" %>
 <%@ page import="dal.CustomerDAO" %>
 <%
     Account account = (Account)session.getAttribute("account");

@@ -19,9 +19,9 @@ public class UpdateUnitServlet extends HttpServlet {
         String name = request.getParameter("name");
         int baseUnitId = Integer.parseInt(request.getParameter("baseunitid"));
         int conversionRate = Integer.parseInt(request.getParameter("conversionrate"));
-        String msg = "Update new unit faild";
+        String msg = "Cập nhật thất bại";
         if(new UnitDAO().addUnit(name, baseUnitId, conversionRate)!=null){
-            msg = "Update new unit successful";
+            msg = "Cập nhật thành công";
         }
         response.sendRedirect("unitlist?msg="+msg);
     }

@@ -37,7 +37,7 @@ public class ChangePassStaffServlet extends HttpServlet {
             response.sendRedirect(changePass);
         }
         else{
-            request.setAttribute("msg","OTP is not correct");
+            request.setAttribute("msg","OTP không hợp lệ");
             request.getRequestDispatcher("ForgotPasswordStaff.jsp?email="+email).forward(request, response);
         }
     }
@@ -51,11 +51,11 @@ public class ChangePassStaffServlet extends HttpServlet {
 
 
         if (!np.equals(cp)) {
-            request.setAttribute("msg", "Confirm password does not match!");
+            request.setAttribute("msg", "Xác nhận mật khẩu không khớp");
             request.getRequestDispatcher(changePass).forward(request, response);
         } else {
             if (dao.getAccountByEmailPassword(account.getEmail(), np)!=null) {
-                request.setAttribute("msg", "New password duplicate old password!");
+                request.setAttribute("msg", "Mật khẩu mới không được trùng với mật khẩu cũ");
                 request.getRequestDispatcher(changePass).forward(request, response);
             } else {
                 dao.updateAccountPassword(account.getAccountID(), np);

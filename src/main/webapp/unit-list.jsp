@@ -1,10 +1,11 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Unit" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,11 +35,11 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Unit</h2>
-                <p>Add, edit or delete a unit</p>
+                <h2 class="content-title card-title">Đơn vị</h2>
+                <p>Thêm sửa xóa đơn vị</p>
             </div>
             <div>
-                <input class="form-control bg-white" type="text" id="myinput" onkeyup="myFunction()" placeholder="Search">
+                <input class="form-control bg-white" type="text" id="myinput" onkeyup="myFunction()" placeholder="Tra cứu">
             </div>
         </div>
         <div class="card">
@@ -48,21 +49,21 @@
                         <h6 style="color: red"><%=msg%></h6>
                         <form action="createunit" method="get" onsubmit="return validateForm()">
                             <div class="mb-4">
-                                <label class="form-label">UnitID</label>
+                                <label class="form-label">Mã đơn vị</label>
                                 <input type="text" class="form-control" id="unitid" name="unitid" readonly />
                             </div>
                             <div class="mb-4">
-                                <label class="form-label">Name</label>
+                                <label class="form-label">Đơn vị</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="unitname" name="unitname" required />
                             </div>
 
                             <div class="mb-4" id="conversionratediv">
-                                <label class="form-label">Conversion rate</label>
+                                <label class="form-label">Tỉ lệ chuyển đổi</label>
                                 <input type="number" placeholder="Type here" class="form-control" id="conversionrate" name="conversionrate" required min="1"/>
                             </div>
 
                             <div class="mb-4" id="baseunitdiv">
-                                <label class="form-label">Base Unit</label>
+                                <label class="form-label">Đơn vị cơ bản</label>
                                 <select class="form-control" id="baseunitid" name="baseunitid" required>
                                     <%
                                         for (Unit unit : units) {
@@ -75,8 +76,8 @@
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="submit_button">Create Unit</button>
-                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" style="display: none;"><a href="unitlist">Cancel</a></button>
+                                <button type="submit" class="btn btn-primary" id="submit_button">Tạo đơn vị mới</button>
+                                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" style="display: none;"><a href="unitlist">Hủy</a></button>
                             </div>
                         </form>
                     </div>
@@ -85,10 +86,10 @@
                             <table class="table table-hover" id="mytable">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Unit</th>
-                                    <th>Conversion rate</th>
-                                    <th>Base Unit</th>
+                                    <th>Mã</th>
+                                    <th>Đơn vị</th>
+                                    <th>Tỉ lệ chuyển đổi</th>
+                                    <th>Đơn vị cơ bản</th>
                                 </tr>
                                 </thead>
                                 <tbody>

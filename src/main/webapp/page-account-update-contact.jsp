@@ -1,7 +1,6 @@
 <%@ page import="model.Account" %>
-<%@ page import="model.Customer" %>
-<%@ page import="dal.CustomerDAO" %>
-<%@ page import="java.time.format.DateTimeFormatter" %><%--
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%--
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 9/19/2024
@@ -12,7 +11,7 @@
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Nest - Multipurpose eCommerce HTML Template</title>
+    <title>Thương mại điện tử</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,8 +48,8 @@
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
-                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                <span></span> Pages <span></span> My Account
+                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Trang chủ</a>
+                <span></span> Trang <span></span> Tài khoản
             </div>
         </div>
     </div>
@@ -69,7 +68,7 @@
                                 <div class="tab-pane fade active show" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>Update Contact</h5>
+                                            <h5>Cập nhật thông tin liên hệ</h5>
                                             <h6 style="color:red;"><%=msg%></h6>
                                         </div>
                                         <div class="card-body">
@@ -77,12 +76,12 @@
                                                 <div class="row">
                                                     <input type="hidden" name="contactID" value="<%=contactID%>">
                                                     <div class="form-group col-md-6">
-                                                        <label>Phone number <span class="required">*</span></label>
+                                                        <label>Số điện thoại <span class="required">*</span></label>
                                                         <input required="" class="form-control" name="phone" type="text"
                                                                value="<%=phoneNumber%>"/>
                                                     </div>
                                                     <div class="form-group col-md-12">
-                                                        <label>Address <span class="required">*</span></label>
+                                                        <label>Địa chỉ <span class="required">*</span></label>
                                                         <input required class="form-control" name="address" type="text"
                                                                value="<%=address%>"/>
                                                     </div>

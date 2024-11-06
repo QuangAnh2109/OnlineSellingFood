@@ -19,9 +19,9 @@ public class DeleteUnitServlet extends HttpServlet {
         int unitId = Integer.parseInt(request.getParameter("unitid"));
         String msg;
         if(new UnitDAO().deleteUnit(unitId)){
-            msg = "Delete Faild";
+            msg = "Xóa thất bại";
         }
-        else msg = "Delete Success";
+        else msg = "Xóa thành công";
         response.sendRedirect("unitlist?msg="+msg);
     }
 }

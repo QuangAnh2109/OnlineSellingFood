@@ -19,9 +19,9 @@ public class CreateUnitServlet extends HttpServlet {
         String name = request.getParameter("unitname");
         int baseUnitId = Integer.parseInt(request.getParameter("baseunitid"));
         int conversionRate = Integer.parseInt(request.getParameter("conversionrate"));
-        String msg = "Create new unit faild";
+        String msg = "Tạo đơn vị thất bại";
         if(new UnitDAO().addUnit(name, baseUnitId, conversionRate)!=null){
-            msg = "Create new unit successful";
+            msg = "Tạo đơn vị thành công";
         }
         response.sendRedirect("unitlist?msg="+msg);
     }
