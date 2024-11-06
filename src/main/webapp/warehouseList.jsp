@@ -62,16 +62,16 @@
             <form action="warehouseCU" method="post" onsubmit="return validateForm()">
               <div class="mb-4">
                 <label for="warehouse_name" class="form-label">Tên</label>
-                <input type="text" placeholder="Type here" class="form-control" id="warehouse_name" name="name" required />
+                <input type="text" placeholder="Tên kho" class="form-control" id="warehouse_name" name="name" required />
                 <input type="hidden" id="warehouse_id" name="warehouseID" />
               </div>
               <div class="mb-4">
                 <label for="address" class="form-label">Địa chỉ</label>
-                <input type="text" placeholder="Type here" class="form-control" id="address" name="address" required />
+                <input type="text" placeholder="Địa chỉ kho" class="form-control" id="address" name="address" required />
               </div>
               <div class="mb-4">
                 <label for="phone" class="form-label">Số điện thoại</label>
-                <input type="text" placeholder="Type here" class="form-control" id="phone" name="phone" required />
+                <input type="text" placeholder="Số điện thoại liên lạc" class="form-control" id="phone" name="phone" required />
               </div>
 
               <input type="text" hidden class="form-control" id="contactID" name="contactID"/>

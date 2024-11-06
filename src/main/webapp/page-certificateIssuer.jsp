@@ -36,7 +36,7 @@
       </div>
       <div>
         <form action="certificateIssuerSearch" method="post">
-          <input type="text" name="searchKeyword" placeholder="Search Certificate Issuers" class="form-control bg-white" />
+          <input type="text" name="searchKeyword" placeholder="Tìm kiếm nhà phát hành" class="form-control bg-white" />
           <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>
       </div>
@@ -48,12 +48,12 @@
             <form action="certificateIssuerCU" method="post" onsubmit="return validateForm()">
               <div class="mb-4">
                 <label for="certificate_name" class="form-label">Tên</label>
-                <input type="text" placeholder="Type here" class="form-control" id="certificate_name" name="name" required />
+                <input type="text" placeholder="Tên nhà phát hành" class="form-control" id="certificate_name" name="name" required />
                 <input type="hidden" id="certificate_issuer_id" name="certificateIssuerID" />
               </div>
               <div class="mb-4">
                 <label for="certificate_detail" class="form-label">Chi tiết</label>
-                <textarea placeholder="Details here" class="form-control" id="certificate_detail" name="detail" required></textarea>
+                <textarea placeholder="Mô tả nhà phát hành" class="form-control" id="certificate_detail" name="detail" required></textarea>
               </div>
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary" id="submit_button">Tạo 1 nhà phát hành mới</button>

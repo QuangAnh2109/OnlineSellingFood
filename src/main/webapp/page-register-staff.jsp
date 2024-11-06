@@ -63,7 +63,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Tên</label>
-            <input class="form-control" name="name" maxlength="100" placeholder="Your name" type="text" required />
+            <input class="form-control" name="name" maxlength="100" placeholder="Tên của bạn" type="text" required />
           </div>
           <div class="mb-3">
             <label class="form-label">Giới tính</label>
@@ -74,23 +74,23 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" name="email" placeholder="Your email" type="email" required />
+            <input class="form-control" name="email" placeholder="Email của bạn" type="email" required />
           </div>
           <div class="mb-3">
             <label class="form-label">Số điện thoại</label>
 
-            <input class="form-control" name="phone" minlength="10" maxlength="10" placeholder="Phone Number" type="text" required />
+            <input class="form-control" name="phone" minlength="10" maxlength="10" placeholder="Số điện thoại của bạn" type="text" required />
           </div>
           <div class="mb-3">
             <label class="form-label">Địa chỉ</label>
-            <input class="form-control" name="address" maxlength="200" placeholder="Adress" type="text" required />
+            <input class="form-control" name="address" maxlength="200" placeholder="Địa chỉ của bạn" type="text" required />
           </div>
           <div class="mb-3">
             <label class="form-label">Ngày sinh</label>
             <input class="form-control" name="birth" type="date" required id="datePicker"/>
           </div>
           <div class="mb-4">
-            <button type="submit" class="btn btn-primary w-100">Nộp</button>
+            <button style="text-align: center" type="submit" class="btn btn-primary w-100">Thêm nhân viên</button>
           </div>
         </form>
       </div>

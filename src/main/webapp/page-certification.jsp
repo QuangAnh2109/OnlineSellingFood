@@ -44,7 +44,7 @@
             </div>
             <div>
                 <form action="certificationSearch" method="post">
-                    <input type="text" name="searchKeyword" placeholder="Search Certifications" class="form-control bg-white" />
+                    <input type="text" name="searchKeyword" placeholder="Tìm kiếm chứng chỉ" class="form-control bg-white" />
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>
             </div>
@@ -56,12 +56,12 @@
                         <form action="certificationCU" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                             <div class="mb-4">
                                 <label for="certificate_name" class="form-label">Tên</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="certificate_name" name="name" required />
+                                <input type="text" placeholder="Tên chứng chỉ" class="form-control" id="certificate_name" name="name" required />
                                 <input type="hidden" id="certification_id" name="certificationID" value="" />
                             </div>
                             <div class="mb-4">
                                 <label for="certificate_detail" class="form-label">Chi tiết</label>
-                                <input type="text" placeholder="Enter details" class="form-control" id="certificate_detail" name="detail" required />
+                                <input type="text" placeholder="Mô tả chứng chỉ" class="form-control" id="certificate_detail" name="detail" required />
                             </div>
                             <div class="mb-4">
                                 <label for="certificate_issuer" class="form-label">Nhà phát hành chứng chỉ</label>

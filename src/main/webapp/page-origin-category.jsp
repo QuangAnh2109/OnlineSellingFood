@@ -32,7 +32,7 @@
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Loại sản phẩm</h2>
-                <p>Add, edit or delete a category</p>
+                <p>Thêm, sửa, xóa loại sản phẩm</p>
             </div>
             <div>
                 <form action="categorySearch" method="post">
@@ -48,7 +48,7 @@
                         <form action="categoryCU" method="post" onsubmit="return validateForm()">
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Tên</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_name" name="name" required />
+                                <input type="text" placeholder="Tên loại" class="form-control" id="product_name" name="name" required />
                                 <input type="hidden" id="category_id" name="categoryID" />
                             </div>
                             <div class="d-grid">
