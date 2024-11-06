@@ -31,27 +31,42 @@ public class CICreateUpdateServlet extends HttpServlet {
         String name = request.getParameter("name");
         String detail = request.getParameter("detail");
 
-        if (certificateIssuerID != null && !certificateIssuerID.isEmpty()) {
+        // Kiểm tra trùng tên
+        if (certificateIssuerID == null || certificateIssuerID.isEmpty()) {
+            if (certificateIssuerDAO.isNameExists(name)) {
+                request.getSession().setAttribute("msg", "Tên nhà phát hành đã tồn tại, vui lòng chọn tên khác.");
+                response.sendRedirect("certificateIssuerList");
+                return;
+            }
+            // Thực hiện thêm nếu không bị trùng tên
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isUpdated = certificateIssuerDAO.updateCertificateIssuer(Integer.parseInt(certificateIssuerID), name, detail);
-                if (isUpdated) {
+                boolean isCreated = certificateIssuerDAO.createCertificateIssuer(name, detail);
+                if (isCreated) {
                     response.sendRedirect("certificateIssuerList");
                 } else {
-                    request.setAttribute("error", "Update failed. Please try again.");
-                    request.getRequestDispatcher("certificateIssuerCU").forward(request, response);
+                    request.getSession().setAttribute("msg", "Không thể tạo một nhà phát hành mới");
+                    response.sendRedirect("certificateIssuerList");
                 }
             } else {
                 request.setAttribute("error", "Name and detail cannot be empty.");
                 request.getRequestDispatcher("certificateIssuerCU").forward(request, response);
             }
         } else {
+            int issuerID = Integer.parseInt(certificateIssuerID);
+            // Kiểm tra trùng tên trừ khi cập nhật cho chính nó
+            CertificateIssuer existingIssuer = certificateIssuerDAO.getCertificateIssuerById(issuerID);
+            if (!existingIssuer.getName().equals(name) && certificateIssuerDAO.isNameExists(name)) {
+                request.getSession().setAttribute("msg", "Tên nhà phát hành đã tồn tại, vui lòng chọn tên khác.");
+                response.sendRedirect("certificateIssuerList");
+            }
+            // Thực hiện cập nhật nếu không bị trùng tên
             if (name != null && !name.isEmpty() && detail != null && !detail.isEmpty()) {
-                boolean isCreated = certificateIssuerDAO.createCertificateIssuer(name, detail);
-                if (isCreated) {
+                boolean isUpdated = certificateIssuerDAO.updateCertificateIssuer(issuerID, name, detail);
+                if (isUpdated) {
                     response.sendRedirect("certificateIssuerList");
                 } else {
-                    request.setAttribute("error", "Create failed. Please try again.");
-                    request.getRequestDispatcher("certificateIssuerCU").forward(request, response);
+                    request.getSession().setAttribute("msg", "Không thể cập nhật nhà phát hành");
+                    response.sendRedirect("certificateIssuerList");
                 }
             } else {
                 request.setAttribute("error", "Name and detail cannot be empty.");
@@ -59,4 +74,5 @@ public class CICreateUpdateServlet extends HttpServlet {
             }
         }
     }
+
 }

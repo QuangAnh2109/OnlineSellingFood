@@ -93,43 +93,37 @@
             %>
             </tbody>
           </table>
-          <div class="pagination">
-            <%
-              int currentPage = (Integer) request.getAttribute("currentPage");
-              int totalPages = (Integer) request.getAttribute("totalPages");
-              int visiblePages = 5;
-              if (totalPages > 1) {
-                if (currentPage >= 1) {
-            %>
-            <a href="originList?page=1" class="<%= (currentPage == 1) ? "active" : "" %>">1</a>
-            <%
-              }
+          <div class="pagination-controls">
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <%
+                  int currentPage = (int) request.getAttribute("currentPage");
+                  int totalPages = (int) request.getAttribute("totalPages");
 
-              if (currentPage > visiblePages) {
-            %>
-            <span>...</span>
-            <%
-              }
-              int startPage = Math.max(2, currentPage - 2);
-              int endPage = Math.min(totalPages - 1, currentPage + 2);
-
-              for (int i = startPage; i <= endPage; i++) {
-            %>
-            <a href="originList?page=<%= i %>" class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a>
-            <%
-              }
-              if (currentPage < totalPages - visiblePages + 1) {
-            %>
-            <span>...</span>
-            <%
-              }
-              if (currentPage < totalPages) {
-            %>
-            <a href="originList?page=<%= totalPages %>" class="<%= (currentPage == totalPages) ? "active" : "" %>"><%= totalPages %></a>
-            <%
-                }
-              }
-            %>
+                  if (currentPage > 1) {
+                %>
+                <li class="page-item">
+                  <a class="page-link" href="originList?page=<%= currentPage - 1 %>">Previous</a>
+                </li>
+                <%
+                  }
+                  for (int i = 1; i <= totalPages; i++) {
+                %>
+                <li class="page-item <%= (i == currentPage) ? "active" : "" %>">
+                  <a class="page-link" href="originList?page=<%= i %>"><%= i %></a>
+                </li>
+                <%
+                  }
+                  if (currentPage < totalPages) {
+                %>
+                <li class="page-item">
+                  <a class="page-link" href="originList?page=<%= currentPage + 1 %>">Next</a>
+                </li>
+                <%
+                  }
+                %>
+              </ul>
+            </nav>
           </div>
 
         </div>

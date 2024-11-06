@@ -11,15 +11,29 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "CertificateIssuerDeleteServlet", value = "/certificateIssuerDelete")
 public class CertificateIssuerDeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String certificateIssuerIdParam = request.getParameter("certificateIssuerID");
+        CertificateIssuerDAO ciDAO = new CertificateIssuerDAO();
+
         if (certificateIssuerIdParam != null) {
             int certificateIssuerID = Integer.parseInt(certificateIssuerIdParam);
-            CertificateIssuerDAO certificateIssuerDAO = new CertificateIssuerDAO();
-            certificateIssuerDAO.deleteCertificateIssuer(certificateIssuerID);
+            boolean isUsed = ciDAO.isCertificateIssuerUsed(certificateIssuerID);
+
+            if (isUsed) {
+                // Nếu đang được sử dụng, hiển thị thông báo lỗi và dừng tại đây
+                request.getSession().setAttribute("msg", "Nhà phát hành này đang được sử dụng và không thể xóa.");
+                response.sendRedirect("certificateIssuerList");
+                return;
+            } else {
+                // Nếu không được sử dụng, tiến hành xóa
+                ciDAO.deleteCertificateIssuer(certificateIssuerID);
+                request.getSession().setAttribute("msg", "Xóa thành công nhà phát hành.");
+            }
         }
+
         response.sendRedirect("certificateIssuerList");
     }
 }
