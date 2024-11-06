@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="dto.OrderResponse" %>
 <%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,11 +32,11 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Dashboard</h2>
-                <p>Whole data about your business here</p>
+                <h2 class="content-title card-title">Bảng điều khiển</h2>
+                <p>Toàn bộ dữ liệu về doanh nghiệp của bạn ở đây</p>
             </div>
             <div>
-                <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
+                <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Tạo báo cáo</a>
             </div>
         </div>
         <div class="row">
@@ -44,7 +45,7 @@
                     <article class="icontext">
                         <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Revenue</h6>
+                            <h6 class="mb-1 card-title">Doanh thu</h6>
                             <span>${totalRevenue} VND</span>
 
                         </div>
@@ -56,7 +57,7 @@
                     <article class="icontext">
                         <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Orders</h6>
+                            <h6 class="mb-1 card-title">Đơn hàng</h6>
                             <span>${totalOrders}</span>
 
                         </div>
@@ -68,7 +69,7 @@
                     <article class="icontext">
                         <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Products</h6>
+                            <h6 class="mb-1 card-title">Sản phẩm</h6>
                             <span>${totalProducts}</span>
 
                         </div>
@@ -116,12 +117,12 @@
                                 <th scope="col" class="text-center">
 
                                 </th>
-                                <th class="align-middle" scope="col">Order ID</th>
-                                <th class="align-middle" scope="col">CustomerName</th>
-                                <th class="align-middle" scope="col">OrderDate</th>
-                                <th class="align-middle" scope="col">Pricel</th>
-                                <th class="align-middle" scope="col">OrderStatus</th>
-                                <th class="align-middle" scope="col">OrderPayment</th>
+                                <th class="align-middle" scope="col">Mã đơn hàng</th>
+                                <th class="align-middle" scope="col">Tên khách hàng</th>
+                                <th class="align-middle" scope="col">Ngày đặt hàng</th>
+                                <th class="align-middle" scope="col">Giá</th>
+                                <th class="align-middle" scope="col">Trạng thái đơn hàng</th>
+                                <th class="align-middle" scope="col">Phương thức thanh toán</th>
 
                             </tr>
                             </thead>
@@ -146,20 +147,7 @@
                 <!-- table-responsive end// -->
             </div>
         </div>
-        <div class="pagination-area mt-30 mb-50">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-start">
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+
     </section>
     <!-- content-main end// -->
 </main>

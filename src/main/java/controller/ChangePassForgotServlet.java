@@ -24,7 +24,7 @@ public class ChangePassForgotServlet extends HttpServlet {
             response.sendRedirect(changePass);
         }
         else{
-            request.setAttribute("msg","OTP is not correct");
+            request.setAttribute("msg","OTP không đúng");
             request.getRequestDispatcher("forgotpassword.jsp?email="+email).forward(request, response);
         }
     }
@@ -38,12 +38,12 @@ public class ChangePassForgotServlet extends HttpServlet {
             String confirmPassword = request.getParameter("confirmPassword");
             //Validate password
             if (!newPassword.equals(confirmPassword)) {
-                request.setAttribute("msg", "Confirm password does not match!");
+                request.setAttribute("msg", "Xác nhận mật khẩu không khớp!");
                 request.getRequestDispatcher(changePass).forward(request, response);
             }
             else{
                 if (accountDAO.getAccountByEmailPassword(account.getEmail(), newPassword)!=null) {
-                    request.setAttribute("msg","New password duplicate old password!");
+                    request.setAttribute("msg","Mật khẩu mới trùng với mật khẩu cũ!");
                     request.getRequestDispatcher(changePass).forward(request, response);
                 } else {
                     accountDAO.updateAccountPassword(account.getAccountID(), newPassword);

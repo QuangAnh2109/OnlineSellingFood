@@ -3,7 +3,7 @@
 <%@ page import="model.Warehouse" %>
 <%@ page import="model.Supplier" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <script>
     function populateForm(importID, accountName, warehouseName, supplierName, importTime) {
       document.getElementById('import_id').value = importID || '';
@@ -15,7 +15,7 @@
 
 
     function doDelete(importID) {
-      if (confirm("Are you sure you want to delete import ?")) {
+      if (confirm("Bạn có muốn xóa ?")) {
         window.location = "importDelete?importID=" + importID;
       }
 
@@ -30,7 +30,7 @@
       today.setHours(0, 0, 0, 0);
 
       if (selectedDate < today) {
-        alert('The date cannot be in the past.');
+        alert('Không thể nhập ngày trong quá khứ.');
         return false;
       }
       return true;
@@ -66,8 +66,8 @@
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Imports</h2>
-        <p>Add, edit or delete a Imports</p>
+        <h2 class="content-title card-title">Nhập</h2>
+
       </div>
 
       <div>
@@ -81,11 +81,11 @@
           <div class="col-md-3">
             <form action="Import" method="post" onsubmit="return validateDate()" >
               <div class="mb-4">
-                <label for="staffID" class="form-label">Staff</label>
+                <label for="staffID" class="form-label">Mã Nhân viên</label>
                 <input type="number" class="form-control" id="staffID" name="staffID" value="${sessionScope.loggedInStaffID}" readonly="" />
               </div>
               <div class="mb-4">
-                <label for="warehouseID" class="form-label">Warehouse</label>
+                <label for="warehouseID" class="form-label">Kho</label>
                 <select class="form-control" id="warehouseID" name="warehouseID" >
                   <%
                     List<Warehouse> warehouseList = (List<Warehouse>) request.getAttribute("warehouses");
@@ -100,7 +100,7 @@
                 </select>
               </div>
               <div class="mb-4">
-                <label for="supplierID" class="form-label">Supplier</label>
+                <label for="supplierID" class="form-label">Nhà Cung cấp</label>
                 <select class="form-control" id="supplierID" name="supplierID" >
                   <%
                     List<Supplier> supplierList = (List<Supplier>) request.getAttribute("suppliers");
@@ -115,11 +115,11 @@
                 </select>
               </div>
               <div class="mb-4">
-                <label for="time" class="form-label">Import Time</label>
+                <label for="time" class="form-label">Ngày nhập</label>
                 <input type="date" class="form-control" id="time" name="time" required />
               </div>
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Create Import</button>
+                <button type="submit" class="btn btn-primary">Tạo</button>
               </div>
             </form>
           </div>
@@ -129,11 +129,11 @@
                 <thead>
                 <tr>
 
-                  <th>Staff Name</th>
-                  <th>Warehouse Name</th>
-                  <th>Supplier Name</th>
-                  <th>Import Time</th>
-                  <th class="text-end">Action</th>
+                  <th>Tên nhân viên</th>
+                  <th>Kho</th>
+                  <th>Nhà cung cấp</th>
+                  <th>Thời gian nhập</th>
+                  <th class="text-end">Hoạt động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -146,11 +146,11 @@
                     <td>${imp.getImportTime()}</td>
                     <td class="text-end">
                       <a href="#" onclick="doDelete('${imp.importID}')" class="btn btn-light rounded btn-sm font-sm">
-                        <i class="material-icons md-delete"></i> Delete
+                        <i class="material-icons md-delete"></i> Xóa
                       </a>
                       <a href="ImportProduct?id=${imp.importID}"
                          class="btn btn-light rounded btn-sm font-sm">
-                        <i class="material-icons md-add_shopping_cart"></i> Import Product
+                        <i class="material-icons md-add_shopping_cart"></i> Nhập Sản phẩm
                       </a>
                     </td>
                   </tr>
