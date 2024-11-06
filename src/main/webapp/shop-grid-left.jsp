@@ -93,6 +93,8 @@
     String searchTerm = request.getParameter("searchTerm");
 
     ProductDAO productDAO = new ProductDAO();
+    ProductImgDAO productImgDAO = new ProductImgDAO();
+    ImgDAO imgDAO = new ImgDAO();
     int totalProducts = productDAO.countProductsByCategoryAndSearch(categoryID, searchTerm);
     int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
     boolean ascending = true;
@@ -226,7 +228,12 @@
                 <% if (products != null && !products.isEmpty()) {
                     for (Product product : products) {
                         List<String> images = productDAO.getProductImages(product.getProductID());
-                        String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
+                        String defaultImageUrl;
+                        try{
+                            defaultImageUrl = imgDAO.getImgById(productImgDAO.getDefaultImg(product.getProductID()).getImgID()).getImglink();
+                        }catch (NullPointerException e){
+                            defaultImageUrl="";
+                        }
                         String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
                 %>
                 <jsp:include page="product-box.jsp">
