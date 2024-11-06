@@ -53,7 +53,8 @@
                         <div class="mb-4">
                             <label for="news_title" class="form-label">Tiêu đề</label>
                             <input type="text" class="form-control" id="news_title" name="title" required />
-                            <input type="hidden" id="news_id" name="newsID" value="" />
+                            <!-- Thêm hidden input cho staffID -->
+                            <input type="hidden" name="staffID" value="${sessionScope.staff.staffID}" />
                         </div>
                         <div class="mb-4">
                             <label for="news_content" class="form-label">Nội dung</label>
@@ -63,10 +64,9 @@
                             <label for="imagefile" class="form-label">Tải ảnh lên</label>
                             <input type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                         </div>
-                        <h5 style="color: red"><%= msg != null ? msg : "" %></h5>
+                        <h5 style="color: red">${sessionScope.msg}</h5>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Tạo</button>
-                            <button type="button" class="btn btn-secondary mt-2" id="cancel_button" onclick="resetForm()" style="display: none;">Hủy</button>
                         </div>
                     </form>
                 </div>
@@ -96,10 +96,14 @@
                                 <td><%= news.getContent() %></td>
                                 <td><img src="Img/<%= imgdao.getImgLinkByID(news.getImgID()) %>" alt="Image" style="width: 100px; height: auto;"></td>
                                 <td class="text-end">
-                                    <button class="btn btn-light rounded btn-sm font-sm">
-                                        <a href="newsDelete?newsID=<%= news.getNewsID() %>"><i class="material-icons md-delete"></i>Xóa</a>
-                                    </button>
+                                    <form action="addNew" method="post" style="display:inline;">
+                                        <input type="hidden" name="deleteID" value="<%= news.getNewsID() %>" />
+                                        <button class="btn btn-light rounded btn-sm font-sm">
+                                            <a href="newsDelete?newsID=<%= news.getNewsID() %>"><i class="material-icons md-delete"></i>Xóa</a>
+                                        </button>
+                                    </form>
                                 </td>
+
                             </tr>
                             <%
                                 }
@@ -147,7 +151,7 @@
     function resetForm() {
         document.getElementById("news_title").value = "";
         document.getElementById("news_content").value = "";
-        document.getElementById("image_link").value = "";
+        document.getElementById("imagefile").value = "";
         document.getElementById("news_id").value = "";
         document.getElementById("submit_button").innerText = "Tạo tin tức";
         document.getElementById("cancel_button").style.display = "none";

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NewsDAO extends DBContext {
@@ -154,36 +155,33 @@ public class NewsDAO extends DBContext {
             return false;
         }
     }
-    public boolean isNewsUsed(int newsID) {
-        // SQL query to check if the news is used in any product (or other related entities)
-        String sql = "SELECT COUNT(*) FROM Product WHERE NewsID = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, newsID);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
+    public boolean createNews1(String staffID, String title, Integer imgID, String content) {
+        String sql = "INSERT INTO News (StaffID, Title, ImgID,Time, Content,  Active) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, staffID);
+            stmt.setString(2, title);
+            if (imgID != null) {
+                stmt.setInt(3, imgID);
+            } else {
+                stmt.setNull(3, java.sql.Types.INTEGER);
             }
-        } catch (SQLException ex) {
-            logger.info(ex.getMessage());
+            stmt.setTimestamp(4, new java.sql.Timestamp(System.currentTimeMillis()));
+            stmt.setString(5, content);
+            stmt.setBoolean(6, true); // Active mặc định là true (1)
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }
-    public boolean createNews1(String title, String content, String staffID, Integer imgID) {
-        // SQL query to insert a new news item
-        String sql = "INSERT INTO News (title, content, staffID, imgID) VALUES (?, ?, ?, ?)";
+
+    public boolean deleteNews(int newsID) {
+        String sql = "DELETE FROM News WHERE NewsID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, title);          // Set the title of the news
-            stmt.setString(2, content);        // Set the content of the news
-            stmt.setString(3, staffID);        // Set the staff ID (who created the news)
-
-            if (imgID != null) {
-                stmt.setInt(4, imgID);        // Set the imgID if present
-            } else {
-                stmt.setNull(4, java.sql.Types.INTEGER);  // Set null for imgID if not present
-            }
-
-            int rowsAffected = stmt.executeUpdate();  // Execute the query
-            return rowsAffected > 0;                  // Return true if the insert was successful
+            stmt.setInt(1, newsID);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
