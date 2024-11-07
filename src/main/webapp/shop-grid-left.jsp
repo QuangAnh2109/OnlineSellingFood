@@ -237,26 +237,26 @@
 
                 <!-- Tìm kiếm theo tên -->
                 <div class="form-group mb-3">
-                    <label >Tên sản phẩm</label>
-                    <input type="text" class="form-control" name="searchTerm" placeholder="Tìm theo tên" value="<%= searchTerm != null ? searchTerm : "" %>">
+                    <label>Tên sản phẩm</label>
+                    <input type="text" class="form-control" name="searchTerm" placeholder="Tìm theo tên" value="<%= searchTerm != null ? searchTerm : "" %>" onchange="submitForm()">
                 </div>
 
                 <!-- Tìm kiếm theo nguồn gốc (origin) -->
                 <div class="form-group mb-3">
-                    <label >Nguồn gốc</label>
-                    <input type="text" class="form-control" name="origin" placeholder="Tìm theo nguồn gốc" value="<%= request.getParameter("origin") != null ? request.getParameter("origin") : "" %>">
+                    <label>Nguồn gốc</label>
+                    <input type="text" class="form-control" name="origin" placeholder="Tìm theo nguồn gốc" value="<%= request.getParameter("origin") != null ? request.getParameter("origin") : "" %>" onchange="submitForm()">
                 </div>
 
                 <!-- Tìm kiếm theo nhà sản xuất -->
                 <div class="form-group mb-3">
-                    <label >Nhà sản xuất</label>
-                    <input type="text" class="form-control" name="manufacturer" placeholder="Tìm theo nhà sản xuất" value="<%= request.getParameter("manufacturer") != null ? request.getParameter("manufacturer") : "" %>">
+                    <label>Nhà sản xuất</label>
+                    <input type="text" class="form-control" name="manufacturer" placeholder="Tìm theo nhà sản xuất" value="<%= request.getParameter("manufacturer") != null ? request.getParameter("manufacturer") : "" %>" onchange="submitForm()">
                 </div>
 
                 <!-- Lọc theo giá -->
                 <div class="form-group mb-3">
-                    <label >Giá từ</label>
-                    <select class="form-control" name="priceFrom">
+                    <label>Giá từ</label>
+                    <select class="form-control" name="priceFrom" onchange="submitForm()">
                         <option value="">Chọn giá</option>
                         <option value="0" <%= "0" == request.getParameter("priceFrom") ? "selected" : "" %>>Dưới 100.000 VND</option>
                         <option value="100000" <%= "100000" == request.getParameter("priceFrom") ? "selected" : "" %>>100.000 VND - 500.000 VND</option>
@@ -267,8 +267,8 @@
 
                 <!-- Lọc theo cân nặng -->
                 <div class="form-group mb-3">
-                    <label >Cân nặng từ (kg)</label>
-                    <select class="form-control" name="weightFrom">
+                    <label>Cân nặng từ (kg)</label>
+                    <select class="form-control" name="weightFrom" onchange="submitForm()">
                         <option value="">Chọn cân nặng</option>
                         <option value="0" <%= "0" == request.getParameter("weightFrom") ? "selected" : "" %>>Dưới 1 kg</option>
                         <option value="1" <%= "1" == request.getParameter("weightFrom") ? "selected" : "" %>>1 kg - 5 kg</option>
@@ -276,11 +276,15 @@
                         <option value="10" <%= "10" == request.getParameter("weightFrom") ? "selected" : "" %>>Trên 10 kg</option>
                     </select>
                 </div>
-
-                <div class="form-group mb-3">
-                    <button class="btn btn-primary" type="submit">Tìm</button>
-                </div>
             </div>
+
+            <script>
+                // Function to automatically reload the page with the new filter values
+                function submitForm() {
+                    var form = document.getElementById("filterForm");
+                    form.submit();
+                }
+            </script>
         </div>
 
     </div>

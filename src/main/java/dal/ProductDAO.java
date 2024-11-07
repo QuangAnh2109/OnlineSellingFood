@@ -265,7 +265,7 @@ public class ProductDAO extends DBContext{
         }
 
         // Determine the sort column and direction based on sortOption
-        String sortColumn = "Name"; 
+        String sortColumn = "Name";
         if (sortOption.equals("priceLowToHigh") || sortOption.equals("priceHighToLow")) {
             sortColumn = "Price";
         } else if (sortOption.equals("nameAscending") || sortOption.equals("nameDescending")) {
