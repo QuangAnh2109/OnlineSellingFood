@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 public class ImgFile {
     private static final Logger logger = Logger.getLogger(ImgFile.class.getName());
     // Thư mục lưu file
-    private static final String IMG_FOLDER = "D:/SWP_SUM24/Img";
-    private static final String FOLDER = "D:/SWP_SUM24";
+    private static final String IMG_FOLDER = "G:/Project/SwpImgDriver/Img/";
+    private static final String FOLDER = "G:/Project/SwpImgDriver/";
 
     private static String getFileName(Part part) {
         String contentDisposition = part.getHeader("content-disposition");

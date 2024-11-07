@@ -1,15 +1,12 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-import dal.CustomerDAO;
-import dal.CustomerVoucherDAO;
-import dal.DiscountDAO;
-import dal.VoucherDAO;
+import dal.*;
 import dto.VoucherResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,8 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.*;
-
-import javax.mail.Session;
 
 @WebServlet(name = "LoadVoucher", value = "/LoadVoucher")
 public class LoadVoucher extends HttpServlet {
@@ -37,14 +32,23 @@ public class LoadVoucher extends HttpServlet {
         for(CustomerVoucher customerVoucher : customerVouchers) {
             voucher = voucherDAO.getVoucherById(customerVoucher.getVoucherID());
             discount = discountDAO.getDiscountById(voucher.getDiscountID());
-            System.out.println("Voucher inventory: " + voucher.getInventory());
-            System.out.println("Discount end time: " + discount.getEndTime() + " " + discount.getEndTime().isAfter(LocalDateTime.now()));
             if(discount.getEndTime().isAfter(LocalDateTime.now()) && voucher.getInventory() > 0) {
                 vouchers.add(new VoucherResponse(voucher.getVoucherID(),discount.getDiscountID(),discount.getDiscountPercent(),discount.getStartTime(),discount.getEndTime(),voucher.getQuantity(),voucher.getInventory()));
             }
         }
-        System.out.println("Customer voucher: " + customerVouchers.size());
-        System.out.println("Voucher: " + vouchers.size());
+        String sort_str = request.getParameter("sort");
+        if(sort_str != null) {
+            Integer sort = Integer.parseInt(sort_str);
+            if(sort == 0) {
+                vouchers.sort(Comparator.comparing(VoucherResponse::getVoucherID));
+            } else if(sort == 1) {
+                vouchers.sort(Comparator.comparing(VoucherResponse::getDiscountPercent));
+            } else if(sort == 2) {
+                vouchers.sort(Comparator.comparing(VoucherResponse::getStartTime));
+            } else if(sort == 3) {
+                vouchers.sort(Comparator.comparing(VoucherResponse::getEndTime));
+            }
+        }
         request.setAttribute("vouchers", vouchers);
         request.getRequestDispatcher("page-account-voucher.jsp").forward(request, response);
     }

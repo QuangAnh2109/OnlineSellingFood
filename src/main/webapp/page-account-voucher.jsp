@@ -67,17 +67,24 @@
                                                 <input required class="form-control" name="voucherID" type="number" placeholder="Thêm mã giảm giá mới" min="1"/>
                                                 <button type="submit" class="btn btn-fill-out submit font-weight-bold">Thêm</button>
                                             </form>
-                                            <input type="text" id="searchID" placeholder="Tìm kiếm theo ID" class="form-control mt-3" onkeyup="myFunction()"/>
+                                            <dev>
+                                                <select id="searchType" class="form-control bg-white">
+                                                    <option value="0">ID</option>
+                                                    <option value="1">Giảm</option>
+                                                </select>
+                                                <input type="text" id="searchID" placeholder="Tìm kiếm" class="form-control mt-3" onkeyup="myFunction()"/>
+                                            </dev>
+
                                         </div>
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>Giảm</th>
-                                                        <th>Bắt đầu</th>
-                                                        <th>Hết hạn</th>
+                                                        <th><a href="LoadVoucher?sort=0">ID</a></th>
+                                                        <th><a href="LoadVoucher?sort=1">Giảm</a></th>
+                                                        <th><a href="LoadVoucher?sort=2">Bắt đầu</a></th>
+                                                        <th><a href="LoadVoucher?sort=3">Hết hạn</a></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -119,10 +126,11 @@
         filter = input.value.toUpperCase();
         table = document.querySelector(".table tbody");
         tr = table.getElementsByTagName("tr");
+        searchType = document.getElementById("searchType").value;
 
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("th")[0]; // Assuming the ID is in the first column
+            td = tr[i].getElementsByTagName("th")[searchType]; // Assuming the ID is in the first column
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
