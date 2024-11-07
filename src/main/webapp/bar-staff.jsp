@@ -90,16 +90,6 @@
                     <a href="registerManu" id="addmanu">Thêm nhà sản xuất</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu" id="news">
-                <a class="menu-link" href="#">
-                    <i class="icon material-icons md-add_box"></i>
-                    <span class="text">Tin tức</span>
-                </a>
-                <div class="submenu">
-                    <a href="" id=addNew>Tạo tin tức</a>
-                    <a href="" id="listNew">Danh sách tin tức</a>
-                </div>
-            </li>
             <%
                 }
                 else if(role==2){
