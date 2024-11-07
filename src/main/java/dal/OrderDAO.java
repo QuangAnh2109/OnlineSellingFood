@@ -18,7 +18,7 @@ public class OrderDAO extends DBContext{
         return new Order();
     }
 ;
-    public int countOrdersComplete()  {
+    public int countOrdersComplete() {
         int totalexrOrders = 0;
         try {
         String query = "SELECT COUNT(*) AS total FROM [Order] o " +
