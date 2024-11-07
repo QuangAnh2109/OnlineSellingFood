@@ -26,6 +26,27 @@
         }
     }
 </script>
+<script>
+    function validateForm() {
+        const mfgDate = new Date(document.getElementById("voucher_start_date").value);
+        const expDate = new Date(document.getElementById("voucher_end_date").value);
+
+        if (expDate < mfgDate) {
+            alert("Ngày hết hạn không được trước ngày tạo!");
+            return false;
+        }
+        return true;
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function(event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,6 +81,7 @@
             </div>
 
 
+
         </div>
         <div class="card">
             <div class="card-body">
@@ -75,22 +97,22 @@
                             <div class="mb-4">
                                 <label for="discount_percent" class="form-label">Phần trăm giảm giá(%)</label>
                                 <input type="number" class="form-control" id="discount_percent" name="discountPercent"
-                                       min="1" max="100"/>
+                                       min="1" max="100" required=""/>
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label">Ngày bắt đầu</label>
                                 <input type="datetime-local" class="form-control" id="voucher_start_date"
-                                       name="startDate"/>
+                                       name="startDate"  required=""/>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">Ngày kết thúc</label>
-                                <input type="datetime-local" class="form-control" id="voucher_end_date" name="endDate"/>
+                                <input type="datetime-local" class="form-control" id="voucher_end_date" name="endDate"  required=""/>
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label">Số lượng</label>
-                                <input type="number" class="form-control" id="voucher_quantity" name="quantity"/>
+                                <input type="number" class="form-control" id="voucher_quantity" name="quantity" min="1" required=""/>
                             </div>
 
                             <div class="d-grid">
@@ -103,8 +125,7 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID mã giảm giá</th>
-                                    <th>ID Phần trăm giảm giá</th>
+                                    <th>Số thứ tự</th>
                                     <th>Phần trăm giảm giá</th>
                                     <th>Ngày bắt đầu</th>
                                     <th>Ngày kết thúc</th>
@@ -114,12 +135,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
+                                <c:set var="count" value="${startCount}"/>
                                 <c:forEach var="v" items="${voucher}">
 
                                     <tr onclick="selectVoucher( '${v.discountPercent}', '${v.startTime}', '${v.endTime}','${v.quantity}')">
-                                        <td>${v.voucherID}</td>
-                                        <td>${v.discountID}</td>
+                                        <td>${count}</td>
+                                        <c:set var="count" value="${count + 1}"/>
                                         <td>${v.discountPercent}</td>
                                         <td>${v.startTime}</td>
                                         <td>${v.endTime}</td>

@@ -67,7 +67,7 @@
 
           <div class="mb-3">
             <label class="form-label">Số lượng</label>
-            <input class="form-control" name="quantity" value="${voucher.quantity}"  type="number"
+            <input class="form-control" name="quantity" value="${voucher.quantity}"  type="number" min="1"
                    />
           </div>
 

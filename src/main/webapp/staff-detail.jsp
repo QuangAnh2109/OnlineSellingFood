@@ -30,7 +30,8 @@
         <div class="card mx-auto card-login">
             <div class="card-body">
                 <h4 class="card-title mb-4">Chỉnh sửa nhân viên thông tin</h4>
-                <form action="updateProfileStaffForAdmin" method="post">
+                <h6 style="color: red">${msg}</h6>
+                <form action="staffListDetail" method="post">
                     <!-- Hidden field for StaffID and AccountID -->
                     <%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
                     <%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
@@ -63,13 +64,13 @@
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <input class="form-control" name="email" value="${staffListDetail.email}" type="email"
-                               required/>
+                               required=""/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Số điện thoại</label>
                         <input class="form-control" name="phone" value="${staffListDetail.phoneNumber}" type="text"
-                               required minlength="10" maxlength="10"/>
+                               required="" minlength="10" maxlength="10"/>
                     </div>
 
                     <div class="mb-3">
@@ -81,12 +82,12 @@
 
                     <div class="mb-3">
                         <label class="form-label">Ngày sinh</label>
-                        <input class="form-control" name="birth" value="${formattedBirth}" type="date"/>
+                        <input class="form-control" name="birth" value="${formattedBirth}" type="date"/ required=>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Lương</label>
-                        <input class="form-control" name="salary" value="${staffListDetail.salary}" type="text"
+                        <input class="form-control" name="salary" value="${staffListDetail.salary}" type="number" min="0"
                                required/>
                     </div>
                     <div>

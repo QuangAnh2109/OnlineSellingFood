@@ -74,12 +74,12 @@
 
                     <div class="mb-3">
                         <label class="form-label">Điểm</label>
-                        <input class="form-control" name="point" value="${customerListDetail.point}" type="text" required />
+                        <input class="form-control" name="point" value="${customerListDetail.point}" type="number" required min="0"/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Cấp độ</label>
-                        <input class="form-control" name="level" value="${customerListDetail.level}"  type="text" required  />
+                        <input class="form-control" name="level" value="${customerListDetail.level}"  type="number" min="0" required  />
                     </div>
 
 

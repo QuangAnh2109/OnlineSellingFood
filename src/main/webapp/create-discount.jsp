@@ -24,6 +24,7 @@
     }
 </script>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +42,36 @@
     <!-- Template CSS -->
     <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
 </head>
+<script>
+    function validateForm() {
+        const startDate = document.getElementById("start_date").value;
+        const endDate = document.getElementById("end_date").value;
+
+        if (!startDate || !endDate) {
+            alert("Ngày bắt đầu và ngày kết thúc không được để trống!");
+            return false;
+        }
+
+        const mfgDate = new Date(startDate);
+        const expDate = new Date(endDate);
+
+        if (expDate < mfgDate) {
+            alert("Ngày hết hạn không được trước ngày bắt đầu!");
+            return false;
+        }
+        return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function(event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 
 <body>
 <div class="screen-overlay"></div>
@@ -55,6 +86,7 @@
             <div>
                 <h2 class="content-title card-title">Giảm giá sản phẩm</h2>
                 <p>Thêm,sửa và xóa giảm giá</p>
+                <h4 style="color: red">${msg}</h4>
             </div>
 
             <div>
@@ -69,23 +101,23 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form method="post" action="discount">
+                        <form method="post" action="discount" onsubmit="return validateForm()">
 <%--                            <div class="mb-4">--%>
 <%--                                <label for="product_name" class="form-label">Name</label>--%>
 <%--                                <input type="text" placeholder="Type here" class="form-control" id="product_name" />--%>
 <%--                            </div>--%>
                             <div class="mb-4">
                                 <label for="product_discount" class="form-label">Phần trăm giảm giá(%)</label>
-                                <input type="number"  class="form-control" id="product_discount" name="discountPercent" min="1" max="100"/>
+                                <input type="number"  class="form-control" id="product_discount" name="discountPercent" min="1" max="100" required=""/>
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label">Ngày bắt đầu</label>
-                                <input type="datetime-local"  class="form-control" id="product_start_date" name="startDate" />
+                                <input type="datetime-local"  class="form-control" id="start_date" name="startDate" required="" />
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">Ngày kết thúc</label>
-                                <input type="datetime-local"  class="form-control" id="product_end_date" name="endDate"/>
+                                <input type="datetime-local"  class="form-control" id="end_date" name="endDate" required=""/>
                             </div>
 
                             <div class="mb-4">
