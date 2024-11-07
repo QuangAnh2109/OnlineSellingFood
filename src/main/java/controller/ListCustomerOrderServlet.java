@@ -17,7 +17,7 @@ public class ListCustomerOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse respose) throws ServletException, IOException {
         OrderDAO od = new OrderDAO();
         String statusIDStr = request.getParameter("statusID");
-        int statusID = 0; // Giá trị mặc định cho statusID nếu không có tham số trong request
+        int statusID = 0;
         if (statusIDStr != null && !statusIDStr.isEmpty()) {
             try {
                 statusID = Integer.parseInt(statusIDStr);
@@ -47,6 +47,7 @@ public class ListCustomerOrderServlet extends HttpServlet {
         request.setAttribute("searchName", searchName);
         request.setAttribute("customerOrderList", customerOrderList);
         request.setAttribute("startCount", startCount);
+        request.setAttribute("statusID", statusID);
         request.getRequestDispatcher("page-orders-list.jsp").forward(request, respose);
 
     }

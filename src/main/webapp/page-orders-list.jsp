@@ -122,8 +122,9 @@
 
 
                 <ul class="pagination justify-content-start">
-                    <c:forEach begin="01" end="${endPage}" var="i">
-                        <li class="${index==i?"page-item active":""} "><a class="page-link" href="customerOrder?index=${i}&statusID=${statusID}&searchName=${searchName}">${i}</a>
+                    <c:forEach begin="1" end="${endPage}" var="i">
+                        <li class="${index == i ? 'page-item active' : ''}">
+                            <a class="page-link" href="customerOrder?index=${i}&statusID=${statusID}&searchName=${searchName}">${i}</a>
                         </li>
                     </c:forEach>
                 </ul>
