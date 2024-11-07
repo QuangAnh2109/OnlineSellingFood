@@ -312,12 +312,103 @@
                 </div>
             </div>
 
-            <script>
-                function submitForm() {
-                    // Tự động submit form khi có thay đổi
-                    document.forms[0].submit();
-                }
-            </script>
+            <div>
+                <button type="submit">Submit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </button>
+            </div>
 
             <script>
                 // Function to automatically reload the page with the new filter values
