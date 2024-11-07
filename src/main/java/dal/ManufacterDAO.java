@@ -1,37 +1,43 @@
 package dal;
 
 import model.Manufacturer;
-import model.Staff;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.*;
 
-public class ManufacterDAO extends DBContext{
+public class ManufacterDAO extends DBContext {
+
+    // Converts a ResultSet row into a Manufacturer object
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Manufacturer(rs.getInt("ManufacturerID"),rs.getString("Introduce"),rs.getString("Name"),rs.getInt("productCount"));
+        return new Manufacturer(
+                rs.getInt("ManufacturerID"),
+                rs.getString("Introduce"),
+                rs.getString("Name"),
+                rs.getInt("ProductCount"),
+                rs.getBoolean("active")
+        );
     }
+
+    // Retrieves a Manufacturer by ID
     public Manufacturer getManufacturerByID(int manufacturerID) {
-        try {
-            String query = "SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount " +
-                    "FROM Manufacturer m " +
-                    "LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID " +
-                    "WHERE m.ManufacturerID = ? " +
-                    "GROUP BY m.ManufacturerID, m.Introduce, m.Name";
-            PreparedStatement ps = connection.prepareStatement(query);
+        String query = """
+            SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount, m.active
+            FROM Manufacturer m
+            LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID
+            WHERE m.ManufacturerID = ?
+            GROUP BY m.ManufacturerID, m.Introduce, m.Name, m.active
+        """;
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, manufacturerID);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 Manufacturer manufacturer = new Manufacturer();
                 manufacturer.setManufacturerID(rs.getInt("ManufacturerID"));
                 manufacturer.setIntroduce(rs.getString("Introduce"));
                 manufacturer.setName(rs.getString("Name"));
-                manufacturer.setProductCount(rs.getInt("ProductCount")); // Set product count
+                manufacturer.setProductCount(rs.getInt("ProductCount"));
+                manufacturer.setActive(rs.getBoolean("active"));
                 return manufacturer;
             }
         } catch (SQLException e) {
@@ -40,34 +46,18 @@ public class ManufacterDAO extends DBContext{
         return null;
     }
 
-    public String getManufacturerName(int manufacturerID) {
-        String sql = "SELECT Name FROM Manufacturer WHERE ManufacturerID = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, manufacturerID);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("Name");
-            }
-        } catch (SQLException e) {
-            logger.info(getClass().getName() + ": " + e.getMessage());
-        }
-        return null;
-    }
-
-
+    // Adds a new Manufacturer and returns the generated ID
     public Integer addManufacturer(Manufacturer manufacturer) {
-        try {
-            PreparedStatement ps = connection.prepareStatement(
-                    "INSERT INTO Manufacturer (Introduce, Name) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS
-            );
+        String query = "INSERT INTO Manufacturer (Introduce, Name, active) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, manufacturer.getIntroduce());
             ps.setString(2, manufacturer.getName());
+            ps.setBoolean(3, manufacturer.isActive());
             int affectedRows = ps.executeUpdate();
-
             if (affectedRows > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
-                    return rs.getInt(1); // Trả về ManufacturerID mới được tạo
+                    return rs.getInt(1);
                 }
             }
         } catch (SQLException e) {
@@ -75,46 +65,48 @@ public class ManufacterDAO extends DBContext{
         }
         return null;
     }
+
+    // Updates a Manufacturer and checks for name uniqueness
     public boolean updateManufacturer(Manufacturer manufacturer) {
         try {
-            // Kiểm tra xem tên mới có trùng với tên của nhà sản xuất khác không
             Manufacturer existingManufacturer = getManufacturerByID(manufacturer.getManufacturerID());
-            if (!existingManufacturer.getName().equals(manufacturer.getName())) {
-                // Chỉ kiểm tra nếu tên đã thay đổi
-                if (isManufacturerNameExists(manufacturer.getName())) {
-                    return false; // Tên đã tồn tại, không thể cập nhật
-                }
+            if (!existingManufacturer.getName().equals(manufacturer.getName()) &&
+                    isManufacturerNameExists(manufacturer.getName())) {
+                return false;
             }
-
-            PreparedStatement ps = connection.prepareStatement(
-                    "UPDATE Manufacturer SET Introduce=?, Name=? WHERE ManufacturerID=?"
-            );
-            ps.setString(1, manufacturer.getIntroduce());
-            ps.setString(2, manufacturer.getName());
-            ps.setInt(3, manufacturer.getManufacturerID());
-
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0; // Trả về true nếu cập nhật thành công
+            String query = "UPDATE Manufacturer SET Introduce = ?, Name = ?, active = ? WHERE ManufacturerID = ?";
+            try (PreparedStatement ps = connection.prepareStatement(query)) {
+                ps.setString(1, manufacturer.getIntroduce());
+                ps.setString(2, manufacturer.getName());
+                ps.setBoolean(3, manufacturer.isActive());
+                ps.setInt(4, manufacturer.getManufacturerID());
+                return ps.executeUpdate() > 0;
+            }
         } catch (SQLException e) {
             logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return false;
     }
+
+    // Retrieves all manufacturers with their product counts
     public List<Manufacturer> getAllManufacturers() {
         List<Manufacturer> manufacturers = new ArrayList<>();
-        try {
-            String query = "SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount " +
-                    "FROM Manufacturer m " +
-                    "LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID " +
-                    "GROUP BY m.ManufacturerID, m.Introduce, m.Name";
-            PreparedStatement ps = connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+        String query = """
+            SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount, m.active
+            FROM Manufacturer m
+            LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID
+            GROUP BY m.ManufacturerID, m.Introduce, m.Name, m.active
+        """;
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Manufacturer manufacturer = new Manufacturer();
-                manufacturer.setManufacturerID(rs.getInt("ManufacturerID"));
-                manufacturer.setIntroduce(rs.getString("Introduce"));
-                manufacturer.setName(rs.getString("Name"));
-                manufacturer.setProductCount(rs.getInt("ProductCount")); // Add product count
+                Manufacturer manufacturer = new Manufacturer(
+                        rs.getInt("ManufacturerID"),
+                        rs.getString("Name"),
+                        rs.getString("Introduce"),
+                        rs.getInt("ProductCount"),
+                        rs.getBoolean("active")
+                );
                 manufacturers.add(manufacturer);
             }
         } catch (SQLException e) {
@@ -123,51 +115,51 @@ public class ManufacterDAO extends DBContext{
         return manufacturers;
     }
 
+    // Checks if a manufacturer name already exists
     public boolean isManufacturerNameExists(String name) {
-        try {
-            PreparedStatement ps = connection.prepareStatement(
-                    "SELECT ManufacturerID FROM Manufacturer WHERE Name = ?"
-            );
+        String query = "SELECT ManufacturerID FROM Manufacturer WHERE Name = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
-            return rs.next(); // Return true if a manufacturer with the same name exists
+            return ps.executeQuery().next();
         } catch (SQLException e) {
             logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return false;
     }
+
+    // Deletes a manufacturer by ID
     public boolean deleteManufacturer(int manufacturerID) {
-        try {
-            PreparedStatement ps = connection.prepareStatement(
-                    "DELETE FROM Manufacturer WHERE ManufacturerID = ?"
-            );
+        String query = "DELETE FROM Manufacturer WHERE ManufacturerID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, manufacturerID);
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.info(getClass().getName() + ": " + e.getMessage());
         }
         return false;
     }
+
+    // Searches manufacturers by name
     public List<Manufacturer> searchManufacturersByName(String name) {
         List<Manufacturer> manufacturers = new ArrayList<>();
-        try {
-            String query = "SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount " +
-                    "FROM Manufacturer m " +
-                    "LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID " +
-                    "WHERE m.Name LIKE ? " +
-                    "GROUP BY m.ManufacturerID, m.Introduce, m.Name";
-
-            PreparedStatement ps = connection.prepareStatement(query);
+        String query = """
+            SELECT m.ManufacturerID, m.Introduce, m.Name, COUNT(p.ProductID) AS ProductCount, m.active
+            FROM Manufacturer m
+            LEFT JOIN Product p ON m.ManufacturerID = p.ManufacturerID
+            WHERE m.Name LIKE ?
+            GROUP BY m.ManufacturerID, m.Introduce, m.Name, m.active
+        """;
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, "%" + name.trim() + "%");
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
-                Manufacturer manufacturer = new Manufacturer();
-                manufacturer.setManufacturerID(rs.getInt("ManufacturerID"));
-                manufacturer.setIntroduce(rs.getString("Introduce"));
-                manufacturer.setName(rs.getString("Name"));
-                manufacturer.setProductCount(rs.getInt("ProductCount")); // Set the product count
+                Manufacturer manufacturer = new Manufacturer(
+                        rs.getInt("ManufacturerID"),
+                        rs.getString("Name"),
+                        rs.getString("Introduce"),
+                        rs.getInt("ProductCount"),
+                        rs.getBoolean("active")
+                );
                 manufacturers.add(manufacturer);
             }
         } catch (SQLException e) {
@@ -175,18 +167,35 @@ public class ManufacterDAO extends DBContext{
         }
         return manufacturers;
     }
-    public class TextTruncator {
+
+    // Text truncator utility class
+    public static class TextTruncator {
         private static final int MAX_LENGTH = 40;
 
         public static String truncate(String text) {
             if (text == null) return "";
             if (text.length() <= MAX_LENGTH) return text;
-
-            // Find the last space before MAX_LENGTH to avoid cutting words
             int lastSpace = text.substring(0, MAX_LENGTH).lastIndexOf(' ');
-            int truncateIndex = lastSpace > 0 ? lastSpace : MAX_LENGTH;
-
+            int truncateIndex = (lastSpace > 0) ? lastSpace : MAX_LENGTH;
             return text.substring(0, truncateIndex) + "...";
         }
     }
+    public int getProductCountByManufacturerName(String name) {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM Product p " +
+                "JOIN Manufacturer m ON p.ManufacturerID = m.ManufacturerID " +
+                "WHERE m.Name = ?";
+        try (
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
 }

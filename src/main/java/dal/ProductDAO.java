@@ -421,8 +421,6 @@ public class ProductDAO extends DBContext{
     }
 
 
-
-
     public List<Product> get5ProductByDiscount() {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT TOP 5 * FROM Product WHERE DiscountID IS NOT NULL ORDER BY DiscountID DESC";

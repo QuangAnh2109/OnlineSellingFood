@@ -33,7 +33,7 @@
                 </c:if>
 
                 <form action="updateManuForAdmin" method="post">
-                    <input type="hidden" name="ManufacturerID" value="${manuListDetail.manufacturerID}" /> <!-- Ensure this is passed -->
+                    <input type="hidden" name="ManufacturerID" value="${manuListDetail.manufacturerID}" />
 
                     <div class="mb-3">
                         <label class="form-label">Tên</label>
@@ -45,10 +45,19 @@
                         <textarea class="form-control" name="introduce" placeholder="Introduce" rows="4" required>${manuListDetail.introduce}</textarea>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Trạng thái</label>
+                        <select class="form-control" name="active" required>
+                            <option value="true" ${manuListDetail.active ? "selected" : ""}>Active</option>
+                            <option value="false" ${!manuListDetail.active ? "selected" : ""}>Non-Active</option>
+                        </select>
+                    </div>
+
                     <div class="mb-4">
-                        <button type="submit" class="btn btn-primary w-100">Cập nhập</button>
+                        <button type="submit" class="btn btn-primary w-100">Cập nhật</button>
                     </div>
                 </form>
+
             </div>
         </div>
 

@@ -1,45 +1,55 @@
 package model;
 
+import java.util.Date;
+
 public class News {
-    private Integer newsID;
-    private Integer staffID;
-    private Integer imgID;
+    private int newsID;
+    private int staffID;
     private String title;
+    private int imgID;
+    private Date time;
     private String content;
+    private Boolean active;
 
     public News() {
     }
 
-    public News(Integer newsID, Integer staffID, Integer imgID, String title, String content) {
-        this.newsID = newsID;
+    // Constructor without newsID (for creating new news)
+    public News(int staffID, String title, int imgID, Date time, String content, Boolean active) {
         this.staffID = staffID;
-        this.imgID = imgID;
         this.title = title;
+        this.imgID = imgID;
+        this.time = time;
         this.content = content;
+        this.active = active;
     }
 
-    public Integer getNewsID() {
+    // Constructor with all fields (for retrieving news from database)
+    public News(int newsID, int staffID, String title, int imgID, Date time, String content, Boolean active) {
+        this.newsID = newsID;
+        this.staffID = staffID;
+        this.title = title;
+        this.imgID = imgID;
+        this.time = time;
+        this.content = content;
+        this.active = active;
+    }
+
+    // Getters and setters
+    public int getNewsID() {
         return newsID;
     }
 
-    public void setNewsID(Integer newsID) {
+    public void setNewsID(int newsID) {
         this.newsID = newsID;
     }
 
-    public Integer getStaffID() {
+    public int getStaffID() {
         return staffID;
     }
 
-    public void setStaffID(Integer staffID) {
+    public void setStaffID(int staffID) {
         this.staffID = staffID;
-    }
-
-    public Integer getImgID() {
-        return imgID;
-    }
-
-    public void setImgID(Integer imgID) {
-        this.imgID = imgID;
     }
 
     public String getTitle() {
@@ -50,11 +60,35 @@ public class News {
         this.title = title;
     }
 
+    public int getImgID() {
+        return imgID;
+    }
+
+    public void setImgID(int imgID) {
+        this.imgID = imgID;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

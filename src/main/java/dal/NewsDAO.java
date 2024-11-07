@@ -4,7 +4,9 @@ import model.News;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NewsDAO extends DBContext {
@@ -14,36 +16,35 @@ public class NewsDAO extends DBContext {
         return new News(
                 rs.getInt("NewsID"),
                 rs.getInt("StaffID"),
-                rs.getInt("ImgID"),
                 rs.getString("Title"),
-                rs.getString("Content")
+                rs.getInt("ImgID"),
+                rs.getTimestamp("Time"),
+                rs.getString("Content"),
+                rs.getBoolean("Active")
         );
     }
 
-    // insert
     public boolean insert(News news) {
-        String sql = "INSERT INTO News (StaffID, ImgID, Title, Content) VALUES (?, ?, ?, ?)";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+        String sql = "INSERT INTO News (StaffID, Title, ImgID, Time, Content, Active) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, news.getStaffID());
-            st.setInt(2, news.getImgID());
-            st.setString(3, news.getTitle());
-            st.setString(4, news.getContent());
-            st.executeUpdate();
-            return true;
+            st.setString(2, news.getTitle());
+            st.setInt(3, news.getImgID());
+            st.setTimestamp(4, new Timestamp(news.getTime().getTime()));
+            st.setString(5, news.getContent());
+            st.setBoolean(6, news.getActive());
+            return st.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error inserting news: " + e.getMessage());
             return false;
         }
     }
 
-    // get all new
     public List<News> getAll() {
         List<News> list = new ArrayList<>();
         String sql = "SELECT * FROM News";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
+        try (PreparedStatement st = connection.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
             while(rs.next()) {
                 list.add((News)getObjectByRs(rs));
             }
@@ -55,12 +56,12 @@ public class NewsDAO extends DBContext {
 
     public News getById(int newsID) {
         String sql = "SELECT * FROM News WHERE NewsID = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, newsID);
-            ResultSet rs = st.executeQuery();
-            if(rs.next()) {
-                return (News)getObjectByRs(rs);
+            try (ResultSet rs = st.executeQuery()) {
+                if(rs.next()) {
+                    return (News)getObjectByRs(rs);
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error getting news by ID: " + e.getMessage());
@@ -68,69 +69,93 @@ public class NewsDAO extends DBContext {
         return null;
     }
 
-    // update news
     public boolean update(News news) {
-        String sql = "UPDATE News SET StaffID=?, ImgID=?, Title=?, Content=? WHERE NewsID=?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+        String sql = "UPDATE News SET StaffID=?, Title=?, ImgID=?, Time=?, Content=?, Active=? WHERE NewsID=?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, news.getStaffID());
-            st.setInt(2, news.getImgID());
-            st.setString(3, news.getTitle());
-            st.setString(4, news.getContent());
-            st.setInt(5, news.getNewsID());
-            st.executeUpdate();
-            return true;
+            st.setString(2, news.getTitle());
+            st.setInt(3, news.getImgID());
+            st.setTimestamp(4, new Timestamp(news.getTime().getTime()));
+            st.setString(5, news.getContent());
+            st.setBoolean(6, news.getActive());
+            st.setInt(7, news.getNewsID());
+            return st.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error updating news: " + e.getMessage());
             return false;
         }
     }
 
-    // delete news
     public boolean delete(int newsID) {
         String sql = "DELETE FROM News WHERE NewsID=?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, newsID);
-            st.executeUpdate();
-            return true;
+            return st.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error deleting news: " + e.getMessage());
             return false;
         }
     }
 
-    // get new by staff ID
     public List<News> getByStaffId(int staffID) {
         List<News> list = new ArrayList<>();
         String sql = "SELECT * FROM News WHERE StaffID = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, staffID);
-            ResultSet rs = st.executeQuery();
-            while(rs.next()) {
-                list.add((News)getObjectByRs(rs));
+            try (ResultSet rs = st.executeQuery()) {
+                while(rs.next()) {
+                    list.add((News)getObjectByRs(rs));
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error getting news by staff ID: " + e.getMessage());
         }
         return list;
     }
-    // search by title
+
     public List<News> searchByTitle(String title) {
         List<News> list = new ArrayList<>();
         String sql = "SELECT * FROM News WHERE Title LIKE ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, "%" + title + "%"); // Use '%' for partial matches
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                list.add((News) getObjectByRs(rs));
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, "%" + title + "%");
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    list.add((News) getObjectByRs(rs));
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error searching news by title: " + e.getMessage());
         }
         return list;
+    }
+
+    public boolean createOrUpdateNews(int staffID,String title, Integer imgID,Date time, String content, Boolean active) {
+
+        try {
+            String query;
+            if (imgID != null) {
+                query = "INSERT INTO News (staffID, title, imgID, time, content, active) VALUES (?, ?, ?, ?, ?, ?)";
+            } else {
+                query = "INSERT INTO News (staffID, title, time, content, active) VALUES (?, ?, ?, ?, ?)";
+            }
+
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, staffID);
+            stmt.setString(2, title);
+            stmt.setDate(3, new java.sql.Date(time.getTime()));
+            stmt.setString(4, content);
+            stmt.setBoolean(5, active);
+
+            if (imgID != null) {
+                stmt.setInt(6, imgID); // Add image ID if present
+            }
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

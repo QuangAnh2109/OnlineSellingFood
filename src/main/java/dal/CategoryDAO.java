@@ -154,6 +154,19 @@ public class CategoryDAO extends DBContext{
 
             return categories;
         }
+    public int getProductCountByCategory(int categoryID) {
+        String sql = "SELECT COUNT(*) FROM Product WHERE CategoryID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, categoryID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // Return the count of products
+            }
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+        }
+        return 0;
+    }
 
 
 
