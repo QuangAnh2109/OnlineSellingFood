@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="model.Account" %>
 <%@ page import="dal.CustomerDAO" %>
+<%@ page import="dal.DiscountDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -19,6 +20,11 @@
 
 <body>
 <%
+  String msg = (String)session.getAttribute("msg");
+  if(msg==null) msg="";
+  session.removeAttribute("msg");
+%>
+<%
   String accountName;
   try {
     accountName = ((Account) session.getAttribute("account")).getName();
@@ -31,6 +37,7 @@
     CustomerDAO customerDAO = new CustomerDAO();
     customerID = customerDAO.getCustomerIDByAccountID(account.getAccountID());
   }
+
 %>
 
 <jsp:include page="header.jsp">
@@ -116,7 +123,7 @@
             </c:forEach>
             <c:if test="${empty cartItems}">
               <tr>
-                <td colspan="6">Không có sản phẩm trong giỏ hàng</td>
+                <td colspan="6" style="text-align: center"><h5 style="color: red"><%= msg != null ? msg : "" %></h5></td>
               </tr>
             </c:if>
             </tbody>

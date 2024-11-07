@@ -35,8 +35,15 @@ public class CartServlet extends HttpServlet {
                 int customerId = Integer.parseInt(customerIdParam);
 
                 List<Cart> cartItems = cartDAO.getCartByCustomerId(customerId);
-                Map<Integer, Product> productMap = new HashMap<>();
 
+                // Check if cart is empty
+                if (cartItems.isEmpty()) {
+                    request.getSession().setAttribute("msg", "Không có sản phẩm nào trong giỏ hàng");
+                    response.sendRedirect("shop-cart.jsp");
+                    return;
+                }
+
+                Map<Integer, Product> productMap = new HashMap<>();
                 for (Cart cartItem : cartItems) {
                     Product product = productDAO.getProductById(cartItem.getProductID());
                     productMap.put(cartItem.getProductID(), product);
@@ -45,7 +52,7 @@ public class CartServlet extends HttpServlet {
                 request.setAttribute("cartItems", cartItems);
                 request.setAttribute("productMap", productMap);
 
-                // Tính toán tổng giá trị giỏ hàng
+                // Calculate total price
                 double total = cartItems.stream()
                         .mapToDouble(cartItem -> productMap.get(cartItem.getProductID()).getPrice() * cartItem.getQuantity())
                         .sum();
@@ -60,6 +67,7 @@ public class CartServlet extends HttpServlet {
             response.sendRedirect("homepage");
         }
     }
+
 
 
     @Override

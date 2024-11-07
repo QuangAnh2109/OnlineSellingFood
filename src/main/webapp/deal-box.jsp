@@ -1,4 +1,4 @@
-<%--
+<%@ page import="dal.FeedbackProductDAO" %><%--
   Created by IntelliJ IDEA.
   User: anh21
   Date: 9/29/2024
@@ -9,6 +9,8 @@
 <%
   String datetime = request.getParameter("datetime"), name = request.getParameter("name"), manufacturer = request.getParameter("manufacturer");
   int star = Integer.parseInt(request.getParameter("star")), discount = Integer.parseInt(request.getParameter("discount")), price = Integer.parseInt(request.getParameter("price")), productID = Integer.parseInt(request.getParameter("productID"));
+  FeedbackProductDAO feedbackDAO = new FeedbackProductDAO();
+  int averageStar = feedbackDAO.averageStarInProduct(productID);
 %>
 <div class="col-xl-3 col-lg-4 col-md-6">
   <div class="product-cart-wrap style-2 wow animate__animated animate__fadeInUp" data-wow-delay="0">
@@ -27,10 +29,21 @@
       <div class="deals-content">
         <h2><a href="ProductDetail?productID=<%=productID%>"><%=name%></a></h2>
         <div class="product-rate-cover">
-          <div class="product-rate d-inline-block">
-            <div class="product-rating" style="width: <%=star*2%>0%"></div>
+          <div class="rate" style="width: <%= averageStar * 20 %>%">
+            <%
+              for (int i = 1; i <= 5; i++) {
+                if (i <= averageStar) {
+            %>
+            <span class="star">&#9733;</span> <!-- Ngôi sao đầy -->
+            <%
+            } else {
+            %>
+            <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
+            <%
+                }
+              }
+            %>
           </div>
-          <span class="font-small ml-5 text-muted"> (<%=star%>)</span>
         </div>
         <div>
           <span class="font-small text-muted">By <a href="vendor-details-1.html"><%=manufacturer%></a></span>
