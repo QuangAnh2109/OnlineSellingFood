@@ -34,7 +34,7 @@ public class OrderProductServlet extends HttpServlet {
         CheckoutDAO checkoutDAO = new CheckoutDAO();
         CheckoutContactDetailResponse checkoutContactDetailResponse=checkoutDAO.getCheckoutContactDetail(a.getAccountID());
         int contactInformationID=checkoutContactDetailResponse.getContactInformationID();
-        String voucherID_raw = request.getParameter("voucherID");
+        String voucherID_raw = (String) request.getSession().getAttribute("voucherID");
         Integer voucherID = null;
         if (voucherID_raw != null && !voucherID_raw.isEmpty()) {
             voucherID = Integer.parseInt(voucherID_raw);
@@ -42,7 +42,8 @@ public class OrderProductServlet extends HttpServlet {
             voucherID=null;
         }
 
-        String priceTotalStr = request.getParameter("priceTotal");
+        String priceTotalStr = request.getParameter("amount");
+//        String priceTotalStr = request.getParameter("priceTotal");
 
         int priceTotal = 0;
         if (priceTotalStr != null && !priceTotalStr.isEmpty()) {
