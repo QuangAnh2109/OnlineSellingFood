@@ -21,7 +21,7 @@
         <ul class="menu-aside">
             <%if(role == 5){%>
             <li class="menu-item" id="homepage">
-                <a class="menu-link" href="Dashboard">
+                <a class="menu-link" href="Dashboard?index=1&search=&orderStatus=">
                     <i class="icon material-icons md-home"></i>
                     <span class="text">Bảng điều khiển</span>
                 </a>
@@ -31,7 +31,17 @@
                 else if(role==3){
             %>
             <li class="menu-item" id="homepage">
-                <a class="menu-link" href="DashboardI">
+                <a class="menu-link" href="DashboardI?index=1&search=">
+                    <i class="icon material-icons md-home"></i>
+                    <span class="text">Bảng điều khiển</span>
+                </a>
+            </li>
+            <%
+            }
+            else if(role==3){
+            %>
+            <li class="menu-item" id="homepage">
+                <a class="menu-link" href="DashboardD">
                     <i class="icon material-icons md-home"></i>
                     <span class="text">Bảng điều khiển</span>
                 </a>

@@ -71,8 +71,9 @@ public class LoginStaffServlet extends HttpServlet {
 
                 session.setAttribute("loggedInStaffID", stdao.getStaffIDbyAccountID(a.getAccountID()));
                 if(a.getStatusID()==3) response.sendRedirect("page-change-pass-staff.jsp"); 
-                else if(a.getRoleID() == 5) {response.sendRedirect("Dashboard");}
-                else if(a.getRoleID() == 3) {response.sendRedirect("DashboardI");}
+                else if(a.getRoleID() == 5) {response.sendRedirect("Dashboard?index=1&search=&orderStatus=");}
+                else if(a.getRoleID() == 3) {response.sendRedirect("DashboardI?index=1&search=");}
+                else if(a.getRoleID() == 2) {response.sendRedirect("DashboardD");}
                 else{
                     response.sendRedirect("home-page-staff.jsp");
                 }
