@@ -54,14 +54,15 @@ public class GetRegisterInforServlet extends HttpServlet {
 
         //Validate password
         if (!password.equals(confirmPassword)) {
-            request.setAttribute("msg", "Confirm password does not match!");
-            request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
+            request.setAttribute("msg", "Xác nhận mật khẩu không khớp!");
+            request.getRequestDispatcher("page-register.jsp").forward(request, response);
             return;
         }
 
+        // Check if email is duplicate
         if (new AccountDAO().getAccountByEmail(email)!=null) {
-            request.setAttribute("msg", "Email duplicate!");
-            request.getRequestDispatcher("page-change-pass-staff.jsp").forward(request, response);
+            request.setAttribute("msg", "Email đã tồn tại!");
+            request.getRequestDispatcher("page-register.jsp").forward(request, response);
             return;
         }
 
@@ -77,7 +78,7 @@ public class GetRegisterInforServlet extends HttpServlet {
             request.getRequestDispatcher("register-authen.jsp").forward(request, response);
         }
         else{
-            request.setAttribute("msg","Some error when send otp");
+            request.setAttribute("msg","Có lỗi xảy ra khi gửi otp");
             request.getRequestDispatcher("page-register.jsp").forward(request, response);
         }
     }
