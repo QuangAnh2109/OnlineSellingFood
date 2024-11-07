@@ -110,11 +110,18 @@
     ImgDAO imgDAO = new ImgDAO();
     ProductImgDAO productImgDAO = new ProductImgDAO();
     List<Img> imgUrls = new ArrayList<>();
-    imgUrls.add(imgDAO.getImgById(productImgDAO.getDefaultImg(product.getProductID()).getImgID()));
-    List<ProductImg> productImgs = productImgDAO.getNotDefaultImg(product.getProductID());
-    for(ProductImg productImg : productImgs){
-        imgUrls.add(imgDAO.getImgById(productImg.getImgID()));
+    boolean haveimg;
+    try{
+        imgUrls.add(imgDAO.getImgById(productImgDAO.getDefaultImg(product.getProductID()).getImgID()));
+        List<ProductImg> productImgs = productImgDAO.getNotDefaultImg(product.getProductID());
+        for(ProductImg productImg : productImgs){
+            imgUrls.add(imgDAO.getImgById(productImg.getImgID()));
+        }
+        haveimg = true;
+    }catch(Exception e){
+        haveimg = false;
     }
+
     String name = request.getParameter("name");
 %>
 <jsp:include page="header.jsp">
@@ -133,7 +140,7 @@
                                 <!-- Ảnh chính -->
                                 <div class="product-image-slider">
                                     <figure class="border-radius-10">
-                                        <img src="<%=Host.IMG_LINK+imgUrls.get(0).getImglink()+"?raw=true"%>" alt="<%=name%>" style="width: 100%; height: auto; object-fit: cover;" />
+                                        <img src="<%if(haveimg)%><%=Host.IMG_LINK+imgUrls.get(0).getImglink()+"?raw=true"%>" alt="<%=name%>" style="width: 100%; height: auto; object-fit: cover;" />
                                     </figure>
                                 </div>
 

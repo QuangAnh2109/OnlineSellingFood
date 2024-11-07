@@ -124,6 +124,7 @@ try{
               int productCount = productDAO.countProductsByCategory(categoryID);
           %>
           <jsp:include page="category-box.jsp">
+            <jsp:param name="id" value="<%= category.getCategoryID()%>"/>
             <jsp:param name="name" value="<%= category.getName() %>"/>
             <jsp:param name="quantity" value="<%= productCount %>"/>
             <jsp:param name="color" value="2"/>
