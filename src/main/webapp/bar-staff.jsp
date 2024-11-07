@@ -134,6 +134,16 @@
                     <a href="customerOrder" id="order">Danh sách đặt hàng</a>
                 </div>
             </li>
+            <li class="menu-item has-submenu" id="news">
+                <a class="menu-link" href="#">
+                    <i class="icon material-icons md-add_box"></i>
+                    <span class="text">News</span>
+                </a>
+                <div class="submenu">
+                    <a href="addNew" id=addNew>Tạo News</a>
+                    <a href="listNews" id="listNews">Danh sách News</a>
+                </div>
+            </li>
             <%
 
                 }

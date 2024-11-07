@@ -19,6 +19,10 @@
 
 <body>
 <jsp:include page="header.jsp"></jsp:include>
+<%
+    String msg = (String)request.getAttribute("msg");
+    if(msg==null) msg="";
+%>
 <!--End header-->
 <main class="main pages">
   <div class="page-header breadcrumb-wrap">
@@ -40,6 +44,7 @@
                   <div class="heading_s1">
                     <h1 class="mb-5">Đăng ký tài khoản</h1>
                     <p class="mb-30">Đã có tài khoản? <a href="page-login.html">Đăng nhập</a></p>
+                    <h6 style="color: red"><%=msg%></h6>
                   </div>
                   <form action="register" method="post">
                     <!-- Name -->

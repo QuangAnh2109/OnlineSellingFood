@@ -60,8 +60,15 @@
 
                     <div class="mb-3">
                         <label class="form-label">Mô tả</label>
+                        <textarea class="form-control" name="introduce" placeholder="Introduce"></textarea>
+                    </div>
 
-                        <textarea class="form-control" name="introduce" placeholder="Introduce" ></textarea>
+                    <div class="mb-3">
+                        <label class="form-label">Trạng thái</label>
+                        <select class="form-control" name="active" required>
+                            <option value="true">Active</option>
+                            <option value="false">Nonactive</option>
+                        </select>
                     </div>
 
                     <div class="mb-4">
