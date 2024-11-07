@@ -29,7 +29,7 @@ public class SupplierDAO extends DBContext{
     }
 
     // Thêm nhà cung cấp mới
-    public Integer insertSupplier(Supplier supplier) throws SQLException {
+    public Integer insertSupplier(Supplier supplier) {
         String sql = "INSERT INTO Supplier (Name, ContactInformationID, Note) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, supplier.getName());
@@ -46,7 +46,7 @@ public class SupplierDAO extends DBContext{
     }
 
     // Cập nhật thông tin nhà cung cấp
-    public boolean updateSupplier(Supplier supplier) throws SQLException {
+    public boolean updateSupplier(Supplier supplier) {
         String sql = "UPDATE Supplier SET Name = ?, ContactInformationID = ?, Note = ? WHERE SupplierID = ?";
         try (
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -62,7 +62,7 @@ public class SupplierDAO extends DBContext{
     }
 
     // Xóa nhà cung cấp
-    public boolean deleteSupplier(int supplierID) throws SQLException {
+    public boolean deleteSupplier(int supplierID) {
         String sql = "DELETE FROM Supplier WHERE SupplierID = ?";
         try (
              PreparedStatement stmt = connection.prepareStatement(sql)) {

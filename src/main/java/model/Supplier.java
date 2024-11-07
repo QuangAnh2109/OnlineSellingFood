@@ -16,7 +16,12 @@ public class Supplier {
         this.note = note;
     }
 
-
+    public Supplier(Integer contactInformationID, String name, String note) {
+        this.supplierID = supplierID;
+        this.contactInformationID = contactInformationID;
+        this.name = name;
+        this.note = note;
+    }
 
     public Integer getSupplierID() {
         return supplierID;
