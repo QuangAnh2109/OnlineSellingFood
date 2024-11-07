@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderDAO extends DBContext{
     @Override
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
-        return new Order();
+        return null;
     }
 ;
     public int countOrdersComplete() {
