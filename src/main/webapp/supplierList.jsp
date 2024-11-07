@@ -26,7 +26,7 @@
 <div class="screen-overlay"></div>
 <jsp:include page="bar-staff.jsp">
   <jsp:param name="page" value=""/>
-  <jsp:param name="menu" value="unit"/>
+  <jsp:param name="menu" value="supplier"/>
 </jsp:include>
 <%
   List<Supplier> suppliers = (List<Supplier>) request.getAttribute("supplierList");
@@ -96,11 +96,11 @@
               <table class="table table-hover" id="mytable">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Nhà cung cấp</th>
-                  <th>Địa chỉ</th>
-                  <th>Số điện thoại</th>
-                  <th>Ghi chú</th>
+                  <th><a href="supplierList?sort=0">ID</a></th>
+                  <th><a href="supplierList?sort=1">Nhà cung cấp</a></th>
+                  <th><a href="">Địa chỉ</a></th>
+                  <th><a href="">Số điện thoại</a></th>
+                  <th><a href="supplierList?sort=5">Ghi chú</a></th>
                 </tr>
                 </thead>
                 <tbody>

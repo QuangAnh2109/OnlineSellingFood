@@ -102,12 +102,12 @@
             </li>
             <%
                 }
-                else if(role==2){
+                if(role==2){
             %>
 
             <%
                 }
-                else if(role==3){
+                if(role==3||role==4){
             %>
             <li class="menu-item has-submenu" id="product">
                 <a class="menu-link" href="#">
@@ -121,11 +121,17 @@
             </li>
             <%
                 }
-                else if(role==4){
+                if(role==4){
             %>
+            <li class="menu-item" id="supplier">
+                <a class="menu-link" href="supplierList">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Nhà cung cấp</span>
+                </a>
+            </li>
             <%
                 }
-                else if(role==5){
+                if(role==5){
             %>
 
             <li class="menu-item has-submenu" id="product">
