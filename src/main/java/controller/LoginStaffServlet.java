@@ -56,11 +56,11 @@ public class LoginStaffServlet extends HttpServlet {
         a = dao.getAccountByEmailPassword(email, password);
 
         if(a==null){
-            request.setAttribute("msg", "Username or Password invalid!");
+            request.setAttribute("msg", "Mật khẩu hoặc tài khoản không đúng!");
             request.getRequestDispatcher("page-login-staff.jsp").forward(request, response);
         }else{
             if(a.getStatusID()==4){
-                request.setAttribute("msg", "Account has been locked!");
+                request.setAttribute("msg", "Tài khoản đã bị khóa!");
                 request.getRequestDispatcher("page-login-staff.jsp").forward(request, response);
             }
             else{
