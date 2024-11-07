@@ -232,6 +232,12 @@
                     </nav>
                 </div>
             </div>
+            <%
+            OriginDAO originDAO = new OriginDAO();
+            ManufacterDAO manufacterDAO = new ManufacterDAO();
+            List<Origin> allOrigins = originDAO.getAllOrigins();
+            List<Manufacturer> allManufacturers = manufacterDAO.getAllManufacturers();
+            %>
             <div class="sidebar-widget">
                 <h5 class="sidebar-title">Tìm kiếm sản phẩm</h5>
 
@@ -251,6 +257,34 @@
                 <div class="form-group mb-3">
                     <label>Nhà sản xuất</label>
                     <input type="text" class="form-control" name="manufacturer" placeholder="Tìm theo nhà sản xuất" value="<%= request.getParameter("manufacturer") != null ? request.getParameter("manufacturer") : "" %>" onchange="submitForm()">
+                </div>
+
+                <!-- Dropdown cho Nhà Sản Xuất -->
+                <div class="form-group mb-3">
+                    <label>Chọn nhà sản xuất</label>
+                    <select class="form-control" name="manufacturerID" onchange="submitForm()">
+                        <option value="">Chọn nhà sản xuất</option>
+                        <% for (Manufacturer manufacturer : allManufacturers) { %>
+                        <option value="<%= manufacturer.getManufacturerID() %>"
+                                <%= request.getParameter("manufacturerID") != null && request.getParameter("manufacturerID").equals(String.valueOf(manufacturer.getManufacturerID())) ? "selected" : "" %>>
+                            <%= manufacturer.getName() %>
+                        </option>
+                        <% } %>
+                    </select>
+                </div>
+
+                <!-- Dropdown cho Xuất Xứ -->
+                <div class="form-group mb-3">
+                    <label>Chọn xuất xứ</label>
+                    <select class="form-control" name="origin" onchange="submitForm()">
+                        <option value="">Chọn xuất xứ</option>
+                        <% for (Origin origin : allOrigins) { %>
+                        <option value="<%= origin.getName() %>"
+                                <%= request.getParameter("origin") != null && request.getParameter("origin").equals(origin.getName()) ? "selected" : "" %>>
+                            <%= origin.getName() %>
+                        </option>
+                        <% } %>
+                    </select>
                 </div>
 
                 <!-- Lọc theo giá -->
@@ -277,6 +311,13 @@
                     </select>
                 </div>
             </div>
+
+            <script>
+                function submitForm() {
+                    // Tự động submit form khi có thay đổi
+                    document.forms[0].submit();
+                }
+            </script>
 
             <script>
                 // Function to automatically reload the page with the new filter values
