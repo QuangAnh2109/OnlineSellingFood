@@ -44,6 +44,13 @@
         <p>Thêm sửa xóa Nhà cung cấp</p>
       </div>
       <div>
+        <select id="searchType" class="form-control bg-white">
+          <option value="0">ID</option>
+          <option value="1">Nhà cung cấp</option>
+          <option value="2">Địa chỉ</option>
+          <option value="3">Số điện thoại</option>
+          <option value="4">Ghi chú</option>
+        </select>
         <input class="form-control bg-white" type="text" id="myinput" onkeyup="myFunction()" placeholder="Tra cứu">
       </div>
     </div>
@@ -130,10 +137,11 @@
       filter = input.value.toUpperCase();
       table = document.getElementById("mytable");
       tr = table.getElementsByTagName("tr");
+      searchType = document.getElementById("searchType").value;
 
       // Loop through all table rows, and hide those who don't match the search query
       for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
+        td = tr[i].getElementsByTagName("td")[searchType];
         if (td) {
           txtValue = td.textContent || td.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {
