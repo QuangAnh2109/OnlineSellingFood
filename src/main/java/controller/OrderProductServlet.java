@@ -43,10 +43,12 @@ public class OrderProductServlet extends HttpServlet {
         }
 
         String priceTotalStr = request.getParameter("priceTotal");
+
         int priceTotal = 0;
         if (priceTotalStr != null && !priceTotalStr.isEmpty()) {
             try {
                 priceTotal = Integer.parseInt(priceTotalStr);
+
             } catch (NumberFormatException e) {
                 return;
             }
@@ -60,15 +62,15 @@ public class OrderProductServlet extends HttpServlet {
        int orderID = odao.addOrder(order);
        if (orderID > 0) {
            List<CartItem> cartItems=cartDAO.getCartItemsByCustomerID(customerID);
+               for (CartItem cartItem : cartItems) {
+                   if(cartItem.getPrice()>0){
+                       OrderProduct orderProduct=new OrderProduct(orderID,cartItem.getProductID(),cartItem.getPrice(),cartItem.getQuantity(),cartItem.getUnitID());
+                       opdao.addOrderProduct(orderProduct);
+                   }
+               }
 
-           for (CartItem cartItem : cartItems) {
-               OrderProduct orderProduct=new OrderProduct(orderID,cartItem.getProductID(),cartItem.getPrice(),cartItem.getQuantity(),cartItem.getUnitID());
-               opdao.addOrderProduct(orderProduct);
-               System.out.println("Thanh cong");
-           }
            cartDAO.deleteByCustomerId(customerID);
        }
-
         respone.sendRedirect("homepage");
 
 

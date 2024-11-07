@@ -171,8 +171,8 @@ public class CartDAO extends DBContext {
 
     public List<CartItem> getCartItemsByCustomerID(int customerID) {
         List<CartItem> cartItems = new ArrayList<>();
-        String sql="select p.ProductID,  p.Price * (1 - COALESCE(d.DiscountPercent, 0)) AS Price,c.Quantity,p.UnitID from Cart c  join Product p on c.ProductID=p.ProductID \n" +
-                "left join Discount d on p.DiscountID=d.DiscountID where CustomerID=?\n";
+        String sql="select d.DiscountID,d.DiscountPercent,p.price as PriceOrigin,p.ProductID,  p.Price * (1 - COALESCE(d.DiscountPercent/100.0, 0)) AS Price,c.Quantity,p.UnitID from Cart c  join Product p on c.ProductID=p.ProductID \n" +
+                "left join Discount d on p.DiscountID=d.DiscountID where CustomerID=?";
         try {
             PreparedStatement st=connection.prepareStatement(sql);
             st.setInt(1, customerID);
@@ -191,5 +191,12 @@ public class CartDAO extends DBContext {
         return cartItems;
     }
 
+    public static void main(String[] args) {
+        CartDAO cartDAO = new CartDAO();
+        List<CartItem> ci = cartDAO.getCartItemsByCustomerID(1);
+        for (CartItem cartItem : ci) {
+            System.out.println(cartItem.getPrice());
+        }
 
+    }
 }

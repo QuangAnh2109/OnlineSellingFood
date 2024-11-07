@@ -4,23 +4,23 @@
 <%@ page import="model.Warehouse" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dal.AccountDAO" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Nest Dashboard</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta property="og:title" content=""/>
+    <meta property="og:type" content=""/>
+    <meta property="og:url" content=""/>
+    <meta property="og:image" content=""/>
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg" />
+    <link rel="shortcut icon" type="image/x-icon" href="nest-backend/assets/imgs/theme/favicon.svg"/>
     <!-- Template CSS -->
-    <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+    <link href="nest-backend/assets/css/main.css?v=1.1" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -32,14 +32,16 @@
                 <h4 class="card-title mb-4">Chỉnh sửa nhân viên thông tin</h4>
                 <form action="updateProfileStaffForAdmin" method="post">
                     <!-- Hidden field for StaffID and AccountID -->
-<%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
-<%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
+                    <%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
+                    <%--                    <input type="hidden" name="accountID" value="${staff.account.accountID}" />--%>
 
                     <div class="mb-3">
                         <label class="form-label">Chức vụ</label>
                         <select class="form-control" name="roleID" required>
-                            <option value="2" ${staffListDetail.roleID == 2 ? 'selected' : ''}>Nhân viên giao hàng</option>
-                            <option value="3" ${staffListDetail.roleID == 3 ? 'selected' : ''}>Nhân viên báo cáo</option>
+                            <option value="2" ${staffListDetail.roleID == 2 ? 'selected' : ''}>Nhân viên giao hàng
+                            </option>
+                            <option value="3" ${staffListDetail.roleID == 3 ? 'selected' : ''}>Nhân viên báo cáo
+                            </option>
                             <option value="4" ${staffListDetail.roleID == 4 ? 'selected' : ''}>Quản lý kho hàng</option>
                             <option value="5" ${staffListDetail.roleID == 5 ? 'selected' : ''}>Quản lý bán hàng</option>
                         </select>
@@ -47,7 +49,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Tên</label>
-                        <input class="form-control" name="name" value="${staffListDetail.name}"  type="text" required />
+                        <input class="form-control" name="name" value="${staffListDetail.name}" type="text" required/>
                     </div>
 
                     <div class="mb-3">
@@ -60,18 +62,21 @@
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input class="form-control" name="email" value="${staffListDetail.email}"  type="email" required />
+                        <input class="form-control" name="email" value="${staffListDetail.email}" type="email"
+                               required/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Số điện thoại</label>
-                        <input class="form-control" name="phone" value="${staffListDetail.phoneNumber}"  type="text" required minlength="10" maxlength="10"/>
+                        <input class="form-control" name="phone" value="${staffListDetail.phoneNumber}" type="text"
+                               required minlength="10" maxlength="10"/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Địa chỉ</label>
-                        <input class="form-control" name="address" value="${staffListDetail.address}"  type="text" required
-                        minlength="5" maxlength="200"/>
+                        <input class="form-control" name="address" value="${staffListDetail.address}" type="text"
+                               required
+                               minlength="5" maxlength="200"/>
                     </div>
 
                     <div class="mb-3">
@@ -81,7 +86,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Lương</label>
-                        <input class="form-control" name="salary" value="${staffListDetail.salary}"  type="text" required />
+                        <input class="form-control" name="salary" value="${staffListDetail.salary}" type="text"
+                               required/>
                     </div>
                     <div>
                         <input name="accountID" value="${accountID}" hidden="">
@@ -89,11 +95,11 @@
                     <div class="mb-3">
                         <label class="form-label">Tên kho hàng</label>
 
-                            <select class="form-control" name="warehouseID" required>
-                                <c:forEach items="${warehouses}" var="wh">
+                        <select class="form-control" name="warehouseID" required>
+                            <c:forEach items="${warehouses}" var="wh">
                                 <option value="${wh.warehouseID}" ${staffListDetail.warehouseID == wh.warehouseID ? 'selected' : ''}> ${wh.name}</option>
-                                </c:forEach>
-                            </select>
+                            </c:forEach>
+                        </select>
 
 
                     </div>
@@ -101,7 +107,9 @@
                         <label class="form-label">Trạng thái tài khoản</label>
                         <select class="form-control" name="statusID" required>
                             <option value="1" ${staffListDetail.statusID == 1 ? 'selected' : ''}>Hoạt động</option>
-                            <option value="3" ${staffListDetail.statusID == 3 ? 'selected' : ''}>Mật khẩu cần phải thay đổi</option>
+                            <option value="3" ${staffListDetail.statusID == 3 ? 'selected' : ''}>Mật khẩu cần phải thay
+                                đổi
+                            </option>
                             <option value="4" ${staffListDetail.statusID == 4? 'selected' : ''}>Khóa tài khoản</option>
 
                         </select>
@@ -110,8 +118,12 @@
                     <div class="mb-4">
                         <button type="submit" class="btn btn-primary w-100">Cập nhật thông tin</button>
                     </div>
-                </form>
+                    <div class="mb-4">
+                        <button href="staffList" class="btn btn-primary w-100">Quay trở lại</button>
+                    </div>
             </div>
+            </form>
+        </div>
         </div>
 
     </section>

@@ -86,6 +86,9 @@
                     <div class="mb-4">
                         <button type="submit" class="btn btn-primary w-100">Cập nhật thông tin</button>
                     </div>
+                    <div class="mb-4">
+                        <button href="customerList" class="btn btn-primary w-100">Quay trở lại</button>
+                    </div>
                 </form>
             </div>
         </div>

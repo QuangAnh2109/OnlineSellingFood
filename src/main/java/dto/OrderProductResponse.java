@@ -3,11 +3,15 @@ package dto;
 import java.util.Date;
 
 public class OrderProductResponse {
+    private String imgLink;
     private int productID;
     private String productName;
     private int price,quantity;
     private Date time;
     private String statusDetail;
+    private int discountVoucher;
+    private int totalPrice;
+    private int totalPriceAfterVoucher;
 
     public OrderProductResponse() {
     }
@@ -20,6 +24,19 @@ public class OrderProductResponse {
         this.quantity = quantity;
         this.time = time;
         this.statusDetail = statusDetail;
+    }
+
+    public OrderProductResponse(String imgLink, int productID, String productName, int price, int quantity, Date time, String statusDetail, int discountVoucher, int totalPrice, int totalPriceAfterVoucher) {
+        this.imgLink = imgLink;
+        this.productID = productID;
+        this.productName = productName;
+        this.price = price;
+        this.quantity = quantity;
+        this.time = time;
+        this.statusDetail = statusDetail;
+        this.discountVoucher = discountVoucher;
+        this.totalPrice = totalPrice;
+        this.totalPriceAfterVoucher = totalPriceAfterVoucher;
     }
 
     public int getProductID() {
@@ -68,5 +85,37 @@ public class OrderProductResponse {
 
     public void setStatusDetail(String statusDetail) {
         this.statusDetail = statusDetail;
+    }
+
+    public int getDiscountVoucher() {
+        return discountVoucher;
+    }
+
+    public void setDiscountVoucher(int discountVoucher) {
+        this.discountVoucher = discountVoucher;
+    }
+
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getTotalPriceAfterVoucher() {
+        return totalPriceAfterVoucher;
+    }
+
+    public void setTotalPriceAfterVoucher(int totalPriceAfterVoucher) {
+        this.totalPriceAfterVoucher = totalPriceAfterVoucher;
     }
 }

@@ -141,6 +141,7 @@
                     <a href="originList" id="origin">Nguồn gốc</a>
                     <a href="discount" id="discount">Giảm giá sản phẩm</a>
                     <a href="voucher" id="voucher">Mã giảm giá</a>
+                    <a href="customerOrder" id="order">Danh sách kho hàng</a>
                 </div>
             </li>
             <%
