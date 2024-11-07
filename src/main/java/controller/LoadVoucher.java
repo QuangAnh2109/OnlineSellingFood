@@ -37,11 +37,15 @@ public class LoadVoucher extends HttpServlet {
         for(CustomerVoucher customerVoucher : customerVouchers) {
             voucher = voucherDAO.getVoucherById(customerVoucher.getVoucherID());
             discount = discountDAO.getDiscountById(voucher.getDiscountID());
-            if(discount.getEndTime().isBefore(LocalDateTime.now()) && voucher.getInventory() > 0) {
+            System.out.println("Voucher inventory: " + voucher.getInventory());
+            System.out.println("Discount end time: " + discount.getEndTime() + " " + discount.getEndTime().isAfter(LocalDateTime.now()));
+            if(discount.getEndTime().isAfter(LocalDateTime.now()) && voucher.getInventory() > 0) {
                 vouchers.add(new VoucherResponse(voucher.getVoucherID(),discount.getDiscountID(),discount.getDiscountPercent(),discount.getStartTime(),discount.getEndTime(),voucher.getQuantity(),voucher.getInventory()));
             }
         }
-        request.setAttribute("vouchers", customerVouchers);
+        System.out.println("Customer voucher: " + customerVouchers.size());
+        System.out.println("Voucher: " + vouchers.size());
+        request.setAttribute("vouchers", vouchers);
         request.getRequestDispatcher("page-account-voucher.jsp").forward(request, response);
     }
 

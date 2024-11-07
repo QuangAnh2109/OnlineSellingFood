@@ -1,7 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dto.VoucherResponse" %>
-<%@ page import="model.Account" %><%--
+<%@ page import="model.Account" %>
+<%@ page import="java.time.format.DateTimeFormatter" %><%--
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 9/19/2024
@@ -30,6 +31,7 @@
 <%
     String accountName =  ((Account)session.getAttribute("account")).getName();
     String msg = (String)request.getSession().getAttribute("msg");
+    request.getSession().removeAttribute("msg");
     if(msg==null) msg="";
 %>
 <jsp:include page="header.jsp">
@@ -65,7 +67,7 @@
                                                 <input required class="form-control" name="voucherID" type="number" placeholder="Thêm mã giảm giá mới" min="1"/>
                                                 <button type="submit" class="btn btn-fill-out submit font-weight-bold">Thêm</button>
                                             </form>
-
+                                            <input type="text" id="searchID" placeholder="Tìm kiếm theo ID" class="form-control mt-3" onkeyup="myFunction()"/>
                                         </div>
                                         <div class="card-body">
                                             <div class="table-responsive">
@@ -81,13 +83,14 @@
                                                     <tbody>
                                                     <%
                                                         List<VoucherResponse> vouchers = (List<VoucherResponse>)request.getAttribute("vouchers");
+                                                        if(vouchers!=null)
                                                         for(VoucherResponse voucher : vouchers){
                                                     %>
                                                     <tr>
-                                                        <th><%=voucher.getVoucherID()%>></th>
-                                                        <th><%=voucher.getDiscountPercent()+"%"%>></th>
-                                                        <th><%=voucher.getStartTime()%>></th>
-                                                        <th><%=voucher.getEndTime()%>></th>
+                                                        <th><%=voucher.getDiscountID()%></th>
+                                                        <th><%=voucher.getDiscountPercent()%>%</th>
+                                                        <th><%=voucher.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm"))%></th>
+                                                        <th><%=voucher.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm"))%></th>
                                                     </tr>
                                                     <%
                                                         }
@@ -105,8 +108,32 @@
             </div>
         </div>
     </div>
+    </div>
 </main>
 <jsp:include page="footer.jsp"></jsp:include>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchID");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".table tbody");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("th")[0]; // Assuming the ID is in the first column
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 <!-- Vendor JS-->
 <script src="nest-frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="nest-frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
