@@ -9,5 +9,5 @@ import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
 public class Host {
-        public static String IMG_LINK = "https://github.com/QuangAnh2109/SwpImgDriver/blob/main/Img/";
+        public static String IMG_LINK = "https://github.com/QuangAnh2109/SwpImgDriver/blob/thao/Img/";
 }

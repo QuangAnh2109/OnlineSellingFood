@@ -250,34 +250,46 @@ public class ProductDAO extends DBContext{
 
         return count;
     }
-    public List<Product> getProductsByPageAndSort(int categoryID, int page, int pageSize, String sortBy, boolean ascending, String searchTerm) {
+    // In ProductDAO class
+    // In ProductDAO class
+    public List<Product> getProductsByPageAndSort(int categoryID, int page, int pageSize, String sortOption, boolean ascending, String searchTerm) {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM Product";
 
-        // Nếu categoryID khác 0, thêm điều kiện vào truy vấn
+        // Add WHERE conditions based on category and search term
         if (categoryID != 0) {
             sql += " WHERE CategoryID = ?";
         }
-
-        // Thêm điều kiện tìm kiếm theo tên
         if (searchTerm != null && !searchTerm.isEmpty()) {
             sql += (categoryID != 0 ? " AND" : " WHERE") + " Name LIKE ?";
         }
 
-        // Thêm phần sắp xếp
-        sql += " ORDER BY " + sortBy + (ascending ? " ASC" : " DESC") +
-                " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        // Determine the sort column and direction based on sortOption
+        String sortColumn = "Name";
+        if (sortOption.equals("priceLowToHigh") || sortOption.equals("priceHighToLow")) {
+            sortColumn = "Price";
+        } else if (sortOption.equals("nameAscending") || sortOption.equals("nameDescending")) {
+            sortColumn = "Name";
+        }
+
+        // Add sorting to the query
+        sql += " ORDER BY " + sortColumn + (ascending ? " ASC" : " DESC");
+
+        // Add pagination
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int paramIndex = 1;
+
+            // Set parameters
             if (categoryID != 0) {
                 ps.setInt(paramIndex++, categoryID);
             }
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 ps.setString(paramIndex++, "%" + searchTerm + "%");
             }
-            ps.setInt(paramIndex++, (page - 1) * pageSize);
-            ps.setInt(paramIndex++, pageSize);
+            ps.setInt(paramIndex++, (page - 1) * pageSize);  // OFFSET
+            ps.setInt(paramIndex++, pageSize);               // FETCH NEXT
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -304,6 +316,8 @@ public class ProductDAO extends DBContext{
 
         return products;
     }
+
+
     public Map<Integer, Integer> countProductsByOrigin() {
         Map<Integer, Integer> originCounts = new HashMap<>();
         String sql = "SELECT OriginID, COUNT(*) AS Count FROM Product GROUP BY OriginID";

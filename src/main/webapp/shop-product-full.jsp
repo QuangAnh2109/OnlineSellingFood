@@ -1,11 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.Account" %>
 <%@ page import="model.Product" %>
-<%@ page import="dal.ManufacterDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="dal.ProductDAO" %>
-<%@ page import="dal.CategoryDAO" %>
-<%@ page import="dal.UnitDAO" %>
+<%@ page import="common.Host" %>
+<%@ page import="dal.*" %>
+<%@ page import="model.ProductImg" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.Img" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -105,30 +106,55 @@
     }
 
     Product product = (Product) request.getAttribute("product");
-    String productImageUrl = "C:\\Users\\admin\\OneDrive\\Documents\\GitHub\\OnlineSellingFood\\src\\main\\webapp\\Img\\dep1.png"; // Default image
+
+    ImgDAO imgDAO = new ImgDAO();
+    ProductImgDAO productImgDAO = new ProductImgDAO();
+    List<Img> imgUrls = new ArrayList<>();
+    boolean haveimg;
+    try{
+        imgUrls.add(imgDAO.getImgById(productImgDAO.getDefaultImg(product.getProductID()).getImgID()));
+        List<ProductImg> productImgs = productImgDAO.getNotDefaultImg(product.getProductID());
+        for(ProductImg productImg : productImgs){
+            imgUrls.add(imgDAO.getImgById(productImg.getImgID()));
+        }
+        haveimg = true;
+    }catch(Exception e){
+        haveimg = false;
+    }
+
+    String name = request.getParameter("name");
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%= accountName %>"/>
 </jsp:include>
+
 <main class="main">
     <div class="container mb-30">
         <div class="row">
             <div class="col-xl-10 col-lg-12 m-auto">
                 <div class="product-detail accordion-detail">
                     <div class="row mb-50 mt-30">
+                        <!-- Gallery chính -->
                         <div class="col-md-6 col-sm-12 mb-md-0 mb-sm-5">
                             <div class="detail-gallery">
-                                <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                <!-- Ảnh chính -->
                                 <div class="product-image-slider">
                                     <figure class="border-radius-10">
-                                        <img src="<%= productImageUrl %>"
-                                             alt="<%= (product != null) ? product.getName() : "Product" %>"/>
+                                        <img src="<%if(haveimg)%><%=Host.IMG_LINK+imgUrls.get(0).getImglink()+"?raw=true"%>" alt="<%=name%>" style="width: 100%; height: auto; object-fit: cover;" />
                                     </figure>
                                 </div>
-                                <div class="slider-nav-thumbnails">
-                                    <div><img src="<%= productImageUrl %>"
-                                              alt="<%= (product != null) ? product.getName() : "Product" %> (Hover)"/>
+
+                                <div class="thumbnail-list mt-20">
+                                    <%
+                                        for (int i = 1; i < imgUrls.size(); i++) {
+                                            Img img = imgUrls.get(i);
+                                    %>
+                                    <div class="thumbnail-item" style="display: inline-block; margin-right: 5px;">
+                                        <img src="<%= Host.IMG_LINK + img.getImglink() + "?raw=true" %>" alt="<%= name %>" style="width: 50px; height: 50px; border-radius: 5px; object-fit: cover;" />
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>

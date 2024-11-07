@@ -10,30 +10,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="nest-frontend/assets/imgs/theme/favicon.svg" />
     <link rel="stylesheet" href="nest-frontend/assets/css/plugins/slider-range.css" />
     <link rel="stylesheet" href="nest-frontend/assets/css/main.css?v=4.0" />
-    <style>
-    .filter-form {
-    margin-bottom: 20px;
-    }
-
-    .filter-dropdowns {
-    background-color: #f8f8f8;
-    padding: 10px;
-    border-radius: 5px;
-    }
-
-    .filter-item {
-    margin-right: 15px;
-    flex: 1;
-    }
-
-    .filter-item select,
-    .filter-item input {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    }
-    </style>
 </head>
 
 
@@ -86,76 +62,32 @@
     }
 
     String sortOption = request.getParameter("sort");
-    if (sortOption == null || (!sortOption.equals("Price") && !sortOption.equals("Name"))) {
-        sortOption = "Name";
+    if (sortOption == null ||
+            (!sortOption.equals("priceLowToHigh") &&
+                    !sortOption.equals("priceHighToLow") &&
+                    !sortOption.equals("nameAscending") &&
+                    !sortOption.equals("nameDescending"))) {
+        sortOption = "nameAscending"; // Default sorting option
     }
 
     String searchTerm = request.getParameter("searchTerm");
+    boolean ascending = true; // Default sorting order
+
+    if (sortOption.equals("priceHighToLow") || sortOption.equals("nameDescending")) {
+        ascending = false;
+    }
 
     ProductDAO productDAO = new ProductDAO();
     ProductImgDAO productImgDAO = new ProductImgDAO();
     ImgDAO imgDAO = new ImgDAO();
     int totalProducts = productDAO.countProductsByCategoryAndSearch(categoryID, searchTerm);
     int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
-    boolean ascending = true;
     List<Product> products = productDAO.getProductsByPageAndSort(categoryID, page1, pageSize, sortOption, ascending, searchTerm);
 %>
 
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%=accountName%>"/>
 </jsp:include>
-<!-- Giao diện lọc sản phẩm -->
-<div class="container mb-30">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="get" class="filter-form">
-                <div class="filter-dropdowns d-flex justify-content-between">
-                    <!-- Dropdown cho Danh Mục -->
-                    <div class="filter-item">
-                        <select name="categoryID" onchange="this.form.submit()">
-                            <option value="">Các danh mục sản phẩm</option>
-                            <% for (Category category : allCategories) { %>
-                            <option value="<%= category.getCategoryID() %>" <%= categoryID == category.getCategoryID() ? "selected" : "" %>>
-                                <%= category.getName() %>
-                            </option>
-                            <% } %>
-                        </select>
-                    </div>
-
-                    <!-- Dropdown cho Nhà Sản Xuất -->
-                    <div class="filter-item">
-                        <select name="manufacturerID" onchange="this.form.submit()">
-                            <option value="">Các nhà cung cấp</option>
-                            <% ManufacterDAO manufacterDAO = new ManufacterDAO();%>
-                            <% List<Manufacturer> allManufacturers = manufacterDAO.getAllManufacturers(); %>
-                            <% for (Manufacturer manufacturer : allManufacturers) { %>
-                            <option value="<%= manufacturer.getManufacturerID() %>" <%= request.getParameter("manufacturerID") != null && request.getParameter("manufacturerID").equals(String.valueOf(manufacturer.getManufacturerID())) ? "selected" : "" %>>
-                                <%= manufacturer.getName() %>
-                            </option>
-                            <% } %>
-                        </select>
-                    </div>
-
-                    <!-- Dropdown cho Xuất Xứ -->
-                    <div class="filter-item">
-                        <select name="origin" onchange="this.form.submit()">
-                            <option value="">Các xuất xứ</option>
-                            <% OriginDAO originDAO = new OriginDAO();%>
-                            <% List<Origin> allOrigins = originDAO.getAllOrigins(); %>
-                            <% for (Origin origin : allOrigins) { %>
-                            <option value="<%= origin %>" <%= request.getParameter("origin") != null && request.getParameter("origin").equals(origin) ? "selected" : "" %>>
-                                <%= origin %>
-                            </option>
-                            <% } %>
-                        </select>
-                    </div>
-
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 
 <div class="container mb-30">
     <div class="row flex-row-reverse">
@@ -163,15 +95,6 @@
             <div class="shop-product-fillter">
                 <div class="totall-product">
                     <p>Chúng tôi tìm thấy <strong class="text-brand"><%= totalProducts %></strong> sản phẩm cho bạn!</p>
-                </div>
-                <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="" method="get">
-                        <input type="text" name="searchTerm" placeholder="Tìm kiếm sản phẩm" />
-                        <input type="hidden" name="categoryID" value="<%= categoryID %>" />
-                        <input type="hidden" name="sort" value="<%= sortOption %>" />
-                        <input type="hidden" name="page" value="1" />
-                        <button type="submit"><i class="fi-rs-search"></i></button>
-                    </form>
                 </div>
                 <div class="sort-by-product-area">
                     <div class="sort-by-cover mr-10">
@@ -204,7 +127,7 @@
                         </div>
                         <div class="sort-by-dropdown">
                             <ul>
-                                <li><a class="<%= sortOption.equals("featured") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=featured&page=1">Featured</a></li>
+                                <li><a class="<%= sortOption.equals("Feature") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=featured&page=1">Featured</a></li>
                                 <li><a class="<%= sortOption.equals("priceLowToHigh") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=priceLowToHigh&page=1">Price: Low to High</a></li>
                                 <li><a class="<%= sortOption.equals("priceHighToLow") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=priceHighToLow&page=1">Price: High to Low</a></li>
                                 <li><a class="<%= sortOption.equals("nameAscending") ? "active" : "" %>" href="?categoryID=<%= categoryID %>&pageSize=<%= pageSize %>&sort=nameAscending&page=1">Name: A to Z</a></li>
@@ -230,7 +153,7 @@
                         String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
                 %>
                 <jsp:include page="product-box.jsp">
-                    <jsp:param name="category" value="<%= product.getCategoryID().toString() %>" />
+                    <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
                     <jsp:param name="name" value="<%= product.getName() %>" />
                     <jsp:param name="manufacturer" value="<%= product.getManufacturerID().toString() %>" />
                     <jsp:param name="star" value="4" />
@@ -247,8 +170,6 @@
                 <p>Không có sản phẩm phù hợp</p>
                 <% } %>
             </div>
-
-
             <div class="pagination-area mt-20 mb-20">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
@@ -271,10 +192,7 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
-
             <div class="sidebar-widget">
                 <h5 class="sidebar-title">Danh mục</h5>
                 <ul class="categories">
@@ -283,12 +201,12 @@
                         <a href="?categoryID=<%= category.getCategoryID() %>&page=1">
                             <%= category.getName() %>
                         </a>
-                            <span class="product-count">
-                        <%
-                                int productCount = productDAO.countProductsByCategory(category.getCategoryID());
-                            %>
-                            (<%= productCount %>)
-                        </span>
+                        <span class="product-count">
+                <%
+                    int productCount = productDAO.countProductsByCategory(category.getCategoryID());
+                %>
+                (<%= productCount %>)
+                </span>
                     </li>
                     <% } %>
                 </ul>
@@ -314,31 +232,59 @@
                     </nav>
                 </div>
             </div>
-            <div class="sidebar-widget price_range range mb-30">
-                <h5 class="section-title style-1 mb-30">Lọc theo giá</h5>
-                <div class="price-filter">
-                    <div class="price-filter-inner">
-                        <div id="slider-range" class="mb-20"></div>
-                        <div class="d-flex justify-content-between">
-                            <div class="caption">Từ: <strong id="slider-range-value1" class="text-brand"></strong></div>
-                            <div class="caption">Đến: <strong id="slider-range-value2" class="text-brand"></strong></div>
-                        </div>
-                    </div>
+            <div class="sidebar-widget">
+                <h5 class="sidebar-title">Tìm kiếm sản phẩm</h5>
+
+                <!-- Tìm kiếm theo tên -->
+                <div class="form-group mb-3">
+                    <label>Tên sản phẩm</label>
+                    <input type="text" class="form-control" name="searchTerm" placeholder="Tìm theo tên" value="<%= searchTerm != null ? searchTerm : "" %>" onchange="submitForm()">
                 </div>
-                <hr/>
-                <h5 class="section-title style-1 mb-30">Lọc theo cân</h5>
-                <div class="price-filter">
-                    <div class="price-filter-inner">
-                        <div id="slider-range2" class="mb-20"></div>
-                        <div class="d-flex justify-content-between">
-                            <div class="caption">Từ: <strong id="slider-range-value3" class="text-brand"></strong></div>
-                            <div class="caption">Đến: <strong id="slider-range-value4" class="text-brand"></strong></div>
-                        </div>
-                    </div>
+
+                <!-- Tìm kiếm theo nguồn gốc (origin) -->
+                <div class="form-group mb-3">
+                    <label>Nguồn gốc</label>
+                    <input type="text" class="form-control" name="origin" placeholder="Tìm theo nguồn gốc" value="<%= request.getParameter("origin") != null ? request.getParameter("origin") : "" %>" onchange="submitForm()">
                 </div>
-                <hr/>
-                <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</a>
+
+                <!-- Tìm kiếm theo nhà sản xuất -->
+                <div class="form-group mb-3">
+                    <label>Nhà sản xuất</label>
+                    <input type="text" class="form-control" name="manufacturer" placeholder="Tìm theo nhà sản xuất" value="<%= request.getParameter("manufacturer") != null ? request.getParameter("manufacturer") : "" %>" onchange="submitForm()">
+                </div>
+
+                <!-- Lọc theo giá -->
+                <div class="form-group mb-3">
+                    <label>Giá từ</label>
+                    <select class="form-control" name="priceFrom" onchange="submitForm()">
+                        <option value="">Chọn giá</option>
+                        <option value="0" <%= "0" == request.getParameter("priceFrom") ? "selected" : "" %>>Dưới 100.000 VND</option>
+                        <option value="100000" <%= "100000" == request.getParameter("priceFrom") ? "selected" : "" %>>100.000 VND - 500.000 VND</option>
+                        <option value="500000" <%= "500000" == request.getParameter("priceFrom") ? "selected" : "" %>>500.000 VND - 1.000.000 VND</option>
+                        <option value="1000000" <%= "1000000" == request.getParameter("priceFrom") ? "selected" : "" %>>Trên 1.000.000 VND</option>
+                    </select>
+                </div>
+
+                <!-- Lọc theo cân nặng -->
+                <div class="form-group mb-3">
+                    <label>Cân nặng từ (kg)</label>
+                    <select class="form-control" name="weightFrom" onchange="submitForm()">
+                        <option value="">Chọn cân nặng</option>
+                        <option value="0" <%= "0" == request.getParameter("weightFrom") ? "selected" : "" %>>Dưới 1 kg</option>
+                        <option value="1" <%= "1" == request.getParameter("weightFrom") ? "selected" : "" %>>1 kg - 5 kg</option>
+                        <option value="5" <%= "5" == request.getParameter("weightFrom") ? "selected" : "" %>>5 kg - 10 kg</option>
+                        <option value="10" <%= "10" == request.getParameter("weightFrom") ? "selected" : "" %>>Trên 10 kg</option>
+                    </select>
+                </div>
             </div>
+
+            <script>
+                // Function to automatically reload the page with the new filter values
+                function submitForm() {
+                    var form = document.getElementById("filterForm");
+                    form.submit();
+                }
+            </script>
         </div>
 
     </div>
