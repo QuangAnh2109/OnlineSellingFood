@@ -152,6 +152,10 @@
                     <div class="d-grid">
                         <button class="btn btn-primary btn-sm" style="width: 24%;" type="submit">Cập nhật</button>
                     </div>
+
+                    <div class="mb-4">
+                        <button class="btn btn-primary btn-sm" style="width: 24%;" href="voucher">Quay trở lại</button>
+                    </div>
                     </form>
 
                 </div>

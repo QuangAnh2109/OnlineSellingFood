@@ -47,7 +47,7 @@ public class OrderProductDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, orderProduct.getOrderID());
             st.setInt(2, orderProduct.getProductID());
-            st.setDouble(3, orderProduct.getPrice());
+            st.setInt(3, orderProduct.getPrice());
             st.setInt(4, orderProduct.getQuantity());
             st.setInt(5, orderProduct.getUnitID());
             st.executeUpdate();
@@ -85,6 +85,52 @@ public class OrderProductDAO extends DBContext {
         return list;
     }
 
+    public List<OrderProductResponse> getOrderProductByOrderID(int orderID) {
+       List<OrderProductResponse> list=new ArrayList<>();
+        String sql="SELECT i.Imglink,\n" +
+                "       p.[Name], \n" +
+                "       p.Price * (1 - COALESCE(d.DiscountPercent / 100.0, 0)) AS Price,\n" +
+                "       op.Quantity,\n" +
+                "\t   d.DiscountPercent,\n" +
+                "       p.Price*(1 - COALESCE(d.DiscountPercent / 100.0, 0)) * op.Quantity AS TotalPrice,\n" +
+                "\t   o.Price as PriceAfterVoucher,\n" +
+                "\t   os.Detail\n" +
+                "FROM OrderProduct op\n" +
+                "JOIN [Order] o ON op.OrderID = o.OrderID JOIN Voucher v ON o.VoucherID = v.VoucherID JOIN Discount d ON v.DiscountID = d.DiscountID\n" +
+                "JOIN Product p ON op.ProductID = p.ProductID\n" +
+                "left JOIN ProductImg pi ON p.ProductID = pi.ProductID\n" +
+                "left JOIN Img i ON pi.ImgID = i.ImgID\n" +
+                "join OrderStatus os on o.StatusID=os.StatusID\n" +
+                "WHERE op.OrderID = ?";
+
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, orderID);
+            ResultSet rs=st.executeQuery();
+            while (rs.next()) {
+                OrderProductResponse opr = new OrderProductResponse();
+
+                opr.setImgLink(rs.getString("Imglink"));
+               opr.setProductName(rs.getString("Name"));
+               opr.setPrice(rs.getInt("Price"));
+               opr.setQuantity(rs.getInt("Quantity"));
+               opr.setDiscountVoucher(rs.getInt("DiscountPercent"));
+               opr.setTotalPrice(rs.getInt("TotalPrice"));
+               opr.setTotalPriceAfterVoucher(rs.getInt("PriceAfterVoucher"));
+               opr.setStatusDetail(rs.getString("Detail"));
+               list.add(opr);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        OrderProductDAO dao = new OrderProductDAO();
+        System.out.println(dao.getOrderProductByOrderID(71));
+    }
 
 }
 

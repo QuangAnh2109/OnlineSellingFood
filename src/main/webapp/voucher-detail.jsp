@@ -4,6 +4,7 @@
 <%@ page import="model.Warehouse" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dal.AccountDAO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +29,7 @@
   <section class="content-main mt-80 mb-80">
     <div class="card mx-auto card-login">
       <div class="card-body">
-        <h4 class="card-title mb-4">Edit Voucher Information</h4>
+        <h4 class="card-title mb-4">Chinh sửa thông tin mã giảm giá</h4>
         <form action="editvoucher" method="post">
           <!-- Hidden field for StaffID and AccountID -->
           <%--                    <input type="hidden" name="staffID" value="${staff.staffID}" />--%>
@@ -37,42 +38,46 @@
 
 
           <div class="mb-3">
-            <label class="form-label">VoucherID</label>
+            <label class="form-label">ID phiếu giảm giá</label>
             <input class="form-control" name="voucherID" value="${voucher.voucherID}"  type="text" readonly="" />
           </div>
 
 
 
           <div class="mb-3">
-            <label class="form-label">DiscountID</label>
+            <label class="form-label">ID giảm giá</label>
             <input class="form-control" name="discountID" value="${voucher.discountID}"  type="text" readonly="" />
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Discount Percent</label>
+            <label class="form-label">Phần trăm giảm giá</label>
             <input class="form-control" name="discountPercent" value="${voucher.discountPercent}" type="text" readonly="" />
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Start Time</label>
+            <label class="form-label">Thời gian bắt đầu</label>
             <input class="form-control" name="startTime" value="${voucher.startTime}"  type="text"
                    readonly=""/>
           </div>
           <div class="mb-3">
-            <label class="form-label">End Time</label>
+            <label class="form-label">Thời gian kết thúc</label>
             <input class="form-control" name="endTime" value="${voucher.endTime}"  type="text"
                    readonly=""/>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Quantity</label>
+            <label class="form-label">Số lượng</label>
             <input class="form-control" name="quantity" value="${voucher.quantity}"  type="number"
                    />
           </div>
 
           <div class="mb-4">
-            <button type="submit" class="btn btn-primary w-100">Update</button>
+            <button type="submit" class="btn btn-primary w-100">Cập nhật</button>
           </div>
+          <div class="mb-4">
+            <button href="voucher" class="btn btn-primary w-100">Quay trở lại</button>
+          </div>
+
         </form>
       </div>
     </div>

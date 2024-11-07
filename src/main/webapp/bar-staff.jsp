@@ -134,6 +134,8 @@
                     <a href="originList" id="origin">Origin</a>
                     <a href="discount" id="discount">Discount</a>
                     <a href="voucher" id="voucher">Voucher</a>
+                    <a href="customerOrder" id="order">List Order</a>
+
                 </div>
             </li>
             <%
