@@ -99,7 +99,13 @@
             </div>
         </div>
         <div class="card mb-4">
-
+            <div class="search-bar">
+                <form action="DashboardI" method="get" class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm" value="${param.search}">
+                    <input type="hidden" name="index" value="1">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </form>
+            </div>
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -112,9 +118,54 @@
                                 <th class="align-middle" scope="col">Tên sản phẩm</th>
                                 <th class="align-middle" scope="col">Ngày sản xuất</th>
                                 <th class="align-middle" scope="col">Ngày hết hạn</th>
-                                <th class="align-middle" scope="col">Giá</th>
-                                <th class="align-middle" scope="col">Số lượng nhập</th>
-                                <th class="align-middle" scope="col">Số lượng hàng tồn kho</th>
+                                <th class="align-middle" scope="col" style="color: black;" >
+                                    <a href="DashboardI?search=${param.search}&index=${param.index}&sortBy=price&sortOrder=${param.sortOrder == 'asc' ? 'desc' : 'asc'}" style="color: black;">
+                                        Giá
+                                        <c:choose>
+                                            <c:when test="${param.sortBy == 'price' && param.sortOrder == 'asc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:when test="${param.sortBy == 'price' && param.sortOrder == 'desc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="material-icons"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </th>
+                                <th class="align-middle" scope="col" style="color: black;" >
+                                    <a href="DashboardI?search=${param.search}&index=${param.index}&sortBy=quantity&sortOrder=${param.sortOrder == 'asc' ? 'desc' : 'asc'}" style="color: black;">
+                                        Số lượng nhập
+                                        <c:choose>
+                                            <c:when test="${param.sortBy == 'quantity' && param.sortOrder == 'asc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:when test="${param.sortBy == 'quantity' && param.sortOrder == 'desc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="material-icons"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </th>
+                                <th class="align-middle" scope="col" style="color: black;" >
+                                    <a href="DashboardI?search=${param.search}&index=${param.index}&sortBy=inventory&sortOrder=${param.sortOrder == 'asc' ? 'desc' : 'asc'}" style="color: black;">
+                                        Số lượng hàng tồn kho
+                                        <c:choose>
+                                            <c:when test="${param.sortBy == 'inventory' && param.sortOrder == 'asc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:when test="${param.sortBy == 'inventory' && param.sortOrder == 'desc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="material-icons"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </th>
                                 <th class="align-middle" scope="col">Đơn vị</th>
 
                             </tr>
@@ -139,9 +190,9 @@
                         <div class="pagination-container">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination justify-content-center">
-                                    <c:forEach begin="0" end="${endPage}" var="i">
-                                        <li class="page-item ${i == 0 ? 'active' : ''}">
-                                            <a class="page-link" href="DashboardI?index=${i}">${i == 0 ? "Page" : i}</a>
+                                    <c:forEach begin="1" end="${endPage}" var="i">
+                                        <li class="page-item ${i == param.index ? 'active' : ''}">
+                                            <a class="page-link" href="DashboardI?index=${i}&search=${param.search}">${i}</a>
                                         </li>
                                     </c:forEach>
                                 </ul>

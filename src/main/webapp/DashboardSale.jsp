@@ -25,6 +25,41 @@
         .status-failed {
             color: #6C757D;
         }
+        .search-bar {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .pagination-container {
+            margin-top: 20px;
+        }
+
+        .page-item.active .page-link {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .page-item .page-link {
+            color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+
+        .page-item .page-link:hover {
+            background-color: #e9ecef;
+            color: #0056b3;
+        }
+        .filter-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+        .black-text {
+            color: black;
+        }
     </style>
     <meta charset="utf-8" />
     <title>Nest Dashboard</title>
@@ -132,7 +167,24 @@
         </div>
         <div class="card mb-4">
 
+            <div class="search-bar">
+                <form action="Dashboard" method="get" class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm" value="${param.search}">
+                    <input type="hidden" name="index" value="1">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </form>
+            </div>
+            <form id="filterForm" action="Dashboard" method="get" class="input-group mt-3">
+                <select name="orderStatus" class="form-control ml-2" onchange="this.form.submit()">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="Wait for confirmation" ${param.orderStatus == 'Wait for confirmation' ? 'selected' : ''}>Chờ xác nhận</option>
+                    <option value="Confirmation" ${param.orderStatus == 'Confirmation' ? 'selected' : ''}>Đã xác nhận</option>
+                    <option value="Being delivered" ${param.orderStatus == 'Being delivered' ? 'selected' : ''}>Đang giao hàng</option>
+                    <option value="Completed" ${param.orderStatus == 'Completed' ? 'selected' : ''}>Hoàn thành</option>
+                    <option value="Canceled" ${param.orderStatus == 'Canceled' ? 'selected' : ''}>Đã hủy</option>
 
+                </select>
+            </form>
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="table-responsive">
@@ -140,12 +192,42 @@
                             <thead class="table-light">
                             <tr>
 
-                                <th class="align-middle" scope="col">Mã đơn hàng</th>
-                                <th class="align-middle" scope="col">Tên khách hàng</th>
-                                <th class="align-middle" scope="col">Ngày đặt hàng</th>
-                                <th class="align-middle" scope="col">Giá</th>
-                                <th class="align-middle" scope="col">Trạng thái đơn hàng</th>
-                                <th class="align-middle" scope="col">Phương thức thanh toán</th>
+                                <th class="align-middle" scope="col" style="color: black;" >Mã đơn hàng</th>
+                                <th class="align-middle" scope="col" style="color: black;" >Tên khách hàng</th>
+                                <th class="align-middle" scope="col" style="color: black;" >
+                                    <a href="Dashboard?search=${param.search}&orderStatus=${param.orderStatus}&index=${param.index}&sortBy=orderDate&sortOrder=${param.sortOrder == 'asc' ? 'desc' : 'asc'}" style="color: black;">
+                                        Ngày đặt hàng
+                                        <c:choose>
+                                            <c:when test="${param.sortBy == 'orderDate' && param.sortOrder == 'asc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:when test="${param.sortBy == 'orderDate' && param.sortOrder == 'desc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="material-icons"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </th>
+                                <th class="align-middle" scope="col">
+                                    <a href="Dashboard?search=${param.search}&orderStatus=${param.orderStatus}&index=${param.index}&sortBy=price&sortOrder=${param.sortOrder == 'asc' ? 'desc' : 'asc'}" style="color: black;">
+                                        Giá
+                                        <c:choose>
+                                            <c:when test="${param.sortBy == 'price' && param.sortOrder == 'asc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:when test="${param.sortBy == 'price' && param.sortOrder == 'desc'}">
+                                                <i class="material-icons"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="material-icons"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </th>
+                                <th class="align-middle" scope="col" style="color: black;" >Trạng thái đơn hàng</th>
+                                <th class="align-middle" scope="col" style="color: black;" >Phương thức thanh toán</th>
 
                             </tr>
                             </thead>
@@ -178,9 +260,9 @@
                         <div class="pagination-container">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination justify-content-center">
-                                    <c:forEach begin="0" end="${endPage}" var="i">
-                                        <li class="page-item ${i == 0 ? 'active' : ''}">
-                                            <a class="page-link" href="Dashboard?index=${i}">${i == 0 ? "Page" : i}</a>
+                                    <c:forEach begin="1" end="${endPage}" var="i">
+                                        <li class="page-item ${i == param.index ? 'active' : ''}">
+                                            <a class="page-link" href="Dashboard?index=${i}&search=${param.search}&orderStatus=${param.orderStatus}">${i}</a>
                                         </li>
                                     </c:forEach>
                                 </ul>

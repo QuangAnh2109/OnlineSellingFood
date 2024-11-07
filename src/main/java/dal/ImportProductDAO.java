@@ -2,11 +2,13 @@ package dal;
 
 
 import dto.ImportProductResponse;
+import dto.ImportRespone;
 import model.ImportProduct;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class ImportProductDAO extends DBContext {
     @Override
@@ -27,7 +29,7 @@ public class ImportProductDAO extends DBContext {
                 PreparedStatement stmt = connection.prepareStatement(query);
 
                 ResultSet rs = stmt.executeQuery()) {
-            // stmt.setInt(1, importID);
+
             while (rs.next()) {
                 importProducts.add(new ImportProductResponse(rs.getInt(1)
                         , rs.getString(2)
@@ -55,7 +57,7 @@ public class ImportProductDAO extends DBContext {
                 PreparedStatement stmt = connection.prepareStatement(query);
 
                 ResultSet rs = stmt.executeQuery()) {
-            // stmt.setInt(1, importID);
+
             while (rs.next()) {
                 importProducts.add(new ImportProductResponse(rs.getInt(1)
                         , rs.getString(2)
@@ -71,8 +73,31 @@ public class ImportProductDAO extends DBContext {
         }
         return importProducts;
     }
+    public int getTotalImportProductWithSearch(String search) {
+        String query = "SELECT COUNT(*) FROM ImportProduct ip "
+                + "JOIN Product p ON ip.ProductID = p.ProductID "
+                + "JOIN Unit u ON ip.UnitID = u.UnitID ";
+        if (search != null && !search.trim().isEmpty()) {
+            query += "WHERE p.Name LIKE ?";
+        }
 
-    public List<ImportProductResponse> getAllImportProductsd(int index) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            if (search != null && !search.trim().isEmpty()) {
+                statement.setString(1, "%" + search + "%");
+            }
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1); // Total count
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<ImportProductResponse> getAllImportProductsd(int index,String search) {
         List<ImportProductResponse> importProducts = new ArrayList<>();
         if (index ==1 ){index = 0;}
         if(index != 0){
@@ -81,23 +106,35 @@ public class ImportProductDAO extends DBContext {
                 + "ip.InventoryQuantity, u.Name as UnitName "
                 + "FROM ImportProduct ip "
                 + "JOIN Product p ON ip.ProductID = p.ProductID "
-                + "JOIN Unit u ON ip.UnitID = u.UnitID "+
-                "order by ip.ImportID offset " + index +" rows fetch next 5 rows only";
+                + "JOIN Unit u ON ip.UnitID = u.UnitID ";
 
-        try (
-                PreparedStatement stmt = connection.prepareStatement(query);
+        if (search != null && !search.trim().isEmpty()) {
+            query += "WHERE p.Name LIKE ? ";
+        }
+        query += "order by ip.ImportID offset ? rows fetch next 5 rows only";
 
-                ResultSet rs = stmt.executeQuery()) {
-            // stmt.setInt(1, importID);
-            while (rs.next()) {
-                importProducts.add(new ImportProductResponse(rs.getInt(1)
-                        , rs.getString(2)
-                        , rs.getTimestamp(3).toLocalDateTime()
-                        , rs.getTimestamp(4).toLocalDateTime()
-                        , rs.getInt(5)
-                        , rs.getInt(6)
-                        , rs.getInt(7)
-                        , rs.getString(7)));
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+
+            int paramIndex = 1;
+            if (search != null && !search.trim().isEmpty()) {
+                statement.setString(paramIndex++, "%" + search + "%");
+            }
+
+
+            statement.setInt(paramIndex, index);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    importProducts.add(new ImportProductResponse(rs.getInt(1)
+                            , rs.getString(2)
+                            , rs.getTimestamp(3).toLocalDateTime()
+                            , rs.getTimestamp(4).toLocalDateTime()
+                            , rs.getInt(5)
+                            , rs.getInt(6)
+                            , rs.getInt(7)
+                            , rs.getString(7)));
+
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

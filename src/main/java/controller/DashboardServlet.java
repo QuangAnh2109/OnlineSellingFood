@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -39,17 +41,46 @@ public class DashboardServlet extends HttpServlet {
         if (request.getParameter("index") != null) {
             index = Integer.parseInt(request.getParameter("index"));
         }
+        String search = request.getParameter("search");
+        String orderStatus = request.getParameter("orderStatus");
         OrderProductDAO dao = new OrderProductDAO();
         double totalRevenue = dao.getTotalRevenue();
         OrderDAO dao1 = new OrderDAO();
         int totalOrders = dao1.getTotalOrders();
         ProductDAO dao2 = new ProductDAO();
         int totalProducts = dao2.getTotalProducts();
-        List<OrderResponse> orderList = dao1.getAllOrdersd(index);
-        int totalRecords = dao1.getTotalOrders();
-        int endPage = totalRecords / 5;
+        int totalRecords;
+        List<OrderResponse> orderList = dao1.getAllOrdersd(index,search,orderStatus);
+
+        if(search != null && !search.trim().isEmpty() ){
+              totalRecords =    dao1.getTotalOrdersWithSearch(search);}
+         else if(orderStatus != null && !orderStatus.trim().isEmpty()){
+              totalRecords=  dao1.getTotalOrdersWithStatus(orderStatus);}
+         else{
+
+             totalRecords=  dao1.getTotalOrders();
+         }
+
+         int endPage = totalRecords / 5;
         if (totalRecords % 5 != 0) {
             endPage++;
+        }
+
+        String sortBy = request.getParameter("sortBy");
+        String sortOrder = request.getParameter("sortOrder");
+
+        if ("orderDate".equals(sortBy)) {
+            if ("asc".equals(sortOrder)) {
+                Collections.sort(orderList, Comparator.comparing(OrderResponse::getOrderDate));
+            } else {
+                Collections.sort(orderList, Comparator.comparing(OrderResponse::getOrderDate).reversed());
+            }
+        } else if ("price".equals(sortBy)) {
+            if ("asc".equals(sortOrder)) {
+                Collections.sort(orderList, Comparator.comparing(OrderResponse::getPrice));
+            } else {
+                Collections.sort(orderList, Comparator.comparing(OrderResponse::getPrice).reversed());
+            }
         }
         request.setAttribute("endPage", endPage);
 
