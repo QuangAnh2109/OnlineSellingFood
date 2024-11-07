@@ -7,6 +7,7 @@ import model.Warehouse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,59 +17,61 @@ public class SupplierDAO extends DBContext{
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new Supplier(rs.getInt("SupplierID"),rs.getInt("ContactInformationID"),rs.getString("Name"),rs.getString("Note"));
     }
-    public List<Supplier> getAllSuppliers() throws SQLException {
-        List<Supplier> suppliers = new ArrayList<>();
-        String sql = "SELECT * FROM Supplier"; // Thay đổi tên bảng nếu cần
-
-        try (
-                PreparedStatement stmt = connection.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                Supplier supplier = new Supplier();
-                supplier.setSupplierID(rs.getInt("SupplierID")); // Thay đổi tên cột nếu cần
-                supplier.setName(rs.getString("Name")); // Thay đổi tên cột nếu cần
-                supplier.setContactInformationID(rs.getInt("ContactInformationID")); // Thay đổi tên cột nếu cần
-                supplier.setNote(rs.getString("Note")); // Thay đổi tên cột nếu cần
-                suppliers.add(supplier);
-            }
+    public List<Supplier> getAllSuppliers() {
+        String sql = "SELECT * FROM Supplier";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            return (List<Supplier>) (Object) getListObject(stmt);
+        }catch(SQLException e){
+            logger.info(e.getMessage());
         }
-        return suppliers;
+        return Collections.emptyList();
     }
 
     // Thêm nhà cung cấp mới
-    public void insertSupplier(Supplier supplier) throws SQLException {
-        String sql = "INSERT INTO Supplier (Name, ContactInformationID, Note) VALUES (?, ?, ?)"; // Thay đổi tên bảng và cột nếu cần
-        try (
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+    public Integer insertSupplier(Supplier supplier) throws SQLException {
+        String sql = "INSERT INTO Supplier (Name, ContactInformationID, Note) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, supplier.getName());
             stmt.setInt(2, supplier.getContactInformationID());
             stmt.setString(3, supplier.getNote());
-            stmt.executeUpdate();
+            ResultSet rs = executeUpdate(stmt);
+            if(rs!=null && rs.next()){
+                return rs.getInt(1);
+            }
+        }catch(SQLException e){
+            logger.info(e.getMessage());
         }
+        return null;
     }
 
     // Cập nhật thông tin nhà cung cấp
-    public void updateSupplier(Supplier supplier) throws SQLException {
-        String sql = "UPDATE Supplier SET Name = ?, ContactInformationID = ?, Note = ? WHERE SupplierID = ?"; // Thay đổi tên bảng và cột nếu cần
+    public boolean updateSupplier(Supplier supplier) throws SQLException {
+        String sql = "UPDATE Supplier SET Name = ?, ContactInformationID = ?, Note = ? WHERE SupplierID = ?";
         try (
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, supplier.getName());
             stmt.setInt(2, supplier.getContactInformationID());
             stmt.setString(3, supplier.getNote());
             stmt.setInt(4, supplier.getSupplierID());
-            stmt.executeUpdate();
+            return stmt.executeUpdate()>0;
+        }catch(SQLException e){
+            logger.info(e.getMessage());
         }
+        return false;
     }
 
     // Xóa nhà cung cấp
-    public void deleteSupplier(int supplierID) throws SQLException {
-        String sql = "DELETE FROM Supplier WHERE SupplierID = ?"; // Thay đổi tên bảng và cột nếu cần
+    public boolean deleteSupplier(int supplierID) throws SQLException {
+        String sql = "DELETE FROM Supplier WHERE SupplierID = ?";
         try (
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, supplierID);
-            stmt.executeUpdate();
+            return stmt.executeUpdate()>0;
+        }catch(SQLException e){
+            logger.info(e.getMessage());
         }
+        return false;
     }
 
     public List<Supplier> getAllSupplierActivity(){
@@ -86,8 +89,6 @@ public class SupplierDAO extends DBContext{
         String query = "SELECT COUNT(*) AS totalSuppliers FROM Supplier";
 
         try {
-
-
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
