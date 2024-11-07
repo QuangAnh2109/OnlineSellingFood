@@ -10,7 +10,6 @@
     int price = Integer.parseInt(request.getParameter("price"));
     int productID = Integer.parseInt(request.getParameter("productID"));
     String imageUrl = request.getParameter("imageUrl");
-    String hoverImageUrl = request.getParameter("hoverImageUrl");
 %>
 
 <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
@@ -19,7 +18,6 @@
             <div class="product-img product-img-zoom">
                 <a href="ProductDetail?productID=<%=productID%>">
                     <img class="default-img" src="<%=Host.IMG_LINK+imageUrl+"?raw=true"%>" alt="<%=name%>" />
-                    <img class="hover-img" src="<%=hoverImageUrl%>" alt="<%=name%> (Hover)" />
                 </a>
             </div>
         </div>
@@ -46,12 +44,14 @@
                     <span><%=price%> VND</span>
                     <% } %>
                 </div>
-                <div class="add-cart">
-                    <form action="addtocart" method="post">
-                        <input type="hidden" name="productID" value="<%=productID%>">
-                        <input type="submit" class="add mr-5" value="Thêm vào giỏ hàng" style="color: #3BB77E">
-                    </form>
-                </div>
+            </div>
+            <div class="product-card-bottom">
+            <div class="add-cart">
+                <form action="addtocart" method="post">
+                    <input type="hidden" name="productID" value="<%=productID%>">
+                    <input type="submit" class="add mr-5" value="Thêm vào giỏ hàng" style="color: #3BB77E">
+                </form>
+            </div>
             </div>
         </div>
     </div>

@@ -5,8 +5,7 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import dal.CustomerDAO;
-import dal.FeedbackProductDAO;
+import dal.*;
 import dto.FeedbackResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,7 +16,6 @@ import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.Customer;
 import model.Product;
-import dal.ProductDAO; // Make sure you have a DAO for Product
 
 @WebServlet("/ProductDetail")
 public class ProductDetailServlet extends HttpServlet {
@@ -55,11 +53,11 @@ public class ProductDetailServlet extends HttpServlet {
             List<FeedbackResponse> replies = feedbackProductDAO.getReplyComment(feedback.getFeedbackID());
             feedback.setReplies(replies); // set danh sách replies vào feedback
         }
+
         int countFeedbackInProduct=feedbackProductDAO.countFeedbackInProduct(productID);
         request.setAttribute("count", countFeedbackInProduct);
         request.setAttribute("list", list);
         request.setAttribute("productID", productID);
-
         request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
 
     }

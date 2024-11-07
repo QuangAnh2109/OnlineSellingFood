@@ -46,12 +46,12 @@
             <span><%=price%> VND</span>
             <%}%>
           </div>
-          <div class="add-cart">
-            <form action="addtocart" method="post">
-              <input type="text" hidden name="productID" value="<%=productID%>">
-              <input type="submit" class="add mr-5" value="Thêm vào giỏ hàng" style="color: #3BB77E">
-            </form>
-          </div>
+        </div>
+        <div class="add-cart" style="background-color: #6a8a7b">
+          <form action="addtocart" method="post">
+            <input type="text" hidden name="productID" value="<%=productID%>">
+            <input type="submit" class="add mr-5" value="Thêm vào giỏ hàng" style="color: #3BB77E">
+          </form>
         </div>
       </div>
     </div>
