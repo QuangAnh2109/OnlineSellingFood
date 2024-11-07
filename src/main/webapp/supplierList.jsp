@@ -1,5 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Unit" %>
+<%@ page import="model.Supplier" %>
+<%@ page import="dal.ContactInformationDAO" %>
+<%@ page import="model.ContactInformation" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,17 +29,19 @@
   <jsp:param name="menu" value="unit"/>
 </jsp:include>
 <%
-  List<Unit> units = (List<Unit>) request.getAttribute("units");
+  List<Supplier> suppliers = (List<Supplier>) request.getAttribute("supplierList");
+  ContactInformationDAO contactInformationDAO = new ContactInformationDAO();
   String msg  = request.getParameter("msg");
   if(msg==null) msg="";
+
 %>
 <main class="main-wrap">
   <jsp:include page="header-staff.jsp"></jsp:include>
   <section class="content-main">
     <div class="content-header">
       <div>
-        <h2 class="content-title card-title">Đơn vị</h2>
-        <p>Thêm sửa xóa đơn vị</p>
+        <h2 class="content-title card-title">Nhà cung cấp</h2>
+        <p>Thêm sửa xóa Nhà cung cấp</p>
       </div>
       <div>
         <input class="form-control bg-white" type="text" id="myinput" onkeyup="myFunction()" placeholder="Tra cứu">
@@ -47,37 +52,35 @@
         <div class="row">
           <div class="col-md-3">
             <h6 style="color: red"><%=msg%></h6>
-            <form action="suppliercreate" method="post">
+            <form action="suppliercreate" method="post" id="form">
               <div class="mb-4">
-                <label class="form-label">Mã đơn vị</label>
-                <input type="text" class="form-control" id="unitid" name="unitid" readonly />
+                <label class="form-label">ID</label>
+                <input type="text" class="form-control" id="supplierID" name="supplierID" readonly />
               </div>
               <div class="mb-4">
-                <label class="form-label">Đơn vị</label>
-                <input type="text" placeholder="Type here" class="form-control" id="unitname" name="unitname" required />
+                <label class="form-label">Nhà cung cấp</label>
+                <input type="text" placeholder="Type here" class="form-control" id="name" name="name" required maxlength="100"/>
               </div>
 
-              <div class="mb-4" id="conversionratediv">
-                <label class="form-label">Tỉ lệ chuyển đổi</label>
-                <input type="number" placeholder="Type here" class="form-control" id="conversionrate" name="conversionrate" required min="1"/>
+              <div class="mb-4">
+                <label class="form-label">Địa chỉ</label>
+                <input type="text" placeholder="Type here" class="form-control" id="address" name="address" required maxlength="200"/>
               </div>
 
-              <div class="mb-4" id="baseunitdiv">
-                <label class="form-label">Đơn vị cơ bản</label>
-                <select class="form-control" id="baseunitid" name="baseunitid" required>
-                  <%
-                    for (Unit unit : units) {
-                  %>
-                  <option value="<%=unit.getUnitID()%>"><%= unit.getName() %></option>
-                  <%
-                    }
-                  %>
-                </select>
+              <div class="mb-4" >
+                <label class="form-label">Số điện thoại</label>
+                <input type="text" placeholder="Type here" class="form-control" id="phonenumber" name="phonenumber" required minlength="10" maxlength="10"/>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Ghi chú</label>
+                <input type="text" placeholder="Type here" class="form-control" id="note" name="note" required maxlength="1000"/>
               </div>
 
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="submit_button">Tạo đơn vị mới</button>
-                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" style="display: none;"><a href="unitlist">Hủy</a></button>
+                <button type="submit" class="btn btn-primary" id="submit_button">Thêm nhà cung cấp mới</button>
+                <button type="submit" class="btn btn-primary" id="update_button" hidden>Cập nhật</button>
+                <button type="button" class="btn btn-secondary mt-2" id="cancel_button" hidden><a href="supplierList">Hủy</a></button>
               </div>
             </form>
           </div>
@@ -86,21 +89,25 @@
               <table class="table table-hover" id="mytable">
                 <thead>
                 <tr>
-                  <th>Mã</th>
-                  <th>Đơn vị</th>
-                  <th>Tỉ lệ chuyển đổi</th>
-                  <th>Đơn vị cơ bản</th>
+                  <th>ID</th>
+                  <th>Nhà cung cấp</th>
+                  <th>Địa chỉ</th>
+                  <th>Số điện thoại</th>
+                  <th>Ghi chú</th>
                 </tr>
                 </thead>
                 <tbody>
                 <%
-                  for (Unit unit : units) {
+                  ContactInformation contactInformation;
+                  for (Supplier supplier : suppliers) {
+                    contactInformation = contactInformationDAO.getContactInformationByContactID(supplier.getContactInformationID());
                 %>
-                <tr onclick="populateForm('<%=unit.getUnitID()%>', '<%=unit.getName()%>', '<%=unit.getConversionRate()%>', '<%=unit.getBaseUnitID()%>')">
-                  <td><%=unit.getUnitID()%></td>
-                  <td><%=unit.getName()%></td>
-                  <td><%=unit.getConversionRate()%></td>
-                  <td><%=unit.getBaseUnitID()%></td>
+                <tr onclick="populateForm('<%=supplier.getSupplierID()%>', '<%=supplier.getName()%>', '<%=contactInformation.getAddress()%>', '<%=contactInformation.getPhoneNumber()%>', '<%=supplier.getNote()%>')">
+                  <td><%=supplier.getSupplierID()%></td>
+                  <td><%=supplier.getName()%></td>
+                  <td><%=contactInformation.getAddress()%></td>
+                  <td><%=contactInformation.getPhoneNumber()%></td>
+                  <td><%=supplier.getNote()%></td>
                 </tr>
                 <%
                   }
@@ -137,24 +144,16 @@
         }
       }
     }
-    function populateForm(unitid, name, conversionrate, baseunitid) {
-      document.getElementById("unitid").value = unitid;
-      document.getElementById("unitname").value = name;
-      if(conversionrate==='null'){
-        document.getElementById("conversionratediv").setAttribute("hidden","");
-      }else{
-        document.getElementById("conversionrate").value = conversionrate;
-        document.getElementById("conversionratediv").removeAttribute("hidden");
-      }
-      if(baseunitid==='null'){
-        document.getElementById("baseunitdiv").setAttribute("hidden","");
-      }else{
-        document.getElementById("baseunitid").value = baseunitid;
-        document.getElementById("baseunitdiv").removeAttribute("hidden");
-      }
-      document.getElementById("submit_button").innerText = "Update Unit";
-
-      document.getElementById("cancel_button").style.display = "block";
+    function populateForm(id, name, address, phonenumber, note) {
+      document.getElementById("supplierID").value = id;
+      document.getElementById("name").value = name;
+      document.getElementById("address").value = address;
+      document.getElementById("phonenumber").value = phonenumber;
+      document.getElementById("note").value = note;
+      document.getElementById("submit_button").setAttribute("hidden", "");
+      document.getElementById("update_button").removeAttribute("hidden");
+      document.getElementById("cancel_button").removeAttribute("hidden");
+      document.getElementById("form").action = "supplierupdate";
     }
 
     function validateForm() {
