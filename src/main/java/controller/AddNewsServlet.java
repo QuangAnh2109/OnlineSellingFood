@@ -25,6 +25,7 @@ public class AddNewsServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             // Lấy danh sách tin tức
+            NewsDAO newdao =new NewsDAO();
             List<News> newsList = newsDAO.getAll();
             request.setAttribute("newsList", newsList);
 

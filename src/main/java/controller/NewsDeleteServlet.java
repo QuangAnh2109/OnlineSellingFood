@@ -16,7 +16,7 @@ public class NewsDeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int newsID = Integer.parseInt(request.getParameter("newsID"));
         NewsDAO newsDAO = new NewsDAO();
-        boolean result = newsDAO.deleteNews(newsID);
+        boolean result = newsDAO.delete(newsID);
 
         if (result) {
             request.getSession().setAttribute("msg", "Xóa tin tức thành công.");
