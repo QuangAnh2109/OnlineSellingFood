@@ -39,6 +39,7 @@
             <div>
                 <h2 class="content-title card-title">Tin tức</h2>
                 <p>Tạo, sửa, xóa tin tức</p>
+                <h6 style="color: red"><%=msg%></h6>
             </div>
             <div>
                 <form action="newsSearch" method="post">
@@ -50,20 +51,49 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3">
-                        <form action="addNew" id="form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <%--create form                    --%>
+                    <div class="col-md-3" id="create">
+                        <form action="addNew" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <div class="mb-4">
+                                <label for="news_title" class="form-label">Tiêu đề</label>
+                                <input type="text" class="form-control" name="title" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="news_content" class="form-label">Nội dung</label>
+                                <textarea class="form-control" name="content" required></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Tải ảnh lên</label>
+                                <input type="file" name="img" accept="image/gif, image/jpeg, image/png" required />
+                            </div>
+                            <div>
+                                <label for="status">Status</label>
+                                <select name="status" required>
+                                    <option value="active">Active</option>
+                                    <option value="nonactive">Nonactive</option>
+                                </select>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Tạo</button>
+
+                            </div>
+                        </form>
+                        <br>
+                    </div>
+                    <%--update form auto hide                    --%>
+                    <div class="col-md-3" id="update" hidden>
+                        <form action="newsupdate" method="post" enctype="multipart/form-data">
+                            <div class="mb-4">
+                                <label for="news_title" class="form-label">ID</label>
+                                <input type="text" id="news_id" name="newsid" value="" readonly required>
+                            </div>
                             <div class="mb-4">
                                 <label for="news_title" class="form-label">Tiêu đề</label>
                                 <input type="text" class="form-control" id="news_title" name="title" required />
-                                <input type="hidden" id="news_id" name="newsID" value="">
                             </div>
                             <div class="mb-4">
                                 <label for="news_content" class="form-label">Nội dung</label>
                                 <textarea class="form-control" id="news_content" name="content" required></textarea>
-                            </div>
-                            <div class="mb-4">
-                                <label for="imagefile" class="form-label">Tải ảnh lên</label>
-                                <input type="file" name="img" id="imagefile" accept="image/gif, image/jpeg, image/png" required />
                             </div>
                             <div>
                                 <label for="status">Status</label>
@@ -72,11 +102,14 @@
                                     <option value="nonactive">Nonactive</option>
                                 </select>
                             </div>
-                            <h5 style="color: red">${sessionScope.msg}</h5>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Tạo</button>
+                                <button type="submit" id="submit_button" class="btn btn-primary">Cập nhật tin tức</button>
                             </div>
                         </form>
+                        <br>
+                        <div>
+                            <a href="addNew" class="btn btn-primary">Hủy</a>
+                        </div>
                     </div>
                     <div class="col-md-9">
                         <div class="table-responsive">
@@ -142,10 +175,8 @@
         document.getElementById("news_content").value = content;
         document.getElementById("news_id").value = newsID;
         document.getElementById("status").value = status;
-
-        document.getElementById("submit_button").innerText = "Cập nhật tin tức";
-        document.getElementById("cancel_button").removeAttribute("hidden");
-        document.getElementById("cancel_button").removeAttribute("hidden");
+        document.getElementById("update").removeAttribute("hidden");
+        document.getElementById("create").setAttribute("hidden","");
     }
 
     function validateForm() {

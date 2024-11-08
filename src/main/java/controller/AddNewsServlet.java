@@ -31,7 +31,7 @@ public class AddNewsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("list", newsDAO.getAll());
-        response.sendRedirect("add-new.jsp");
+        request.getRequestDispatcher("add-new.jsp").forward(request, response);
     }
 
     @Override
@@ -50,6 +50,7 @@ public class AddNewsServlet extends HttpServlet {
             msg = "Thêm thành công";
         }
         else msg = "Thêm thất bại";
+        request.getSession().setAttribute("msg", msg);
         response.sendRedirect("addNew");
     }
 }
