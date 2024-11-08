@@ -55,6 +55,16 @@
                         </select>
                         </form>
                     </div>
+
+                    <!-- Thêm một select để chọn sắp xếp theo giá -->
+                    <div class="col-lg-2 col-6 col-md-3">
+                        <form action="customerOrder" method="GET">
+                            <select class="form-select" name="sortPrice" onchange="this.form.submit()">
+                                <option value="asc" ${sortPrice == 'asc' ? 'selected' : ''}>Giá tăng dần</option>
+                                <option value="desc" ${sortPrice == 'desc' ? 'selected' : ''}>Giá giảm dần</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
             </header>
             <!-- card-header end// -->
@@ -81,7 +91,16 @@
                                 <td><b>${co.customerName}</b></td>
                                 <td>${co.email}</td>
                                 <td>${co.price}VND</td>
-                                <td><span class="badge rounded-pill alert-warning">${co.statusDetail}</span></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${co.statusID == 2}">
+                                            <span class="badge rounded-pill alert-success">${co.statusDetail}</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge rounded-pill alert-warning">${co.statusDetail}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td>${co.orderTime}</td>
                                 <td class="text-end">
                                     <form action="viewOrderDetail" method="post" style="display:inline;">
@@ -93,18 +112,20 @@
                                         <input type="hidden" name="address" value="${co.address}"/>
                                         <input type="hidden" name="statusDetail" value="${co.statusDetail}"/>
                                         <input type="hidden" name="orderTime" value="${co.orderTime}"/>
+                                        <input type="hidden" name="statusID" value="${co.statusID}"/>
+
                                         <button type="submit" class="btn btn-md rounded font-sm">Xem chi tiết</button>
                                     </form>
-                                    <div class="dropdown">
-                                        <a href="#" data-bs-toggle="dropdown"
-                                           class="btn btn-light rounded btn-sm font-sm"> <i
-                                                class="material-icons md-more_horiz"></i> </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">View detail</a>
-                                            <a class="dropdown-item" href="#">Edit info</a>
-                                            <a class="dropdown-item text-danger" href="#">Delete</a>
-                                        </div>
-                                    </div>
+<%--                                    <div class="dropdown">--%>
+<%--                                        <a href="#" data-bs-toggle="dropdown"--%>
+<%--                                           class="btn btn-light rounded btn-sm font-sm"> <i--%>
+<%--                                                class="material-icons md-more_horiz"></i> </a>--%>
+<%--                                        <div class="dropdown-menu">--%>
+<%--                                            <a class="dropdown-item" href="#">View detail</a>--%>
+<%--                                            <a class="dropdown-item" href="#">Edit info</a>--%>
+<%--                                            <a class="dropdown-item text-danger" href="#">Delete</a>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
                                     <!-- dropdown //end -->
                                 </td>
                             </tr>
@@ -124,7 +145,7 @@
                 <ul class="pagination justify-content-start">
                     <c:forEach begin="1" end="${endPage}" var="i">
                         <li class="${index == i ? 'page-item active' : ''}">
-                            <a class="page-link" href="customerOrder?index=${i}&statusID=${statusID}&searchName=${searchName}">${i}</a>
+                            <a class="page-link" href="customerOrder?index=${i}&statusID=${statusID}&searchName=${searchName}&sortPrice=${sortPrice}">${i}</a>
                         </li>
                     </c:forEach>
                 </ul>
