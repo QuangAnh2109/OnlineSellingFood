@@ -1,3 +1,4 @@
+package controller;
 
 import dal.NewsDAO;
 import jakarta.servlet.*;

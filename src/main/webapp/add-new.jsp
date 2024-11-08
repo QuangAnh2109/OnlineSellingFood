@@ -6,6 +6,10 @@
 <%@ page import="model.News" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dal.NewsDAO" %>
+<%@ page import="dal.StaffDAO" %>
+<%@ page import="common.Host" %>
+<%@ page import="model.ProductImg" %>
+<%@ page import="dal.ProductImgDAO" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,12 +51,11 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <form action="newsCU" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        <form action="addNew" id="form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                             <div class="mb-4">
                                 <label for="news_title" class="form-label">Tiêu đề</label>
                                 <input type="text" class="form-control" id="news_title" name="title" required />
                                 <input type="hidden" id="news_id" name="newsID" value="">
-                                <input type="hidden" name="staffID" value="${sessionScope.staff.staffID}" required />
                             </div>
                             <div class="mb-4">
                                 <label for="news_content" class="form-label">Nội dung</label>
@@ -84,6 +87,7 @@
                                     <th>Tiêu đề</th>
                                     <th>Nội dung</th>
                                     <th>Ảnh</th>
+                                    <th>Nhân viên</th>
                                     <th>Thời gian</th>
                                     <th>Trạng thái</th>
                                     <th class="text-end">Xóa</th>
@@ -91,25 +95,24 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                    List<News> newsList = (List<News>) request.getAttribute("newsList");
+                                    StaffDAO staffdao = new StaffDAO();
+                                    ImgDAO imgDAO = new ImgDAO();
+                                    List<News> newsList = (List<News>) request.getAttribute("list");
                                     if (newsList != null && !newsList.isEmpty()) {
-                                        ImgDAO imgdao = new ImgDAO();
                                         for (News news : newsList) {
                                 %>
-                                <tr>
-                                    <td onclick="populateForm('<%= news.getNewsID() %>', '<%= news.getTitle() %>', '<%= news.getContent() %>', '<%= news.getImgID() %>')"><%= news.getNewsID() %></td>
-                                    <td onclick="populateForm('<%= news.getNewsID() %>', '<%= news.getTitle() %>', '<%= news.getContent() %>', '<%= news.getImgID() %>')">
-                                        <b><%= news.getTitle() %></b></td>
+                                <tr onclick="populateForm('<%= news.getNewsID() %>', '<%= news.getTitle() %>', '<%= news.getContent() %>', '<%=news.getActive() ? "active" : "nonactive"%>')">
+                                    <td><%= news.getNewsID() %></td>
+                                    <td><%= news.getTitle() %></td>
                                     <td><%= news.getContent() %></td>
-                                    <td><img src="Img/<%= imgdao.getImgLinkByID(news.getImgID()) %>" alt="Image" style="width: 100px; height: auto;"></td>
-                                    <td><%= news.getTime() %></td>
-                                    <td><%= news.getActive() ? "Hoạt động" : "Không hoạt động" %></td>
+                                    <td><img src="<%=Host.IMG_LINK+imgDAO.getImgById(news.getImgID()).getImglink()%>?raw=true" style="max-height: 200px;"></td>
+                                    <td><%=staffdao.getStaffByCustomerID(news.getStaffID())%></td>
+                                    <td><%=news.getTime()%></td>
+                                    <td><%=news.getActive() ? "Hoạt động" : "Không hoạt động"%></td>
                                     <td class="text-end">
-                                        <form action="addNew" method="post" style="display:inline;">
-                                            <input type="hidden" name="deleteID" value="<%= news.getNewsID() %>" />
-                                            <button class="btn btn-light rounded btn-sm font-sm">
-                                                <a href="newsDelete?newsID=<%= news.getNewsID() %>"><i class="material-icons md-delete"></i>Xóa</a>
-                                            </button>
+                                        <form action="newsDelete" method="post" style="display:inline;">
+                                            <input type="hidden" name="newsid" value="<%=news.getNewsID()%>"/>
+                                            <button class="btn btn-light rounded btn-sm font-sm"><i class="material-icons md-delete"></i>Xóa</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -134,16 +137,15 @@
 </main>
 
 <script>
-    function populateForm(newsID, title, content, imgID) {
+    function populateForm(newsID, title, content, status) {
         document.getElementById("news_title").value = title;
         document.getElementById("news_content").value = content;
         document.getElementById("news_id").value = newsID;
-
-        const imgTag = document.getElementById("imagefile");
-        imgTag.src = "Img/" + imgID;
+        document.getElementById("status").value = status;
 
         document.getElementById("submit_button").innerText = "Cập nhật tin tức";
-        document.getElementById("cancel_button").style.display = "block";
+        document.getElementById("cancel_button").removeAttribute("hidden");
+        document.getElementById("cancel_button").removeAttribute("hidden");
     }
 
     function validateForm() {
@@ -155,22 +157,6 @@
         }
         return true;
     }
-
-    function resetForm() {
-        document.getElementById("news_title").value = "";
-        document.getElementById("news_content").value = "";
-        document.getElementById("imagefile").value = "";
-        document.getElementById("news_id").value = "";
-        document.getElementById("submit_button").innerText = "Tạo tin tức";
-        document.getElementById("cancel_button").style.display = "none";
-    }
-
-    document.getElementById("submit_button").onclick = function() {
-        if (document.getElementById("news_id").value === "") {
-            alert("No news selected for update.");
-            return false;
-        }
-    };
 </script>
 
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>

@@ -90,16 +90,7 @@
                     <span class="text">Đơn vị</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu" id="manufacter">
-                <a class="menu-link" href="#">
-                    <i class="icon material-icons md-store"></i>
-                    <span class="text">Nhà sản xuất</span>
-                </a>
-                <div class="submenu">
-                    <a href="manulist" id="manulist">Danh sách nhà sản xuất</a>
-                    <a href="registerManu" id="addmanu">Thêm nhà sản xuất</a>
-                </div>
-            </li>
+
             <%
                 }
                 if(role==2){
@@ -156,8 +147,17 @@
                     <span class="text">News</span>
                 </a>
                 <div class="submenu">
-                    <a href="addNew" id=addNew>Tạo News</a>
-                    <a href="listNews" id="listNews">Danh sách News</a>
+                    <a href="addNew" id=addNew>Quản lý News</a>
+                </div>
+            </li>
+            <li class="menu-item has-submenu" id="manufacter">
+                <a class="menu-link" href="#">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Nhà sản xuất</span>
+                </a>
+                <div class="submenu">
+                    <a href="manulist" id="manulist">Danh sách nhà sản xuất</a>
+                    <a href="registerManu" id="addmanu">Thêm nhà sản xuất</a>
                 </div>
             </li>
             <%

@@ -87,7 +87,7 @@
                     ProductImg productImg = productImgDAO.getDefaultImg(product.getProductID());
                     if(productImg!=null){
                   %>
-                  <th><img src="<%=Host.IMG_LINK+imgDAO.getImgById(productImg.getImgID()).getImglink()%>?raw=true" style="max-height: 200px;"></th>
+                  <th><img src="<%=Host.IMG_LINK+imgDAO.getImgById(productImg.getImgID()).getImglink()%>?raw=true" style="max-height: 200px;min-height: 200px"></th>
                   <%
                       }else{
                   %>

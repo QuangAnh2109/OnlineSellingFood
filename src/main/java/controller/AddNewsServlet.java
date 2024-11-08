@@ -30,6 +30,7 @@ public class AddNewsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("list", newsDAO.getAll());
         response.sendRedirect("add-new.jsp");
     }
 
@@ -40,13 +41,15 @@ public class AddNewsServlet extends HttpServlet {
         int staffID = new StaffDAO().getStaffByAccountID(account.getAccountID()).getStaffID();
         String title = request.getParameter("title");
         String content = request.getParameter("content");
-        Integer imgID = ImgFile.importImg(request.getPart("img"),"-news-");
-        News news = new News(staffID, title, imgID, LocalDateTime.now(), content, true);
+        Integer imgID = ImgFile.importImg(request.getPart("img"),"news");
+        String status = request.getParameter("status");
+        boolean isActive = "active".equals(status);
+        News news = new News(staffID, title, imgID, LocalDateTime.now(), content, isActive);
         String msg;
         if(new NewsDAO().insert(news)){
             msg = "Thêm thành công";
         }
         else msg = "Thêm thất bại";
-        response.sendRedirect("listNews");
+        response.sendRedirect("addNew");
     }
 }

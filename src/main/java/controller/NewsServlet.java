@@ -1,4 +1,4 @@
-package servlet;
+package controller;
 
 import dal.NewsDAO;
 import dal.ProductDAO;
