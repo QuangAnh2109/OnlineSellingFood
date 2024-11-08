@@ -1,13 +1,20 @@
+package controller;
+
+import common.ImgFile;
 import dal.ImgDAO;
 import dal.NewsDAO;
+import dal.StaffDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import model.Account;
 import model.News;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@MultipartConfig
 @WebServlet(name = "AddNewsServlet", value = "/addNew")
 public class AddNewsServlet extends HttpServlet {
     private NewsDAO newsDAO;
@@ -23,27 +30,23 @@ public class AddNewsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            // Lấy danh sách tin tức
-            NewsDAO newdao =new NewsDAO();
-            List<News> newsList = newsDAO.getAll();
-            request.setAttribute("newsList", newsList);
-
-            // Chuyển tiếp đến trang JSP
-            request.getRequestDispatcher("add-new.jsp").forward(request, response);
-
-        } catch (Exception e) {
-            // Xử lý lỗi nếu có
-            e.printStackTrace();
-            request.getSession().setAttribute("msg", "Có lỗi xảy ra khi tải danh sách tin tức");
-            response.sendRedirect("error.jsp");
-        }
+        response.sendRedirect("add-new.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Chuyển hướng POST request về doGet vì việc xử lý thêm/sửa đã được xử lý trong NewsCreateUpdateServlet
-        response.sendRedirect("add-new.jsp");
+        Account account = (Account) request.getSession().getAttribute("account");
+        int staffID = new StaffDAO().getStaffByAccountID(account.getAccountID()).getStaffID();
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        Integer imgID = ImgFile.importImg(request.getPart("img"),"-news-");
+        News news = new News(staffID, title, imgID, LocalDateTime.now(), content, true);
+        String msg;
+        if(new NewsDAO().insert(news)){
+            msg = "Thêm thành công";
+        }
+        else msg = "Thêm thất bại";
+        response.sendRedirect("listNews");
     }
 }

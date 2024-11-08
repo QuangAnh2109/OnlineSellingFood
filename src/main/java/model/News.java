@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class News {
@@ -7,7 +8,7 @@ public class News {
     private int staffID;
     private String title;
     private int imgID;
-    private Date time;
+    private LocalDateTime time;
     private String content;
     private Boolean active;
 
@@ -15,7 +16,7 @@ public class News {
     }
 
     // Constructor without newsID (for creating new news)
-    public News(int staffID, String title, int imgID, Date time, String content, Boolean active) {
+    public News(int staffID, String title, int imgID, LocalDateTime time, String content, Boolean active) {
         this.staffID = staffID;
         this.title = title;
         this.imgID = imgID;
@@ -25,7 +26,7 @@ public class News {
     }
 
     // Constructor with all fields (for retrieving news from database)
-    public News(int newsID, int staffID, String title, int imgID, Date time, String content, Boolean active) {
+    public News(int newsID, int staffID, String title, int imgID, LocalDateTime time, String content, Boolean active) {
         this.newsID = newsID;
         this.staffID = staffID;
         this.title = title;
@@ -68,11 +69,11 @@ public class News {
         this.imgID = imgID;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
