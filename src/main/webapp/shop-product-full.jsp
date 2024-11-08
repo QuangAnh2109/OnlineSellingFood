@@ -208,10 +208,16 @@
                                         <!-- Display current price only -->
                                         <%
                                             DiscountDAO discountDAO = new DiscountDAO();
-                                        int newPrice = product.getPrice()-product.getPrice()* discountDAO.getDiscountById(product.getDiscountID()).getDiscountPercent()/100;
+                                     //   int newPrice = product.getPrice()-product.getPrice()* discountDAO.getDiscountById(product.getDiscountID()).getDiscountPercent()/100;
                                         %>
-                                        <span class="current-price text-brand"><%= (product != null) ? newPrice : "Price not available." %> VND</span>
+                                        <span class="current-price text-brand"><%= (product != null) ? product.getPrice() : "Price not available." %> VND</span>
                                         <span class="old-price"><%=product.getPrice()%> VND</span>
+<%--                                        <% if (discount != 0) { %>--%>
+<%--                                        <span><%=price - price * discountDAO.getDiscountById(discount).getDiscountPercent() / 100%> VND</span>--%>
+<%--                                        <span class="old-price"><%=price%> VND</span>--%>
+<%--                                        <% } else { %>--%>
+<%--                                        <span><%=price%> VND</span>--%>
+<%--                                        <% } %>--%>
                                     </div>
                                 </div>
 
