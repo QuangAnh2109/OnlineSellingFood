@@ -155,7 +155,7 @@
                 <jsp:include page="product-box.jsp">
                     <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
                     <jsp:param name="name" value="<%= product.getName() %>" />
-                    <jsp:param name="manufacturer" value="<%= product.getManufacturerID().toString() %>" />
+                    <jsp:param name="manufacturer" value="<%= product.getName().toString() %>" />
                     <jsp:param name="star" value="4" />
                     <jsp:param name="discount" value='<%= product.getDiscountID() != null ? product.getDiscountID().toString() : "0" %>' />
                     <jsp:param name="price" value="<%= product.getPrice().toString() %>" />
@@ -193,6 +193,17 @@
             </div>
         </div>
         <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
+            <div class="sidebar-widget">
+                <h5 class="sidebar-title">Tìm kiếm sản phẩm</h5>
+                <!-- Tìm kiếm theo tên -->
+                <form action="" method="get">  <!-- Form gửi yêu cầu tìm kiếm đến chính trang JSP -->
+                    <div class="form-group mb-3">
+                        <label>Tên sản phẩm</label>
+                        <input type="text" class="form-control" name="searchTerm" placeholder="Tìm theo tên" value="<%= searchTerm != null ? searchTerm : "" %>">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </form>
+            </div>
             <div class="sidebar-widget">
                 <h5 class="sidebar-title">Danh mục</h5>
                 <ul class="categories">
@@ -238,185 +249,7 @@
             List<Origin> allOrigins = originDAO.getAllOrigins();
             List<Manufacturer> allManufacturers = manufacterDAO.getAllManufacturers();
             %>
-            <div class="sidebar-widget">
-                <h5 class="sidebar-title">Tìm kiếm sản phẩm</h5>
 
-                <!-- Tìm kiếm theo tên -->
-                <div class="form-group mb-3">
-                    <label>Tên sản phẩm</label>
-                    <input type="text" class="form-control" name="searchTerm" placeholder="Tìm theo tên" value="<%= searchTerm != null ? searchTerm : "" %>" onchange="submitForm()">
-                </div>
-
-                <!-- Tìm kiếm theo nguồn gốc (origin) -->
-                <div class="form-group mb-3">
-                    <label>Nguồn gốc</label>
-                    <input type="text" class="form-control" name="origin" placeholder="Tìm theo nguồn gốc" value="<%= request.getParameter("origin") != null ? request.getParameter("origin") : "" %>" onchange="submitForm()">
-                </div>
-
-                <!-- Tìm kiếm theo nhà sản xuất -->
-                <div class="form-group mb-3">
-                    <label>Nhà sản xuất</label>
-                    <input type="text" class="form-control" name="manufacturer" placeholder="Tìm theo nhà sản xuất" value="<%= request.getParameter("manufacturer") != null ? request.getParameter("manufacturer") : "" %>" onchange="submitForm()">
-                </div>
-
-                <!-- Dropdown cho Nhà Sản Xuất -->
-                <div class="form-group mb-3">
-                    <label>Chọn nhà sản xuất</label>
-                    <select class="form-control" name="manufacturerID" onchange="submitForm()">
-                        <option value="">Chọn nhà sản xuất</option>
-                        <% for (Manufacturer manufacturer : allManufacturers) { %>
-                        <option value="<%= manufacturer.getManufacturerID() %>"
-                                <%= request.getParameter("manufacturerID") != null && request.getParameter("manufacturerID").equals(String.valueOf(manufacturer.getManufacturerID())) ? "selected" : "" %>>
-                            <%= manufacturer.getName() %>
-                        </option>
-                        <% } %>
-                    </select>
-                </div>
-
-                <!-- Dropdown cho Xuất Xứ -->
-                <div class="form-group mb-3">
-                    <label>Chọn xuất xứ</label>
-                    <select class="form-control" name="origin" onchange="submitForm()">
-                        <option value="">Chọn xuất xứ</option>
-                        <% for (Origin origin : allOrigins) { %>
-                        <option value="<%= origin.getName() %>"
-                                <%= request.getParameter("origin") != null && request.getParameter("origin").equals(origin.getName()) ? "selected" : "" %>>
-                            <%= origin.getName() %>
-                        </option>
-                        <% } %>
-                    </select>
-                </div>
-
-                <!-- Lọc theo giá -->
-                <div class="form-group mb-3">
-                    <label>Giá từ</label>
-                    <select class="form-control" name="priceFrom" onchange="submitForm()">
-                        <option value="">Chọn giá</option>
-                        <option value="0" <%= "0" == request.getParameter("priceFrom") ? "selected" : "" %>>Dưới 100.000 VND</option>
-                        <option value="100000" <%= "100000" == request.getParameter("priceFrom") ? "selected" : "" %>>100.000 VND - 500.000 VND</option>
-                        <option value="500000" <%= "500000" == request.getParameter("priceFrom") ? "selected" : "" %>>500.000 VND - 1.000.000 VND</option>
-                        <option value="1000000" <%= "1000000" == request.getParameter("priceFrom") ? "selected" : "" %>>Trên 1.000.000 VND</option>
-                    </select>
-                </div>
-
-                <!-- Lọc theo cân nặng -->
-                <div class="form-group mb-3">
-                    <label>Cân nặng từ (kg)</label>
-                    <select class="form-control" name="weightFrom" onchange="submitForm()">
-                        <option value="">Chọn cân nặng</option>
-                        <option value="0" <%= "0" == request.getParameter("weightFrom") ? "selected" : "" %>>Dưới 1 kg</option>
-                        <option value="1" <%= "1" == request.getParameter("weightFrom") ? "selected" : "" %>>1 kg - 5 kg</option>
-                        <option value="5" <%= "5" == request.getParameter("weightFrom") ? "selected" : "" %>>5 kg - 10 kg</option>
-                        <option value="10" <%= "10" == request.getParameter("weightFrom") ? "selected" : "" %>>Trên 10 kg</option>
-                    </select>
-                </div>
-            </div>
-
-            <div>
-                <button type="submit">Submit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </button>
-            </div>
-
-            <script>
-                // Function to automatically reload the page with the new filter values
-                function submitForm() {
-                    var form = document.getElementById("filterForm");
-                    form.submit();
-                }
-            </script>
         </div>
 
     </div>
