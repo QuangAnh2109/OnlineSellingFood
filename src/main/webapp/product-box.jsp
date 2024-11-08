@@ -17,7 +17,9 @@
         <div class="product-img-action-wrap">
             <div class="product-img product-img-zoom">
                 <a href="ProductDetail?productID=<%=productID%>">
-                    <img class="default-img" src="<%=Host.IMG_LINK+imageUrl+"?raw=true"%>" alt="<%=name%>" />
+                    <div style="min-height: 200px;max-height: 200px;">
+                        <img class="default-img" src="<%=Host.IMG_LINK+imageUrl+"?raw=true"%>" alt="<%=name%>" />
+                    </div>
                 </a>
             </div>
         </div>
