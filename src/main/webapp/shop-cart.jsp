@@ -95,7 +95,7 @@
                   </h6>
                 </td>
                 <td class="price" data-title="Price">
-                  <h4 class="text-body">$${productMap[cartItem.productID].price}</h4>
+                  <h4 class="text-body">${productMap[cartItem.productID].price} VND</h4>
                 </td>
                 <td class="text-center detail-info" data-title="Stock">
                   <form action="updateCartServlet" method="post" class="quantity-form">
@@ -106,6 +106,7 @@
                   </form>
                 </td>
                 <td class="price" data-title="Subtotal">
+
                   <h4 class="text-brand">${productMap[cartItem.productID].price * cartItem.quantity} VND</h4>
                 </td>
                 <c:set var="total" value="${total + productMap[cartItem.productID].price * cartItem.quantity}" />

@@ -31,6 +31,15 @@
         <div class="product-rate-cover">
           <div class="rate" style="width: <%= averageStar * 20 %>%">
             <%
+              // Nếu averageStar == 0, hiển thị tất cả các sao rỗng
+              if (averageStar == 0) {
+                for (int i = 1; i <= 5; i++) {
+            %>
+            <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
+            <%
+              }
+            } else {
+              // Nếu có review, hiển thị sao đầy và sao rỗng tương ứng
               for (int i = 1; i <= 5; i++) {
                 if (i <= averageStar) {
             %>
@@ -40,6 +49,7 @@
             %>
             <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
             <%
+                  }
                 }
               }
             %>

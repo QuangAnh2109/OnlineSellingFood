@@ -250,8 +250,7 @@ public class ProductDAO extends DBContext{
 
         return count;
     }
-    // In ProductDAO class
-    // In ProductDAO class
+
     public List<Product> getProductsByPageAndSort(int categoryID, int page, int pageSize, String sortOption, boolean ascending, String searchTerm) {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM Product";

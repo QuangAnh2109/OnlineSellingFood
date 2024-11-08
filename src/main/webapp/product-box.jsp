@@ -1,5 +1,6 @@
 <%@ page import="common.Host" %>
 <%@ page import="dal.FeedbackProductDAO" %>
+<%@ page import="dal.DiscountDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -8,6 +9,7 @@
     String name = request.getParameter("name");
     String manufacturer = request.getParameter("manufacturer");
     int discount = Integer.parseInt(request.getParameter("discount"));
+    int discountPercent = new DiscountDAO().getDiscountById(discount).getDiscountPercent();
     int price = Integer.parseInt(request.getParameter("price"));
     int productID = Integer.parseInt(request.getParameter("productID"));
     String imageUrl = request.getParameter("imageUrl");
@@ -36,6 +38,15 @@
             <div class="product-rate-cover">
                 <div class="rate" style="width: <%= averageStar * 20 %>%">
                     <%
+                        // Nếu averageStar == 0, hiển thị tất cả các sao rỗng
+                        if (averageStar == 0) {
+                            for (int i = 1; i <= 5; i++) {
+                    %>
+                    <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
+                    <%
+                        }
+                    } else {
+                        // Nếu có review, hiển thị sao đầy và sao rỗng tương ứng
                         for (int i = 1; i <= 5; i++) {
                             if (i <= averageStar) {
                     %>
@@ -45,6 +56,7 @@
                     %>
                     <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
                     <%
+                                }
                             }
                         }
                     %>
@@ -56,7 +68,7 @@
             <div class="product-card-bottom">
                 <div class="product-price">
                     <% if (discount != 0) { %>
-                    <span><%=price - price * discount / 100%> VND</span>
+                    <span><%=price - price * 10 / 100%> VND</span>
                     <span class="old-price"><%=price%> VND</span>
                     <% } else { %>
                     <span><%=price%> VND</span>

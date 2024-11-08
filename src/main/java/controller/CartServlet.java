@@ -1,15 +1,18 @@
 package controller;
 
+import dal.DiscountDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Account;
 import model.Cart;
+import model.Discount;
 import model.Product;
 import dal.CartDAO;
 import dal.ProductDAO;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +45,18 @@ public class CartServlet extends HttpServlet {
                     response.sendRedirect("shop-cart.jsp");
                     return;
                 }
-
+                DiscountDAO discountDAO = new   DiscountDAO();
+                Discount discount;
                 Map<Integer, Product> productMap = new HashMap<>();
                 for (Cart cartItem : cartItems) {
                     Product product = productDAO.getProductById(cartItem.getProductID());
+                    Integer discountID = product.getDiscountID();
+                    if (discountID != null) {
+                        discount = discountDAO.getDiscountById(discountID);
+                        if (discount.getEndTime().isAfter(LocalDateTime.now())) {
+                            product.setPrice(product.getPrice() * (100-discount.getDiscountPercent())/100);
+                        }
+                    }
                     productMap.put(cartItem.getProductID(), product);
                 }
 
