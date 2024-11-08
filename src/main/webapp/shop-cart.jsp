@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="model.Account" %>
 <%@ page import="dal.CustomerDAO" %>
+<%@ page import="dal.DiscountDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -19,6 +20,11 @@
 
 <body>
 <%
+  String msg = (String)session.getAttribute("msg");
+  if(msg==null) msg="";
+  session.removeAttribute("msg");
+%>
+<%
   String accountName;
   try {
     accountName = ((Account) session.getAttribute("account")).getName();
@@ -31,6 +37,7 @@
     CustomerDAO customerDAO = new CustomerDAO();
     customerID = customerDAO.getCustomerIDByAccountID(account.getAccountID());
   }
+
 %>
 
 <jsp:include page="header.jsp">
@@ -88,7 +95,7 @@
                   </h6>
                 </td>
                 <td class="price" data-title="Price">
-                  <h4 class="text-body">$${productMap[cartItem.productID].price}</h4>
+                  <h4 class="text-body">${productMap[cartItem.productID].price} VND</h4>
                 </td>
                 <td class="text-center detail-info" data-title="Stock">
                   <form action="updateCartServlet" method="post" class="quantity-form">
@@ -99,6 +106,7 @@
                   </form>
                 </td>
                 <td class="price" data-title="Subtotal">
+
                   <h4 class="text-brand">${productMap[cartItem.productID].price * cartItem.quantity} VND</h4>
                 </td>
                 <c:set var="total" value="${total + productMap[cartItem.productID].price * cartItem.quantity}" />
@@ -116,7 +124,7 @@
             </c:forEach>
             <c:if test="${empty cartItems}">
               <tr>
-                <td colspan="6">Không có sản phẩm trong giỏ hàng</td>
+                <td colspan="6" style="text-align: center"><h5 style="color: red"><%= msg != null ? msg : "" %></h5></td>
               </tr>
             </c:if>
             </tbody>
