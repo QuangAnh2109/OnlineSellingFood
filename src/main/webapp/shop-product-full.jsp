@@ -123,6 +123,9 @@
     }
 
     String name = request.getParameter("name");
+    // Tạo đối tượng DAO để lấy số sao trung bình
+    FeedbackProductDAO feedbackDAO = new FeedbackProductDAO();
+    int averageStar = feedbackDAO.averageStarInProduct(product.getProductID());
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%= accountName %>"/>
@@ -169,7 +172,31 @@
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">
                                             <!-- Set to 80% width to represent a 4-star rating -->
-                                            <div class="product-rating" style="width: 80%;"></div>
+                                            <div class="rate" style="width: <%= averageStar * 20 %>%">
+                                                <%
+                                                    // Nếu averageStar == 0, hiển thị tất cả các sao rỗng
+                                                    if (averageStar == 0) {
+                                                        for (int i = 1; i <= 5; i++) {
+                                                %>
+                                                <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
+                                                <%
+                                                    }
+                                                } else {
+                                                    // Nếu có review, hiển thị sao đầy và sao rỗng tương ứng
+                                                    for (int i = 1; i <= 5; i++) {
+                                                        if (i <= averageStar) {
+                                                %>
+                                                <span class="star">&#9733;</span> <!-- Ngôi sao đầy -->
+                                                <%
+                                                } else {
+                                                %>
+                                                <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
+                                                <%
+                                                            }
+                                                        }
+                                                    }
+                                                %>
+                                            </div>
                                         </div>
                                         <span class="font-small ml-5 text-muted">(${count} Đánh giá)</span>
                                     </div>
@@ -179,7 +206,12 @@
                                 <div class="clearfix product-price-cover">
                                     <div class="product-price primary-color float-left">
                                         <!-- Display current price only -->
-                                        <span class="current-price text-brand"><%= (product != null) ? product.getPrice() : "Price not available." %> VND</span>
+                                        <%
+                                            DiscountDAO discountDAO = new DiscountDAO();
+                                        int newPrice = product.getPrice()-product.getPrice()* discountDAO.getDiscountById(product.getDiscountID()).getDiscountPercent()/100;
+                                        %>
+                                        <span class="current-price text-brand"><%= (product != null) ? newPrice : "Price not available." %> VND</span>
+                                        <span class="old-price"><%=product.getPrice()%> VND</span>
                                     </div>
                                 </div>
 
@@ -197,7 +229,9 @@
                                     </ul>
                                 </div>
                                 <div class="product-extra-link2">
-                                    <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                    <form action="addtocart" method="post">
+                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                    </form>
                                 </div>
 
                             </div>
@@ -437,3 +471,6 @@
 <script src="nest-frontend/assets/js/main.js?v=4.0"></script>
 </body>
 </html>
+
+
+

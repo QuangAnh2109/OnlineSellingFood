@@ -1,4 +1,5 @@
 <%@ page import="common.Host" %>
+<%@ page import="dal.DiscountDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
@@ -38,13 +39,22 @@
                 <span class="font-small text-muted">By <a href="vendor-details-1.html?manufacturer=<%=manufacturer%>"><%=manufacturer%></a></span>
             </div>
             <div class="product-card-bottom">
-                <div class="product-price">
-                    <% if (discount != 0) { %>
-                    <span><%=price - price * 10 / 100%> VND</span>
-                    <span class="old-price"><%=price%> VND</span>
-                    <% } else { %>
-                    <span><%=price%> VND</span>
-                    <% } %>
+                <%
+                    DiscountDAO discountDAO = new DiscountDAO();
+                %>
+                <div class="product-card-bottom">
+                    <div class="product-price">
+                        <% if (discount != 0) { %>
+                        <span><%=price - price * discountDAO.getDiscountById(discount).getDiscountPercent() / 100%> VND</span>
+                        <span class="old-price"><%=price%> VND</span>
+                        <% } else { %>
+                        <span><%=price%> VND</span>
+                        <% } %>
+                    </div>
+<%--                    discount = discountDAO.getDiscountById(discountID);--%>
+<%--                    if (discount.getEndTime().isAfter(LocalDateTime.now())) {--%>
+<%--                    product.setPrice(product.getPrice() * (100-discount.getDiscountPercent())/100);--%>
+<%--                    }--%>
                 </div>
             </div>
             <div class="product-card-bottom">
