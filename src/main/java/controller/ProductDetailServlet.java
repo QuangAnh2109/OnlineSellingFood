@@ -89,11 +89,9 @@ public class ProductDetailServlet extends HttpServlet {
             String comment = request.getParameter("comment");
             int rating = Integer.parseInt(request.getParameter("rating"));
             LocalDateTime currentTime = LocalDateTime.now();
-//          feedbackProductDAO.updateFeedbackProduct(productID, c.getCustomerID(), rating, comment,currentTime);
             Integer replyID = null;
             feedbackProductDAO.addFeedbackProduct(productID, c.getCustomerID(), rating, comment, currentTime, replyID);
             response.sendRedirect("ProductDetail?productID=" + productID);
-
         }
 
 
