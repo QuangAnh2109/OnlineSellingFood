@@ -2,6 +2,7 @@ package dal;
 
 
 import dto.OrderProductResponse;
+import model.Order;
 import model.OrderProduct;
 
 import java.sql.PreparedStatement;
@@ -88,15 +89,16 @@ public class OrderProductDAO extends DBContext {
     public List<OrderProductResponse> getOrderProductByOrderID(int orderID) {
        List<OrderProductResponse> list=new ArrayList<>();
         String sql="SELECT i.Imglink,\n" +
-                "       p.[Name], \n" +
-                "       p.Price * (1 - COALESCE(d.DiscountPercent / 100.0, 0)) AS Price,\n" +
-                "       op.Quantity,\n" +
-                "\t   d.DiscountPercent,\n" +
-                "       p.Price*(1 - COALESCE(d.DiscountPercent / 100.0, 0)) * op.Quantity AS TotalPrice,\n" +
-                "\t   o.Price as PriceAfterVoucher,\n" +
-                "\t   os.Detail\n" +
+                " p.[Name], \n" +
+                " p.Price * (1 - COALESCE(d.DiscountPercent / 100.0, 0)) AS Price,\n" +
+                " op.Quantity,\n" +
+                " d.DiscountPercent,\n" +
+                " p.Price*(1 - COALESCE(d.DiscountPercent / 100.0, 0)) * op.Quantity AS TotalPrice,\n" +
+                "o.Price as PriceAfterVoucher,\n" +
+                "os.Detail,\n" +
+                "o.StatusID\n" +
                 "FROM OrderProduct op\n" +
-                "JOIN [Order] o ON op.OrderID = o.OrderID JOIN Voucher v ON o.VoucherID = v.VoucherID JOIN Discount d ON v.DiscountID = d.DiscountID\n" +
+                "JOIN [Order] o ON op.OrderID = o.OrderID left JOIN Voucher v ON o.VoucherID = v.VoucherID left JOIN Discount d ON v.DiscountID = d.DiscountID\n" +
                 "JOIN Product p ON op.ProductID = p.ProductID\n" +
                 "left JOIN ProductImg pi ON p.ProductID = pi.ProductID\n" +
                 "left JOIN Img i ON pi.ImgID = i.ImgID\n" +
@@ -127,9 +129,39 @@ public class OrderProductDAO extends DBContext {
         return list;
     }
 
+    public List<OrderProduct> getOrderProductID(int orderID) {
+        List<OrderProduct> list=new ArrayList<>();
+        String sql="SELECT [OrderID]\n" +
+                "      ,[ProductID]\n" +
+                "      ,[Price]\n" +
+                "      ,[Quantity]\n" +
+                "      ,[UnitID]\n" +
+                "  FROM [dbo].[OrderProduct]\n" +
+                "  where OrderID=?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, orderID);
+            ResultSet rs=st.executeQuery();
+            while (rs.next()) {
+                OrderProduct opr = new OrderProduct();
+                opr.setOrderID(rs.getInt("OrderID"));
+                opr.setProductID(rs.getInt("ProductID"));
+                opr.setPrice(rs.getInt("Price"));
+                opr.setQuantity(rs.getInt("Quantity"));
+                opr.setUnitID(rs.getInt("UnitID"));
+                list.add(opr);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         OrderProductDAO dao = new OrderProductDAO();
-        System.out.println(dao.getOrderProductByOrderID(71));
+        List<OrderProductResponse> list=dao.getOrderProductByOrderID(91);
+        System.out.println(list.size());
+
     }
 
 }
