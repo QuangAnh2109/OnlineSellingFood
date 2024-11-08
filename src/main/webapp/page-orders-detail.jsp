@@ -36,15 +36,29 @@
                                 <small class="text-muted">ID đặt hàng:${orderID} </small>
                             </div>
                             <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                                <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200">
-                                    <option>Change status</option>
-                                    <option>Awaiting payment</option>
-                                    <option>Confirmed</option>
-                                    <option>Shipped</option>
-                                    <option>Delivered</option>
-                                </select>
-                                <a class="btn btn-primary" href="#">Lưu</a>
-                                <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+                                <form action="viewOrderDetail" method="get">
+                                    <select class="form-select d-inline-block mb-lg-0 mr-5 mw-200" name="statusID" >
+                                        <option value="1" ${statusID == 1 ? 'selected' : ''}>Wait for confirmation</option>
+                                        <option value="2" ${statusID == 2 ? 'selected' : ''}>Confirmation</option>
+                                        <option value="3" ${statusID == 3 ? 'selected' : ''}>Being delivered</option>
+                                        <option value="4" ${statusID == 4 ? 'selected' : ''}>Completed</option>
+                                        <option value="5" ${statusID == 5 ? 'selected' : ''}>Canceled</option>
+                                        <option value="6" ${statusID == 6 ? 'selected' : ''}>Failed</option>
+                                    </select>
+                                    <button class="btn btn-primary" type="submit" >Lưu</button>
+                                    <a class="btn btn-primary" href="customerOrder">Quay trở lại</a>
+                                    <input type="hidden" name="orderID" value="${orderID}"/>
+                                    <input type="hidden" name="customerName" value="${customerName}"/>
+                                    <input type="hidden" name="email" value="${email}"/>
+                                    <input type="hidden" name="price" value="${price}"/>
+                                    <input type="hidden" name="phone" value="${phone}"/>
+                                    <input type="hidden" name="address" value="${address}"/>
+                                    <input type="hidden" name="statusDetail" value="${statusDetail}"/>
+                                    <input type="hidden" name="orderTime" value="${orderTime}"/>
+                                    <input type="hidden" name="statusID" value="${statusID}"/>
+
+                                </form>
+
                             </div>
                         </div>
                     </header>
@@ -105,6 +119,16 @@
                         <!-- row // -->
                         <div class="row">
                             <div class="col-lg-7">
+                                <c:set var="totalAmount" value="0" />
+                                <c:forEach items="${list}" var="l">
+                                    <c:set var="totalPrice" value="${totalPrice + l.totalPrice}" />
+                                    <c:set var="discountVoucher" value="${l.discountVoucher}"/>
+                                    <c:set var="totalPriceAfterVoucher" value="${l.totalPriceAfterVoucher}"/>
+                                    <c:set var="statusDetail" value="${l.statusDetail}"/>
+                                    <c:set var="statusDetail" value="${l.statusDetail}"/>
+                                    <c:set var="statusID" value="${l.statusID}"/>
+
+                                </c:forEach>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -136,20 +160,36 @@
                                                 <article class="float-end">
                                                     <dl class="dlist">
                                                         <dt>Tổng tiền:</dt>
-                                                        <dd>${l.totalPrice}VND</dd>
+                                                        <dd>${totalPrice}VND</dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Phiếu giảm giá:</dt>
-                                                        <dd>${l.discountVoucher}%</dd>
+                                                        <dd>
+                                                            <c:choose>
+                                                                <c:when test="${discountVoucher != null && discountVoucher > 0}">
+                                                                    ${discountVoucher}%
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    Không dùng phiếu giảm giá
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Tổng tiền sau khi áp dụng phiếu giảm giá:</dt>
-                                                        <dd><b class="h5">${l.totalPriceAfterVoucher}VND</b></dd>
+                                                        <dd><b class="h5">${totalPriceAfterVoucher}VND</b></dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Trạng thái:</dt>
                                                         <dd>
-                                                            <span class="badge rounded-pill alert-success text-success">${l.statusDetail}</span>
+                                                            <c:choose>
+                                                                <c:when test="${statusID == 2}">
+                                                                    <span class="badge rounded-pill alert-warning">${statusDetail}</span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span class="badge rounded-pill alert-success">${statusDetail}</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </dd>
                                                     </dl>
                                                 </article>
@@ -163,23 +203,7 @@
                             </div>
                             <!-- col// -->
                             <div class="col-lg-1"></div>
-                            <div class="col-lg-4">
-                                <div class="box shadow-sm bg-light">
-                                    <h6 class="mb-15">Payment info</h6>
-                                    <p>
-                                        <img src="nest-backend/assets/imgs/card-brands/2.png" class="border" height="20" /> Master Card **** **** 4768 <br />
-                                        Business name: Grand Market LLC <br />
-                                        Phone: +1 (800) 555-154-52
-                                    </p>
-                                </div>
-                                <div class="h-25 pt-4">
-                                    <div class="mb-3">
-                                        <label>Notes</label>
-                                        <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
-                                    </div>
-                                    <button class="btn btn-primary">Save note</button>
-                                </div>
-                            </div>
+
                             <!-- col// -->
                         </div>
                     </div>

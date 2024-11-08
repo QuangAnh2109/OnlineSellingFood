@@ -180,9 +180,17 @@
                         <img src="nest-frontend/assets/imgs/theme/icons/payment-zapper.svg" alt="">
                     </div>
 
-                    <form id="orderForm" action="orderProduct" method="get">
+                    <form id="orderForm" action="payment" method="post">
                         <input type="hidden" name="voucherID" value="${selectedVoucherID}">
-                        <input type="hidden" name="priceTotal" value="${discountedSubtotal}">
+<%--                        <input type="hidden" name="priceTotal" value="${discountedSubtotal}">--%>
+
+
+                            <c:if test="${not empty discountedSubtotal}">
+                                <input type="hidden" name="amount" value="${subTotalPrice}">
+                            </c:if>
+                        <c:if test="${empty discountedSubtotal}">
+                            <input type="hidden" name="amount" value="${subTotalPrice}">
+                        </c:if>
 
                         <input type="hidden" name="orderTime" id="orderTime" value="">
                         <button type="submit" class="btn btn-fill-out btn-block mt-30" >Đặt hàng<i

@@ -365,48 +365,48 @@ public class OrderDAO extends DBContext{
         return orderID;
     }
 
-    public List<CustomerOrderResponse> getListCustomerOrders(int index, String searchName, int statusID) {
+    public List<CustomerOrderResponse> getListCustomerOrders(int index, String searchName, int statusID,String sortPrice) {
         List<CustomerOrderResponse> customerOrderList = new ArrayList<>();
         String sql;
 
         if (searchName != null && !searchName.isEmpty() && statusID > 0) {
-            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail, ci.PhoneNumber, ci.[Address] " +
+            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail,o.StatusID, ci.PhoneNumber, ci.[Address] " +
                     "from [Order] o " +
                     "join Customer c on o.CustomerID = c.CustomerID " +
                     "join Account a on c.AccountID = a.AccountID " +
                     "join ContactInformation ci on o.ContactInformationID = ci.ContactInformationID " +
                     "join OrderStatus os on o.StatusID = os.StatusID " +
                     "where a.[Name] like ? and o.StatusID = ? " +
-                    "order by o.OrderID " +
+                    "order by o.Price " + (sortPrice.equals("asc") ? "ASC" : "DESC") + " " +
                     "offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
         } else if (searchName != null && !searchName.isEmpty()) {
-            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail, ci.PhoneNumber, ci.[Address] " +
+            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail,o.StatusID, ci.PhoneNumber, ci.[Address] " +
                     "from [Order] o " +
                     "join Customer c on o.CustomerID = c.CustomerID " +
                     "join Account a on c.AccountID = a.AccountID " +
                     "join ContactInformation ci on o.ContactInformationID = ci.ContactInformationID " +
                     "join OrderStatus os on o.StatusID = os.StatusID " +
                     "where a.[Name] like ? " +
-                    "order by o.OrderID " +
+                    "order by o.Price " + (sortPrice.equals("asc") ? "ASC" : "DESC") + " " +
                     "offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
         } else if (statusID > 0) {
-            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail, ci.PhoneNumber, ci.[Address] " +
+            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail,o.StatusID, ci.PhoneNumber, ci.[Address] " +
                     "from [Order] o " +
                     "join Customer c on o.CustomerID = c.CustomerID " +
                     "join Account a on c.AccountID = a.AccountID " +
                     "join ContactInformation ci on o.ContactInformationID = ci.ContactInformationID " +
                     "join OrderStatus os on o.StatusID = os.StatusID " +
                     "where o.StatusID = ? " +
-                    "order by o.OrderID " +
+                    "order by o.Price " + (sortPrice.equals("asc") ? "ASC" : "DESC") + " " +
                     "offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
         } else {
-            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail, ci.PhoneNumber, ci.[Address] " +
+            sql = "select o.OrderID, a.[Name], a.Email, o.Price, o.OrderTime, os.Detail,o.StatusID, ci.PhoneNumber, ci.[Address] " +
                     "from [Order] o " +
                     "join Customer c on o.CustomerID = c.CustomerID " +
                     "join Account a on c.AccountID = a.AccountID " +
                     "join ContactInformation ci on o.ContactInformationID = ci.ContactInformationID " +
                     "join OrderStatus os on o.StatusID = os.StatusID " +
-                    "order by o.OrderID " +
+                    "order by o.Price " + (sortPrice.equals("asc") ? "ASC" : "DESC") + " " +
                     "offset ? ROWS FETCH NEXT 5 ROWS ONLY;";
         }
 
@@ -431,8 +431,9 @@ public class OrderDAO extends DBContext{
                 customerOrderResponse.setPrice(rs.getInt(4));
                 customerOrderResponse.setOrderTime(rs.getDate(5));
                 customerOrderResponse.setStatusDetail(rs.getString(6));
-                customerOrderResponse.setPhoneNumber(rs.getString(7));
-                customerOrderResponse.setAddress(rs.getString(8));
+                customerOrderResponse.setStatusID(rs.getInt(7));
+                customerOrderResponse.setPhoneNumber(rs.getString(8));
+                customerOrderResponse.setAddress(rs.getString(9));
                 customerOrderList.add(customerOrderResponse);
             }
         } catch (SQLException e) {
@@ -471,4 +472,42 @@ public class OrderDAO extends DBContext{
         }
         return 0; // Return 0 if no results found
     }
+
+    public void updateStatusOrderAfterPayment(int orderID){
+        String sql="UPDATE [dbo].[Order]\n" +
+                "   SET [StatusID] =2\n" +
+                " WHERE  OrderID=?";
+        try {
+            PreparedStatement st= connection.prepareStatement(sql);
+            st.setInt(1, orderID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateStatusID(int orderID,int statusID){
+        String sql="UPDATE [dbo].[Order]\n" +
+                "   SET \n" +
+                "      [StatusID] =?\n" +
+                " WHERE OrderID=?";
+        try {
+            PreparedStatement st= connection.prepareStatement(sql);
+            st.setInt(1, statusID);
+            st.setInt(2, orderID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        OrderDAO dao = new OrderDAO();
+       dao.updateStatusID(34,3);
+
+
+    }
+
+
 }

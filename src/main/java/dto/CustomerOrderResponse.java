@@ -7,18 +7,20 @@ public class CustomerOrderResponse {
     private String customerName,email;
     private int price;
     private Date orderTime;
+    private int statusID;
     private String statusDetail;
     private String phoneNumber,address;
 
     public CustomerOrderResponse() {
     }
 
-    public CustomerOrderResponse(int orderID, String customerName, String email, int price, Date orderTime, String statusDetail, String phoneNumber, String address) {
+    public CustomerOrderResponse(int orderID, String customerName, String email, int price, Date orderTime, int statusID, String statusDetail, String phoneNumber, String address) {
         this.orderID = orderID;
         this.customerName = customerName;
         this.email = email;
         this.price = price;
         this.orderTime = orderTime;
+        this.statusID = statusID;
         this.statusDetail = statusDetail;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -62,6 +64,14 @@ public class CustomerOrderResponse {
 
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public int getStatusID() {
+        return statusID;
+    }
+
+    public void setStatusID(int statusID) {
+        this.statusID = statusID;
     }
 
     public String getStatusDetail() {
