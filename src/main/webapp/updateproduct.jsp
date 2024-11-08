@@ -188,7 +188,7 @@
             %>
             <tr>
               <th><%=productImg.getImgID()%></th>
-              <th><img src="<%=Host.IMG_LINK+imgDAO.getImgById(productImg.getImgID()).getImglink()%>?raw=true" style="max-height: 400px;"></th>
+              <th><img src="<%=Host.IMG_LINK+imgDAO.getImgById(productImg.getImgID()).getImglink()%>?raw=true" style="max-height: 200px;min-height: 200px"></th>
               <th><%=productImg.getIsDefault()==1 ? "Ảnh chính" : "Ảnh phụ"%></th>
               <th>
                 <a href="UpdateProductImgStaffServlet?imgid=<%=productImg.getImgID()%>&productid=<%=productID%>" class="btn btn-primary">Đặt làm ảnh chính</a>

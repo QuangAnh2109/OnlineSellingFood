@@ -1,3 +1,4 @@
+package controller;
 
 import dal.NewsDAO;
 import jakarta.servlet.*;
@@ -6,15 +7,11 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
 @WebServlet(name = "NewsDeleteServlet", urlPatterns = {"/newsDelete"})
+@MultipartConfig
 public class NewsDeleteServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int newsID = Integer.parseInt(request.getParameter("newsID"));
+        int newsID = Integer.parseInt(request.getParameter("newsid"));
         NewsDAO newsDAO = new NewsDAO();
         boolean result = newsDAO.delete(newsID);
 
@@ -24,6 +21,6 @@ public class NewsDeleteServlet extends HttpServlet {
             request.getSession().setAttribute("msg", "Có lỗi xảy ra khi xóa tin tức.");
         }
 
-        response.sendRedirect("add-new.jsp"); // Chuyển hướng về trang danh sách tin tức
+        response.sendRedirect("addNew");
     }
 }

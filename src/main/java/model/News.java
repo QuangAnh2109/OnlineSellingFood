@@ -36,6 +36,15 @@ public class News {
         this.active = active;
     }
 
+    public News(int newsID, int staffID, String title, LocalDateTime time, String content, Boolean active) {
+        this.newsID = newsID;
+        this.staffID = staffID;
+        this.title = title;
+        this.time = time;
+        this.content = content;
+        this.active = active;
+    }
+
     // Getters and setters
     public int getNewsID() {
         return newsID;

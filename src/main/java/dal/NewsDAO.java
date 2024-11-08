@@ -70,18 +70,17 @@ public class NewsDAO extends DBContext {
     }
 
     public boolean update(News news) {
-        String sql = "UPDATE News SET StaffID=?, Title=?, ImgID=?, Time=?, Content=?, Active=? WHERE NewsID=?";
+        String sql = "UPDATE News SET StaffID=?, Title=?, Time=?, Content=?, Active=? WHERE NewsID=?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, news.getStaffID());
             st.setString(2, news.getTitle());
-            st.setInt(3, news.getImgID());
-            st.setTimestamp(4, Timestamp.valueOf(news.getTime()));
-            st.setString(5, news.getContent());
-            st.setBoolean(6, news.getActive());
-            st.setInt(7, news.getNewsID());
+            st.setTimestamp(3, Timestamp.valueOf(news.getTime()));
+            st.setString(4, news.getContent());
+            st.setBoolean(5, news.getActive());
+            st.setInt(6, news.getNewsID());
             return st.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Error updating news: " + e.getMessage());
+            logger.info("Error updating news: " + e.getMessage());
             return false;
         }
     }

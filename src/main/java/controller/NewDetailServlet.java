@@ -1,3 +1,4 @@
+package controller;
 
 import dal.CategoryDAO;
 import dal.NewsDAO;
