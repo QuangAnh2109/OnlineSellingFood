@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,14 +28,15 @@ public class ListCustomerOrderServlet extends HttpServlet {
         }
         String searchName=request.getParameter("searchName");
         if(searchName==null)searchName="";
-
+        String sortPrice = request.getParameter("sortPrice");
+        if (sortPrice == null) sortPrice = "asc";
         String indexPage=request.getParameter("index");
         if(indexPage==null){
             indexPage="1";
         }
         int index=Integer.parseInt(indexPage);
         int itemsPerPage = 5;
-        List<CustomerOrderResponse> customerOrderList=od.getListCustomerOrders(index,searchName,statusID);
+        List<CustomerOrderResponse> customerOrderList=od.getListCustomerOrders(index,searchName,statusID,sortPrice);
 
         int count=od.getTotalCustomerOrders(searchName,statusID);
         int endPage=count/5;
@@ -48,6 +50,7 @@ public class ListCustomerOrderServlet extends HttpServlet {
         request.setAttribute("customerOrderList", customerOrderList);
         request.setAttribute("startCount", startCount);
         request.setAttribute("statusID", statusID);
+        request.setAttribute("sortPrice", sortPrice);
         request.getRequestDispatcher("page-orders-list.jsp").forward(request, respose);
 
     }

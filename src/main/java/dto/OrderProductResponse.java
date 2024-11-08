@@ -9,6 +9,7 @@ public class OrderProductResponse {
     private int price,quantity;
     private Date time;
     private String statusDetail;
+    private int statusID;
     private int discountVoucher;
     private int totalPrice;
     private int totalPriceAfterVoucher;
@@ -26,14 +27,15 @@ public class OrderProductResponse {
         this.statusDetail = statusDetail;
     }
 
-    public OrderProductResponse(String imgLink, int productID, String productName, int price, int quantity, Date time, String statusDetail, int discountVoucher, int totalPrice, int totalPriceAfterVoucher) {
+    public OrderProductResponse(String imgLink, int productID, String productName, int price, Date time, int quantity, String statusDetail, int statusID, int discountVoucher, int totalPrice, int totalPriceAfterVoucher) {
         this.imgLink = imgLink;
         this.productID = productID;
         this.productName = productName;
         this.price = price;
-        this.quantity = quantity;
         this.time = time;
+        this.quantity = quantity;
         this.statusDetail = statusDetail;
+        this.statusID = statusID;
         this.discountVoucher = discountVoucher;
         this.totalPrice = totalPrice;
         this.totalPriceAfterVoucher = totalPriceAfterVoucher;
@@ -117,5 +119,13 @@ public class OrderProductResponse {
 
     public void setTotalPriceAfterVoucher(int totalPriceAfterVoucher) {
         this.totalPriceAfterVoucher = totalPriceAfterVoucher;
+    }
+
+    public int getStatusID() {
+        return statusID;
+    }
+
+    public void setStatusID(int statusID) {
+        this.statusID = statusID;
     }
 }
