@@ -1,15 +1,14 @@
 package controller;
 
+import dal.CustomerDAO;
 import dal.DiscountDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Account;
-import model.Cart;
-import model.Discount;
-import model.Product;
+import model.*;
 import dal.CartDAO;
 import dal.ProductDAO;
+import org.openxmlformats.schemas.presentationml.x2006.main.impl.CTCustomerDataListImpl;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -32,8 +31,9 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String customerIdParam = request.getParameter("customerId");
-        if (customerIdParam != null) {
+        Account account = (Account) request.getSession().getAttribute("account");
+        try{
+            String customerIdParam = new CustomerDAO().getCustomerByAccountID(account.getAccountID()).getCustomerID()+"";
             try {
                 int customerId = Integer.parseInt(customerIdParam);
 
@@ -74,7 +74,7 @@ public class CartServlet extends HttpServlet {
             } catch (NumberFormatException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Customer ID");
             }
-        } else {
+        }catch (NullPointerException e){
             response.sendRedirect("homepage");
         }
     }

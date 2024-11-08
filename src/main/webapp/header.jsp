@@ -1,13 +1,7 @@
 <%@ page import="model.Account" %>
-<%@ page import="dal.CustomerDAO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     Account account = (Account)session.getAttribute("account");
-    int customerID = -1;
-    if (account != null) {
-        CustomerDAO customerDAO = new CustomerDAO();
-        customerID = customerDAO.getCustomerIDByAccountID(account.getAccountID());
-    }
 %>
 <header class="header-area header-style-1 header-style-5 header-height-2">
     <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
@@ -18,24 +12,31 @@
                     </div>
                     <div class="header-action-right">
                         <div class="header-action-2">
+                            <%
+                                if(account!=null){
+                            %>
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="cart?customerId=<%= customerID %>">
+                                <a class="mini-cart-icon" href="cart">
                                     <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-cart.svg" />
                                 </a>
-                                <a href="cart?customerId=<%= customerID %>"><span class="lable">Giỏ hàng</span></a>
+                                <a href="cart"><span class="lable">Cart</span></a>
                             </div>
+                            <%
+                                }
+                            %>
                             <div class="header-action-icon-2">
                                 <a href="#">
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />
                                 </a>
                                 <%
-                                    if (account == null) {
+                                    if(account==null){
                                 %>
-                                <a href="login"><span class="lable ml-0">Đăng nhập</span></a>
+                                <a href="login"><span class="lable ml-0">Login</span></a>
                                 <%
-                                } else {
+                                }
+                                else{
                                 %>
-                                <a><span class="lable ml-0"><%= account.getName() %></span></a>
+                                <a><span class="lable ml-0"><%=account.getName()%></span></a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
                                         <li>
@@ -65,9 +66,6 @@
     <div class="header-bottom header-bottom-bg-color sticky-bar">
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
-                <div class="logo logo-width-1 d-block d-lg-none">
-                    <a href="#"><img src="nest-frontend/assets/imgs/theme/logo.svg" alt="logo" /></a>
-                </div>
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
                         <nav>
@@ -82,7 +80,7 @@
                                     <a href="news">Tin tức</a>
                                 </li>
                                 <li>
-                                    <a href="AboutPage"> Giới thiệu </a>
+                                    <a href="AboutPage">Giới thiệu</a>
                                 </li>
                             </ul>
                         </nav>
@@ -128,17 +126,17 @@
                 <!-- mobile menu start -->
                 <nav>
                     <ul class="mobile-menu font-heading">
-                        <li class="menu-item-has-children">
+                        <li>
                             <a href="home-page.jsp">Trang chủ</a>
                         </li>
-                        <li class="menu-item-has-children">
+                        <li>
                             <a href="shop-grid-left.jsp">Sản phẩm</a>
                         </li>
-                        <li class="menu-item-has-children">
+                        <li>
                             <a href="news">Tin tức</a>
                         </li>
-                        <li class="menu-item-has-children">
-                            <a href="#">Giới thiệu</a>
+                        <li>
+                            <a href="AboutPage">Giới thiệu</a>
                         </li>
                     </ul>
                 </nav>
