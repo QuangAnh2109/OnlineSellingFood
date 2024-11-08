@@ -1,10 +1,8 @@
 package dal;
 
 import model.News;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +16,7 @@ public class NewsDAO extends DBContext {
                 rs.getInt("StaffID"),
                 rs.getString("Title"),
                 rs.getInt("ImgID"),
-                rs.getTimestamp("Time"),
+                rs.getTimestamp("Time").toLocalDateTime(),
                 rs.getString("Content"),
                 rs.getBoolean("Active")
         );
@@ -30,7 +28,7 @@ public class NewsDAO extends DBContext {
             st.setInt(1, news.getStaffID());
             st.setString(2, news.getTitle());
             st.setInt(3, news.getImgID());
-            st.setTimestamp(4, new Timestamp(news.getTime().getTime()));
+            st.setTimestamp(4, Timestamp.valueOf(news.getTime()));
             st.setString(5, news.getContent());
             st.setBoolean(6, news.getActive());
             return st.executeUpdate() > 0;
@@ -75,7 +73,7 @@ public class NewsDAO extends DBContext {
             st.setInt(1, news.getStaffID());
             st.setString(2, news.getTitle());
             st.setInt(3, news.getImgID());
-            st.setTimestamp(4, new Timestamp(news.getTime().getTime()));
+            st.setTimestamp(4, Timestamp.valueOf(news.getTime()));
             st.setString(5, news.getContent());
             st.setBoolean(6, news.getActive());
             st.setInt(7, news.getNewsID());
