@@ -91,7 +91,7 @@ public class CheckoutDAO extends DBContext{
                 "FROM CustomerVoucher cv  \n" +
                 "JOIN  Voucher v ON cv.VoucherID = v.VoucherID \n" +
                 "JOIN Discount d ON v.DiscountID = d.DiscountID\n" +
-                "where cv.CustomerID=?";
+                "where cv.CustomerID=? and d.EndTime>GETDATE() and d.StartTime<=GETDATE()";
         try {
             PreparedStatement st=connection.prepareStatement(sql);
             st.setInt(1, customerID);

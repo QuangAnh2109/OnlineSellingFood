@@ -12,8 +12,8 @@
         // Update the form fields with the product data
         document.getElementById('product_id').value=productID || '';
         document.getElementById('product_discount').value = discountPercent || '';
-        document.getElementById('product_start_date').value = startTime || '';
-        document.getElementById('product_end_date').value = endTime || '';
+        document.getElementById('start_date').value = startTime || '';
+        document.getElementById('end_date').value = endTime || '';
     }
 </script>
 <script type="text/javascript">
