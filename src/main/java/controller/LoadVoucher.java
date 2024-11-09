@@ -65,7 +65,7 @@ public class LoadVoucher extends HttpServlet {
         Voucher voucher = new VoucherDAO().getVoucherById(voucherID);
         if(voucher!=null){
             Discount discount = new DiscountDAO().getDiscountById(voucher.getDiscountID());
-            if(voucher.getQuantity() > 0 && discount.getEndTime().isAfter(LocalDateTime.now())) {
+            if(voucher.getInventory() > 0 && discount.getEndTime().isAfter(LocalDateTime.now())) {
                 if(customerVoucherDAO.addCustomerVoucher(new CustomerDAO().getCustomerIDByAccountID(account.getAccountID()), voucherID)) {
                     msg = "Thêm mã giảm giá thành công";
                 } else {
