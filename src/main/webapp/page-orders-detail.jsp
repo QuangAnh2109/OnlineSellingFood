@@ -77,24 +77,6 @@
                                             ${email} <br />
                                             ${phone}
                                         </p>
-                                        <a href="page-account-information.jsp">Xem chi tiết</a>
-                                    </div>
-                                </article>
-                            </div>
-                            <!-- col// -->
-                            <div class="col-md-4">
-                                <article class="icontext align-items-start">
-                                    <span class="icon icon-sm rounded-circle bg-primary-light">
-                                        <i class="text-primary material-icons md-local_shipping"></i>
-                                    </span>
-                                    <div class="text">
-                                        <h6 class="mb-1">Order info</h6>
-                                        <p class="mb-1">
-                                            Shipping: Fargo express <br />
-                                            Pay method: card <br />
-                                            Status: new
-                                        </p>
-                                        <a href="#">Download info</a>
                                     </div>
                                 </article>
                             </div>
@@ -110,7 +92,6 @@
                                            ${address} <br />
 
                                         </p>
-                                        <a href="page-account-contact.jsp">Xem chi tiết</a>
                                     </div>
                                 </article>
                             </div>

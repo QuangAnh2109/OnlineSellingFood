@@ -2,8 +2,10 @@ package dal;
 
 
 import dto.OrderProductResponse;
+import model.Discount;
 import model.Order;
 import model.OrderProduct;
+import model.Voucher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -90,11 +92,12 @@ public class OrderProductDAO extends DBContext {
        List<OrderProductResponse> list=new ArrayList<>();
         String sql="SELECT i.Imglink,\n" +
                 " p.[Name], \n" +
-                " p.Price * (1 - COALESCE(d.DiscountPercent / 100.0, 0)) AS Price,\n" +
+                " op.Price AS Price,\n" +
                 " op.Quantity,\n" +
                 " d.DiscountPercent,\n" +
                 "o.Price as PriceAfterVoucher,\n" +
                 "os.Detail,\n" +
+                "o.VoucherID as VoucherID,\n" +
                 "o.StatusID\n" +
                 "FROM OrderProduct op\n" +
                 "JOIN [Order] o ON op.OrderID = o.OrderID left JOIN Voucher v ON o.VoucherID = v.VoucherID left JOIN Discount d ON v.DiscountID = d.DiscountID\n" +
@@ -112,10 +115,19 @@ public class OrderProductDAO extends DBContext {
                 OrderProductResponse opr = new OrderProductResponse();
                 opr.setImgLink(rs.getString("Imglink"));
                opr.setProductName(rs.getString("Name"));
-               opr.setDiscountVoucher(rs.getInt("DiscountPercent"));
-               opr.setPrice(rs.getInt("Price") - (rs.getInt("Price") * opr.getDiscountVoucher() / 100));
+               opr.setPrice(rs.getInt("Price"));
                opr.setQuantity(rs.getInt("Quantity"));
                opr.setTotalPrice(opr.getPrice()*opr.getQuantity());
+               Integer voucherID = rs.getObject("VoucherID",Integer.class);
+               if(voucherID!=null){
+                   Voucher voucher = new VoucherDAO().getVoucherById(voucherID);
+                   if(voucher!=null){
+                       Discount discount = new DiscountDAO().getDiscountById(voucher.getDiscountID());
+                       if(discount!=null){
+                           opr.setDiscountVoucher(discount.getDiscountPercent());
+                       }
+                   }
+               }
                opr.setTotalPriceAfterVoucher(rs.getInt("PriceAfterVoucher"));
                opr.setStatusDetail(rs.getString("Detail"));
                list.add(opr);
@@ -154,14 +166,6 @@ public class OrderProductDAO extends DBContext {
         }
         return list;
     }
-
-    public static void main(String[] args) {
-        OrderProductDAO dao = new OrderProductDAO();
-        List<OrderProductResponse> list=dao.getOrderProductByOrderID(91);
-        System.out.println(list.size());
-
-    }
-
 }
 
 
