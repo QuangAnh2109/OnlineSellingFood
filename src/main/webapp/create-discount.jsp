@@ -155,7 +155,7 @@
                                     <td>${d.name}</td>
                                     <td>${d.categoryName}</td>
                                     <td>${d.price}</td>
-                                    <td>${d.discountPercent}</td>
+                                    <td>${d.discountPercent} %</td>
                                     <td>${(d.price-(d.price*(d.discountPercent/100)))}</td>
                                     <td>${d.startTime}</td>
                                     <td>${d.endTime}</td>
