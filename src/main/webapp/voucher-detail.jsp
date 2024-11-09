@@ -38,15 +38,11 @@
 
 
           <div class="mb-3">
-            <label class="form-label">ID phiếu giảm giá</label>
-            <input class="form-control" name="voucherID" value="${voucher.voucherID}"  type="text" readonly="" />
+            <input class="form-control" name="voucherID" value="${voucher.voucherID}"  type="hidden" readonly="" />
           </div>
 
-
-
           <div class="mb-3">
-            <label class="form-label">ID giảm giá</label>
-            <input class="form-control" name="discountID" value="${voucher.discountID}"  type="text" readonly="" />
+            <input class="form-control" name="discountID" value="${voucher.discountID}"  type="hidden" readonly="" />
           </div>
 
           <div class="mb-3">

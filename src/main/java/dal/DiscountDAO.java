@@ -32,14 +32,14 @@ public class DiscountDAO extends DBContext{
         List<ProductDiscountResponse> res = new Vector<ProductDiscountResponse>();
         String sql ;
         if (searchName != null && !searchName.isEmpty()) {
-            sql = "SELECT p.ProductID, d.DiscountID, p.[Name], c.[Name], p.Price, d.DiscountPercent, d.StartTime, d.EndTime " +
+            sql = "SELECT p.ProductID, d.DiscountID, p.[Name], c.[Name] AS CategoryName, p.Price, d.DiscountPercent, d.StartTime, d.EndTime " +
                     "FROM Product p LEFT JOIN Discount d ON p.DiscountID = d.DiscountID " +
                     "JOIN Category c ON p.CategoryID = c.CategoryID " +
                     "WHERE p.[Name] LIKE ? " +
                     "ORDER BY ProductID " +
                     "OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
         } else {
-            sql = "SELECT p.ProductID, d.DiscountID, p.[Name], c.[Name], p.Price, d.DiscountPercent, d.StartTime, d.EndTime " +
+            sql = "SELECT p.ProductID, d.DiscountID, p.[Name], c.[Name]AS CategoryName, p.Price, d.DiscountPercent, d.StartTime, d.EndTime " +
                     "FROM Product p LEFT JOIN Discount d ON p.DiscountID = d.DiscountID " +
                     "JOIN Category c ON p.CategoryID = c.CategoryID " +
                     "ORDER BY ProductID " +
@@ -68,7 +68,7 @@ public class DiscountDAO extends DBContext{
                         rs.getInt("ProductID"),
                         rs.getInt("DiscountID"),
                         rs.getString("Name"),
-                        rs.getString(4),  // Category Name
+                        rs.getString("CategoryName"),
                         rs.getInt("Price"),
                         rs.getInt("DiscountPercent"),
                         startTime,

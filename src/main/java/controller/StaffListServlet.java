@@ -36,9 +36,6 @@ public class StaffListServlet extends HttpServlet {
             endPage++;
         }
 
-
-
-
         request.setAttribute("staffList", sls);
         request.setAttribute("endPage", endPage);
         request.setAttribute("index", index);

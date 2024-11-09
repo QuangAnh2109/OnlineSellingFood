@@ -194,8 +194,6 @@ public class StaffDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt(1);
             }
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

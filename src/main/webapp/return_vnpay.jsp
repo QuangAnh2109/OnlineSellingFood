@@ -135,7 +135,7 @@
       if ("00".equals(request.getParameter("vnp_TransactionStatus"))) { %>
     <button style="margin-top:30px" type="submit" class="btn btn-primary">Back To Homepage</button>
     <% } else { %>
-    <a href="homepage" style="margin-top:30px" class="btn btn-primary">Back To Homepage</a>
+    <a href="checkout" style="margin-top:30px" class="btn btn-primary">Back To Checkout</a>
     <% } %>
   </form>
   <p>

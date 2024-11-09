@@ -39,7 +39,6 @@ public class StaffListDetailServlet extends HttpServlet {
         request.setAttribute("warehouses",list);
         request.setAttribute("staffListDetail", sdr);
         request.setAttribute("accountID", accountID);
-        request.setAttribute("contactID", new AccountContactDAO().getAccountContact(accountID));
         request.getRequestDispatcher("staff-detail.jsp").forward(request, response);
     }
 
@@ -102,7 +101,6 @@ public class StaffListDetailServlet extends HttpServlet {
         request.setAttribute("warehouses",list);
         request.setAttribute("staffListDetail", sdr);
         request.setAttribute("accountID", accountID);
-        request.setAttribute("contactID", new AccountContactDAO().getAccountContact(accountID));
         request.getRequestDispatcher("staff-detail.jsp").forward(request, response);
     }
 }
