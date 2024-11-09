@@ -18,7 +18,7 @@ public class StaffDAO extends DBContext{
         return new Staff(rs.getInt("StaffID"),rs.getInt("AccountID"),rs.getInt("Salary"),rs.getInt("WarehouseID"));
     }
 
-    public Staff getStaffByCustomerID(int staffID){
+    public Staff getStaffByrID(int staffID){
         try{
             PreparedStatement ps = connection.prepareStatement("select StaffID,AccountID,Salary,WarehouseID from Staff where StaffID=?");
             ps.setInt(1, staffID);

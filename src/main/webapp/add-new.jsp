@@ -2,14 +2,11 @@
 <%@ page import="dal.ManufacterDAO.TextTruncator" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="dal.ImgDAO" %>
 <%@ page import="model.News" %>
 <%@ page import="java.util.List" %>
-<%@ page import="dal.NewsDAO" %>
-<%@ page import="dal.StaffDAO" %>
 <%@ page import="common.Host" %>
 <%@ page import="model.ProductImg" %>
-<%@ page import="dal.ProductImgDAO" %>
+<%@ page import="dal.*" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,18 +125,21 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                    StaffDAO staffdao = new StaffDAO();
+                                    AccountDAO accountDAO = new AccountDAO();
+                                    StaffDAO staffDAO = new StaffDAO();
                                     ImgDAO imgDAO = new ImgDAO();
+                                    String email;
                                     List<News> newsList = (List<News>) request.getAttribute("list");
                                     if (newsList != null && !newsList.isEmpty()) {
                                         for (News news : newsList) {
+                                            email = accountDAO.getAccountByAccountID(staffDAO.getStaffByrID(news.getStaffID()).getAccountID()).getEmail();
                                 %>
                                 <tr onclick="populateForm('<%= news.getNewsID() %>', '<%= news.getTitle() %>', '<%= news.getContent() %>', '<%=news.getActive() ? "active" : "nonactive"%>')">
                                     <td><%= news.getNewsID() %></td>
                                     <td><%= news.getTitle() %></td>
                                     <td><%= news.getContent() %></td>
                                     <td><img src="<%=Host.IMG_LINK+imgDAO.getImgById(news.getImgID()).getImglink()%>?raw=true" style="max-height: 200px;"></td>
-                                    <td><%=staffdao.getStaffByCustomerID(news.getStaffID())%></td>
+                                    <td><%=email%></td>
                                     <td><%=news.getTime()%></td>
                                     <td><%=news.getActive() ? "Hoạt động" : "Không hoạt động"%></td>
                                     <td class="text-end">
