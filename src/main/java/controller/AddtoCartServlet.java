@@ -30,14 +30,15 @@ public class AddtoCartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         // Lấy customerID từ accountID
-        CustomerDAO customerDAO = new CustomerDAO();
-        Customer customer = customerDAO.getCustomerByAccountID(account.getAccountID());
+
         if (account == null) {
             response.sendRedirect("page-login.jsp");
             return;
         }
+        CustomerDAO customerDAO = new CustomerDAO();
+        Customer customer = customerDAO.getCustomerByAccountID(account.getAccountID());
         if (customer == null) {
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("logout");
             return;
         }
         ImportProductDAO importProductDAO = new ImportProductDAO();
