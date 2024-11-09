@@ -15,6 +15,7 @@ public class ImportProductDAO extends DBContext {
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new ImportProduct();
     }
+
     public int countProductQuantity (int productId) {
         int count = 0;
         String query ="SELECT ProductID, SUM(InventoryQuantity)\n" +

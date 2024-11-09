@@ -28,7 +28,12 @@ public class PaymentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         VoucherDAO  voucherDAO = new VoucherDAO();
-        if(voucherDAO.updateInventoryVoucher(Integer.parseInt(req.getParameter("voucherID")))){
+        String voucher = req.getParameter("voucherID");
+        int voucherID = 0;
+        if(voucher!=null && !voucher.isEmpty()){
+            voucherID = Integer.parseInt(voucher);
+        }
+        if(voucherDAO.updateInventoryVoucher(voucherID) || voucherID == 0){
             PaymentDAO dao = new PaymentDAO();
             String vnp_Version = "2.1.0";
             String vnp_Command = "querydr";
