@@ -61,13 +61,12 @@ public class CheckoutServlet extends HttpServlet {
 
         String voucherData = request.getParameter("voucherData");
         int subtotalPrice = Integer.parseInt(request.getParameter("subTotalPrice"));
-        int discountedSubtotal ;
-        if (voucherData == null || voucherData.isEmpty()) {
-            discountedSubtotal = subtotalPrice;
-        } else {
+
+        if (voucherData != null && !voucherData.isEmpty()) {
             int discountPercent=checkoutDAO.getDiscountPercentByVoucherID(Integer.parseInt(voucherData));
-            discountedSubtotal = subtotalPrice - (subtotalPrice * discountPercent / 100);
+            int discountedSubtotal = subtotalPrice - (subtotalPrice * discountPercent / 100);
             request.setAttribute("selectedVoucherID", Integer.parseInt(voucherData));
+            request.setAttribute("discountedSubtotal", discountedSubtotal);
         }
 
         CustomerDAO customerDAO = new CustomerDAO();
@@ -78,9 +77,7 @@ public class CheckoutServlet extends HttpServlet {
 
         request.setAttribute("list", list);
         request.setAttribute("subTotalPrice", subtotalPrice);
-        request.setAttribute("discountedSubtotal", discountedSubtotal);
         request.setAttribute("listVoucher", listVoucher);
-
         request.getRequestDispatcher("shop-checkout.jsp").forward(request, response);
 
 
