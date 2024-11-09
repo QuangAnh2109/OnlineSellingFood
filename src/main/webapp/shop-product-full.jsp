@@ -390,6 +390,7 @@
                         </div>
                         <div class="row product-grid-4">
                             <%
+                                ImportProductDAO importProductDAO = new ImportProductDAO();
                                 ProductDAO productDAO = new ProductDAO();
                                 List<Product> products = productDAO.get5RelatedProductsByManufacturer(product.getManufacturerID());
                                 CategoryDAO categoryDAO = new CategoryDAO();
@@ -398,6 +399,8 @@
                                 List<String> images = productDAO.getProductImages(product1.getProductID());
                                 String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
                                 String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
+                                int inventory = importProductDAO.countProductQuantity(product.getProductID());
+                                if(inventory>0){
                             %>
                             <jsp:include page="product-box.jsp">
                                 <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product1.getCategoryID())%>" />
@@ -409,6 +412,7 @@
                                 <jsp:param name="productID" value="<%= product1.getProductID().toString() %>" />
                                 <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
                                 <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
+                                <jsp:param name="inventory" value="<%=inventory%>"/>
                             </jsp:include>
                             <% } %>
                         </div>

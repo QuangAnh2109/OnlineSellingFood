@@ -75,7 +75,7 @@
         <div class="footer-bottom"></div>
       </div>
       <div class="col-xl-4 col-lg-6 col-md-6">
-        <p class="font-sm mb-0">&copy; 2021, <strong class="text-brand">Nest</strong> - HTML Ecommerce Template <br />All rights reserved</p>
+        <p class="font-sm mb-0">&copy; 2024, <strong class="text-brand">FPT University</strong> - SWP391-FA24 <br /></p>
       </div>
       <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
 

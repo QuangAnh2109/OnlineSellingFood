@@ -9,6 +9,7 @@
     int discount = Integer.parseInt(request.getParameter("discount"));
     int price = Integer.parseInt(request.getParameter("price"));
     int productID = Integer.parseInt(request.getParameter("productID"));
+    String inventory = request.getParameter("inventory");
     String imageUrl = request.getParameter("imageUrl");
 %>
 
@@ -33,7 +34,7 @@
                 <div class="product-rate d-inline-block">
                     <div class="product-rating" style="width: <%=star * 20%>%"></div>
                 </div>
-                <span class="font-small ml-5 text-muted"> (<%=star%>)</span>
+                <span class="font-small ml-5 text-muted"> (<%=inventory%>)</span>
             </div>
 
             <div>

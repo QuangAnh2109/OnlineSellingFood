@@ -36,7 +36,7 @@
         if(msg==null) msg="";
       %>
       <h6 style="color: red"><%=msg%></h6>
-      <form  action="changepass" name="enq">
+      <form  action="changepass" method="post" name="enq">
         <input type="text" hidden value="account-changepass-staff.jsp" name="PageChangePass"/>
         <div class="form-group col-md-5">
           <label>Mật khẩu cũ <span class="required">*</span></label>

@@ -53,6 +53,7 @@ public class ChangePassServlet extends HttpServlet {
                     }
                 } catch (NoSuchAlgorithmException ex) {
                     System.out.println(ex.getMessage());
+                    request.getRequestDispatcher(pageChangePass).forward(request, response);
                 }
             }
         }

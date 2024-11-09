@@ -208,7 +208,8 @@ try{
                 discountPercent = discount.getDiscountPercent();
               }
               else discountPercent = 0;
-              if(importProductDAO.countProductQuantity(product.getProductID())>0){
+              int inventory = importProductDAO.countProductQuantity(product.getProductID());
+              if(inventory>0){
             %>
             <jsp:include page="product-box.jsp">
               <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
@@ -220,6 +221,7 @@ try{
               <jsp:param name="productID" value="<%= product.getProductID().toString() %>" />
               <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
               <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
+              <jsp:param name="inventory" value="<%=inventory%>"/>
             </jsp:include>
             <% }} %>
           </div>
