@@ -40,20 +40,30 @@ public class AddtoCartServlet extends HttpServlet {
             response.sendRedirect("error.jsp");
             return;
         }
+        ImportProductDAO importProductDAO = new ImportProductDAO();
+        int quantityMax = importProductDAO.countProductQuantity(productID);
         int customerID = customer.getCustomerID();
 
         // Sử dụng CartDAO để thêm sản phẩm vào giỏ hàng
         CartDAO cartDAO = new CartDAO();
         Cart existingCart = cartDAO.getCartByCustomerIdAndProductId(customerID, productID);
-
+        int quantity = 1;
         if (existingCart != null) {
-            existingCart.setQuantity(existingCart.getQuantity() + 1);
+            quantity = existingCart.getQuantity() + 1;
+        }
+        if(quantity > quantityMax){
+            request.getSession().setAttribute("msg", "Không thể đặt quá số lượng sản phẩm trong kho");
+            response.sendRedirect("cart?customerId=" + customerID);
+            return;
+        }
+        if (existingCart != null) {
+            existingCart.setQuantity(quantity);
             cartDAO.update(existingCart);
         } else {
             Cart newCart = new Cart();
             newCart.setCustomerID(customerID);
             newCart.setProductID(productID);
-            newCart.setQuantity(1);
+            newCart.setQuantity(quantity);
             cartDAO.insert(newCart);
         }
 

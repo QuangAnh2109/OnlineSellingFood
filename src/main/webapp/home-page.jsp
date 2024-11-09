@@ -40,6 +40,7 @@ try{
   DiscountDAO discountDAO = new DiscountDAO();
   int discountid;
   Discount discount;
+  ImportProductDAO importProductDAO = new ImportProductDAO();
 %>
 <jsp:include page="header.jsp">
   <jsp:param name="accountName" value="<%=accountName%>"/>
@@ -207,6 +208,7 @@ try{
                 discountPercent = discount.getDiscountPercent();
               }
               else discountPercent = 0;
+              if(importProductDAO.countProductQuantity(product.getProductID())>0){
             %>
             <jsp:include page="product-box.jsp">
               <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
@@ -219,7 +221,7 @@ try{
               <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
               <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
             </jsp:include>
-            <% } %>
+            <% }} %>
           </div>
           <!--End product-grid-4-->
         </div>
@@ -249,6 +251,7 @@ try{
 
             String manufacturerName = manufacterDAO.getManufacturerName(product.getManufacturerID());
             String datetime =discount.getEndTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
+              if(importProductDAO.countProductQuantity(product.getProductID())>0){
         %>
         <jsp:include page="deal-box.jsp">
           <jsp:param name="datetime" value="<%= datetime%>"/>
@@ -259,7 +262,7 @@ try{
           <jsp:param name="price" value="<%= product.getPrice() %>"/>
           <jsp:param name="productID" value="<%= product.getProductID() %>"/>
         </jsp:include>
-        <% }} %>
+        <% }}} %>
       </div>
     </div>
   </section>

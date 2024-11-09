@@ -80,6 +80,7 @@
     DiscountDAO discountDAO = new DiscountDAO();
     int discountid;
     Discount discount;
+    ImportProductDAO importProductDAO = new ImportProductDAO();
     FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
     ProductDAO productDAO = new ProductDAO();
     ProductImgDAO productImgDAO = new ProductImgDAO();
@@ -87,6 +88,7 @@
     int totalProducts = productDAO.countProductsByCategoryAndSearch(categoryID, searchTerm);
     int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
     List<Product> products = productDAO.getProductsByPageAndSort(categoryID, page1, pageSize, sortOption, ascending, searchTerm);
+    int hideProductNumber = 0;
 %>
 
 <jsp:include page="header.jsp">
@@ -98,7 +100,7 @@
         <div class="col-lg-4-5">
             <div class="shop-product-fillter">
                 <div class="totall-product">
-                    <p>Chúng tôi tìm thấy <strong class="text-brand"><%= totalProducts %></strong> sản phẩm cho bạn!</p>
+                    <p>Chúng tôi tìm thấy <strong id="total-products" class="text-brand"></strong> sản phẩm cho bạn!</p>
                 </div>
                 <div class="sort-by-product-area">
                     <div class="sort-by-cover mr-10">
@@ -166,6 +168,7 @@
                         else discountPercent = 0;
                         int star = feedbackProductDAO.averageStarInProduct(product.getProductID());
                         if(star==0) star=5;
+                        if(importProductDAO.countProductQuantity(product.getProductID())>0){
                 %>
                 <jsp:include page="product-box.jsp">
                     <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
@@ -179,6 +182,7 @@
                     <jsp:param name="hoverImageUrl" value="<%= hoverImageUrl %>" />
                 </jsp:include>
                 <%
+                        }else hideProductNumber++;
                     }
                 } else {
                 %>
@@ -264,7 +268,9 @@
     </div>
 </div>
 
-
+<script>
+        document.getElementById('total-products').textContent = <%=totalProducts-hideProductNumber%>;
+</script>
 <jsp:include page="footer.jsp" />
 </body>
 </html>

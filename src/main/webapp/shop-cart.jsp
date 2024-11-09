@@ -64,6 +64,7 @@
         <h1 class="heading-2 mb-10">Giỏ hàng của bạn</h1>
         <div class="d-flex justify-content-between">
           <h6 class="text-body">Có <span class="text-brand">${cartItems.size()}</span> sản phẩm trong giỏ hàng </h6>
+          <h5 style="color: red"><%=msg%></h5>
           <h6 class="text-body">
             <form action="deleteCartServlet" method="post" style="display:inline;">
               <input type="hidden" name="customerId" value="<%= customerID != -1 ? customerID : "" %>">
