@@ -186,7 +186,7 @@
 
 
                             <c:if test="${not empty discountedSubtotal}">
-                                <input type="hidden" name="amount" value="${subTotalPrice}">
+                                <input type="hidden" name="amount" value="${discountedSubtotal}">
                             </c:if>
                         <c:if test="${empty discountedSubtotal}">
                             <input type="hidden" name="amount" value="${subTotalPrice}">

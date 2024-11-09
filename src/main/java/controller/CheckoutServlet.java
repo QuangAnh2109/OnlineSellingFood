@@ -39,7 +39,10 @@ public class CheckoutServlet extends HttpServlet {
         request.setAttribute("c", checkoutContactDetailResponse);
         Customer c=customerDAO.getCustomerByAccountID(account.getAccountID());
         List<ProductCheckoutResponse> list=checkoutDAO.getProductCheckout(c.getCustomerID());
-        int subTotalPrice=checkoutDAO.getSubTotalPrice(c.getCustomerID());
+        int subTotalPrice = 0;
+        for(ProductCheckoutResponse p:list){
+            subTotalPrice+=p.getPriceAfterDiscount()*p.getQuantity();
+        }
         List<ApplyVoucherToCheckoutResponse> listVoucher=checkoutDAO.getApplyVoucherToCheckout(c.getCustomerID());
         request.setAttribute("list", list);
         request.setAttribute("subTotalPrice", subTotalPrice);
