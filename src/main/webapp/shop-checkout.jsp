@@ -22,6 +22,11 @@
 </head>
 <
 <jsp:include page="header.jsp"></jsp:include>
+<%
+    String msg = (String)request.getSession().getAttribute("msg");
+    if(msg==null) msg = "";
+    else request.getSession().removeAttribute("msg");
+%>
 <body>
 <!--End header-->
 <main class="main">
@@ -38,7 +43,7 @@
         <div class="row">
             <div class="col-lg-8 mb-40">
                 <h1 class="heading-2 mb-10">Đặt hàng</h1>
-
+                <h6 style="color: red"><%=msg%></h6>
             </div>
         </div>
         <div class="row">
@@ -55,9 +60,11 @@
                                 </option>
 
                                 <c:forEach items="${listVoucher}" var="lv">
+                                    <c:if test="${lv.inventory > 0}">
                                     <option value="${lv.voucherID}" ${lv.voucherID == selectedVoucherID ? 'selected' : ''}>
                                         Giảm giá ${lv.discountPercent}% hết hạn trong ${lv.remainingDay} ngày!
                                     </option>
+                                    </c:if>
                                 </c:forEach>
                             </select>
                             <input type="hidden" name="subTotalPrice" value="${subTotalPrice}">
@@ -185,9 +192,9 @@
 <%--                        <input type="hidden" name="priceTotal" value="${discountedSubtotal}">--%>
 
 
-                            <c:if test="${not empty discountedSubtotal}">
-                                <input type="hidden" name="amount" value="${subTotalPrice}">
-                            </c:if>
+                        <c:if test="${not empty discountedSubtotal}">
+                                <input type="hidden" name="amount" value="${discountedSubtotal}">
+                        </c:if>
                         <c:if test="${empty discountedSubtotal}">
                             <input type="hidden" name="amount" value="${subTotalPrice}">
                         </c:if>

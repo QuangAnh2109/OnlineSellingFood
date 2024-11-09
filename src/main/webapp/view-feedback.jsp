@@ -58,7 +58,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>ID Customer</th>
+                            <th>Số thứ tự</th>
                             <th>Tên</th>
                             <th>Sao</th>
                             <th>Đánh giá</th>
@@ -67,10 +67,12 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <c:set var="count" value="${startCount}"/>
                         <c:forEach items="${list}" var="l">
                             <form action="productFeedback" method="post">
                             <tr>
-                                <td>${l.customerID}</td>
+                                <td>${count}</td>
+                                <c:set var="count" value="${count + 1}"/>
                                     <%--                                <td><input type="hidden" name="customerID" value="${l.customerID}"> </td>--%>
 
                                         <td width="40%">

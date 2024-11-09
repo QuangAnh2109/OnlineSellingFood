@@ -141,7 +141,7 @@
                                     <tr onclick="selectVoucher( '${v.discountPercent}', '${v.startTime}', '${v.endTime}','${v.quantity}')">
                                         <td>${count}</td>
                                         <c:set var="count" value="${count + 1}"/>
-                                        <td>${v.discountPercent}</td>
+                                        <td>${v.discountPercent} %</td>
                                         <td>${v.startTime}</td>
                                         <td>${v.endTime}</td>
                                         <td>${v.quantity}</td>

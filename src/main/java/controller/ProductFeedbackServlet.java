@@ -35,6 +35,9 @@ public class ProductFeedbackServlet extends HttpServlet {
         if(count%5!=0){
             endPage++;
         }
+        int itemsPerPage = 5;
+        int startCount = (index - 1) * itemsPerPage + 1;
+        request.setAttribute("startCount", startCount);
         request.setAttribute("endPage", endPage);
         request.setAttribute("index", index);
         request.setAttribute("searchName", searchName);

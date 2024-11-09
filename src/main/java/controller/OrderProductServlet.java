@@ -30,6 +30,7 @@ public class OrderProductServlet extends HttpServlet {
         OrderDAO odao = new OrderDAO();
         CartDAO cartDAO = new CartDAO();
         OrderProductDAO opdao = new OrderProductDAO();
+        VoucherDAO vdao = new VoucherDAO();
         Customer c = cdao.getCustomerByAccountID(a.getAccountID());
         int customerID = c.getCustomerID();
         int paymentStatementID = 1;
@@ -78,6 +79,7 @@ public class OrderProductServlet extends HttpServlet {
             }
 
             cartDAO.deleteByCustomerId(customerID);
+            vdao.updateInventoryVoucher(voucherID);
 
         }
 
