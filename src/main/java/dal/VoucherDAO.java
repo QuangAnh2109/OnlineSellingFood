@@ -170,4 +170,19 @@ public class VoucherDAO extends DBContext {
         }
         return null;
     }
+
+    public void updateInventoryVoucher(Integer voucherID){
+        if(voucherID==null){
+            return;
+        }
+
+        String sql="UPDATE Voucher SET Inventory = Inventory - 1 WHERE VoucherID = ?";
+        try {
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, voucherID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

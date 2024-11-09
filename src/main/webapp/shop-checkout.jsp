@@ -55,9 +55,11 @@
                                 </option>
 
                                 <c:forEach items="${listVoucher}" var="lv">
+                                    <c:if test="${lv.inventory > 0}">
                                     <option value="${lv.voucherID}" ${lv.voucherID == selectedVoucherID ? 'selected' : ''}>
                                         Giảm giá ${lv.discountPercent}% hết hạn trong ${lv.remainingDay} ngày!
                                     </option>
+                                    </c:if>
                                 </c:forEach>
                             </select>
                             <input type="hidden" name="subTotalPrice" value="${subTotalPrice}">
