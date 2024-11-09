@@ -239,6 +239,11 @@ public class ImportProductDAO extends DBContext {
         }
 
     }
+    
+    public void updateInventoryQuantity(int productID){
+
+
+    }
 }
 
 
