@@ -60,7 +60,6 @@ public class CheckoutServlet extends HttpServlet {
         request.setAttribute("c", checkoutContactDetailResponse);
 
         String voucherData = request.getParameter("voucherData");
-        response.getWriter().println(voucherData);
         int subtotalPrice = Integer.parseInt(request.getParameter("subTotalPrice"));
         int discountedSubtotal ;
         if (voucherData == null || voucherData.isEmpty()) {

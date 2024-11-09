@@ -71,15 +71,13 @@
                         <form method="post" action="customervoucher">
 
                             <div class="mb-4">
-                                <label for="voucher_id" class="form-label">ID phiếu giảm giá</label>
-                                <input type="number" class="form-control" id="voucher_id" name="voucherID"
+                                <input type="hidden" class="form-control" id="voucher_id" name="voucherID"
                                        value="${vr.voucherID}" readonly=""/>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">ID giảm giá</label>
-                                <input type="number" class="form-control" id="discount_id"
-                                       name="discountID" value="${vr.discountID}" readonly=""/>
+                                <input type="hidden" class="form-control" id="discount_id"
+                                       name="discountID"  value="${vr.discountID}" readonly=""/>
                             </div>
 
                             <div class="mb-4">

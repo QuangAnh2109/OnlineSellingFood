@@ -21,11 +21,11 @@ import java.util.List;
 @WebServlet(name = "ReplyCommentServlet", urlPatterns = {"/replyComment"})
 public class ReplyCommentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int replyID = Integer.parseInt(request.getParameter("replyID"));
-        FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
-        List<FeedbackResponse> list = feedbackProductDAO.getReplyComment(replyID);
-        request.setAttribute("replyComment", list);
-        request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
+//        int replyID = Integer.parseInt(request.getParameter("replyID"));
+//        FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
+//        List<FeedbackResponse> list = feedbackProductDAO.getReplyComment(replyID);
+//        request.setAttribute("replyComment", list);
+//        request.getRequestDispatcher("shop-product-full.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
