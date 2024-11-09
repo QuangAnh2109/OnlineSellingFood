@@ -1,6 +1,7 @@
 package controller;
 
 import dal.CartDAO;
+import dal.ImportProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -35,7 +36,13 @@ public class updateCartServlet extends HttpServlet {
         int customerId = Integer.parseInt(request.getParameter("customerId"));
         int productId = Integer.parseInt(request.getParameter("productId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-
+        ImportProductDAO importProductDAO =new ImportProductDAO();
+        int quantityMax = importProductDAO.countProductQuantity(productId);
+        if(quantity > quantityMax){
+            request.getSession().setAttribute("msg1", "Không thể đặt quá số lượng sản phẩm trong kho");
+            response.sendRedirect("cart?customerId="+customerId);
+            return;
+        }
         Cart cart = cartDAO.getCartByCustomerIdAndProductId(customerId, productId);
         if (cart != null) {
             cart.setQuantity(quantity);

@@ -18,12 +18,18 @@
                     </div>
                     <div class="header-action-right">
                         <div class="header-action-2">
+                            <%
+                                if (account != null) {
+                            %>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="cart?customerId=<%= customerID %>">
                                     <img alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-cart.svg" />
                                 </a>
                                 <a href="cart?customerId=<%= customerID %>"><span class="lable">Giỏ hàng</span></a>
                             </div>
+                            <%
+                            }
+                            %>
                             <div class="header-action-icon-2">
                                 <a href="#">
                                     <img class="svgInject" alt="Nest" src="nest-frontend/assets/imgs/theme/icons/icon-user.svg" />

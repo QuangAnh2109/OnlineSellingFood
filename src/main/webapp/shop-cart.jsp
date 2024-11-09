@@ -4,6 +4,7 @@
 <%@ page import="model.Account" %>
 <%@ page import="dal.CustomerDAO" %>
 <%@ page import="dal.DiscountDAO" %>
+<%@ page import="dal.ImportProductDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -23,6 +24,9 @@
   String msg = (String)session.getAttribute("msg");
   if(msg==null) msg="";
   session.removeAttribute("msg");
+  String msg1 = (String)session.getAttribute("msg1");
+  if(msg1==null) msg1="";
+  session.removeAttribute("msg1");
 %>
 <%
   String accountName;
@@ -37,7 +41,7 @@
     CustomerDAO customerDAO = new CustomerDAO();
     customerID = customerDAO.getCustomerIDByAccountID(account.getAccountID());
   }
-
+  ImportProductDAO importProductDAO = new ImportProductDAO();
 %>
 
 <jsp:include page="header.jsp">
@@ -97,7 +101,12 @@
                 <td class="price" data-title="Price">
                   <h4 class="text-body">${productMap[cartItem.productID].price} VND</h4>
                 </td>
+
                 <td class="text-center detail-info" data-title="Stock">
+                  <%
+                    // Lấy số lượng tồn kho của sản phẩm
+                   // int maxQuantity = importProductDAO.countProductQuantity(cartItem.productID);
+                  %>
                   <form action="updateCartServlet" method="post" class="quantity-form">
                     <input type="hidden" name="customerId" value="<%= customerID %>">
                     <input type="hidden" name="productId" value="${cartItem.productID}">
@@ -106,7 +115,6 @@
                   </form>
                 </td>
                 <td class="price" data-title="Subtotal">
-
                   <h4 class="text-brand">${productMap[cartItem.productID].price * cartItem.quantity} VND</h4>
                 </td>
                 <c:set var="total" value="${total + productMap[cartItem.productID].price * cartItem.quantity}" />
@@ -139,6 +147,9 @@
 
       <div class="col-lg-4">
         <div class="border p-md-4 cart-totals ml-30">
+          <tr>
+            <td colspan="6" style="text-align: center ; margin-left: 10px"><h5 style="color: red"><%= msg1 != null ? msg1 : "" %></h5></td>
+          </tr>
           <div class="table-responsive">
             <table class="table no-border">
               <tbody>

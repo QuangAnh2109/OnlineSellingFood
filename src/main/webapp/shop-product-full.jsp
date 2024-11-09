@@ -1,12 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="model.Account" %>
-<%@ page import="model.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="common.Host" %>
 <%@ page import="dal.*" %>
-<%@ page import="model.ProductImg" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="model.Img" %>
+<%@ page import="model.*" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -125,7 +123,8 @@
     String name = request.getParameter("name");
     // Tạo đối tượng DAO để lấy số sao trung bình
     FeedbackProductDAO feedbackDAO = new FeedbackProductDAO();
-    int averageStar = feedbackDAO.averageStarInProduct(product.getProductID());
+    int star = feedbackDAO.averageStarInProduct(product.getProductID());
+    if(star==0) star=5;
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%= accountName %>"/>
@@ -171,34 +170,9 @@
                                 <div class="product-detail-rating">
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">
-                                            <!-- Set to 80% width to represent a 4-star rating -->
-                                            <div class="rate" style="width: <%= averageStar * 20 %>%">
-                                                <%
-                                                    // Nếu averageStar == 0, hiển thị tất cả các sao rỗng
-                                                    if (averageStar == 0) {
-                                                        for (int i = 1; i <= 5; i++) {
-                                                %>
-                                                <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
-                                                <%
-                                                    }
-                                                } else {
-                                                    // Nếu có review, hiển thị sao đầy và sao rỗng tương ứng
-                                                    for (int i = 1; i <= 5; i++) {
-                                                        if (i <= averageStar) {
-                                                %>
-                                                <span class="star">&#9733;</span> <!-- Ngôi sao đầy -->
-                                                <%
-                                                } else {
-                                                %>
-                                                <span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
-                                                <%
-                                                            }
-                                                        }
-                                                    }
-                                                %>
-                                            </div>
+                                            <div class="product-rating" style="width: <%=star * 20%>%"></div>
                                         </div>
-                                        <span class="font-small ml-5 text-muted">(${count} Đánh giá)</span>
+                                        <span class="font-small ml-5 text-muted"> (<%=star%>)</span>
                                     </div>
                                 </div>
 
@@ -208,16 +182,17 @@
                                         <!-- Display current price only -->
                                         <%
                                             DiscountDAO discountDAO = new DiscountDAO();
-                                     //   int newPrice = product.getPrice()-product.getPrice()* discountDAO.getDiscountById(product.getDiscountID()).getDiscountPercent()/100;
+                                            int discountid = product.getDiscountID() != null ? product.getDiscountID() : 0;
+                                            Discount discount = discountDAO.getDiscountByDiscountId(discountid);
                                         %>
-                                        <span class="current-price text-brand"><%= (product != null) ? product.getPrice() : "Price not available." %> VND</span>
-                                        <span class="old-price"><%=product.getPrice()%> VND</span>
-<%--                                        <% if (discount != 0) { %>--%>
-<%--                                        <span><%=price - price * discountDAO.getDiscountById(discount).getDiscountPercent() / 100%> VND</span>--%>
-<%--                                        <span class="old-price"><%=price%> VND</span>--%>
-<%--                                        <% } else { %>--%>
-<%--                                        <span><%=price%> VND</span>--%>
-<%--                                        <% } %>--%>
+                                        <div class="product-price">
+                                            <% if (discount != null && discount.getEndTime().isAfter(LocalDateTime.now()) && discount.getStartTime().isBefore(LocalDateTime.now())) { %>
+                                            <span class="current-price text-brand"><%=product.getPrice() - product.getPrice() * discount.getDiscountPercent() / 100%> VND</span>
+                                            <span class="old-price"><%=product.getPrice()%> VND</span>
+                                            <% } else { %>
+                                            <span class="current-price text-brand"><%=product.getPrice()%> VND</span>
+                                            <% } %>
+                                        </div>
                                     </div>
                                 </div>
 

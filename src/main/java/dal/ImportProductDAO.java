@@ -15,6 +15,28 @@ public class ImportProductDAO extends DBContext {
     protected Object getObjectByRs(ResultSet rs) throws SQLException {
         return new ImportProduct();
     }
+    public int countProductQuantity (int productId) {
+        int count = 0;
+        String query ="SELECT ProductID, SUM(InventoryQuantity)\n" +
+                "FROM ImportProduct ip WHERE ip.Exp > GETDATE() and ProductID=?\n" +
+                "GROUP BY ProductID";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, productId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(2);
+            }
+        } catch (SQLException e){
+            logger.info(e.getMessage());
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        ImportProductDAO dao = new ImportProductDAO();
+        System.out.println(dao.countProductQuantity(1));
+    }
 
     public List<ImportProductResponse> getAllImportProducts(int importID) {
         List<ImportProductResponse> importProducts = new ArrayList<>();

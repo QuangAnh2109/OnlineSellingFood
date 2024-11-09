@@ -18,6 +18,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.*" %>
 <%@ page import="dal.*" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%
 
     CategoryDAO categoryDAO = new CategoryDAO();
@@ -76,7 +77,10 @@
     if (sortOption.equals("priceHighToLow") || sortOption.equals("nameDescending")) {
         ascending = false;
     }
-
+    DiscountDAO discountDAO = new DiscountDAO();
+    int discountid;
+    Discount discount;
+    FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
     ProductDAO productDAO = new ProductDAO();
     ProductImgDAO productImgDAO = new ProductImgDAO();
     ImgDAO imgDAO = new ImgDAO();
@@ -141,7 +145,8 @@
 
 
             <div class="row product-grid-4">
-                <% if (products != null && !products.isEmpty()) {
+                <%
+                    if (products != null && !products.isEmpty()) {
                     for (Product product : products) {
                         List<String> images = productDAO.getProductImages(product.getProductID());
                         String defaultImageUrl;
@@ -151,13 +156,23 @@
                             defaultImageUrl="";
                         }
                         String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
+
+                        discountid = product.getDiscountID() != null ? product.getDiscountID() : 0;
+                        discount = discountDAO.getDiscountByDiscountId(discountid);
+                        int discountPercent;
+                        if (discount != null && discount.getEndTime().isAfter(LocalDateTime.now()) && discount.getStartTime().isBefore(LocalDateTime.now())) {
+                            discountPercent = discount.getDiscountPercent();
+                        }
+                        else discountPercent = 0;
+                        int star = feedbackProductDAO.averageStarInProduct(product.getProductID());
+                        if(star==0) star=5;
                 %>
                 <jsp:include page="product-box.jsp">
                     <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
                     <jsp:param name="name" value="<%= product.getName() %>" />
                     <jsp:param name="manufacturer" value="<%= product.getName() %>" />
-                    <jsp:param name="star" value="4" />
-                    <jsp:param name="discount" value='<%= product.getDiscountID() != null ? product.getDiscountID().toString() : "0" %>' />
+                    <jsp:param name="star" value="<%=star%>" />
+                    <jsp:param name="discount" value='<%=discountPercent%>' />
                     <jsp:param name="price" value="<%= product.getPrice().toString() %>" />
                     <jsp:param name="productID" value="<%= product.getProductID().toString() %>" />
                     <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
