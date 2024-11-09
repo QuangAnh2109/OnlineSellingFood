@@ -29,7 +29,7 @@ public class ProductDetailServlet extends HttpServlet {
 
 
         ProductDAO productDAO = new ProductDAO();
-        Product product = productDAO.getProductById(productID); // Replace with your actual method to get product
+        Product product = productDAO.getProductById(productID);
 
         if (product != null) {
             request.setAttribute("product", product);

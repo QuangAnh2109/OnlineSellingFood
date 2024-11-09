@@ -29,7 +29,6 @@
             int voucherID = Integer.parseInt(request.getParameter("id"));
             VoucherResponse vr = vDao.getVoucher(voucherID);
 
-            // Lấy danh sách các customer ID đã có voucher
             List<Integer> selectedCustomerID = cvd.getCustomerIDWithVoucher(voucherID);
 
             request.setAttribute("voucher", vr);
