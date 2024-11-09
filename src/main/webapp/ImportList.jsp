@@ -116,7 +116,7 @@
               </div>
               <div class="mb-4">
                 <label for="time" class="form-label">Ngày nhập</label>
-                <input type="date" class="form-control" id="time" name="time" required />
+                <input type="text" class="form-control" id="time" name="time" required readonly />
               </div>
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Tạo</button>
@@ -197,6 +197,23 @@
     </div>
   </footer>
 </main>
+<script>
+  // document.addEventListener("DOMContentLoaded", function() {
+  // const today = new Date();
+  // const formattedDate = today.toISOString();
+  // time_input = document.getElementById('time');
+  // time_input.value = formattedDate.split('T')[0]+' '+formattedDate.split('T')[1];
+  document.addEventListener("DOMContentLoaded", function() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    const formattedDate = year+'-'+month+'-'+day+' '+hours+':'+minutes;
+    document.getElementById('time').value = formattedDate;
+  });
+</script>
 <script src="nest-backend/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="nest-backend/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="nest-backend/assets/js/vendors/select2.min.js"></script>

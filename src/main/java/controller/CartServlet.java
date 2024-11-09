@@ -53,7 +53,7 @@ public class CartServlet extends HttpServlet {
                     Integer discountID = product.getDiscountID();
                     if (discountID != null) {
                         discount = discountDAO.getDiscountById(discountID);
-                        if (discount.getEndTime().isAfter(LocalDateTime.now())) {
+                        if (discount != null && discount.getEndTime().isAfter(LocalDateTime.now()) && discount.getStartTime().isBefore(LocalDateTime.now())) {
                             product.setPrice(product.getPrice() * (100-discount.getDiscountPercent())/100);
                         }
                     }

@@ -64,7 +64,13 @@ public class ImportServlet extends HttpServlet {
 
         // Thêm bản ghi vào cơ sở dữ liệu
         ImportDAO dao = new ImportDAO();
-        boolean isAdded = dao.addImport(staffID, warehouseID, supplierID, time);
+        String msg = "";
+        if(dao.addImport(staffID, warehouseID, supplierID, time)){
+            msg = "Thêm phiếu nhập thành công.";
+        } else {
+            msg = "Có lỗi xảy ra khi thêm phiếu nhập.";
+        }
+        request.getSession().setAttribute("msg", msg);
         response.sendRedirect("Import");
     }
     }
