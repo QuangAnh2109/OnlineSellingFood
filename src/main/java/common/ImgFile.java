@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class ImgFile {
     private static final Logger logger = Logger.getLogger(ImgFile.class.getName());
     // Thư mục lưu file
-    private static final String FOLDER = "D:/swp/SwpImgDriver/";
+    private static final String FOLDER = "G:/Project/SwpImgDriver/";
     private static final String IMG_FOLDER = FOLDER+"Img/";
 
 

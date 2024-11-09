@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Account" %>
+<%@ page import="common.Host" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -67,6 +68,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <img src="<%=Host.IMG_LINK%>${img}?raw=true" style="max-height: 200px;min-height: 200px">
                                         </div>
                                     </div>
                                 </div>

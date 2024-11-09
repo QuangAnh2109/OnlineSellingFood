@@ -31,6 +31,7 @@
     session.removeAttribute("msg");
 %>
 <main class="main-wrap">
+    <jsp:include page="header-staff.jsp"></jsp:include>
     <section class="content-main">
         <div class="content-header">
             <div>

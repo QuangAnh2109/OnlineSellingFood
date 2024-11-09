@@ -1,6 +1,7 @@
 package controller;
 
 import dal.CategoryDAO;
+import dal.ImgDAO;
 import dal.NewsDAO;
 import dal.ProductDAO;
 import jakarta.servlet.*;
@@ -44,6 +45,7 @@ public class NewDetailServlet extends HttpServlet {
         request.setAttribute("categoryProductCounts", categoryProductCounts);
         request.setAttribute("popularProducts", popularProducts); // Add popular products
         request.setAttribute("news", news);
+        request.setAttribute("img", new ImgDAO().getImgById(news.getImgID()).getImglink());
         request.getRequestDispatcher("New-detail.jsp").forward(request, response);
 
     }

@@ -8,6 +8,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Account" %>
+<%@ page import="common.Host" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -108,7 +109,9 @@
                     <div class="loop-grid loop-list pr-30 mb-50">
                         <c:forEach items="${list}" var="n">
                             <article class="wow fadeIn animated hover-up mb-30 animated">
-                                <div class="post-thumb" ></div>
+                                <div class="post-thumb" style="width: 438px; height: 366px;">
+
+                                </div>
                                 <div class="entry-content-2 pl-50">
                                     <h3 class="post-title mb-20">
                                         <a href="new-detail?newsId=${n.newsID}">${n.title}</a>
