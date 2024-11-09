@@ -185,9 +185,9 @@
 <%--                        <input type="hidden" name="priceTotal" value="${discountedSubtotal}">--%>
 
 
-                            <c:if test="${not empty discountedSubtotal}">
-                                <input type="hidden" name="amount" value="${subTotalPrice}">
-                            </c:if>
+                        <c:if test="${not empty discountedSubtotal}">
+                                <input type="hidden" name="amount" value="${discountedSubtotal}">
+                        </c:if>
                         <c:if test="${empty discountedSubtotal}">
                             <input type="hidden" name="amount" value="${subTotalPrice}">
                         </c:if>
