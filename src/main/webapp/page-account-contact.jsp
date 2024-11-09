@@ -33,9 +33,11 @@
 <%
     String accountName =  ((Account)session.getAttribute("account")).getName();
 %>
+<jsp:include page="header.jsp">
+    <jsp:param name="accountName" value="<%=accountName%>"/>
+</jsp:include>
 <!--End header-->
 <main class="main pages">
-    <jsp:include page="header-staff.jsp"></jsp:include>
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
