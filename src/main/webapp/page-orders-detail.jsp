@@ -125,7 +125,6 @@
                                     <c:set var="discountVoucher" value="${l.discountVoucher}"/>
                                     <c:set var="totalPriceAfterVoucher" value="${l.totalPriceAfterVoucher}"/>
                                     <c:set var="statusDetail" value="${l.statusDetail}"/>
-                                    <c:set var="statusDetail" value="${l.statusDetail}"/>
                                     <c:set var="statusID" value="${l.statusID}"/>
 
                                 </c:forEach>

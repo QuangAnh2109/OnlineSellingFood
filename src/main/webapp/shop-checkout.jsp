@@ -22,6 +22,11 @@
 </head>
 <
 <jsp:include page="header.jsp"></jsp:include>
+<%
+    String msg = (String)request.getSession().getAttribute("msg");
+    if(msg==null) msg = "";
+    else request.getSession().removeAttribute("msg");
+%>
 <body>
 <!--End header-->
 <main class="main">
@@ -38,7 +43,7 @@
         <div class="row">
             <div class="col-lg-8 mb-40">
                 <h1 class="heading-2 mb-10">Đặt hàng</h1>
-
+                <h6 style="color: red"><%=msg%></h6>
             </div>
         </div>
         <div class="row">
