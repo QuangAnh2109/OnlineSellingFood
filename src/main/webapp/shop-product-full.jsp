@@ -283,7 +283,7 @@
                                                                                 <input type="hidden" name="productID" value="${productID}" />
                                                                                 <input type="hidden" name="replyID" value="${l.feedbackID}" />
 
-                                                                                <textarea name="replyContent" class="form-control" rows="1" placeholder="Vết phản hồi..."></textarea>
+                                                                                <textarea name="replyContent" class="form-control" rows="1" required minlength="1" placeholder="Vết phản hồi..."></textarea>
                                                                                 <button type="submit" class="btn btn-sm btn-primary mt-2 reply-button">Gửi phản hồi</button>
 
 
@@ -326,7 +326,7 @@
                                                    value="<%= (product != null) ? product.getProductID() : "" %>">
                                             <div class="rating-container">
                                                 <div class="rating-section">
-                                                    <label for="rating">Mức độ đánh giá *</label>
+                                                    <label >Mức độ đánh giá *</label>
                                                     <div class="stars">
                                                         <input type="radio" name="rating" id="star1" value="1"
                                                                checked><label for="star1"
@@ -349,7 +349,7 @@
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <div class="form-group">
-                                                                    <textarea class="form-control w-100" name="comment"
+                                                                    <textarea required minlength="1" class="form-control w-100" name="comment"
                                                                               id="comment" cols="30" rows="9"
                                                                               placeholder="Viết đánh giá"></textarea>
                                                                 </div>

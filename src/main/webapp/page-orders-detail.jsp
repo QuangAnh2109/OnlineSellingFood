@@ -1,3 +1,4 @@
+<%@ page import="common.Host" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -125,7 +126,7 @@
                                             <td>
                                                 <a class="itemside" href="#">
                                                     <div class="left">
-                                                        <img src="nest-backend/assets/imgs/items/1.jpg" width="40" height="40" class="img-xs" alt="Item" />
+                                                        <img src="<%=Host.IMG_LINK%>${l.imgLink}?raw=true" width="40" height="40" class="img-xs" alt="Item" />
                                                     </div>
                                                     <div class="info">${l.productName}</div>
                                                 </a>
