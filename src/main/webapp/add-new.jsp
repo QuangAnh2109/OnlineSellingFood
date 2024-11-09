@@ -53,7 +53,7 @@
                 <div class="row">
                     <%--create form                    --%>
                     <div class="col-md-3" id="create">
-                        <form action="addNew" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        <form action="addNew" method="post" enctype="multipart/form-data">
                             <div class="mb-4">
                                 <label for="news_title" class="form-label">Tiêu đề</label>
                                 <input type="text" class="form-control" name="title" required />
@@ -177,16 +177,6 @@
         document.getElementById("status").value = status;
         document.getElementById("update").removeAttribute("hidden");
         document.getElementById("create").setAttribute("hidden","");
-    }
-
-    function validateForm() {
-        const titleField = document.getElementById("news_title");
-        const contentField = document.getElementById("news_content");
-        if (titleField.value.trim() === "" || contentField.value.trim() === "") {
-            alert("Hãy điền toàn bộ thông tin vào phần input");
-            return false;
-        }
-        return true;
     }
 </script>
 

@@ -8,10 +8,10 @@
       <a class="nav-link" id="account-detail-tab" href="page-account-information.jsp"><i class="fi-rs-user mr-10"></i>Tài khoản</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Đơn hàng</a>
+      <a class="nav-link" id="orders-tab" href="orderHistory"><i class="fi-rs-shopping-cart-check mr-10"></i>Mã giảm giá</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="voucher-tab" href="LoadVoucher"><i class="fi-rs-shopping-cart-check mr-10"></i>Mã giảm giá</a>
+      <a class="nav-link" id="voucher-tab" href="LoadVoucher"><i class="fi-rs-shopping-cart-check mr-10"></i>Mã giảm giá</a>orderHistory
     </li>
     <li class="nav-item">
       <a class="nav-link" id="contact-tab" href="AccountContact"><i class="fi-rs-user mr-10"></i>Thông tin liên hệ</a>
