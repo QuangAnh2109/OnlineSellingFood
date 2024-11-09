@@ -1,12 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="model.Account" %>
-<%@ page import="model.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="common.Host" %>
 <%@ page import="dal.*" %>
-<%@ page import="model.ProductImg" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="model.Img" %>
+<%@ page import="model.*" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -123,6 +121,10 @@
     }
 
     String name = request.getParameter("name");
+    // Tạo đối tượng DAO để lấy số sao trung bình
+    FeedbackProductDAO feedbackDAO = new FeedbackProductDAO();
+    int star = feedbackDAO.averageStarInProduct(product.getProductID());
+    if(star==0) star=5;
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="accountName" value="<%= accountName %>"/>
@@ -168,10 +170,9 @@
                                 <div class="product-detail-rating">
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">
-                                            <!-- Set to 80% width to represent a 4-star rating -->
-                                            <div class="product-rating" style="width: 80%;"></div>
+                                            <div class="product-rating" style="width: <%=star * 20%>%"></div>
                                         </div>
-                                        <span class="font-small ml-5 text-muted">(${count} Đánh giá)</span>
+                                        <span class="font-small ml-5 text-muted"> (<%=star%>)</span>
                                     </div>
                                 </div>
 
@@ -179,7 +180,19 @@
                                 <div class="clearfix product-price-cover">
                                     <div class="product-price primary-color float-left">
                                         <!-- Display current price only -->
-                                        <span class="current-price text-brand"><%= (product != null) ? product.getPrice() : "Price not available." %> VND</span>
+                                        <%
+                                            DiscountDAO discountDAO = new DiscountDAO();
+                                            int discountid = product.getDiscountID() != null ? product.getDiscountID() : 0;
+                                            Discount discount = discountDAO.getDiscountByDiscountId(discountid);
+                                        %>
+                                        <div class="product-price">
+                                            <% if (discount != null && discount.getEndTime().isAfter(LocalDateTime.now()) && discount.getStartTime().isBefore(LocalDateTime.now())) { %>
+                                            <span class="current-price text-brand"><%=product.getPrice() - product.getPrice() * discount.getDiscountPercent() / 100%> VND</span>
+                                            <span class="old-price"><%=product.getPrice()%> VND</span>
+                                            <% } else { %>
+                                            <span class="current-price text-brand"><%=product.getPrice()%> VND</span>
+                                            <% } %>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -197,7 +210,9 @@
                                     </ul>
                                 </div>
                                 <div class="product-extra-link2">
-                                    <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                    <form action="addtocart" method="post">
+                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                    </form>
                                 </div>
 
                             </div>
@@ -437,3 +452,6 @@
 <script src="nest-frontend/assets/js/main.js?v=4.0"></script>
 </body>
 </html>
+
+
+

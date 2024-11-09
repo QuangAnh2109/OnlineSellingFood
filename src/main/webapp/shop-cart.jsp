@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="model.Account" %>
 <%@ page import="dal.CustomerDAO" %>
+<%@ page import="dal.DiscountDAO" %>
+<%@ page import="dal.ImportProductDAO" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -19,6 +21,14 @@
 
 <body>
 <%
+  String msg = (String)session.getAttribute("msg");
+  if(msg==null) msg="";
+  session.removeAttribute("msg");
+  String msg1 = (String)session.getAttribute("msg1");
+  if(msg1==null) msg1="";
+  session.removeAttribute("msg1");
+%>
+<%
   String accountName;
   try {
     accountName = ((Account) session.getAttribute("account")).getName();
@@ -31,6 +41,7 @@
     CustomerDAO customerDAO = new CustomerDAO();
     customerID = customerDAO.getCustomerIDByAccountID(account.getAccountID());
   }
+  ImportProductDAO importProductDAO = new ImportProductDAO();
 %>
 
 <jsp:include page="header.jsp">
@@ -88,9 +99,14 @@
                   </h6>
                 </td>
                 <td class="price" data-title="Price">
-                  <h4 class="text-body">$${productMap[cartItem.productID].price}</h4>
+                  <h4 class="text-body">${productMap[cartItem.productID].price} VND</h4>
                 </td>
+
                 <td class="text-center detail-info" data-title="Stock">
+                  <%
+                    // Lấy số lượng tồn kho của sản phẩm
+                   // int maxQuantity = importProductDAO.countProductQuantity(cartItem.productID);
+                  %>
                   <form action="updateCartServlet" method="post" class="quantity-form">
                     <input type="hidden" name="customerId" value="<%= customerID %>">
                     <input type="hidden" name="productId" value="${cartItem.productID}">
@@ -116,7 +132,7 @@
             </c:forEach>
             <c:if test="${empty cartItems}">
               <tr>
-                <td colspan="6">Không có sản phẩm trong giỏ hàng</td>
+                <td colspan="6" style="text-align: center"><h5 style="color: red"><%= msg != null ? msg : "" %></h5></td>
               </tr>
             </c:if>
             </tbody>
@@ -131,6 +147,9 @@
 
       <div class="col-lg-4">
         <div class="border p-md-4 cart-totals ml-30">
+          <tr>
+            <td colspan="6" style="text-align: center ; margin-left: 10px"><h5 style="color: red"><%= msg1 != null ? msg1 : "" %></h5></td>
+          </tr>
           <div class="table-responsive">
             <table class="table no-border">
               <tbody>

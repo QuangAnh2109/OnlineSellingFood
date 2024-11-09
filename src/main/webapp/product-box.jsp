@@ -28,23 +28,32 @@
                 <a href="shop-grid-left.jsp?category=<%=category%>"><%=category%></a>
             </div>
             <h2><a href="ProductDetail?productID=<%=productID%>"><%=name%></a></h2>
+
             <div class="product-rate-cover">
                 <div class="product-rate d-inline-block">
                     <div class="product-rating" style="width: <%=star * 20%>%"></div>
                 </div>
                 <span class="font-small ml-5 text-muted"> (<%=star%>)</span>
             </div>
+
             <div>
                 <span class="font-small text-muted">By <a href="vendor-details-1.html?manufacturer=<%=manufacturer%>"><%=manufacturer%></a></span>
             </div>
             <div class="product-card-bottom">
-                <div class="product-price">
-                    <% if (discount != 0) { %>
-                    <span><%=price - price * discount / 100%> VND</span>
-                    <span class="old-price"><%=price%> VND</span>
-                    <% } else { %>
-                    <span><%=price%> VND</span>
-                    <% } %>
+                <div class="product-card-bottom">
+                    <div class="product-price">
+                        <% if (discount > 0) { %>
+                        <span><%=price - price * discount / 100%> VND</span>
+                        <span class="old-price"><%=price%> VND</span>
+                        <% } else { %>
+                        <span><%=price%> VND</span>
+                        <% } %>
+                    </div>
+
+<%--                    discount = discountDAO.getDiscountById(discountID);--%>
+<%--                    if (discount.getEndTime().isAfter(LocalDateTime.now())) {--%>
+<%--                    product.setPrice(product.getPrice() * (100-discount.getDiscountPercent())/100);--%>
+<%--                    }--%>
                 </div>
             </div>
             <div class="product-card-bottom">

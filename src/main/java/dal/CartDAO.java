@@ -124,6 +124,19 @@ public class CartDAO extends DBContext {
         return cart;
     }
 
+    public boolean hasProductInCart(int customerID) {
+        String query = "SELECT COUNT(*) FROM Cart WHERE customerID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, customerID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     // Cập nhật số lượng sản phẩm trong giỏ hàng
     public int update(Cart cart) {

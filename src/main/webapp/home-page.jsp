@@ -1,14 +1,12 @@
 <%@ page import="model.Account" %>
-<%@ page import="dal.CategoryDAO" %>
-<%@ page import="dal.ProductDAO" %>
 <%@ page import="model.Category" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
-<%@ page import="dal.ManufacterDAO" %>
 <%@ page import="model.Discount" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="dal.DiscountDAO" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="dal.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -32,12 +30,16 @@
 
 <body>
 <%
+  FeedbackProductDAO feedbackProductDAO = new FeedbackProductDAO();
 String accountName;
 try{
   accountName =  ((Account)session.getAttribute("account")).getName();
 }catch(NullPointerException e){
   accountName="";
 }
+  DiscountDAO discountDAO = new DiscountDAO();
+  int discountid;
+  Discount discount;
 %>
 <jsp:include page="header.jsp">
   <jsp:param name="accountName" value="<%=accountName%>"/>
@@ -195,13 +197,23 @@ try{
               List<String> images = productDAO.getProductImages(product.getProductID());
               String defaultImageUrl = images.size() > 0 ? images.get(0) : "default-image.jpg";
               String hoverImageUrl = images.size() > 1 ? images.get(1) : defaultImageUrl;
+
+              discountid = product.getDiscountID() != null ? product.getDiscountID() : 0;
+              discount = discountDAO.getDiscountByDiscountId(discountid);
+              int discountPercent;
+              int star = feedbackProductDAO.averageStarInProduct(product.getProductID());
+              if(star==0) star=5;
+              if (discount != null && discount.getEndTime().isAfter(LocalDateTime.now()) && discount.getStartTime().isBefore(LocalDateTime.now())) {
+                discountPercent = discount.getDiscountPercent();
+              }
+              else discountPercent = 0;
             %>
             <jsp:include page="product-box.jsp">
               <jsp:param name="category" value="<%= categoryDAO.getCategoryName(product.getCategoryID())%>" />
               <jsp:param name="name" value="<%= product.getName() %>" />
               <jsp:param name="manufacturer" value="<%= manufacterDAO.getManufacturerName(product.getManufacturerID()) %>" />
-              <jsp:param name="star" value="4" />
-              <jsp:param name="discount" value="<%= product.getDiscountID() != null ? product.getDiscountID().toString() : '0' %>" />
+              <jsp:param name="star" value="<%=star%>" />
+              <jsp:param name="discount" value="<%=discountPercent%>" />
               <jsp:param name="price" value="<%= product.getPrice().toString() %>" />
               <jsp:param name="productID" value="<%= product.getProductID().toString() %>" />
               <jsp:param name="imageUrl" value="<%= defaultImageUrl %>" />
@@ -224,26 +236,26 @@ try{
       <!-- product deals -->
       <div class="row">
         <%
-
-          DiscountDAO discountDAO = new DiscountDAO();
           List<Product> products1 = productDAO.get4ProductByDiscount();
 
 
           for (Product product : products1) {
-            Discount discount = discountDAO.getDiscountByDiscountId(product.getDiscountID());
-            if(discount!=null){
+            discountid = product.getDiscountID() != null ? product.getDiscountID() : 0;
+            discount = discountDAO.getDiscountByDiscountId(discountid);
+            int discountPercent;
+            if (discount != null && discount.getEndTime().isAfter(LocalDateTime.now()) && discount.getStartTime().isBefore(LocalDateTime.now())) {
+              discountPercent = discount.getDiscountPercent();
+
+
             String manufacturerName = manufacterDAO.getManufacturerName(product.getManufacturerID());
-            int discountPercentage = (discount != null) ? discount.getDiscountPercent() : 0;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-            //String datetime = (discount != null) ? sdf.format(discount.getEndTime()) : "";
             String datetime =discount.getEndTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
         %>
         <jsp:include page="deal-box.jsp">
           <jsp:param name="datetime" value="<%= datetime%>"/>
           <jsp:param name="name" value="<%= product.getName() %>"/>
           <jsp:param name="manufacturer" value="<%= manufacturerName %>"/>
-          <jsp:param name="star" value="4"/>
-          <jsp:param name="discount" value="<%= discountPercentage %>"/>
+          <jsp:param name="star" value="<%=feedbackProductDAO.averageStarInProduct(product.getProductID())%>"/>
+          <jsp:param name="discount" value="<%= discountPercent %>"/>
           <jsp:param name="price" value="<%= product.getPrice() %>"/>
           <jsp:param name="productID" value="<%= product.getProductID() %>"/>
         </jsp:include>

@@ -1,15 +1,18 @@
 package controller;
 
+import dal.DiscountDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Account;
 import model.Cart;
+import model.Discount;
 import model.Product;
 import dal.CartDAO;
 import dal.ProductDAO;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,17 +38,32 @@ public class CartServlet extends HttpServlet {
                 int customerId = Integer.parseInt(customerIdParam);
 
                 List<Cart> cartItems = cartDAO.getCartByCustomerId(customerId);
-                Map<Integer, Product> productMap = new HashMap<>();
 
+                // Check if cart is empty
+                if (cartItems.isEmpty()) {
+                    request.getSession().setAttribute("msg", "Không có sản phẩm nào trong giỏ hàng");
+                    response.sendRedirect("shop-cart.jsp");
+                    return;
+                }
+                DiscountDAO discountDAO = new   DiscountDAO();
+                Discount discount;
+                Map<Integer, Product> productMap = new HashMap<>();
                 for (Cart cartItem : cartItems) {
                     Product product = productDAO.getProductById(cartItem.getProductID());
+                    Integer discountID = product.getDiscountID();
+                    if (discountID != null) {
+                        discount = discountDAO.getDiscountById(discountID);
+                        if (discount != null && discount.getEndTime().isAfter(LocalDateTime.now()) && discount.getStartTime().isBefore(LocalDateTime.now())) {
+                            product.setPrice(product.getPrice() - product.getPrice()*discount.getDiscountPercent()/100);
+                        }
+                    }
                     productMap.put(cartItem.getProductID(), product);
                 }
 
                 request.setAttribute("cartItems", cartItems);
                 request.setAttribute("productMap", productMap);
 
-                // Tính toán tổng giá trị giỏ hàng
+                // Calculate total price
                 double total = cartItems.stream()
                         .mapToDouble(cartItem -> productMap.get(cartItem.getProductID()).getPrice() * cartItem.getQuantity())
                         .sum();
@@ -60,6 +78,7 @@ public class CartServlet extends HttpServlet {
             response.sendRedirect("homepage");
         }
     }
+
 
 
     @Override

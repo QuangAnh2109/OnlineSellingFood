@@ -6,11 +6,9 @@ import dto.ProductDiscountResponse;
 import model.Import;
 import model.Staff;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -61,7 +59,7 @@ public class ImportDAO extends DBContext {
             ps.setInt(1, staffID);
             ps.setInt(2, warehouseID);
             ps.setInt(3, supplierID);
-            ps.setString(4, time);
+            ps.setTimestamp(4, Timestamp.valueOf(LocalDateTime.parse(time,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0; // Trả về true nếu có bản ghi được thêm
         } catch (SQLException e) {

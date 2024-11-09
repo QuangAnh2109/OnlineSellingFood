@@ -93,7 +93,6 @@ public class OrderProductDAO extends DBContext {
                 " p.Price * (1 - COALESCE(d.DiscountPercent / 100.0, 0)) AS Price,\n" +
                 " op.Quantity,\n" +
                 " d.DiscountPercent,\n" +
-                " p.Price*(1 - COALESCE(d.DiscountPercent / 100.0, 0)) * op.Quantity AS TotalPrice,\n" +
                 "o.Price as PriceAfterVoucher,\n" +
                 "os.Detail,\n" +
                 "o.StatusID\n" +
@@ -111,13 +110,12 @@ public class OrderProductDAO extends DBContext {
             ResultSet rs=st.executeQuery();
             while (rs.next()) {
                 OrderProductResponse opr = new OrderProductResponse();
-
                 opr.setImgLink(rs.getString("Imglink"));
                opr.setProductName(rs.getString("Name"));
-               opr.setPrice(rs.getInt("Price"));
-               opr.setQuantity(rs.getInt("Quantity"));
                opr.setDiscountVoucher(rs.getInt("DiscountPercent"));
-               opr.setTotalPrice(rs.getInt("TotalPrice"));
+               opr.setPrice(rs.getInt("Price") - (rs.getInt("Price") * opr.getDiscountVoucher() / 100));
+               opr.setQuantity(rs.getInt("Quantity"));
+               opr.setTotalPrice(opr.getPrice()*opr.getQuantity());
                opr.setTotalPriceAfterVoucher(rs.getInt("PriceAfterVoucher"));
                opr.setStatusDetail(rs.getString("Detail"));
                list.add(opr);

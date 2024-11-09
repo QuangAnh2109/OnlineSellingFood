@@ -27,13 +27,22 @@ public class CheckoutServlet extends HttpServlet {
         Account account = (Account) session.getAttribute("account");
         CheckoutDAO checkoutDAO = new CheckoutDAO();
         CheckoutContactDetailResponse checkoutContactDetailResponse=checkoutDAO.getCheckoutContactDetail(account.getAccountID());
-        request.setAttribute("c", checkoutContactDetailResponse);
-
-
         CustomerDAO customerDAO = new CustomerDAO();
+        CartDAO cartDAO = new CartDAO();
+        Customer customer = customerDAO.getCustomerByAccountID(account.getAccountID());
+        if (!cartDAO.hasProductInCart(customer.getCustomerID())) {
+            session.setAttribute("msg", "Không có sản phẩm trong giỏ hàng, hãy quay trở về mua sắm");
+            response.sendRedirect("shop-cart.jsp");
+            return;
+        }
+
+        request.setAttribute("c", checkoutContactDetailResponse);
         Customer c=customerDAO.getCustomerByAccountID(account.getAccountID());
         List<ProductCheckoutResponse> list=checkoutDAO.getProductCheckout(c.getCustomerID());
-        int subTotalPrice=checkoutDAO.getSubTotalPrice(c.getCustomerID());
+        int subTotalPrice = 0;
+        for(ProductCheckoutResponse p:list){
+            subTotalPrice+=p.getPriceAfterDiscount()*p.getQuantity();
+        }
         List<ApplyVoucherToCheckoutResponse> listVoucher=checkoutDAO.getApplyVoucherToCheckout(c.getCustomerID());
         request.setAttribute("list", list);
         request.setAttribute("subTotalPrice", subTotalPrice);

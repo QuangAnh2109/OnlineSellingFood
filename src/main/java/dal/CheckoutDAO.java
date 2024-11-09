@@ -47,7 +47,6 @@ public class CheckoutDAO extends DBContext{
     public List<ProductCheckoutResponse> getProductCheckout(int customerID){
         List<ProductCheckoutResponse> list=new ArrayList<>();
         String sql="select p.ProductID,i.Imglink,p.[Name],c.Quantity,p.Price,COALESCE(d.DiscountPercent, 0) AS DiscountPercent,\n" +
-                " (p.Price * (1 - COALESCE(d.DiscountPercent, 0) / 100.0)) AS PriceAfterDiscount,\n" +
                 "AVG(fp.Star) AS AverageStar,COUNT(fp.Feedback) AS TotalFeedback\n" +
                 "from Cart c join Product p on c.ProductID=p.ProductID\n" +
                 " left join Discount d on p.DiscountID=d.DiscountID\n" +
@@ -68,7 +67,7 @@ public class CheckoutDAO extends DBContext{
                 productCheckoutResponse.setQuantity(rs.getInt("Quantity"));
                 productCheckoutResponse.setPrice(rs.getInt("Price"));
                 productCheckoutResponse.setDiscountPercent(rs.getInt("DiscountPercent"));
-                productCheckoutResponse.setPriceAfterDiscount(rs.getInt("PriceAfterDiscount"));
+                productCheckoutResponse.setPriceAfterDiscount(productCheckoutResponse.getPrice() - productCheckoutResponse.getPrice() * productCheckoutResponse.getDiscountPercent() / 100);
                 productCheckoutResponse.setAverageStar(rs.getInt("AverageStar"));
                 productCheckoutResponse.setTotalFeedback(rs.getInt("TotalFeedback"));
                 list.add(productCheckoutResponse);
@@ -78,26 +77,6 @@ public class CheckoutDAO extends DBContext{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public int getSubTotalPrice(int customerID){
-       String sql="SELECT SUM((p.Price * (1 - COALESCE(d.DiscountPercent, 0) / 100.0)) * c.Quantity) AS Subtotal\n" +
-               "FROM  Cart c JOIN  Product p ON c.ProductID = p.ProductID\n" +
-               "LEFT JOIN Discount d ON p.DiscountID = d.DiscountID   \n" +
-               "WHERE  c.CustomerID = ?";
-
-       try {
-           PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, customerID);
-            ResultSet rs = st.executeQuery();
-            if(rs.next()){
-                return rs.getInt("Subtotal");
-            }
-       } catch (SQLException e) {
-           throw new RuntimeException(e);
-       }
-       return 0;
-
     }
 
     public List<ApplyVoucherToCheckoutResponse> getApplyVoucherToCheckout(int customerID){
