@@ -1,14 +1,12 @@
 package controller;
 import dal.CartDAO;
 import dal.CustomerDAO;
+import dal.ImportProductDAO;
 import dal.ProductDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Account;
-import model.Cart;
-import model.Customer;
-import model.Product;
+import model.*;
 
 
 import java.io.IOException;
@@ -31,21 +29,17 @@ public class AddtoCartServlet extends HttpServlet {
         int productID = Integer.parseInt(request.getParameter("productID"));
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-
+        // Lấy customerID từ accountID
+        CustomerDAO customerDAO = new CustomerDAO();
+        Customer customer = customerDAO.getCustomerByAccountID(account.getAccountID());
         if (account == null) {
             response.sendRedirect("page-login.jsp");
             return;
         }
-
-        // Lấy customerID từ accountID
-        CustomerDAO customerDAO = new CustomerDAO();
-        Customer customer = customerDAO.getCustomerByAccountID(account.getAccountID());
-
         if (customer == null) {
             response.sendRedirect("error.jsp");
             return;
         }
-
         int customerID = customer.getCustomerID();
 
         // Sử dụng CartDAO để thêm sản phẩm vào giỏ hàng
