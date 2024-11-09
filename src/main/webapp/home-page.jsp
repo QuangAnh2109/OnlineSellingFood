@@ -52,7 +52,7 @@ try{
         <div class="col-lg-7">
           <div class="home-slide-cover mt-30">
             <div class="hero-slider-1 style-5 dot-style-1 dot-style-1-position-2">
-              <div class="single-hero-slider single-animation-wrap" style="background-image: url(nest-frontend/assets/imgs/slider/slider-7.png)">
+              <div class="single-hero-slider single-animation-wrap" style="background-image: url(Img/check2.jpg)">
                 <div class="slider-content">
                   <h1 class="display-2 mb-40">
                     Đừng bỏ lỡ những<br />
@@ -61,9 +61,9 @@ try{
                   <p class="mb-65">Đăng ký nhận bản tin hàng ngày</p>
                 </div>
               </div>
-              <div class="single-hero-slider single-animation-wrap" style="background-image: url(nest-frontend/assets/imgs/slider/slider-8.png)">
+              <div class="single-hero-slider single-animation-wrap" style="background-image: url(Img/check.jpg)">
                 <div class="slider-content">
-                  <h1 class="display-2 mb-40">
+                  <h1 style="color: white" class="display-2 mb-40">
                     Rau củ tươi<br />
                     Giảm giá lớn
                   </h1>
@@ -78,7 +78,7 @@ try{
           <div class="row">
             <div class="col-md-6 col-lg-12">
               <div class="banner-img style-4 mt-30">
-                <img src="nest-frontend/assets/imgs/banner/banner-14.png" alt="" />
+                <img src="Img/check5.jpg" alt="" />
                 <div class="banner-text">
                   <h4 class="mb-30">
                     Tươi mỗi ngày &amp;<br />Sạch sẽ với các<br />
@@ -90,7 +90,7 @@ try{
             </div>
             <div class="col-md-6 col-lg-12">
               <div class="banner-img style-5 mt-5 mt-md-30">
-                <img src="nest-frontend/assets/imgs/banner/banner-15.png" alt="" />
+                <img src="Img/check3.jpg" alt="" />
                 <div class="banner-text">
                   <h5 class="mb-20">
                     Sản phẩm hữu cơ<br />
@@ -144,7 +144,7 @@ try{
       <div class="row">
         <div class="col-lg-4 col-md-6">
           <div class="banner-img wow animate__animated animate__fadeInUp" data-wow-delay="0">
-            <img src="nest-frontend/assets/imgs/banner/banner-1.png" alt="" />
+            <img src="Img/fresh-fruits-food-background-web-banner-with-copy-space-generative-ai-free-photo.jpg" alt="" />
             <div class="banner-text">
               <h4>
                 Tươi mới mỗi ngày & <br />Sạch sẽ với<br />
@@ -156,7 +156,7 @@ try{
         </div>
         <div class="col-lg-4 col-md-6">
           <div class="banner-img wow animate__animated animate__fadeInUp" data-wow-delay=".2s">
-            <img src="nest-frontend/assets/imgs/banner/banner-2.png" alt="" />
+            <img src="Img/fresh-fruits-food-background-web-banner-with-copy-space-generative-ai-free-photo.jpg" alt="" />
             <div class="banner-text">
               <h4>
                 Bữa sáng của bạn<br />
@@ -168,7 +168,7 @@ try{
         </div>
         <div class="col-lg-4 d-md-none d-lg-flex">
           <div class="banner-img mb-sm-0 wow animate__animated animate__fadeInUp" data-wow-delay=".4s">
-            <img src="nest-frontend/assets/imgs/banner/banner-3.png" alt="" />
+            <img src="Img/fresh-fruits-food-background-web-banner-with-copy-space-generative-ai-free-photo.jpg" alt="" />
             <div class="banner-text">
               <h4>Sản phẩm hữu cơ <br />tốt nhất </h4>
               <a href="shop-grid-left.jsp" class="btn btn-xs">Mua Ngay<i class="fi-rs-arrow-small-right"></i></a>
