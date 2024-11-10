@@ -103,10 +103,10 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                &copy; Nest - HTML Ecommerce Template .
+
             </div>
             <div class="col-sm-6">
-                <div class="text-sm-end">All rights reserved</div>
+                <div class="text-sm-end"></div>
             </div>
         </div>
     </footer>
