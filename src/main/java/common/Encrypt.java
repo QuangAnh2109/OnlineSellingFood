@@ -8,12 +8,8 @@ import java.security.NoSuchAlgorithmException;
 public class Encrypt {
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException
     {
-        // Static getInstance method is called with hashing SHA
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-
-        // digest() method called
-        // to calculate message digest of an input
-        // and return array of byte
+        md.update(new ReadFile().read("code.txt").getBytes());
         return md.digest(input.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -32,5 +28,12 @@ public class Encrypt {
         }
 
         return hexString.toString();
+    }
+    public static void main(String[] args) {
+        try {
+            System.out.println(toHexString(getSHA("abc")));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }
